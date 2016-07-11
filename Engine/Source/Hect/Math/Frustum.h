@@ -73,9 +73,9 @@ public:
     /// frustum.
     /// \param farClip The distance from the position to end the frustum.
     Frustum(
-        const Vector3& position,
-        const Vector3& front,
-        const Vector3& up,
+        Vector3 position,
+        Vector3 front,
+        Vector3 up,
         Angle fieldOfView,
         double aspectRatio,
         double nearClip,
@@ -94,7 +94,7 @@ public:
     ///
     /// \param sphere The sphere.
     /// \param position The position of the sphere.
-    bool containsSphere(const Sphere& sphere, const Vector3& position) const;
+    bool containsSphere(Sphere sphere, Vector3 position) const;
 
 private:
     Plane _planes[6];

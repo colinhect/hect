@@ -77,13 +77,13 @@ Vector2T<T> Vector2T<T>::normalized() const
 }
 
 template <typename T>
-T Vector2T<T>::dot(const Vector2T& v) const
+T Vector2T<T>::dot(Vector2T v) const
 {
     return x * v.x + y * v.y;
 }
 
 template <typename T>
-Angle Vector2T<T>::angleFrom(const Vector2T& v) const
+Angle Vector2T<T>::angleFrom(Vector2T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
@@ -120,7 +120,7 @@ Vector2T<T> Vector2T<T>::ceil() const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::min(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::min(Vector2T v) const
 {
     Vector2T<T> m;
     m.x = static_cast<T>(std::min(v.x, x));
@@ -129,7 +129,7 @@ Vector2T<T> Vector2T<T>::min(const Vector2T& v) const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::max(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::max(Vector2T v) const
 {
     Vector2T<T> m;
     m.x = static_cast<T>(std::max(v.x, x));
@@ -147,7 +147,7 @@ Vector2T<T> Vector2T<T>::abs() const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::step(const Vector2T& edge) const
+Vector2T<T> Vector2T<T>::step(Vector2T edge) const
 {
     Vector2T<T> v;
     v.x = x < edge.x ? 0 : 1;
@@ -156,13 +156,13 @@ Vector2T<T> Vector2T<T>::step(const Vector2T& edge) const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::operator+(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::operator+(Vector2T v) const
 {
     return Vector2T(x + v.x, y + v.y);
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::operator-(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::operator-(Vector2T v) const
 {
     return Vector2T(x - v.x, y - v.y);
 }
@@ -174,7 +174,7 @@ Vector2T<T> Vector2T<T>::operator*(T value) const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::operator*(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::operator*(Vector2T v) const
 {
     return Vector2T(x * v.x, y * v.y);
 }
@@ -186,7 +186,7 @@ Vector2T<T> Vector2T<T>::operator/(T value) const
 }
 
 template <typename T>
-Vector2T<T> Vector2T<T>::operator/(const Vector2T& v) const
+Vector2T<T> Vector2T<T>::operator/(Vector2T v) const
 {
     return Vector2T(x / v.x, y / v.y);
 }
@@ -198,7 +198,7 @@ Vector2T<T> Vector2T<T>::operator-() const
 }
 
 template <typename T>
-Vector2T<T>& Vector2T<T>::operator+=(const Vector2T& v)
+Vector2T<T>& Vector2T<T>::operator+=(Vector2T v)
 {
     x += v.x;
     y += v.y;
@@ -206,7 +206,7 @@ Vector2T<T>& Vector2T<T>::operator+=(const Vector2T& v)
 }
 
 template <typename T>
-Vector2T<T>& Vector2T<T>::operator-=(const Vector2T& v)
+Vector2T<T>& Vector2T<T>::operator-=(Vector2T v)
 {
     x -= v.x;
     y -= v.y;
@@ -222,7 +222,7 @@ Vector2T<T>& Vector2T<T>::operator*=(T value)
 }
 
 template <typename T>
-Vector2T<T>& Vector2T<T>::operator*=(const Vector2T& v)
+Vector2T<T>& Vector2T<T>::operator*=(Vector2T v)
 {
     x *= v.x;
     y *= v.y;
@@ -238,7 +238,7 @@ Vector2T<T>& Vector2T<T>::operator/=(T value)
 }
 
 template <typename T>
-Vector2T<T>& Vector2T<T>::operator/=(const Vector2T& v)
+Vector2T<T>& Vector2T<T>::operator/=(Vector2T v)
 {
     x /= v.x;
     y /= v.y;
@@ -260,19 +260,19 @@ const T& Vector2T<T>::operator[](size_t i) const
 }
 
 template <typename T>
-bool Vector2T<T>::operator<(const Vector2T& v) const
+bool Vector2T<T>::operator<(Vector2T v) const
 {
     return x < v.x && y < v.y;
 }
 
 template <typename T>
-bool Vector2T<T>::operator==(const Vector2T& v) const
+bool Vector2T<T>::operator==(Vector2T v) const
 {
     return x == v.x && y == v.y;
 }
 
 template <typename T>
-bool Vector2T<T>::operator!=(const Vector2T& v) const
+bool Vector2T<T>::operator!=(Vector2T v) const
 {
     return !(*this == v);
 }

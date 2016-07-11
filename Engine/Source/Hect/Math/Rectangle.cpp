@@ -35,18 +35,18 @@ Rectangle::Rectangle(double minX, double minY, double maxX, double maxY) :
 {
 }
 
-Rectangle::Rectangle(const Vector2& minimum, const Vector2& maximum) :
+Rectangle::Rectangle(Vector2 minimum, Vector2 maximum) :
     _minimum(minimum),
     _maximum(maximum)
 {
 }
 
-const Vector2& Rectangle::minimum() const
+Vector2 Rectangle::minimum() const
 {
     return _minimum;
 }
 
-const Vector2& Rectangle::maximum() const
+Vector2 Rectangle::maximum() const
 {
     return _maximum;
 }
@@ -61,7 +61,7 @@ Vector2 Rectangle::size() const
     return _maximum - _minimum;
 }
 
-bool Rectangle::contains(const Vector2& point) const
+bool Rectangle::contains(Vector2 point) const
 {
     return point.x >= _minimum.x && point.x <= _maximum.x
            && point.y >= _minimum.y && point.y <= _maximum.y;

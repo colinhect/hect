@@ -191,19 +191,19 @@ void Renderer::Frame::setUniform(const Uniform& uniform, double value)
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector2 value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector3 value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector4 value)
 {
     (void)uniform;
     (void)value;
@@ -215,7 +215,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
     (void)value;
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Color value)
 {
     (void)uniform;
     (void)value;
@@ -251,7 +251,7 @@ void Renderer::Frame::renderViewport()
 {
 }
 
-void Renderer::Frame::clear(const Color& color, bool depth)
+void Renderer::Frame::clear(Color color, bool depth)
 {
     (void)color;
     (void)depth;

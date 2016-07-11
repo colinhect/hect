@@ -4,6 +4,7 @@ Engine/Source/Hect/Core/Configuration.h
 Engine/Source/Hect/Generated/*.h
 Engine/Source/Hect/Generated/xml/*
 Projects/*
+Workspaces/*
 
 *.sublime-project
 *.sublime-workspace

@@ -62,19 +62,19 @@ public:
 
     ///
     /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector2& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Vector2 value);
 
     ///
     /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector3& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Vector3 value);
 
     ///
     /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, const Vector4& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Vector4 value);
 
     ///
     /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, const Color& value);
+    void writeAttributeData(VertexAttributeSemantic semantic, Color value);
 
     ///
     /// Adds an index to the mesh.

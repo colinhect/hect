@@ -46,14 +46,14 @@ Color::Color(double r, double g, double b, double a) :
 {
 }
 
-Color::Color(const Vector3& v) :
+Color::Color(Vector3 v) :
     r(v.x),
     g(v.y),
     b(v.z)
 {
 }
 
-Color::Color(const Vector4& v) :
+Color::Color(Vector4 v) :
     r(v.x),
     g(v.y),
     b(v.z),
@@ -61,12 +61,12 @@ Color::Color(const Vector4& v) :
 {
 }
 
-Color Color::operator+(const Color& color) const
+Color Color::operator+(Color color) const
 {
     return Color(r + color.r, g + color.g, b + color.b, a + color.a);
 }
 
-Color Color::operator-(const Color& color) const
+Color Color::operator-(Color color) const
 {
     return Color(r - color.r, g - color.g, b - color.b, a - color.a);
 }
@@ -76,7 +76,7 @@ Color Color::operator*(double value) const
     return Color(r * value, g * value, b * value, a * value);
 }
 
-Color Color::operator*(const Color& color) const
+Color Color::operator*(Color color) const
 {
     return Color(r * color.r, g * color.g, b * color.b, a * color.a);
 }
@@ -86,7 +86,7 @@ Color Color::operator/(double value) const
     return Color(r / value, g / value, b / value, a / value);
 }
 
-Color Color::operator/(const Color& color) const
+Color Color::operator/(Color color) const
 {
     return Color(r / color.r, g / color.g, b / color.b, a / color.a);
 }
@@ -96,7 +96,7 @@ Color Color::operator-() const
     return Color(-r, -g, -b, -a);
 }
 
-Color& Color::operator+=(const Color& color)
+Color& Color::operator+=(Color color)
 {
     r += color.r;
     g += color.g;
@@ -105,7 +105,7 @@ Color& Color::operator+=(const Color& color)
     return *this;
 }
 
-Color& Color::operator-=(const Color& color)
+Color& Color::operator-=(Color color)
 {
     r -= color.r;
     g -= color.g;
@@ -123,7 +123,7 @@ Color& Color::operator*=(double value)
     return *this;
 }
 
-Color& Color::operator*=(const Color& color)
+Color& Color::operator*=(Color color)
 {
     r *= color.r;
     g *= color.g;
@@ -141,7 +141,7 @@ Color& Color::operator/=(double value)
     return *this;
 }
 
-Color& Color::operator/=(const Color& color)
+Color& Color::operator/=(Color color)
 {
     r /= color.r;
     g /= color.g;
@@ -162,17 +162,17 @@ const double& Color::operator[](size_t i) const
     return reinterpret_cast<const double*>(this)[i];
 }
 
-bool Color::operator<(const Color& color) const
+bool Color::operator<(Color color) const
 {
     return r < color.r && g < color.g && b < color.b && a < color.a;
 }
 
-bool Color::operator==(const Color& color) const
+bool Color::operator==(Color color) const
 {
     return r == color.r && g == color.g && b == color.b && a == color.a;
 }
 
-bool Color::operator!=(const Color& color) const
+bool Color::operator!=(Color color) const
 {
     return !(*this == color);
 }
@@ -180,7 +180,7 @@ bool Color::operator!=(const Color& color) const
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const Color& color)
+Encoder& operator<<(Encoder& encoder, Color color)
 {
     encoder << beginArray() << color.r << color.g << color.b << color.a << endArray();
     return encoder;

@@ -59,7 +59,7 @@ public:
     /// \param force The force to apply.
     /// \param relativePosition The position relative to the rigid body to
     /// apply the force from.
-    void applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition);
+    void applyForce(RigidBody& rigidBody, Vector3 force, Vector3 relativePosition);
 
     ///
     /// Commits any changes made to a RigidBody to take effect.

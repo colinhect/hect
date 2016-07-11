@@ -41,7 +41,7 @@ public:
     /// \param p0 The first point.
     /// \param p1 The second point.
     /// \param p2 The third point.
-    static Plane fromPoints(const Vector3& p0, const Vector3& p1, const Vector3& p2);
+    static Plane fromPoints(Vector3 p0, Vector3 p1, Vector3 p2);
 
     ///
     /// Constructs a default plane.
@@ -53,15 +53,15 @@ public:
     /// \param position The origin of the plane.
     /// \param normal The direction from the origin the plane faces.
     /// \param distance The distance from the origin along the normal.
-    Plane(const Vector3& position, const Vector3& normal, double distance);
+    Plane(Vector3 position, Vector3 normal, double distance);
 
     ///
     /// Returns the position.
-    const Vector3& position() const;
+    Vector3 position() const;
 
     ///
     /// Returns the normal.
-    const Vector3& normal() const;
+    Vector3 normal() const;
 
     ///
     /// Returns the distance.

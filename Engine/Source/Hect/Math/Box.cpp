@@ -31,12 +31,12 @@ Box::Box() :
 {
 }
 
-Box::Box(const Vector3& scale) :
+Box::Box(Vector3 scale) :
     _scale(scale)
 {
 }
 
-const Vector3& Box::scale() const
+Vector3 Box::scale() const
 {
     return _scale;
 }

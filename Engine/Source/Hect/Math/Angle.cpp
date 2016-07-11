@@ -48,12 +48,12 @@ double Angle::inRadians() const
     return _radians;
 }
 
-Angle Angle::operator+(const Angle& a) const
+Angle Angle::operator+(Angle a) const
 {
     return Angle(_radians + a._radians);
 }
 
-Angle Angle::operator-(const Angle& a) const
+Angle Angle::operator-(Angle a) const
 {
     return Angle(_radians - a._radians);
 }
@@ -73,13 +73,13 @@ Angle Angle::operator-() const
     return Angle(-_radians);
 }
 
-Angle& Angle::operator+=(const Angle& a)
+Angle& Angle::operator+=(Angle a)
 {
     _radians += a._radians;
     return *this;
 }
 
-Angle& Angle::operator-=(const Angle& a)
+Angle& Angle::operator-=(Angle a)
 {
     _radians -= a._radians;
     return *this;

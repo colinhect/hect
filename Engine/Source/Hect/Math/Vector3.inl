@@ -89,19 +89,19 @@ Vector3T<T> Vector3T<T>::normalized() const
 }
 
 template <typename T>
-T Vector3T<T>::dot(const Vector3T& v) const
+T Vector3T<T>::dot(Vector3T v) const
 {
     return x * v.x + y * v.y + z * v.z;
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::cross(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::cross(Vector3T v) const
 {
     return Vector3T(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
 template <typename T>
-Angle Vector3T<T>::angleFrom(const Vector3T& v) const
+Angle Vector3T<T>::angleFrom(Vector3T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
@@ -140,7 +140,7 @@ Vector3T<T> Vector3T<T>::ceil() const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::min(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::min(Vector3T v) const
 {
     Vector3T<T> m;
     m.x = static_cast<T>(std::min(v.x, x));
@@ -150,7 +150,7 @@ Vector3T<T> Vector3T<T>::min(const Vector3T& v) const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::max(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::max(Vector3T v) const
 {
     Vector3T<T> m;
     m.x = static_cast<T>(std::max(v.x, x));
@@ -170,7 +170,7 @@ Vector3T<T> Vector3T<T>::abs() const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::step(const Vector3T& edge) const
+Vector3T<T> Vector3T<T>::step(Vector3T edge) const
 {
     Vector3T<T> v;
     v.x = x < edge.x ? 0 : 1;
@@ -180,13 +180,13 @@ Vector3T<T> Vector3T<T>::step(const Vector3T& edge) const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::operator+(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::operator+(Vector3T v) const
 {
     return Vector3T(x + v.x, y + v.y, z + v.z);
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::operator-(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::operator-(Vector3T v) const
 {
     return Vector3T(x - v.x, y - v.y, z - v.z);
 }
@@ -198,7 +198,7 @@ Vector3T<T> Vector3T<T>::operator*(T value) const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::operator*(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::operator*(Vector3T v) const
 {
     return Vector3T(x * v.x, y * v.y, z * v.z);
 }
@@ -210,7 +210,7 @@ Vector3T<T> Vector3T<T>::operator/(T value) const
 }
 
 template <typename T>
-Vector3T<T> Vector3T<T>::operator/(const Vector3T& v) const
+Vector3T<T> Vector3T<T>::operator/(Vector3T v) const
 {
     return Vector3T(x / v.x, y / v.y, z / v.z);
 }
@@ -222,7 +222,7 @@ Vector3T<T> Vector3T<T>::operator-() const
 }
 
 template <typename T>
-Vector3T<T>& Vector3T<T>::operator+=(const Vector3T& v)
+Vector3T<T>& Vector3T<T>::operator+=(Vector3T v)
 {
     x += v.x;
     y += v.y;
@@ -231,7 +231,7 @@ Vector3T<T>& Vector3T<T>::operator+=(const Vector3T& v)
 }
 
 template <typename T>
-Vector3T<T>& Vector3T<T>::operator-=(const Vector3T& v)
+Vector3T<T>& Vector3T<T>::operator-=(Vector3T v)
 {
     x -= v.x;
     y -= v.y;
@@ -249,7 +249,7 @@ Vector3T<T>& Vector3T<T>::operator*=(T value)
 }
 
 template <typename T>
-Vector3T<T>& Vector3T<T>::operator*=(const Vector3T& v)
+Vector3T<T>& Vector3T<T>::operator*=(Vector3T v)
 {
     x *= v.x;
     y *= v.y;
@@ -267,7 +267,7 @@ Vector3T<T>& Vector3T<T>::operator/=(T value)
 }
 
 template <typename T>
-Vector3T<T>& Vector3T<T>::operator/=(const Vector3T& v)
+Vector3T<T>& Vector3T<T>::operator/=(Vector3T v)
 {
     x /= v.x;
     y /= v.y;
@@ -290,19 +290,19 @@ const T& Vector3T<T>::operator[](size_t i) const
 }
 
 template <typename T>
-bool Vector3T<T>::operator<(const Vector3T& v) const
+bool Vector3T<T>::operator<(Vector3T v) const
 {
     return x < v.x && y < v.y && z < v.z;
 }
 
 template <typename T>
-bool Vector3T<T>::operator==(const Vector3T& v) const
+bool Vector3T<T>::operator==(Vector3T v) const
 {
     return x == v.x && y == v.y && z == v.z;
 }
 
 template <typename T>
-bool Vector3T<T>::operator!=(const Vector3T& v) const
+bool Vector3T<T>::operator!=(Vector3T v) const
 {
     return !(*this == v);
 }

@@ -91,7 +91,7 @@ DataValue::DataValue(double value) :
 {
 }
 
-DataValue::DataValue(const Vector2& value) :
+DataValue::DataValue(Vector2 value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -100,7 +100,7 @@ DataValue::DataValue(const Vector2& value) :
     elements.push_back(value.y);
 }
 
-DataValue::DataValue(const Vector3& value) :
+DataValue::DataValue(Vector3 value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -110,7 +110,7 @@ DataValue::DataValue(const Vector3& value) :
     elements.push_back(value.z);
 }
 
-DataValue::DataValue(const Vector4& value) :
+DataValue::DataValue(Vector4 value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {
@@ -132,7 +132,7 @@ DataValue::DataValue(const Matrix4& value) :
     }
 }
 
-DataValue::DataValue(const Quaternion& value) :
+DataValue::DataValue(Quaternion value) :
     _type(DataValueType::Array),
     _any(DataValue::Array())
 {

@@ -104,7 +104,7 @@ public:
     /// Reads a color value of a pixel.
     ///
     /// \param coords The UV coordinates.
-    Color readPixel(const Vector2& coords);
+    Color readPixel(Vector2 coords);
 
     ///
     /// Returns the minification filter.

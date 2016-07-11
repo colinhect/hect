@@ -10,19 +10,13 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Source"
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Celero/include"
     )
-    
+
 set(SOURCE_FILES
-    "Source/Context.cpp"
-    "Source/Context.h"
     "Source/Main.cpp"
-    "Source/SceneTests.cpp"
     )
-    
+
 source_group("Source" FILES
-    "Source/Context.cpp"
-    "Source/Context.h"
     "Source/Main.cpp"
-    "Source/SceneTests.cpp"
     )
 
 add_executable(HectPerformanceTests ${SOURCE_FILES})
@@ -36,7 +30,7 @@ else()
 endif()
 
 target_link_libraries(HectPerformanceTests ${LINK_LIBRARIES})
-    
+
 set_target_properties(HectPerformanceTests PROPERTIES
     PROJECT_LABEL HectPerformanceTests
     LINKER_LANGUAGE CXX

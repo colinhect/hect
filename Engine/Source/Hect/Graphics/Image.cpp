@@ -74,7 +74,7 @@ void Image::setPixelData(ByteVector&& pixelData)
     _pixelData = pixelData;
 }
 
-void Image::writePixel(unsigned x, unsigned y, const Color& color)
+void Image::writePixel(unsigned x, unsigned y, Color color)
 {
     ensurePixelData();
 
@@ -99,7 +99,7 @@ void Image::writePixel(unsigned x, unsigned y, const Color& color)
     }
 }
 
-void Image::writePixel(const Vector2& coords, const Color& color)
+void Image::writePixel(Vector2 coords, Color color)
 {
     unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
     unsigned y = static_cast<unsigned>(coords.y * _height) % _height;
@@ -134,7 +134,7 @@ Color Image::readPixel(unsigned x, unsigned y) const
     return color;
 }
 
-Color Image::readPixel(const Vector2& coords) const
+Color Image::readPixel(Vector2 coords) const
 {
     unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
     unsigned y = static_cast<unsigned>(coords.y * _height) % _height;

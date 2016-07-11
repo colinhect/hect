@@ -55,15 +55,15 @@ public:
     ///
     /// \param minimum The minimum point.
     /// \param maximum The maximum point.
-    Rectangle(const Vector2& minimum, const Vector2& maximum);
+    Rectangle(Vector2 minimum, Vector2 maximum);
 
     ///
     /// Returns the minimum point.
-    const Vector2& minimum() const;
+    Vector2 minimum() const;
 
     ///
     /// Returns the maximum point.
-    const Vector2& maximum() const;
+    Vector2 maximum() const;
 
     ///
     /// Returns the center point.
@@ -79,7 +79,7 @@ public:
     /// \param point The point.
     ///
     /// \returns True if the rectangle contains the point; false otherwise.
-    bool contains(const Vector2& point) const;
+    bool contains(Vector2 point) const;
 
     ///
     /// Returns the intersection between the rectangle and another.

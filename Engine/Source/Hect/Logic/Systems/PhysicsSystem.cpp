@@ -45,12 +45,12 @@ using namespace hect;
 namespace
 {
 
-btVector3 convertToBullet(const Vector3& v)
+btVector3 convertToBullet(Vector3 v)
 {
     return btVector3(v.x, v.y, v.z);
 }
 
-btQuaternion convertToBullet(const Quaternion& q)
+btQuaternion convertToBullet(Quaternion q)
 {
     return btQuaternion(q.x, q.y, q.z, -q.w);
 }
@@ -121,7 +121,7 @@ PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PhysicsSystem::applyForce(RigidBody& rigidBody, const Vector3& force, const Vector3& relativePosition)
+void PhysicsSystem::applyForce(RigidBody& rigidBody, Vector3 force, Vector3 relativePosition)
 {
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }

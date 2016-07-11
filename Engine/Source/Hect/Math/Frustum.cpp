@@ -31,9 +31,9 @@ Frustum::Frustum()
 }
 
 Frustum::Frustum(
-    const Vector3& position,
-    const Vector3& front,
-    const Vector3& up,
+    Vector3 position,
+    Vector3 front,
+    Vector3 up,
     Angle fieldOfView,
     double aspectRatio,
     double nearClip,
@@ -134,7 +134,7 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
     return result;
 }
 
-bool Frustum::containsSphere(const Sphere& sphere, const Vector3& position) const
+bool Frustum::containsSphere(Sphere sphere, Vector3 position) const
 {
     double radius = sphere.radius();
 

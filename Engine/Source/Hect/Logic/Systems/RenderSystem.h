@@ -68,7 +68,7 @@ public:
     ///
     /// \param position The position to render from.
     /// \param texture The texture to render to.
-    void renderToTextureCube(const Vector3& position, TextureCube& texture);
+    void renderToTextureCube(Vector3 position, TextureCube& texture);
 
     void initialize() override;
     void render(RenderTarget& target) override;

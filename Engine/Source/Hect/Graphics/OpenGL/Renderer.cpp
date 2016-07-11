@@ -660,7 +660,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, double value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector2 value)
 {
     if (uniform.type() != UniformType::Vector2)
     {
@@ -675,7 +675,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Vector2& value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector3 value)
 {
     if (uniform.type() != UniformType::Vector3)
     {
@@ -690,7 +690,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Vector3& value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Vector4& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Vector4 value)
 {
     if (uniform.type() != UniformType::Vector4)
     {
@@ -727,7 +727,7 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Color& value)
+void Renderer::Frame::setUniform(const Uniform& uniform, Color value)
 {
     if (uniform.type() != UniformType::Color)
     {
@@ -870,7 +870,7 @@ void Renderer::Frame::renderViewport()
     renderMesh(_viewportMesh);
 }
 
-void Renderer::Frame::clear(const Color& color, bool depth)
+void Renderer::Frame::clear(Color color, bool depth)
 {
     GL_ASSERT(glClearColor(static_cast<float>(color.r), static_cast<float>(color.g), static_cast<float>(color.b), static_cast<float>(color.a)));
     GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));

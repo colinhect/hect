@@ -37,7 +37,7 @@ void VectorRenderer::Frame::popState()
 {
 }
 
-void VectorRenderer::Frame::translate(const Vector2& translation)
+void VectorRenderer::Frame::translate(Vector2 translation)
 {
     (void)translation;
 }
@@ -46,12 +46,12 @@ void VectorRenderer::Frame::beginPath()
 {
 }
 
-void VectorRenderer::Frame::setFillColor(const Color& color)
+void VectorRenderer::Frame::setFillColor(Color color)
 {
     (void)color;
 }
 
-void VectorRenderer::Frame::setFillGradient(const Vector2& startPosition, const Vector2& endPosition, const Color& startColor, const Color& endColor)
+void VectorRenderer::Frame::setFillGradient(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor)
 {
     (void)startPosition;
     (void)endPosition;
@@ -63,7 +63,7 @@ void VectorRenderer::Frame::fill()
 {
 }
 
-void VectorRenderer::Frame::setStrokeColor(const Color& color)
+void VectorRenderer::Frame::setStrokeColor(Color color)
 {
     (void)color;
 }

@@ -47,13 +47,13 @@ public:
     ///
     /// \param minimum The minimum point.
     /// \param maximum The maximum point.
-    AxisAlignedBox(const Vector3& minimum, const Vector3& maximum);
+    AxisAlignedBox(Vector3 minimum, Vector3 maximum);
 
     ///
     /// Expands the bounds of the box to include point.
     ///
     /// \param point The point to include.
-    void expandToInclude(const Vector3& point);
+    void expandToInclude(Vector3 point);
 
     ///
     /// Expands the bounds of the box to include another box.
@@ -65,27 +65,27 @@ public:
     /// Applies a translation to the box.
     ///
     /// \param translation The translation to apply.
-    void translate(const Vector3& translation);
+    void translate(Vector3 translation);
 
     ///
     /// Applies a scale to the box.
     ///
     /// \param scale The scale to apply.
-    void scale(const Vector3& scale);
+    void scale(Vector3 scale);
 
     ///
     /// Applies a rotation to the box.
     ///
     /// \param rotation The rotation to apply.
-    void rotate(const Quaternion& rotation);
+    void rotate(Quaternion rotation);
 
     ///
     /// Returns the minimum point.
-    const Vector3& minimum() const;
+    Vector3 minimum() const;
 
     ///
     /// Returns the maximum point.
-    const Vector3& maximum() const;
+    Vector3 maximum() const;
 
     ///
     /// Returns the width, height, and depth.
@@ -103,8 +103,8 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    void mergeMinimum(const Vector3& point);
-    void mergeMaximum(const Vector3& point);
+    void mergeMinimum(Vector3 point);
+    void mergeMaximum(Vector3 point);
 
     enum Flags
     {

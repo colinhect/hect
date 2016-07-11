@@ -92,17 +92,17 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::dot()
-    T dot(const Vector3T& v) const;
+    T dot(Vector3T v) const;
 
     ///
     /// Returns the cross product of the vector and another vector.
     ///
     /// \param v The vector to compute the cross product with.
-    Vector3T cross(const Vector3T& v) const;
+    Vector3T cross(Vector3T v) const;
 
     ///
     /// \copydoc hect::Vector2T::angleFrom()
-    Angle angleFrom(const Vector3T& v) const;
+    Angle angleFrom(Vector3T v) const;
 
     ///
     /// \copydoc hect::Vector2T::length()
@@ -122,11 +122,11 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::min()
-    Vector3T min(const Vector3T& v) const;
+    Vector3T min(Vector3T v) const;
 
     ///
     /// \copydoc hect::Vector2T::max()
-    Vector3T max(const Vector3T& v) const;
+    Vector3T max(Vector3T v) const;
 
     ///
     /// \copydoc hect::Vector2T::abs()
@@ -134,19 +134,19 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::step()
-    Vector3T step(const Vector3T& edge) const;
+    Vector3T step(Vector3T edge) const;
 
     ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.
-    Vector3T operator+(const Vector3T& v) const;
+    Vector3T operator+(Vector3T v) const;
 
     ///
     /// Returns the difference of the vector and another vector.
     ///
     /// \param v The vector to compute the difference with.
-    Vector3T operator-(const Vector3T& v) const;
+    Vector3T operator-(Vector3T v) const;
 
     ///
     /// Returns the product of the vector and a scalar.
@@ -158,7 +158,7 @@ public:
     /// Returns the product of the vector and another vector.
     ///
     /// \param v The vector to compute the product with.
-    Vector3T operator*(const Vector3T& v) const;
+    Vector3T operator*(Vector3T v) const;
 
     ///
     /// Returns the quotient of the vector and a scalar.
@@ -170,7 +170,7 @@ public:
     /// Returns the quotient of the vector and another vector.
     ///
     /// \param v The vector to compute the quotient with.
-    Vector3T operator/(const Vector3T& v) const;
+    Vector3T operator/(Vector3T v) const;
 
     ///
     /// Returns a negated copy of the vector.
@@ -182,7 +182,7 @@ public:
     /// \param v The vector to add.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator+=(const Vector3T& v);
+    Vector3T& operator+=(Vector3T v);
 
     ///
     /// Subtracts a vector from the vector.
@@ -190,7 +190,7 @@ public:
     /// \param v The vector to subtract.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator-=(const Vector3T& v);
+    Vector3T& operator-=(Vector3T v);
 
     ///
     /// Multiplies the vector by a scalar.
@@ -206,7 +206,7 @@ public:
     /// \param v The vector to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator*=(const Vector3T& v);
+    Vector3T& operator*=(Vector3T v);
 
     ///
     /// Divides the vector by a scalar.
@@ -222,7 +222,7 @@ public:
     /// \param v The vector to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator/=(const Vector3T& v);
+    Vector3T& operator/=(Vector3T v);
 
     ///
     /// Returns the ith component of the vertex.
@@ -240,19 +240,19 @@ public:
     /// Returns whether the vector is less than another.
     ///
     /// \param v The other vector.
-    bool operator<(const Vector3T& v) const;
+    bool operator<(Vector3T v) const;
 
     ///
     /// Returns whether the vector is equivalent to another.
     ///
     /// \param v The other vector.
-    bool operator==(const Vector3T& v) const;
+    bool operator==(Vector3T v) const;
 
     ///
     /// Returns whether the vector is different from another.
     ///
     /// \param v The other vector.
-    bool operator!=(const Vector3T& v) const;
+    bool operator!=(Vector3T v) const;
 
     ///
     /// Converts to an equivalent vector with a different underlying type.

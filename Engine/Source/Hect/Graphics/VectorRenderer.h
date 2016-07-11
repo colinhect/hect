@@ -66,7 +66,7 @@ public:
         /// Translates the origin.
         ///
         /// \param translation The translation to apply.
-        void translate(const Vector2& translation);
+        void translate(Vector2 translation);
 
         ///
         /// Begins a new path.
@@ -76,7 +76,7 @@ public:
         /// Sets the active fill style to a solid color.
         ///
         /// \param color The color to set.
-        void setFillColor(const Color& color);
+        void setFillColor(Color color);
 
         ///
         /// Sets the active fill style to a linear gradient.
@@ -85,7 +85,7 @@ public:
         /// \param endPosition The end position.
         /// \param startColor The start color.
         /// \param endColor The end color.
-        void setFillGradient(const Vector2& startPosition, const Vector2& endPosition, const Color& startColor, const Color& endColor);
+        void setFillGradient(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor);
 
         ///
         /// Draws the current path with the current fill style.
@@ -95,7 +95,7 @@ public:
         /// Sets the active stroke style to a solid color.
         ///
         /// \param color The color to set.
-        void setStrokeColor(const Color& color);
+        void setStrokeColor(Color color);
 
         ///
         /// Draws the current path with the current stroke style.

@@ -95,21 +95,21 @@ public:
     /// numbers.
     ///
     /// \param value The value.
-    DataValue(const Vector2& value);
+    DataValue(Vector2 value);
 
     ///
     /// Constructs a data value from a 3-dimensional vector as an array of
     /// numbers.
     ///
     /// \param value The value.
-    DataValue(const Vector3& value);
+    DataValue(Vector3 value);
 
     ///
     /// Constructs a data value from a 4-dimensional vector as an array of
     /// numbers.
     ///
     /// \param value The value.
-    DataValue(const Vector4& value);
+    DataValue(Vector4 value);
 
     ///
     /// Constructs a data value from a 4 by 4 matrix as an array of numbers.
@@ -121,7 +121,7 @@ public:
     /// Constructs a data value from a quaternion as an array of numbers.
     ///
     /// \param value The value.
-    DataValue(const Quaternion& value);
+    DataValue(Quaternion value);
 
     ///
     /// Constructs a string data value.

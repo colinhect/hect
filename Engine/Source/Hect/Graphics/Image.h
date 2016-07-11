@@ -81,14 +81,14 @@ public:
     /// \param x The x coordinate.
     /// \param y The y coordinate.
     /// \param color The color to write to the pixel.
-    void writePixel(unsigned x, unsigned y, const Color& color);
+    void writePixel(unsigned x, unsigned y, Color color);
 
     ///
     /// Writes a color value to a pixel.
     ///
     /// \param coords The UV coordinates.
     /// \param color The color to write to the pixel.
-    void writePixel(const Vector2& coords, const Color& color);
+    void writePixel(Vector2 coords, Color color);
 
     ///
     /// Reads a color value of a pixel.
@@ -101,7 +101,7 @@ public:
     /// Reads a color value of a pixel.
     ///
     /// \param coords The UV coordinates.
-    Color readPixel(const Vector2& coords) const;
+    Color readPixel(Vector2 coords) const;
 
     ///
     /// Returns the width.

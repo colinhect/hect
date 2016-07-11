@@ -110,7 +110,7 @@ Color Texture3::readPixel(unsigned x, unsigned y, unsigned z)
     return image(z).readPixel(x, y);
 }
 
-Color Texture3::readPixel(const Vector3& coords)
+Color Texture3::readPixel(Vector3 coords)
 {
     unsigned z = static_cast<unsigned>(coords.z * _depth) % _depth;
     return image(z).readPixel(Vector2(coords.x, coords.y));

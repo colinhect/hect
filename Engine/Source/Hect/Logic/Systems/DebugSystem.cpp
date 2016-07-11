@@ -57,7 +57,7 @@ void DebugSystem::tick(double timeStep)
     _linesMesh.clearIndexData();
 }
 
-void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition, double duration)
+void DebugSystem::renderLine(Color color, Vector3 startPosition, Vector3 endPosition, double duration)
 {
     MeshWriter writer(meshForDuration(duration));
 
@@ -76,7 +76,7 @@ void DebugSystem::renderLine(const Color& color, const Vector3& startPosition, c
     writer.addIndex(endIndex);
 }
 
-void DebugSystem::renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation, double duration)
+void DebugSystem::renderBox(Color color, Box box, Vector3 position, Quaternion rotation, double duration)
 {
     // The lines of an axis-aligned box with a width of one
     static const std::array<std::pair<Vector3, Vector3>, 12> unitBoxLines =
@@ -97,7 +97,7 @@ void DebugSystem::renderBox(const Color& color, const Box& box, const Vector3& p
 
     for (auto& line : unitBoxLines)
     {
-        const Vector3& scale = box.scale();
+        Vector3 scale = box.scale();
         const Vector3 start = position + rotation * (line.first * scale);
         const Vector3 end = position + rotation * (line.second * scale);
         renderLine(color, start, end, duration);

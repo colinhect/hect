@@ -104,11 +104,11 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::dot()
-    T dot(const Vector4T& v) const;
+    T dot(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::angleFrom()
-    Angle angleFrom(const Vector4T& v) const;
+    Angle angleFrom(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::length()
@@ -128,11 +128,11 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::min()
-    Vector4T min(const Vector4T& v) const;
+    Vector4T min(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::max()
-    Vector4T max(const Vector4T& v) const;
+    Vector4T max(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::abs()
@@ -140,19 +140,19 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::step()
-    Vector4T step(const Vector4T& edge) const;
+    Vector4T step(Vector4T edge) const;
 
     ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.
-    Vector4T operator+(const Vector4T& v) const;
+    Vector4T operator+(Vector4T v) const;
 
     ///
     /// Returns the difference of the vector and another vector.
     ///
     /// \param v The vector to compute the difference with.
-    Vector4T operator-(const Vector4T& v) const;
+    Vector4T operator-(Vector4T v) const;
 
     ///
     /// Returns the product of the vector and a scalar.
@@ -164,7 +164,7 @@ public:
     /// Returns the product of the vector and another vector.
     ///
     /// \param v The vector to compute the product with.
-    Vector4T operator*(const Vector4T& v) const;
+    Vector4T operator*(Vector4T v) const;
 
     ///
     /// Returns the quotient of the vector and a scalar.
@@ -176,7 +176,7 @@ public:
     /// Returns the quotient of the vector and another vector.
     ///
     /// \param v The vector to compute the quotient with.
-    Vector4T operator/(const Vector4T& v) const;
+    Vector4T operator/(Vector4T v) const;
 
     ///
     /// Returns a negated copy of the vector.
@@ -188,7 +188,7 @@ public:
     /// \param v The vector to add.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator+=(const Vector4T& v);
+    Vector4T& operator+=(Vector4T v);
 
     ///
     /// Subtracts a vector from the vector.
@@ -196,7 +196,7 @@ public:
     /// \param v The vector to subtract.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator-=(const Vector4T& v);
+    Vector4T& operator-=(Vector4T v);
 
     ///
     /// Multiplies the vector by a scalar.
@@ -212,7 +212,7 @@ public:
     /// \param v The vector to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator*=(const Vector4T& v);
+    Vector4T& operator*=(Vector4T v);
 
     ///
     /// Divides the vector by a scalar.
@@ -228,7 +228,7 @@ public:
     /// \param v The vector to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator/=(const Vector4T& v);
+    Vector4T& operator/=(Vector4T v);
 
     ///
     /// Returns the ith component of the vertex.
@@ -246,19 +246,19 @@ public:
     /// Returns whether the vector is less than another.
     ///
     /// \param v The other vector.
-    bool operator<(const Vector4T& v) const;
+    bool operator<(Vector4T v) const;
 
     ///
     /// Returns whether the vector is equivalent to another.
     ///
     /// \param v The other vector.
-    bool operator==(const Vector4T& v) const;
+    bool operator==(Vector4T v) const;
 
     ///
     /// Returns whether the vector is different from another.
     ///
     /// \param v The other vector.
-    bool operator!=(const Vector4T& v) const;
+    bool operator!=(Vector4T v) const;
 
     ///
     /// Converts to an equivalent vector with a different underlying type.

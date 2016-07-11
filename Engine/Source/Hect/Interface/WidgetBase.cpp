@@ -129,12 +129,12 @@ void WidgetBase::setPressAction(const WidgetBase::Action& action)
     _pressAction = action;
 }
 
-const Vector2& WidgetBase::position() const
+Vector2 WidgetBase::position() const
 {
     return _actualPosition;
 }
 
-void WidgetBase::setPosition(const Vector2& position)
+void WidgetBase::setPosition(Vector2 position)
 {
     _assignedPosition = position.floor();
     markLayoutDirty();
@@ -151,12 +151,12 @@ Vector2 WidgetBase::globalPosition() const
     return globalPosition;
 }
 
-const Vector2& WidgetBase::dimensions() const
+Vector2 WidgetBase::dimensions() const
 {
     return _dimensions;
 }
 
-void WidgetBase::setDimensions(const Vector2& dimensions)
+void WidgetBase::setDimensions(Vector2 dimensions)
 {
     _dimensions = dimensions;
     markLayoutDirty();
@@ -216,7 +216,7 @@ void WidgetBase::setVisible(bool visible)
     _visible = visible;
 }
 
-const Color& WidgetBase::styleColor(StyleColor styleColor) const
+Color WidgetBase::styleColor(StyleColor styleColor) const
 {
     auto it = _styleColors.find(styleColor);
     if (it != _styleColors.end())
@@ -233,7 +233,7 @@ const Color& WidgetBase::styleColor(StyleColor styleColor) const
     }
 }
 
-void WidgetBase::setStyleColor(StyleColor styleColor, const Color& color)
+void WidgetBase::setStyleColor(StyleColor styleColor, Color color)
 {
     _styleColors[styleColor] = color;
 }

@@ -79,25 +79,25 @@ public:
     /// Constructs a color from a 3-dimensional vector.
     ///
     /// \param v The vector.
-    Color(const Vector3& v);
+    Color(Vector3 v);
 
     ///
     /// Constructs a color from a 4-dimensional vector.
     ///
     /// \param v The vector.
-    Color(const Vector4& v);
+    Color(Vector4 v);
 
     ///
     /// Returns the sum of the color and another color.
     ///
     /// \param color The color to compute the sum with.
-    Color operator+(const Color& color) const;
+    Color operator+(Color color) const;
 
     ///
     /// Returns the difference of the color and another color.
     ///
     /// \param color The color to compute the difference with.
-    Color operator-(const Color& color) const;
+    Color operator-(Color color) const;
 
     ///
     /// Returns the product of the color and a scalar.
@@ -109,7 +109,7 @@ public:
     /// Returns the product of the color and another color.
     ///
     /// \param color The color to compute the product with.
-    Color operator*(const Color& color) const;
+    Color operator*(Color color) const;
 
     ///
     /// Returns the quotient of the color and a scalar.
@@ -121,7 +121,7 @@ public:
     /// Returns the quotient of the color and another color.
     ///
     /// \param color The color to compute the quotient with.
-    Color operator/(const Color& color) const;
+    Color operator/(Color color) const;
 
     ///
     /// Returns a negated copy of the color.
@@ -133,7 +133,7 @@ public:
     /// \param color The color to add.
     ///
     /// \returns A reference to the color.
-    Color& operator+=(const Color& color);
+    Color& operator+=(Color color);
 
     ///
     /// Subtracts a color from the color.
@@ -141,7 +141,7 @@ public:
     /// \param color The color to subtract.
     ///
     /// \returns A reference to the color.
-    Color& operator-=(const Color& color);
+    Color& operator-=(Color color);
 
     ///
     /// Multiplies the color by a scalar.
@@ -157,7 +157,7 @@ public:
     /// \param color The color to multiply by.
     ///
     /// \returns A reference to the color.
-    Color& operator*=(const Color& color);
+    Color& operator*=(Color color);
 
     ///
     /// Divides the color by a scalar.
@@ -173,7 +173,7 @@ public:
     /// \param color The color to divide by.
     ///
     /// \returns A reference to the color.
-    Color& operator/=(const Color& color);
+    Color& operator/=(Color color);
 
     ///
     /// Returns the ith component of the vertex.
@@ -191,19 +191,19 @@ public:
     /// Returns whether the color is less than another.
     ///
     /// \param color The other color.
-    bool operator<(const Color& color) const;
+    bool operator<(Color color) const;
 
     ///
     /// Returns whether the color is equivalent to another.
     ///
     /// \param color The other color.
-    bool operator==(const Color& color) const;
+    bool operator==(Color color) const;
 
     ///
     /// Returns whether the color is different from another.
     ///
     /// \param color The other color.
-    bool operator!=(const Color& color) const;
+    bool operator!=(Color color) const;
 
     ///
     /// The red component of the color.
@@ -222,7 +222,7 @@ public:
     double a { 1.0 };
 };
 
-HECT_EXPORT Encoder& operator<<(Encoder& encoder, const Color& color);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, Color color);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, Color& color);
 
 }

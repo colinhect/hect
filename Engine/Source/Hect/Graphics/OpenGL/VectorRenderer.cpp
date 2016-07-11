@@ -44,7 +44,7 @@ namespace
 NVGcontext* _nvgContext = nullptr;
 std::unordered_map<const Font*, int> _fontToId;
 
-NVGcolor convertColor(const Color& color)
+NVGcolor convertColor(Color color)
 {
     NVGcolor result;
     result.r = static_cast<float>(color[0]);
@@ -74,19 +74,19 @@ void VectorRenderer::Frame::beginPath()
     nvgBeginPath(_nvgContext);
 }
 
-void VectorRenderer::Frame::translate(const Vector2& translation)
+void VectorRenderer::Frame::translate(Vector2 translation)
 {
     assert(_nvgContext);
     nvgTranslate(_nvgContext, static_cast<float>(translation.x), static_cast<float>(translation.y));
 }
 
-void VectorRenderer::Frame::setFillColor(const Color& color)
+void VectorRenderer::Frame::setFillColor(Color color)
 {
     assert(_nvgContext);
     nvgFillColor(_nvgContext, convertColor(color));
 }
 
-void VectorRenderer::Frame::setFillGradient(const Vector2& startPosition, const Vector2& endPosition, const Color& startColor, const Color& endColor)
+void VectorRenderer::Frame::setFillGradient(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor)
 {
     assert(_nvgContext);
 
@@ -107,7 +107,7 @@ void VectorRenderer::Frame::fill()
     nvgFill(_nvgContext);
 }
 
-void VectorRenderer::Frame::setStrokeColor(const Color& color)
+void VectorRenderer::Frame::setStrokeColor(Color color)
 {
     assert(_nvgContext);
     nvgStrokeColor(_nvgContext, convertColor(color));
@@ -122,7 +122,7 @@ void VectorRenderer::Frame::stroke()
 void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
 {
     assert(_nvgContext);
-    const Vector2& position = rectangle.minimum();
+    Vector2 position = rectangle.minimum();
     Vector2 dimensions = rectangle.size();
     nvgRect(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
@@ -130,7 +130,7 @@ void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
 void VectorRenderer::Frame::setClipping(const Rectangle& clipping)
 {
     assert(_nvgContext);
-    const Vector2& position = clipping.minimum();
+    Vector2 position = clipping.minimum();
     Vector2 dimensions = clipping.size();
     nvgScissor(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }

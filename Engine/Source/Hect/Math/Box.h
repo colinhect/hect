@@ -43,11 +43,11 @@ public:
     /// Constructs a box.
     ///
     /// \param scale The scale in all three dimensions.
-    Box(const Vector3& scale);
+    Box(Vector3 scale);
 
     ///
     /// Returns the scale.
-    const Vector3& scale() const;
+    Vector3 scale() const;
 
 private:
     Vector3 _scale;

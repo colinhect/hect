@@ -83,14 +83,14 @@ double Random::next(double min, double max)
     return random * (max - min) + min;
 }
 
-Vector2 Random::next(const Vector2& min, const Vector2& max)
+Vector2 Random::next(Vector2 min, Vector2 max)
 {
     double x = next(min.x, max.x);
     double y = next(min.y, max.y);
     return Vector2(x, y);
 }
 
-Vector3 Random::next(const Vector3& min, const Vector3& max)
+Vector3 Random::next(Vector3 min, Vector3 max)
 {
     double x = next(min.x, max.x);
     double y = next(min.y, max.y);
@@ -98,7 +98,7 @@ Vector3 Random::next(const Vector3& min, const Vector3& max)
     return Vector3(x, y, z);
 }
 
-Vector4 Random::next(const Vector4& min, const Vector4& max)
+Vector4 Random::next(Vector4 min, Vector4 max)
 {
     double x = next(min.x, max.x);
     double y = next(min.y, max.y);

@@ -52,13 +52,13 @@ public:
     /// Returns the sum of the angle and another angle.
     ///
     /// \param a The angle to compute the sum with.
-    Angle operator+(const Angle& a) const;
+    Angle operator+(Angle a) const;
 
     ///
     /// Returns the difference of the angle and another angle.
     ///
     /// \param a The angle to compute the diference with.
-    Angle operator-(const Angle& a) const;
+    Angle operator-(Angle a) const;
 
     ///
     /// Returns the product of the angle and a scalar.
@@ -82,7 +82,7 @@ public:
     /// \param a The angle to add.
     ///
     /// \returns A reference to the angle.
-    Angle& operator+=(const Angle& a);
+    Angle& operator+=(Angle a);
 
     ///
     /// Subtracts an angle from the angle.
@@ -90,7 +90,7 @@ public:
     /// \param a The angle to subtract.
     ///
     /// \returns A reference to the angle.
-    Angle& operator-=(const Angle& a);
+    Angle& operator-=(Angle a);
 
     ///
     /// Multiples the angle by a scalar.

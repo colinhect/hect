@@ -65,7 +65,7 @@ void RenderSystem::addRenderCall(const Transform& transform, Mesh& mesh, Materia
     }
 }
 
-void RenderSystem::renderToTextureCube(const Vector3& position, TextureCube& texture)
+void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
 {
     // These values are specific to OpenGL's cube map conventions (issue #189)
     static std::vector<std::pair<Vector3, Vector3>> cameraVectors =

@@ -82,13 +82,13 @@ public:
     /// Returns the dot product of the vector another vector.
     ///
     /// \param v The vector to compute the dot product with.
-    T dot(const Vector2T& v) const;
+    T dot(Vector2T v) const;
 
     ///
     /// Returns the angle from the vector to another vector.
     ///
     /// \param v The vector to compute the angle from.
-    Angle angleFrom(const Vector2T& v) const;
+    Angle angleFrom(Vector2T v) const;
 
     ///
     /// Returns the length of the vector.
@@ -113,13 +113,13 @@ public:
     /// Returns the minimum between the vector and another vector.
     ///
     /// \param v The other vector.
-    Vector2T min(const Vector2T& v) const;
+    Vector2T min(Vector2T v) const;
 
     ///
     /// Returns the maximum between the vector and another vector.
     ///
     /// \param v The other vector.
-    Vector2T max(const Vector2T& v) const;
+    Vector2T max(Vector2T v) const;
 
     ///
     /// Returns a copy of the vector of the absolute value of each component.
@@ -129,19 +129,19 @@ public:
     /// Returns 0 if a component is smaller than the edge and otherise 1.
     ///
     /// \param edge The edge.
-    Vector2T step(const Vector2T& edge) const;
+    Vector2T step(Vector2T edge) const;
 
     ///
     /// Returns the sum of the vector and another vector.
     ///
     /// \param v The vector to compute the sum with.
-    Vector2T operator+(const Vector2T& v) const;
+    Vector2T operator+(Vector2T v) const;
 
     ///
     /// Returns the difference of the vector and another vector.
     ///
     /// \param v The vector to compute the difference with.
-    Vector2T operator-(const Vector2T& v) const;
+    Vector2T operator-(Vector2T v) const;
 
     ///
     /// Returns the product of the vector and a scalar.
@@ -153,7 +153,7 @@ public:
     /// Returns the product of the vector and another vector.
     ///
     /// \param v The vector to compute the product with.
-    Vector2T operator*(const Vector2T& v) const;
+    Vector2T operator*(Vector2T v) const;
 
     ///
     /// Returns the quotient of the vector and a scalar.
@@ -165,7 +165,7 @@ public:
     /// Returns the quotient of the vector and another vector.
     ///
     /// \param v The vector to compute the quotient with.
-    Vector2T operator/(const Vector2T& v) const;
+    Vector2T operator/(Vector2T v) const;
 
     ///
     /// Returns a negated copy of the vector.
@@ -177,7 +177,7 @@ public:
     /// \param v The vector to add.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator+=(const Vector2T& v);
+    Vector2T& operator+=(Vector2T v);
 
     ///
     /// Subtracts a vector from the vector.
@@ -185,7 +185,7 @@ public:
     /// \param v The vector to subtract.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator-=(const Vector2T& v);
+    Vector2T& operator-=(Vector2T v);
 
     ///
     /// Multiplies the vector by a scalar.
@@ -201,7 +201,7 @@ public:
     /// \param v The vector to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator*=(const Vector2T& v);
+    Vector2T& operator*=(Vector2T v);
 
     ///
     /// Divides the vector by a scalar.
@@ -217,7 +217,7 @@ public:
     /// \param v The vector to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator/=(const Vector2T& v);
+    Vector2T& operator/=(Vector2T v);
 
     ///
     /// Returns the ith component of the vertex.
@@ -235,19 +235,19 @@ public:
     /// Returns whether the vector is less than another.
     ///
     /// \param v The other vector.
-    bool operator<(const Vector2T& v) const;
+    bool operator<(Vector2T v) const;
 
     ///
     /// Returns whether the vector is equivalent to another.
     ///
     /// \param v The other vector.
-    bool operator==(const Vector2T& v) const;
+    bool operator==(Vector2T v) const;
 
     ///
     /// Returns whether the vector is different from another.
     ///
     /// \param v The other vector.
-    bool operator!=(const Vector2T& v) const;
+    bool operator!=(Vector2T v) const;
 
     ///
     /// Converts to an equivalent vector with a different underlying type.

@@ -245,15 +245,15 @@ public:
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, const Vector2& value);
+        void setUniform(const Uniform& uniform, Vector2 value);
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, const Vector3& value);
+        void setUniform(const Uniform& uniform, Vector3 value);
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, const Vector4& value);
+        void setUniform(const Uniform& uniform, Vector4 value);
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
@@ -261,7 +261,7 @@ public:
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, const Color& value);
+        void setUniform(const Uniform& uniform, Color value);
 
         ///
         /// \copydoc hect::Renderer::Frame::setUniform()
@@ -292,7 +292,7 @@ public:
         ///
         /// \param color The color to clear the render target to.
         /// \param depth Whether the depth channel is cleared.
-        void clear(const Color& color = Color::Zero, bool depth = true);
+        void clear(Color color = Color::Zero, bool depth = true);
 
     private:
         Frame(Renderer& renderer, RenderTarget& target);

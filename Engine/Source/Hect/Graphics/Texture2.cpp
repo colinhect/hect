@@ -103,7 +103,7 @@ Color Texture2::readPixel(unsigned x, unsigned y)
     return image().readPixel(x, y);
 }
 
-Color Texture2::readPixel(const Vector2& coords)
+Color Texture2::readPixel(Vector2 coords)
 {
     return image().readPixel(coords);
 }

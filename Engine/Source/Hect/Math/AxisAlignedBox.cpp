@@ -30,14 +30,14 @@ AxisAlignedBox::AxisAlignedBox() :
 {
 }
 
-AxisAlignedBox::AxisAlignedBox(const Vector3& minimum, const Vector3& maximum) :
+AxisAlignedBox::AxisAlignedBox(Vector3 minimum, Vector3 maximum) :
     _flags(MinX | MinY | MinZ | MaxX | MaxY | MaxZ),
     _minimum(minimum),
     _maximum(maximum)
 {
 }
 
-void AxisAlignedBox::expandToInclude(const Vector3& point)
+void AxisAlignedBox::expandToInclude(Vector3 point)
 {
     mergeMinimum(point);
     mergeMaximum(point);
@@ -59,19 +59,19 @@ void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
     mergeMaximum(box._maximum);
 }
 
-void AxisAlignedBox::translate(const Vector3& translation)
+void AxisAlignedBox::translate(Vector3 translation)
 {
     _minimum += translation;
     _maximum += translation;
 }
 
-void AxisAlignedBox::scale(const Vector3& scale)
+void AxisAlignedBox::scale(Vector3 scale)
 {
     _minimum *= scale;
     _maximum *= scale;
 }
 
-void AxisAlignedBox::rotate(const Quaternion& rotation)
+void AxisAlignedBox::rotate(Quaternion rotation)
 {
     Vector3 points[8] =
     {
@@ -98,12 +98,12 @@ void AxisAlignedBox::rotate(const Quaternion& rotation)
     }
 }
 
-const Vector3& AxisAlignedBox::minimum() const
+Vector3 AxisAlignedBox::minimum() const
 {
     return _minimum;
 }
 
-const Vector3& AxisAlignedBox::maximum() const
+Vector3 AxisAlignedBox::maximum() const
 {
     return _maximum;
 }
@@ -123,7 +123,7 @@ bool AxisAlignedBox::hasSize() const
     return _flags != 0;
 }
 
-void AxisAlignedBox::mergeMinimum(const Vector3& point)
+void AxisAlignedBox::mergeMinimum(Vector3 point)
 {
     if (!(_flags & MinX) || point.x < _minimum.x)
     {
@@ -144,7 +144,7 @@ void AxisAlignedBox::mergeMinimum(const Vector3& point)
     }
 }
 
-void AxisAlignedBox::mergeMaximum(const Vector3& point)
+void AxisAlignedBox::mergeMaximum(Vector3 point)
 {
     if (!(_flags & MaxX) || point.x > _maximum.x)
     {

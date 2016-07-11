@@ -108,14 +108,14 @@ public:
     ///
     /// Returns the local position of the widget (only relevant if the widget
     /// is not aligned).
-    const Vector2& position() const;
+    Vector2 position() const;
 
     ///
     /// Sets the local position of the widget (only affects the widget if it is
     /// not aligned).
     ///
     /// \param position The new position of the widget.
-    void setPosition(const Vector2& position);
+    void setPosition(Vector2 position);
 
     ///
     /// Returns the global position of the widget.
@@ -123,13 +123,13 @@ public:
 
     ///
     /// Returns the dimensions of the widget.
-    const Vector2& dimensions() const;
+    Vector2 dimensions() const;
 
     ///
     /// Sets the dimensions of the widget.
     ///
     /// \param dimensions The new dimensions of the widget.
-    void setDimensions(const Vector2& dimensions);
+    void setDimensions(Vector2 dimensions);
 
     ///
     /// Returns the local bounds of the widget.
@@ -183,14 +183,14 @@ public:
     /// Returns a style color.
     ///
     /// \param styleColor The style color to get.
-    const Color& styleColor(StyleColor styleColor) const;
+    Color styleColor(StyleColor styleColor) const;
 
     ///
     /// Sets a style color.
     ///
     /// \param styleColor The style color to set.
     /// \param color The new color value of the style color.
-    void setStyleColor(StyleColor styleColor, const Color& color);
+    void setStyleColor(StyleColor styleColor, Color color);
 
     ///
     /// Returns whether the mouse cursor is currently over the bounds of the

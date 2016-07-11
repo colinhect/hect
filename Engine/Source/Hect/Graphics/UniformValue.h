@@ -77,19 +77,19 @@ public:
     /// Constructs a 2-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector2& value);
+    UniformValue(Vector2 value);
 
     ///
     /// Constructs a 3-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector3& value);
+    UniformValue(Vector3 value);
 
     ///
     /// Constructs a 4-dimensional vector uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Vector4& value);
+    UniformValue(Vector4 value);
 
     ///
     /// Constructs a 4 by 4 matrix uniform value.
@@ -101,7 +101,7 @@ public:
     /// Constructs a color uniform value.
     ///
     /// \param value The value.
-    UniformValue(const Color& value);
+    UniformValue(Color value);
 
     ///
     /// Constructs a 2-dimensional texture uniform value.
@@ -152,7 +152,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 2-dimensional
     /// vector.
-    void setValue(const Vector2& value);
+    void setValue(Vector2 value);
 
     ///
     /// Sets the value of the uniform value as a 3-dimensional vector.
@@ -161,7 +161,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 3-dimensional
     /// vector.
-    void setValue(const Vector3& value);
+    void setValue(Vector3 value);
 
     ///
     /// Sets the value of the uniform value as a 4-dimensional vector.
@@ -170,7 +170,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 4-dimensional
     /// vector.
-    void setValue(const Vector4& value);
+    void setValue(Vector4 value);
 
     ///
     /// Sets the value of the uniform value as a 4 by 4 matrix.
@@ -186,7 +186,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a color.
-    void setValue(const Color& value);
+    void setValue(Color value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional texture.

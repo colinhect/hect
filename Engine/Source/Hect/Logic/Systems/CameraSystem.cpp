@@ -59,7 +59,7 @@ void CameraSystem::update(Camera& camera)
     {
         camera.position = transform->globalPosition;
 
-        const Quaternion& rotation = transform->globalRotation;
+        Quaternion rotation = transform->globalRotation;
         camera.front = (rotation * Vector3::UnitY).normalized();
         camera.up = (rotation * Vector3::UnitZ).normalized();
     }

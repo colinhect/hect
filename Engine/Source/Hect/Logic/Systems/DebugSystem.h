@@ -59,7 +59,7 @@ public:
     /// \param duration The duration of time in seconds that the line will be
     /// rendered henceforth.  If zero, then it will be rendered only until the
     /// next frame.
-    void renderLine(const Color& color, const Vector3& startPosition, const Vector3& endPosition, double duration = 0.0);
+    void renderLine(Color color, Vector3 startPosition, Vector3 endPosition, double duration = 0.0);
 
     ///
     /// Enqueues a wire-frame box to be rendered on the next frame.
@@ -71,7 +71,7 @@ public:
     /// \param duration The duration of time in seconds that the line will be
     /// rendered henceforth.  If zero, then it will be rendered only until the
     /// next frame.
-    void renderBox(const Color& color, const Box& box, const Vector3& position, const Quaternion& rotation = Quaternion(), double duration = 0.0);
+    void renderBox(Color color, Box box, Vector3 position, Quaternion rotation = Quaternion(), double duration = 0.0);
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
