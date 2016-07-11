@@ -744,6 +744,10 @@ void Scene::receiveEvent(const EntityEvent& event)
     {
         const char* entityName = event.entity->name().asString().data();
         const EntityId entityId = event.entity->id();
+
+        (void)entityName;
+        (void)entityId;
+
         switch (event.type)
         {
         case EntityEventType::Create:
