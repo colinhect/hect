@@ -258,6 +258,7 @@ Entity& Entity::operator=(const Entity& entity)
     _id = entity._id;
     _parentId = entity._parentId;
     _childIds = entity._childIds;
+    _name = entity._name;
     _flags = entity._flags;
     return *this;
 }
@@ -268,6 +269,7 @@ Entity& Entity::operator=(Entity&& entity)
     _id = entity._id;
     _parentId = entity._parentId;
     _childIds = std::move(entity._childIds);
+    _name = entity._name;
     _flags = entity._flags;
     return *this;
 }
@@ -283,6 +285,7 @@ Entity::Entity(const Entity& entity) :
     _id(entity._id),
     _parentId(entity._parentId),
     _childIds(entity._childIds),
+    _name(entity._name),
     _flags(entity._flags)
 {
 }
@@ -292,6 +295,7 @@ Entity::Entity(Entity&& entity) :
     _id(entity._id),
     _parentId(entity._parentId),
     _childIds(std::move(entity._childIds)),
+    _name(entity._name),
     _flags(entity._flags)
 {
 }
