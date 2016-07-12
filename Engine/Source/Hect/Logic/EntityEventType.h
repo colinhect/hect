@@ -32,23 +32,14 @@ enum class EntityEventType
 {
     ///
     /// An Entity was created in the Scene.
-    ///
-    /// This event type is triggered when an entity pending creation is
-    /// created during Scene::refresh().
     Create,
 
     ///
     /// An Entity was activated in the Scene.
-    ///
-    /// This event type is triggered when an entity pending activation is
-    /// activated during Scene::refresh().
     Activate,
 
     ///
     /// An Entity was destroyed in the Scene.
-    ///
-    /// This event type is triggered when an entity pending destruction is
-    /// destroyed during Scene::refresh().
     Destroy
 };
 

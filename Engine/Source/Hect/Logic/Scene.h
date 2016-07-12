@@ -24,6 +24,7 @@
 #pragma once
 
 #include <array>
+#include <deque>
 #include <functional>
 #include <typeindex>
 #include <typeinfo>
@@ -177,10 +178,10 @@ public:
     void setActive(bool active);
 
     ///
-    /// Creates entities pending creation, activates entities pending
+    /// Dispatches pending entity events, activates entities pending
     /// activation, and destroys entities pending destruction.
     ///
-    /// \note This is always called at the beginning of Scene::tick().
+    /// \note This is always called at the beginning and end of Scene::tick().
     void refresh();
 
     ///
@@ -244,6 +245,14 @@ private:
     void pendEntityDestruction(Entity& entity);
     void pendEntityActivation(Entity& entity);
 
+    // Returns whether the scene has any entities pending creation, activation,
+    // or destruction
+    bool hasPendingEntities() const;
+
+    void dispatchEntityCreationEvents();
+    void activatePendingEntities();
+    void destroyPendingEntities();
+
     void addEntityComponentBase(Entity& entity, const ComponentBase& component);
 
     void encodeComponents(const Entity& entity, Encoder& encoder);
@@ -257,11 +266,10 @@ private:
     EntityPool _entityPool;
 
     bool _active { true };
-    bool _refreshing { false };
 
-    std::vector<EntityId> _entitiesPendingCreation;
-    std::vector<EntityId> _entitiesPendingActivation;
-    std::vector<EntityId> _entitiesPendingDestruction;
+    std::deque<EntityId> _entitiesPendingCreation;
+    std::deque<EntityId> _entitiesPendingActivation;
+    std::deque<EntityId> _entitiesPendingDestruction;
 
     std::vector<ComponentTypeId> _componentTypeIds;
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;

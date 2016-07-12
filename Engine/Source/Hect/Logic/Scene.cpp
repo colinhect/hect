@@ -78,11 +78,6 @@ void Scene::setActive(bool active)
 
 void Scene::refresh()
 {
-    if (_refreshing)
-    {
-        return;
-    }
-
     if (!_systemsToInitialize.empty())
     {
         for (SystemBase* system : _systemsToInitialize)
@@ -92,36 +87,13 @@ void Scene::refresh()
         _systemsToInitialize.clear();
     }
 
-    _refreshing = true;
-
-    // Dispatch the entity creation event for all entities pending creation
-    for (EntityId entityId : _entitiesPendingCreation)
+    // Create/activate/destroy all pending entities and dispatch related
+    while (hasPendingEntities())
     {
-        // Dispatch an entity create event
-        EntityEvent event;
-        event.type = EntityEventType::Create;
-        event.entity = EntityIterator(_entityPool, entityId);
-        _entityPool.dispatchEvent(event);
+        dispatchEntityCreationEvents();
+        activatePendingEntities();
+        destroyPendingEntities();
     }
-    _entitiesPendingCreation.clear();
-
-    // Activate all entities pending activation
-    for (EntityId entityId : _entitiesPendingActivation)
-    {
-        Entity& entity = _entityPool.entityWithId(entityId);
-        activateEntity(entity);
-    }
-    _entitiesPendingActivation.clear();
-
-    // Destroy all entities set pending destruction
-    for (EntityId entityId : _entitiesPendingDestruction)
-    {
-        Entity& entity = _entityPool.entityWithId(entityId);
-        destroyEntity(entity);
-    }
-    _entitiesPendingDestruction.clear();
-
-    _refreshing = false;
 }
 
 void Scene::tick(double timeStep)
@@ -131,7 +103,7 @@ void Scene::tick(double timeStep)
     // Tick all stages in order
     for (const std::vector<SystemTypeId>& tickStage : _tickStages)
     {
-        // Tick all systems
+        // Tick all systems in the stage
         for (SystemTypeId typeId : tickStage)
         {
             SystemBase& system = *_systems[typeId];
@@ -168,18 +140,7 @@ void Scene::render(RenderTarget& target)
 Entity::Iterator Scene::createEntity(Name name)
 {
     Entity::Iterator entity = _entityPool.create(name);
-    if (_refreshing)
-    {
-        // Dispatch an entity create event
-        EntityEvent event;
-        event.type = EntityEventType::Create;
-        event.entity = entity;
-        _entityPool.dispatchEvent(event);
-    }
-    else
-    {
-        _entitiesPendingCreation.push_back(entity->id());
-    }
+    _entitiesPendingCreation.push_back(entity->id());
     return entity;
 }
 
@@ -608,15 +569,55 @@ void Scene::pendEntityActivation(Entity& entity)
     }
 
     entity.setFlag(Entity::Flag::PendingActivation, true);
-    if (_refreshing)
+
+    // Enqueue the entity to activate on the next refresh
+    _entitiesPendingActivation.push_back(entity._id);
+}
+
+bool Scene::hasPendingEntities() const
+{
+    return !_entitiesPendingCreation.empty() || !_entitiesPendingActivation.empty() || !_entitiesPendingDestruction.empty();
+}
+
+void Scene::dispatchEntityCreationEvents()
+{
+    // Dispatch the entity creation event for all entities pending creation
+    while (!_entitiesPendingCreation.empty())
     {
-        // Activate the entity immediately if the scene is refreshing
+        const EntityId entityId = _entitiesPendingCreation.front();
+        _entitiesPendingCreation.pop_front();
+
+        // Dispatch an entity create event
+        EntityEvent event;
+        event.type = EntityEventType::Create;
+        event.entity = EntityIterator(_entityPool, entityId);
+        _entityPool.dispatchEvent(event);
+    }
+}
+
+void Scene::activatePendingEntities()
+{
+    // Activate all entities pending activation
+    while (!_entitiesPendingActivation.empty())
+    {
+        const EntityId entityId = _entitiesPendingActivation.front();
+        _entitiesPendingActivation.pop_front();
+
+        Entity& entity = _entityPool.entityWithId(entityId);
         activateEntity(entity);
     }
-    else
+}
+
+void Scene::destroyPendingEntities()
+{
+    // Destroy all entities set pending destruction
+    while (!_entitiesPendingDestruction.empty())
     {
-        // Enqueue the entity to activate on the next refresh
-        _entitiesPendingActivation.push_back(entity._id);
+        const EntityId entityId = _entitiesPendingDestruction.front();
+        _entitiesPendingDestruction.pop_front();
+
+        Entity& entity = _entityPool.entityWithId(entityId);
+        destroyEntity(entity);
     }
 }
 

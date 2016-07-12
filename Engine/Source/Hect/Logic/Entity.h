@@ -178,16 +178,14 @@ public:
     Entity::Iterator clone() const;
 
     ///
-    /// Marks the entity and all of its children to be destroyed during the
-    /// next Scene::refresh().
+    /// Marks the entity and all of its children to be destroyed.
     ///
     /// \throws InvalidOperation If the entity is invalid or is already
     /// pending destruction.
     void destroy();
 
     ///
-    /// Marks the entity and all of its children to be activated during the
-    /// next Scene::refresh().
+    /// Marks the entity and all of its children to be activated.
     ///
     /// \throws InvalidOperation If the entity is invalid, is already pending
     /// activation, or is already activated.

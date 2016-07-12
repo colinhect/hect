@@ -33,17 +33,17 @@ enum class ComponentEventType
     ///
     /// A Component was added to an Entity.
     ///
-    /// This event type is triggered when an entity pending activation is
-    /// activated during Scene::refresh().  It also may be triggered
-    /// immediately if an activated entity has a component added or replaced.
+    /// This event type is dispatched for each component an entity has when
+    /// that entity is activated.  It also may be dispatched immediately if
+    /// an activated entity has a component added or replaced.
     Add,
 
     ///
     /// A Component was removed from an Entity.
     ///
-    /// This event type is triggered when an entity pending destruction is
-    /// destroyed during Scene::refresh().  It also may be triggered
-    /// immediately if an activated entity has a component removed or replaced.
+    /// This event type is dispatched for each component an entity has when
+    /// that entity is destroyed.  It also may be dispatched immediately if
+    /// an activated entity has a component removed or replaced.
     Remove
 };
 
