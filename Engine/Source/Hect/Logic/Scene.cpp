@@ -24,6 +24,7 @@
 #include "Scene.h"
 
 #include "Hect/IO/AssetDecoder.h"
+#include "Hect/Logic/SceneRegistry.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -171,6 +172,8 @@ size_t Scene::entityCount() const
 
 void Scene::encode(Encoder& encoder) const
 {
+    encoder << encodeValue("sceneType", SceneRegistry::typeIdOf<Scene>());
+
     // Component types
     encoder << beginArray("componentTypes");
     for (ComponentTypeId typeId : _componentTypeIds)

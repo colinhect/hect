@@ -29,6 +29,7 @@
 #include "Hect/Logic/Component.h"
 #include "Hect/Logic/ComponentRegistry.h"
 #include "Hect/Logic/Scene.h"
+#include "Hect/Logic/SceneRegistry.h"
 #include "Hect/Runtime/Platform.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Timing/TimeSpan.h"
@@ -158,8 +159,13 @@ int Engine::main()
     {
         const Path scenePath = sceneValue.asString();
 
-        // Load and play the specified scene
-        Scene::Handle scene = assetCache().getHandle<Scene>(scenePath, *this);
+        SceneTypeId typeId;
+        AssetDecoder decoder(assetCache(), scenePath);
+        decoder >> decodeValue("sceneType", typeId, true);
+
+        auto scene = SceneRegistry::create(typeId);
+        scene->decode(decoder);
+
         playScene(*scene);
     }
 

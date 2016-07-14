@@ -48,12 +48,18 @@ namespace hect
 class Engine;
 
 ///
+/// A numeric identifier for a Scene type.
+typedef uint32_t SceneTypeId;
+
+///
 /// A dynamic collection of \link Entity Entities \endlink, Component%s, and
 /// System%s.
 ///
 /// A scene is the fundumental piece of the games state and logic.  The
 /// object-specific game state is stored in entities and their components and
 /// higher-level game state is stored in the systems.
+///
+/// \scene
 class HECT_EXPORT Scene :
     public Uncopyable,
     public Asset<Scene>,
@@ -189,7 +195,7 @@ public:
     ///
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    void tick(double timeStep);
+    virtual void tick(double timeStep);
 
     ///
     /// Renders all of the Systems in the scene.
