@@ -30,7 +30,7 @@
 #include "Hect/Runtime/Engine.h"
 #include "Hect/Scene/Components/BoundingBoxComponent.h"
 #include "Hect/Scene/Components/LightProbeComponent.h"
-#include "Hect/Scene/Components/ModelComponent.h"
+#include "Hect/Scene/Components/MeshComponent.h"
 #include "Hect/Scene/Components/SkyBoxComponent.h"
 
 using namespace hect;
@@ -131,9 +131,9 @@ void RenderSystem::initialize()
     _skyBoxMaterial->setShader(skyBoxShader);
     _skyBoxMaterial->setCullMode(CullMode::None);
 
-    for (ModelComponent& model : scene().components<ModelComponent>())
+    for (MeshComponent& mesh : scene().components<MeshComponent>())
     {
-        for (ModelSurface& surface : model.surfaces)
+        for (MeshSurface& surface : mesh.surfaces)
         {
             Mesh& mesh = *surface.mesh;
             Material& material = *surface.material;
@@ -385,12 +385,12 @@ void RenderSystem::buildRenderCalls(CameraComponent& camera, Entity& entity, boo
     // If the entity is visible
     if (visible)
     {
-        // If the entity has a model component
-        ModelComponent::Iterator model = entity.component<ModelComponent>();
-        if (model && model->visible)
+        // If the entity has a mesh component
+        MeshComponent::Iterator mesh = entity.component<MeshComponent>();
+        if (mesh && mesh->visible)
         {
-            // Render the model
-            for (const ModelSurface& surface : model->surfaces)
+            // Render the mesh surfaces
+            for (const MeshSurface& surface : mesh->surfaces)
             {
                 if (!surface.visible)
                 {

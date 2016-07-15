@@ -134,7 +134,7 @@ namespace hect {}
 #include "Hect/Scene/Components/CameraComponent.h"
 #include "Hect/Scene/Components/DirectionalLightComponent.h"
 #include "Hect/Scene/Components/LightProbeComponent.h"
-#include "Hect/Scene/Components/ModelComponent.h"
+#include "Hect/Scene/Components/MeshComponent.h"
 #include "Hect/Scene/Components/RigidBodyComponent.h"
 #include "Hect/Scene/Components/SkyBoxComponent.h"
 #include "Hect/Scene/Components/TransformComponent.h"

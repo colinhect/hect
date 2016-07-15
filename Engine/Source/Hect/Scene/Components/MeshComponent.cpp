@@ -21,26 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "ModelComponent.h"
+#include "MeshComponent.h"
 
 using namespace hect;
 
-ModelSurface::ModelSurface()
+MeshSurface::MeshSurface()
 {
 }
 
-ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
+MeshSurface::MeshSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
     mesh(mesh),
     material(material)
 {
 }
 
-void ModelComponent::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
+void MeshComponent::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
 {
-    surfaces.push_back(ModelSurface(mesh, material));
+    surfaces.push_back(MeshSurface(mesh, material));
 }
 
-void ModelComponent::addSurface(const ModelSurface& surface)
+void MeshComponent::addSurface(const MeshSurface& surface)
 {
     surfaces.push_back(surface);
 }
