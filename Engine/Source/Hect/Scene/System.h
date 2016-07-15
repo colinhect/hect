@@ -21,34 +21,59 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Scene/ComponentListener.h"
+#include "Hect/Scene/SystemHandle.h"
 
-using namespace hect;
-
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+class Engine;
+
+///
+/// A template list of the component types that a system is notified about.
+///
+/// \note This class inherits from ComponentListener for each component type
+/// listed.
+template <typename... ComponentTypes>
+class Components :
+    public ComponentListener<ComponentTypes>...
+{
+public:
+    Components(Scene& scene);
+
+    virtual ~Components() { }
+};
+
+///
+/// A system affecting entities within a scene.
+template <typename SystemType, typename ComponentListenersType = Components<>>
+class System :
+    public SystemBase,
+    public ComponentListenersType
+{
+public:
+
+    ///
+    /// \copydoc hect::SystemHandle
+    typedef SystemHandle<SystemType> Handle;
+
+    ///
+    /// \copydoc hect::SystemConstHandle
+    typedef SystemHandle<SystemType> ConstHandle;
+
+    ///
+    /// Constructs a system.
+    ///
+    /// \param engine The engine.
+    /// \param scene The scene that the system exists in.
+    /// \param tickStage The stage to tick the system in.
+    System(Engine& engine, Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
+
+    virtual ~System() { }
+};
+
 }
 
-RenderTarget& Interface::renderTarget()
-{
-    return _renderTarget;
-}
+#include "System.inl"

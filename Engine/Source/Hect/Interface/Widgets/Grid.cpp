@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Grid.h"
 
-#include "Hect/Logic/Systems/InterfaceSystem.h"
+#include "Hect/Scene/Systems/InterfaceSystem.h"
 
 using namespace hect;
 

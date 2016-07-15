@@ -21,34 +21,52 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Scene/System.h"
+#include "Hect/Scene/Systems/BoundingBoxSystem.h"
+#include "Hect/Scene/Components/TransformComponent.h"
 
-using namespace hect;
-
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
-}
-
-RenderTarget& Interface::renderTarget()
+///
+/// Manages the TransformComponent hierarchies of a Scene.
+///
+/// \system
+class HECT_EXPORT TransformSystem :
+    public System<TransformSystem, Components<TransformComponent>>
 {
-    return _renderTarget;
+public:
+    TransformSystem(Engine& engine, Scene& scene);
+
+    ///
+    /// Commits any changes made to a TransformComponent to take effect.
+    ///
+    /// \param transform The transform to commit.
+    ///
+    /// \throws InvalidOperation If the transform is not dynamic.
+    void commit(TransformComponent& transform);
+
+    ///
+    /// Updates the global components of a TransformComponent based on the transform
+    /// hierarchy.
+    ///
+    /// \param transform The transform to update.
+    ///
+    /// \throws InvalidOperation If the transform is not dynamic.
+    void update(TransformComponent& transform);
+
+    void tick(double timeStep) override;
+    void onComponentAdded(TransformComponent::Iterator transform) override;
+
+private:
+    void updateRecursively(Entity& parent, Entity& child);
+
+    BoundingBoxSystem::Handle _boundingBoxSystem;
+
+    std::vector<ComponentId> _committed;
+};
+
 }

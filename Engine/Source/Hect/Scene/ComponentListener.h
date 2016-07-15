@@ -21,34 +21,49 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Core/Event.h"
+#include "Hect/Scene/ComponentEvent.h"
+#include "Hect/Scene/Scene.h"
 
-using namespace hect;
-
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+///
+/// Receives events when certain type of Component is added to and removed
+/// from a Scene.
+template <typename T>
+class ComponentListener :
+    public Listener<ComponentEvent<T>>
+{
+public:
+
+    ///
+    /// Constructs a component listener.
+    ///
+    /// \param scene The scene to receive component events from.
+    ComponentListener(Scene& scene);
+
+    virtual ~ComponentListener() { }
+
+    ///
+    /// Invoked when an entity is activated with a component of the specified
+    /// type or a component is added to an activated entity.
+    ///
+    /// \param component The component that was added.
+    virtual void onComponentAdded(typename T::Iterator component);
+
+    ///
+    /// Invoked when an entity is destroyed with a component of the specified
+    /// type or a component is removed from an activated entity.
+    ///
+    /// \param component The component that was removed.
+    virtual void onComponentRemoved(typename T::Iterator component);
+
+    void receiveEvent(const ComponentEvent<T>& event) override;
+};
+
 }
 
-RenderTarget& Interface::renderTarget()
-{
-    return _renderTarget;
-}
+#include "ComponentListener.inl"

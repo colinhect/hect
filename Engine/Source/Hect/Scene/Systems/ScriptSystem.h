@@ -21,34 +21,42 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include <memory>
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Scene/System.h"
 
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+// Forward declare Selene classes
+namespace sel
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+class State;
+
 }
 
-RenderTarget& Interface::renderTarget()
+namespace hect
 {
-    return _renderTarget;
+
+///
+/// Provides a dynamic scripting environment powered by Lua.
+///
+/// \system
+class HECT_EXPORT ScriptSystem :
+    public System<ScriptSystem>
+{
+public:
+    ScriptSystem(Engine& engine, Scene& scene);
+
+    ///
+    /// Executes a Lua code snippet.
+    ///
+    /// \param code The Lua code snippet to execute.
+    void execute(const std::string& code);
+
+private:
+    std::shared_ptr<sel::State> _state;
+};
+
 }

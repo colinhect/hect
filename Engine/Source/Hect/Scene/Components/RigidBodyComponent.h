@@ -21,34 +21,62 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/Scene/Scene.h"
 
-using namespace hect;
+// Forward declare Bullet classes
+class btRigidBody;
+class btMotionState;
+class btCollisionShape;
 
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
-}
-
-RenderTarget& Interface::renderTarget()
+///
+/// A simulated physical body.
+///
+/// If any changes are manually made to a rigid body, then the changes must be
+/// committed using PhysicsSystem::commit().
+///
+/// \component
+class HECT_EXPORT RigidBodyComponent :
+    public Component<RigidBodyComponent>
 {
-    return _renderTarget;
+    friend class PhysicsSystem;
+public:
+
+    ///
+    /// The mass.
+    ///
+    /// \property
+    double mass { 0 };
+
+    ///
+    /// The linear velocity.
+    ///
+    /// \property
+    Vector3 linearVelocity;
+
+    ///
+    /// The angular velocity.
+    ///
+    /// \property
+    Vector3 angularVelocity;
+
+    ///
+    /// The collision mesh.
+    ///
+    /// \property
+    Mesh::Handle mesh;
+
+private:
+    std::shared_ptr<btRigidBody> _rigidBody;
+    std::shared_ptr<btMotionState> _motionState;
+    std::shared_ptr<btCollisionShape> _collisionShape;
+};
+
 }

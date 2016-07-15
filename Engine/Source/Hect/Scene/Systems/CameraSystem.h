@@ -21,34 +21,46 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#pragma once
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Core/Export.h"
+#include "Hect/Scene/System.h"
+#include "Hect/Scene/Components/CameraComponent.h"
 
-using namespace hect;
-
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
-}
-
-RenderTarget& Interface::renderTarget()
+///
+/// Updates and tracks the active CameraComponent in a Scene.
+///
+/// \system
+class HECT_EXPORT CameraSystem :
+    public System<CameraSystem, Components<CameraComponent>>
 {
-    return _renderTarget;
+public:
+    CameraSystem(Engine& engine, Scene& scene);
+
+    ///
+    /// Returns the active camera in the scene.
+    CameraComponent::Iterator activeCamera();
+
+    ///
+    /// Sets the active camera in the scene.
+    ///
+    /// \param camera The new active camera.
+    void setActiveCamera(CameraComponent& camera);
+
+    ///
+    /// Updates the vectors and matrices of a camera.
+    ///
+    /// \param camera The camera to update.
+    void update(CameraComponent& camera);
+
+    void tick(double timeStep) override;
+    void onComponentAdded(CameraComponent::Iterator camera) override;
+
+private:
+    Entity::Handle _activeCameraEntity;
+};
+
 }

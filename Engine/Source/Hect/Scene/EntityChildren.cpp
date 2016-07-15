@@ -21,34 +21,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#include "EntityChildren.h"
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include <cstddef>
+
+#include "Hect/Scene/Entity.h"
 
 using namespace hect;
 
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+EntityChildren::Iterator EntityChildren::begin()
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
-
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+    Entity* entity = reinterpret_cast<Entity*>(this);
+    return EntityChildren::Iterator(*entity->_pool, entity->_id, 0);
 }
 
-RenderTarget& Interface::renderTarget()
+EntityChildren::ConstIterator EntityChildren::begin() const
 {
-    return _renderTarget;
+    const Entity* entity = reinterpret_cast<const Entity*>(this);
+    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, 0);
+}
+
+EntityChildren::Iterator EntityChildren::end()
+{
+    Entity* entity = reinterpret_cast<Entity*>(this);
+    return EntityChildren::Iterator(*entity->_pool, entity->_id, entity->_childIds.size());
+}
+
+EntityChildren::ConstIterator EntityChildren::end() const
+{
+    const Entity* entity = reinterpret_cast<const Entity*>(this);
+    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, entity->_childIds.size());
+}
+
+size_t EntityChildren::count() const
+{
+    const Entity* entity = reinterpret_cast<const Entity*>(this);
+    return entity->_childIds.size();
 }

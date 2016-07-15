@@ -21,34 +21,44 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Interface.h"
+#include "Hect/Scene/ComponentPool.h"
+#include "Hect/Scene/Entity.h"
 
-#include "Hect/Scene/Systems/InterfaceSystem.h"
-
-using namespace hect;
-
-Interface::Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget) :
-    Widget(interfaceSystem),
-    _renderTarget(renderTarget)
+namespace hect
 {
-    // Set the default style colors
-    setStyleColor(StyleColor::Background, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundSelected, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::BackgroundPressed, Color(0.15, 0.15, 0.15, 0.9));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 122.0 / 255.0, 204.0 / 255.0, 0.9));
-    setStyleColor(StyleColor::Foreground, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundSelected, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundPressed, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::ForegroundMouseOver, Color(1.0, 1.0, 1.0));
-    setStyleColor(StyleColor::Border, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderPressed, Color(0.5, 0.5, 0.5));
-    setStyleColor(StyleColor::BorderMouseOver, Color(0.5, 0.5, 0.5));
 
-    // Set the dimensions of the interface to match the render target
-    setDimensions(renderTarget.dimensions());
+template <typename T>
+ComponentListener<T>::ComponentListener(Scene& scene)
+{
+    scene.components<T>().registerListener(*this);
 }
 
-RenderTarget& Interface::renderTarget()
+template <typename T>
+void ComponentListener<T>::onComponentAdded(typename T::Iterator component)
 {
-    return _renderTarget;
+    (void)component;
+}
+
+template <typename T>
+void ComponentListener<T>::onComponentRemoved(typename T::Iterator component)
+{
+    (void)component;
+}
+
+template <typename T>
+void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
+{
+    Entity& entity = *event.entity;
+    typename T::Iterator component = entity.component<T>();
+
+    if (event.type == ComponentEventType::Add)
+    {
+        onComponentAdded(component);
+    }
+    else
+    {
+        onComponentRemoved(component);
+    }
+}
+
 }
