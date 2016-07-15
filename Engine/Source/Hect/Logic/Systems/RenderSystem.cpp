@@ -25,10 +25,10 @@
 
 #include <algorithm>
 
-#include "Hect/Logic/Components/BoundingBox.h"
-#include "Hect/Logic/Components/LightProbe.h"
-#include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/Components/SkyBox.h"
+#include "Hect/Logic/Components/BoundingBoxComponent.h"
+#include "Hect/Logic/Components/LightProbeComponent.h"
+#include "Hect/Logic/Components/ModelComponent.h"
+#include "Hect/Logic/Components/SkyBoxComponent.h"
 #include "Hect/Math/Constants.h"
 #include "Hect/Math/Radians.h"
 #include "Hect/Runtime/Engine.h"
@@ -44,7 +44,7 @@ RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void RenderSystem::addRenderCall(const Transform& transform, Mesh& mesh, Material& material)
+void RenderSystem::addRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material)
 {
     const Shader::Handle& shader = material.shader();
     if (shader)
@@ -90,12 +90,12 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
         entity->setTransient(true);
 
         // Create the camera
-        Camera::Iterator camera = entity->addComponent<Camera>();
+        CameraComponent::Iterator camera = entity->addComponent<CameraComponent>();
         camera->position = position;
         camera->exposure = -1.0;
         camera->fieldOfView = Radians(Pi / 2);
 
-        Camera::Iterator activeCamera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
         if (activeCamera)
         {
             camera->nearClip = activeCamera->nearClip;
@@ -131,7 +131,7 @@ void RenderSystem::initialize()
     _skyBoxMaterial->setShader(skyBoxShader);
     _skyBoxMaterial->setCullMode(CullMode::None);
 
-    for (Model& model : scene().components<Model>())
+    for (ModelComponent& model : scene().components<ModelComponent>())
     {
         for (ModelSurface& surface : model.surfaces)
         {
@@ -150,7 +150,7 @@ void RenderSystem::initialize()
         }
     }
 
-    for (SkyBox& skyBox : scene().components<SkyBox>())
+    for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
     {
         _renderer.uploadTexture(*skyBox.texture);
     }
@@ -160,7 +160,7 @@ void RenderSystem::render(RenderTarget& target)
 {
     if (_cameraSystem)
     {
-        Camera::Iterator camera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator camera = _cameraSystem->activeCamera();
         if (camera)
         {
             if (!_geometryBuffer)
@@ -180,7 +180,7 @@ void RenderSystem::render(RenderTarget& target)
     }
 }
 
-void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer)
+void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer)
 {
     // Clear the state from the last frame and begin initializing it for the
     // next frame
@@ -202,14 +202,14 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Get the cube map of the active light probe
-    LightProbe::Iterator lightProbe = scene.components<LightProbe>().begin();
+    LightProbeComponent::Iterator lightProbe = scene.components<LightProbeComponent>().begin();
     if (lightProbe && lightProbe->texture)
     {
         _frameData.lightProbeTexture = &*lightProbe->texture;
     }
 
     // Get the cube map of the active sky box
-    SkyBox::Iterator skyBox = scene.components<SkyBox>().begin();
+    SkyBoxComponent::Iterator skyBox = scene.components<SkyBoxComponent>().begin();
     if (skyBox && skyBox->texture)
     {
         _frameData.skyBoxTexture = &*skyBox->texture;
@@ -231,7 +231,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 
     // Add each directional light to the frame data
-    for (const DirectionalLight& light : scene.components<DirectionalLight>())
+    for (const DirectionalLightComponent& light : scene.components<DirectionalLightComponent>())
     {
         _frameData.directionalLights.push_back(light.iterator());
     }
@@ -266,7 +266,7 @@ void RenderSystem::prepareFrame(Camera& camera, Scene& scene, RenderTarget& targ
     }
 }
 
-void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
+void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
 {
     GeometryBuffer& geometryBuffer = *_frameData.geometryBuffer;
 
@@ -297,17 +297,17 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         if (_frameData.lightProbeTexture)
         {
             frame.setShader(*environmentShader);
-            setBoundUniforms(frame, *environmentShader, camera, target, Transform::Identity);
+            setBoundUniforms(frame, *environmentShader, camera, target, TransformComponent::Identity);
             frame.renderViewport();
         }
 
         // Render each directional light in the scene
         frame.setShader(*directionalLightShader);
-        for (DirectionalLight::ConstIterator light : _frameData.directionalLights)
+        for (DirectionalLightComponent::ConstIterator light : _frameData.directionalLights)
         {
             _frameData.primaryLightDirection = light->direction;
             _frameData.primaryLightColor = light->color;
-            setBoundUniforms(frame, *directionalLightShader, camera, target, Transform::Identity);
+            setBoundUniforms(frame, *directionalLightShader, camera, target, TransformComponent::Identity);
             frame.renderViewport();
         }
     }
@@ -321,7 +321,7 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
 
         // Composite
         frame.setShader(*compositeShader);
-        setBoundUniforms(frame, *compositeShader, camera, target, Transform::Identity);
+        setBoundUniforms(frame, *compositeShader, camera, target, TransformComponent::Identity);
         frame.renderViewport();
 
         // Render translucent geometry
@@ -344,13 +344,13 @@ void RenderSystem::renderFrame(Camera& camera, RenderTarget& target)
         Renderer::Frame frame = _renderer.beginFrame(target);
         frame.clear(camera.clearColor);
         frame.setShader(*exposeShader);
-        setBoundUniforms(frame, *exposeShader, camera, target, Transform::Identity);
+        setBoundUniforms(frame, *exposeShader, camera, target, TransformComponent::Identity);
 
         frame.renderViewport();
     }
 }
 
-void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest)
+void RenderSystem::buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest)
 {
     // By default, assume that the entity is visible
     bool visible = true;
@@ -359,7 +359,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     if (frustumTest)
     {
         // If the entity has a bounding box
-        BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
+        BoundingBoxComponent::Iterator boundingBox = entity.component<BoundingBoxComponent>();
         if (boundingBox)
         {
             // Test the bounding box against the frustum
@@ -386,7 +386,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     if (visible)
     {
         // If the entity has a model component
-        Model::Iterator model = entity.component<Model>();
+        ModelComponent::Iterator model = entity.component<ModelComponent>();
         if (model && model->visible)
         {
             // Render the model
@@ -401,20 +401,20 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
                 Material& material = *surface.material;
 
                 // If the entity has a transform component
-                Transform::Iterator transform = entity.component<Transform>();
+                TransformComponent::Iterator transform = entity.component<TransformComponent>();
                 if (transform)
                 {
                     addRenderCall(*transform, mesh, material);
                 }
                 else
                 {
-                    addRenderCall(Transform::Identity, mesh, material);
+                    addRenderCall(TransformComponent::Identity, mesh, material);
                 }
             }
         }
 
         // If the entity has a skybox component
-        SkyBox::Iterator skyBox = entity.component<SkyBox>();
+        SkyBoxComponent::Iterator skyBox = entity.component<SkyBoxComponent>();
         if (skyBox)
         {
             addRenderCall(_frameData.cameraTransform, *skyBoxMesh, *_skyBoxMaterial);
@@ -428,7 +428,7 @@ void RenderSystem::buildRenderCalls(Camera& camera, Entity& entity, bool frustum
     }
 }
 
-void RenderSystem::renderMesh(Renderer::Frame& frame, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform)
+void RenderSystem::renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform)
 {
     Shader& shader = *material.shader();
 
@@ -453,7 +453,7 @@ void RenderSystem::renderMesh(Renderer::Frame& frame, const Camera& camera, cons
     frame.renderMesh(mesh);
 }
 
-void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform)
+void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform)
 {
     // Buid the model matrix
     Matrix4 model;
@@ -566,7 +566,7 @@ RenderSystem::RenderCall::RenderCall()
 {
 }
 
-RenderSystem::RenderCall::RenderCall(const Transform& transform, Mesh& mesh, Material& material) :
+RenderSystem::RenderCall::RenderCall(const TransformComponent& transform, Mesh& mesh, Material& material) :
     transform(&transform),
     mesh(&mesh),
     material(&material)
@@ -582,7 +582,7 @@ void RenderSystem::FrameData::clear()
 
     directionalLights.clear();
 
-    cameraTransform = Transform();
+    cameraTransform = TransformComponent();
     primaryLightDirection = Vector3();
     primaryLightColor = Color();
     lightProbeTexture = nullptr;

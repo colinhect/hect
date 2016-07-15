@@ -25,39 +25,39 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
-#include "Hect/Logic/Components/Camera.h"
+#include "Hect/Logic/Components/CameraComponent.h"
 
 namespace hect
 {
 
 ///
-/// Updates and tracks the active Camera in a Scene.
+/// Updates and tracks the active CameraComponent in a Scene.
 ///
 /// \system
 class HECT_EXPORT CameraSystem :
-    public System<CameraSystem, Components<Camera>>
+    public System<CameraSystem, Components<CameraComponent>>
 {
 public:
     CameraSystem(Engine& engine, Scene& scene);
 
     ///
     /// Returns the active camera in the scene.
-    Camera::Iterator activeCamera();
+    CameraComponent::Iterator activeCamera();
 
     ///
     /// Sets the active camera in the scene.
     ///
     /// \param camera The new active camera.
-    void setActiveCamera(Camera& camera);
+    void setActiveCamera(CameraComponent& camera);
 
     ///
     /// Updates the vectors and matrices of a camera.
     ///
     /// \param camera The camera to update.
-    void update(Camera& camera);
+    void update(CameraComponent& camera);
 
     void tick(double timeStep) override;
-    void onComponentAdded(Camera::Iterator camera) override;
+    void onComponentAdded(CameraComponent::Iterator camera) override;
 
 private:
     Entity::Handle _activeCameraEntity;

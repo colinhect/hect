@@ -21,26 +21,62 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Model.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/Logic/Scene.h"
 
-ModelSurface::ModelSurface()
+// Forward declare Bullet classes
+class btRigidBody;
+class btMotionState;
+class btCollisionShape;
+
+namespace hect
 {
-}
 
-ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
-    mesh(mesh),
-    material(material)
+///
+/// A simulated physical body.
+///
+/// If any changes are manually made to a rigid body, then the changes must be
+/// committed using PhysicsSystem::commit().
+///
+/// \component
+class HECT_EXPORT RigidBodyComponent :
+    public Component<RigidBodyComponent>
 {
-}
+    friend class PhysicsSystem;
+public:
 
-void Model::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
-{
-    surfaces.push_back(ModelSurface(mesh, material));
-}
+    ///
+    /// The mass.
+    ///
+    /// \property
+    double mass { 0 };
 
-void Model::addSurface(const ModelSurface& surface)
-{
-    surfaces.push_back(surface);
+    ///
+    /// The linear velocity.
+    ///
+    /// \property
+    Vector3 linearVelocity;
+
+    ///
+    /// The angular velocity.
+    ///
+    /// \property
+    Vector3 angularVelocity;
+
+    ///
+    /// The collision mesh.
+    ///
+    /// \property
+    Mesh::Handle mesh;
+
+private:
+    std::shared_ptr<btRigidBody> _rigidBody;
+    std::shared_ptr<btMotionState> _motionState;
+    std::shared_ptr<btCollisionShape> _collisionShape;
+};
+
 }

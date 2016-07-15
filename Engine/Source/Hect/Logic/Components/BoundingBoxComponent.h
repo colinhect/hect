@@ -24,27 +24,33 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/TextureCube.h"
-#include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
+#include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
 {
 
 ///
-/// A sky box.
+/// The spacial extents of an Entity.
 ///
 /// \component
-class HECT_EXPORT SkyBox :
-    public Component<SkyBox>
+class HECT_EXPORT BoundingBoxComponent :
+    public Component<BoundingBoxComponent>
 {
 public:
 
     ///
-    /// The texture.
+    /// Whether the bounding box adapts to the bounds of the components of its
+    /// entity.
     ///
-    /// \property{required}
-    TextureCube::Handle texture;
+    /// \property
+    bool adaptive { true };
+
+    ///
+    /// The extents of the bounding box
+    ///
+    /// \property
+    AxisAlignedBox extents;
 };
 
 }

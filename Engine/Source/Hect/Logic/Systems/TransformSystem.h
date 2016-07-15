@@ -26,40 +26,40 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Systems/BoundingBoxSystem.h"
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/TransformComponent.h"
 
 namespace hect
 {
 
 ///
-/// Manages the Transform hierarchies of a Scene.
+/// Manages the TransformComponent hierarchies of a Scene.
 ///
 /// \system
 class HECT_EXPORT TransformSystem :
-    public System<TransformSystem, Components<Transform>>
+    public System<TransformSystem, Components<TransformComponent>>
 {
 public:
     TransformSystem(Engine& engine, Scene& scene);
 
     ///
-    /// Commits any changes made to a Transform to take effect.
+    /// Commits any changes made to a TransformComponent to take effect.
     ///
     /// \param transform The transform to commit.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void commit(Transform& transform);
+    void commit(TransformComponent& transform);
 
     ///
-    /// Updates the global components of a Transform based on the transform
+    /// Updates the global components of a TransformComponent based on the transform
     /// hierarchy.
     ///
     /// \param transform The transform to update.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void update(Transform& transform);
+    void update(TransformComponent& transform);
 
     void tick(double timeStep) override;
-    void onComponentAdded(Transform::Iterator transform) override;
+    void onComponentAdded(TransformComponent::Iterator transform) override;
 
 private:
     void updateRecursively(Entity& parent, Entity& child);

@@ -28,7 +28,7 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Systems/TransformSystem.h"
-#include "Hect/Logic/Components/RigidBody.h"
+#include "Hect/Logic/Components/RigidBodyComponent.h"
 #include "Hect/Timing/TimeSpan.h"
 
 // Forward declare Bullet classes
@@ -47,7 +47,7 @@ namespace hect
 ///
 /// \system
 class HECT_EXPORT PhysicsSystem :
-    public System<PhysicsSystem, Components<RigidBody>>
+    public System<PhysicsSystem, Components<RigidBodyComponent>>
 {
 public:
     PhysicsSystem(Engine& engine, Scene& scene);
@@ -59,17 +59,17 @@ public:
     /// \param force The force to apply.
     /// \param relativePosition The position relative to the rigid body to
     /// apply the force from.
-    void applyForce(RigidBody& rigidBody, Vector3 force, Vector3 relativePosition);
+    void applyForce(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition);
 
     ///
-    /// Commits any changes made to a RigidBody to take effect.
+    /// Commits any changes made to a RigidBodyComponent to take effect.
     ///
     /// \param rigidBody The rigid body to commit.
-    void commit(RigidBody& rigidBody);
+    void commit(RigidBodyComponent& rigidBody);
 
     void tick(double timeStep) override;
-    void onComponentAdded(RigidBody::Iterator rigidBody) override;
-    void onComponentRemoved(RigidBody::Iterator rigidBody) override;
+    void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
+    void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
 
     ///
     /// The gravitational force to apply to all rigid bodies.

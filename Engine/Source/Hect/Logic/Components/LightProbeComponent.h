@@ -21,8 +21,30 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Transform.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Graphics/TextureCube.h"
+#include "Hect/IO/AssetCache.h"
+#include "Hect/Logic/Scene.h"
 
-const Transform Transform::Identity = Transform();
+namespace hect
+{
+
+///
+/// A point where ambient and reflective lighting can be pre-computed.
+///
+/// \component
+class HECT_EXPORT LightProbeComponent :
+    public Component<LightProbeComponent>
+{
+public:
+
+    ///
+    /// The texture.
+    ///
+    /// \property
+    TextureCube::Handle texture;
+};
+
+}

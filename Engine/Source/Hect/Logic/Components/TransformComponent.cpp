@@ -21,40 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "TransformComponent.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Logic/System.h"
-#include "Hect/Logic/Systems/DebugSystem.h"
-#include "Hect/Logic/Components/BoundingBoxComponent.h"
+using namespace hect;
 
-namespace hect
-{
-
-///
-/// Manages the BoundingBoxComponent hierarchies of a Scene.
-///
-/// \system
-class HECT_EXPORT BoundingBoxSystem :
-    public System<BoundingBoxSystem, Components<BoundingBoxComponent>>
-{
-    friend class TransformSystem;
-public:
-    BoundingBoxSystem(Engine& engine, Scene& scene);
-
-    ///
-    /// Updates the extents of a bounding box and all bounding boxes affected.
-    ///
-    /// \param boundingBox The bounding box to update.
-    void update(BoundingBoxComponent& boundingBox);
-
-    void debugTick(double timeStep) override;
-    void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
-
-private:
-    void updateRecursively(Entity& entity);
-
-    DebugSystem::Handle _debugSystem;
-};
-
-}
+const TransformComponent TransformComponent::Identity = TransformComponent();

@@ -24,59 +24,33 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/IO/AssetCache.h"
+#include "Hect/Graphics/Color.h"
+#include "Hect/Math/Vector3.h"
 #include "Hect/Logic/Scene.h"
-
-// Forward declare Bullet classes
-class btRigidBody;
-class btMotionState;
-class btCollisionShape;
 
 namespace hect
 {
 
 ///
-/// A simulated physical body.
-///
-/// If any changes are manually made to a rigid body, then the changes must be
-/// committed using PhysicsSystem::commit().
+/// A directional light.
 ///
 /// \component
-class HECT_EXPORT RigidBody :
-    public Component<RigidBody>
+class HECT_EXPORT DirectionalLightComponent :
+    public Component<DirectionalLightComponent>
 {
-    friend class PhysicsSystem;
 public:
 
     ///
-    /// The mass.
+    /// The world-space direction.
     ///
     /// \property
-    double mass { 0 };
+    Vector3 direction { Vector3::UnitX };
 
     ///
-    /// The linear velocity.
+    /// The color.
     ///
     /// \property
-    Vector3 linearVelocity;
-
-    ///
-    /// The angular velocity.
-    ///
-    /// \property
-    Vector3 angularVelocity;
-
-    ///
-    /// The collision mesh.
-    ///
-    /// \property
-    Mesh::Handle mesh;
-
-private:
-    std::shared_ptr<btRigidBody> _rigidBody;
-    std::shared_ptr<btMotionState> _motionState;
-    std::shared_ptr<btCollisionShape> _collisionShape;
+    Color color;
 };
 
 }

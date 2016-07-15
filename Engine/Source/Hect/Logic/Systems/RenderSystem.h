@@ -34,10 +34,10 @@
 #include "Hect/Logic/System.h"
 #include "Hect/Logic/Systems/CameraSystem.h"
 #include "Hect/Logic/Systems/DebugSystem.h"
-#include "Hect/Logic/Components/Camera.h"
-#include "Hect/Logic/Components/DirectionalLight.h"
-#include "Hect/Logic/Components/Transform.h"
-#include "Hect/Logic/Components/LightProbe.h"
+#include "Hect/Logic/Components/CameraComponent.h"
+#include "Hect/Logic/Components/DirectionalLightComponent.h"
+#include "Hect/Logic/Components/TransformComponent.h"
+#include "Hect/Logic/Components/LightProbeComponent.h"
 
 namespace hect
 {
@@ -59,7 +59,7 @@ public:
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
     /// \param material The material to use.
-    void addRenderCall(const Transform& transform, Mesh& mesh, Material& material);
+    void addRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
 
     ///
     /// Renders the scene to a texture cube at the specified location.
@@ -113,20 +113,20 @@ public:
     Mesh::Handle skyBoxMesh;
 
 private:
-    void prepareFrame(Camera& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer);
-    void renderFrame(Camera& camera, RenderTarget& target);
+    void prepareFrame(CameraComponent& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer);
+    void renderFrame(CameraComponent& camera, RenderTarget& target);
 
-    void buildRenderCalls(Camera& camera, Entity& entity, bool frustumTest = true);
-    void renderMesh(Renderer::Frame& frame, const Camera& camera, const RenderTarget& target, Material& material, Mesh& mesh, const Transform& transform);
-    void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const Camera& camera, const RenderTarget& target, const Transform& transform);
+    void buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest = true);
+    void renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
+    void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform);
 
     class RenderCall
     {
     public:
         RenderCall();
-        RenderCall(const Transform& transform, Mesh& mesh, Material& material);
+        RenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
 
-        const Transform* transform { nullptr };
+        const TransformComponent* transform { nullptr };
         Mesh* mesh { nullptr };
         Material* material { nullptr };
 
@@ -144,9 +144,9 @@ private:
         std::vector<RenderCall> translucentPhysicalGeometry;
         std::vector<RenderCall> postPhysicalGeometry;
 
-        std::vector<DirectionalLight::ConstIterator> directionalLights;
+        std::vector<DirectionalLightComponent::ConstIterator> directionalLights;
 
-        Transform cameraTransform;
+        TransformComponent cameraTransform;
         Vector3 primaryLightDirection;
         Color primaryLightColor;
         TextureCube* lightProbeTexture { nullptr };

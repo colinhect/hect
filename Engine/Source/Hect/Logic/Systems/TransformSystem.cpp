@@ -33,22 +33,22 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void TransformSystem::commit(Transform& transform)
+void TransformSystem::commit(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
-        throw InvalidOperation("Transform is not dynamic");
+        throw InvalidOperation("TransformComponent is not dynamic");
     }
 
     ComponentId id = transform.id();
     _committed.push_back(id);
 }
 
-void TransformSystem::update(Transform& transform)
+void TransformSystem::update(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
-        throw InvalidOperation("Transform is not dynamic");
+        throw InvalidOperation("TransformComponent is not dynamic");
     }
 
     Entity::Iterator entity = transform.entity();
@@ -86,13 +86,13 @@ void TransformSystem::tick(double timeStep)
     // Update all committed transforms
     for (ComponentId id : _committed)
     {
-        Transform& transform = scene().components<Transform>().withId(id);
+        TransformComponent& transform = scene().components<TransformComponent>().withId(id);
         update(transform);
     }
     _committed.clear();
 }
 
-void TransformSystem::onComponentAdded(Transform::Iterator transform)
+void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
 {
     // Temporarily make the transform dynamic so it can be initially updated
     Mobility mobility = transform->mobility;
@@ -108,11 +108,11 @@ void TransformSystem::onComponentAdded(Transform::Iterator transform)
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
     // Get the child transform
-    Transform::Iterator childTransform = child.component<Transform>();
+    TransformComponent::Iterator childTransform = child.component<TransformComponent>();
     if (childTransform)
     {
         // Get the parent transform
-        Transform::Iterator parentTransform = parent.component<Transform>();
+        TransformComponent::Iterator parentTransform = parent.component<TransformComponent>();
         if (parentTransform)
         {
             // Compute global components of the transform

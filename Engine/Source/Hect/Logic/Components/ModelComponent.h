@@ -24,33 +24,83 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/Material.h"
+#include "Hect/Graphics/Mesh.h"
+#include "Hect/IO/Encodable.h"
 #include "Hect/Logic/Scene.h"
-#include "Hect/Math/AxisAlignedBox.h"
 
 namespace hect
 {
 
 ///
-/// The spacial extents of an Entity.
+/// A Mesh surface with a specific Material in a ModelComponent.
+///
+/// \encodable
+class HECT_EXPORT ModelSurface :
+    public Encodable
+{
+public:
+    ModelSurface();
+
+    ///
+    /// Constructs a surface.
+    ///
+    /// \param mesh The mesh.
+    /// \param material The material.
+    ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material);
+
+    ///
+    /// The mesh.
+    ///
+    /// \property
+    Mesh::Handle mesh;
+
+    ///
+    /// The material.
+    ///
+    /// \property
+    Material::Handle material;
+
+    ///
+    /// Whether the surface is visible.
+    ///
+    /// \property
+    bool visible { true };
+};
+
+///
+/// A collection of ModelSurface%s which are rendered.
 ///
 /// \component
-class HECT_EXPORT BoundingBox :
-    public Component<BoundingBox>
+class HECT_EXPORT ModelComponent :
+    public Component<ModelComponent>
 {
 public:
 
     ///
-    /// Whether the bounding box adapts to the bounds of the components of its
-    /// entity.
+    /// Adds a surface to the model.
     ///
-    /// \property
-    bool adaptive { true };
+    /// \param mesh The mesh.
+    /// \param material The material.
+    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material);
 
     ///
-    /// The extents of the bounding box
+    /// Adds a surface to the model.
+    ///
+    /// \param surface The surface to add.
+    void addSurface(const ModelSurface& surface);
+
+    ///
+    /// The surfaces.
+    ///
+    /// \property{vector}
+    std::vector<ModelSurface> surfaces;
+
+    ///
+    /// Whether the surfaces are visible.
     ///
     /// \property
-    AxisAlignedBox extents;
+    bool visible { true };
 };
 
 }

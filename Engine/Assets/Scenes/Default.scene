@@ -1,14 +1,14 @@
 ---
 sceneType: Scene
 componentTypes:
-  - BoundingBox
-  - Camera
-  - DirectionalLight
-  - LightProbe
-  - Model
-  - RigidBody
-  - SkyBox
-  - Transform
+  - BoundingBoxComponent
+  - CameraComponent
+  - DirectionalLightComponent
+  - LightProbeComponent
+  - ModelComponent
+  - RigidBodyComponent
+  - SkyBoxComponent
+  - TransformComponent
 systemTypes:
   - InputSystem
   - PhysicsSystem

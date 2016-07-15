@@ -108,7 +108,7 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 {
     if (!_linesMesh.vertexData().empty())
     {
-        renderSystem.addRenderCall(Transform::Identity, _linesMesh, *linesMaterial);
+        renderSystem.addRenderCall(TransformComponent::Identity, _linesMesh, *linesMaterial);
     }
 }
 

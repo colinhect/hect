@@ -24,83 +24,27 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Material.h"
-#include "Hect/Graphics/Mesh.h"
-#include "Hect/IO/Encodable.h"
+#include "Hect/Graphics/TextureCube.h"
+#include "Hect/IO/AssetCache.h"
 #include "Hect/Logic/Scene.h"
 
 namespace hect
 {
 
 ///
-/// A Mesh surface with a specific Material in a Model.
-///
-/// \encodable
-class HECT_EXPORT ModelSurface :
-    public Encodable
-{
-public:
-    ModelSurface();
-
-    ///
-    /// Constructs a surface.
-    ///
-    /// \param mesh The mesh.
-    /// \param material The material.
-    ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material);
-
-    ///
-    /// The mesh.
-    ///
-    /// \property
-    Mesh::Handle mesh;
-
-    ///
-    /// The material.
-    ///
-    /// \property
-    Material::Handle material;
-
-    ///
-    /// Whether the surface is visible.
-    ///
-    /// \property
-    bool visible { true };
-};
-
-///
-/// A collection of ModelSurface%s which are rendered.
+/// A sky box.
 ///
 /// \component
-class HECT_EXPORT Model :
-    public Component<Model>
+class HECT_EXPORT SkyBoxComponent :
+    public Component<SkyBoxComponent>
 {
 public:
 
     ///
-    /// Adds a surface to the model.
+    /// The texture.
     ///
-    /// \param mesh The mesh.
-    /// \param material The material.
-    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material);
-
-    ///
-    /// Adds a surface to the model.
-    ///
-    /// \param surface The surface to add.
-    void addSurface(const ModelSurface& surface);
-
-    ///
-    /// The surfaces.
-    ///
-    /// \property{vector}
-    std::vector<ModelSurface> surfaces;
-
-    ///
-    /// Whether the surfaces are visible.
-    ///
-    /// \property
-    bool visible { true };
+    /// \property{required}
+    TextureCube::Handle texture;
 };
 
 }

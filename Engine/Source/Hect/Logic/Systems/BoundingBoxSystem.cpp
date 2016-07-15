@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BoundingBoxSystem.h"
 
-#include "Hect/Logic/Components/Model.h"
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/ModelComponent.h"
+#include "Hect/Logic/Components/TransformComponent.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -35,7 +35,7 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void BoundingBoxSystem::update(BoundingBox& boundingBox)
+void BoundingBoxSystem::update(BoundingBoxComponent& boundingBox)
 {
     Entity::Iterator root = boundingBox.entity()->root();
     updateRecursively(*root);
@@ -48,7 +48,7 @@ void BoundingBoxSystem::debugTick(double timeStep)
     if (_debugSystem)
     {
         // Render a debug box for each bounding box
-        for (const BoundingBox& boundingBox : scene().components<BoundingBox>())
+        for (const BoundingBoxComponent& boundingBox : scene().components<BoundingBoxComponent>())
         {
             AxisAlignedBox axisAlignedBox = boundingBox.extents;
             Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
@@ -57,7 +57,7 @@ void BoundingBoxSystem::debugTick(double timeStep)
     }
 }
 
-void BoundingBoxSystem::onComponentAdded(BoundingBox::Iterator boundingBox)
+void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent::Iterator boundingBox)
 {
     Entity::Iterator entity = boundingBox->entity();
 
@@ -72,7 +72,7 @@ void BoundingBoxSystem::onComponentAdded(BoundingBox::Iterator boundingBox)
 void BoundingBoxSystem::updateRecursively(Entity& entity)
 {
     // Compute the bounding box of this entity
-    BoundingBox::Iterator boundingBox = entity.component<BoundingBox>();
+    BoundingBoxComponent::Iterator boundingBox = entity.component<BoundingBoxComponent>();
     if (boundingBox && boundingBox->adaptive)
     {
         // Start with an empty box
@@ -80,7 +80,7 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         axisAlignedBox = AxisAlignedBox();
 
         // Expand to fit all model that the component has
-        Model::Iterator model = entity.component<Model>();
+        ModelComponent::Iterator model = entity.component<ModelComponent>();
         if (model)
         {
             for (const ModelSurface& surface : model->surfaces)
@@ -91,7 +91,7 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         }
 
         // Transform the bounding box by the entity's global transform
-        Transform::Iterator transform = entity.component<Transform>();
+        TransformComponent::Iterator transform = entity.component<TransformComponent>();
         if (transform)
         {
             axisAlignedBox.scale(transform->globalScale);
@@ -106,7 +106,7 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         updateRecursively(child);
 
         // If the child has a bounding box
-        BoundingBox::Iterator childBoundingBox = child.component<BoundingBox>();
+        BoundingBoxComponent::Iterator childBoundingBox = child.component<BoundingBoxComponent>();
         if (childBoundingBox)
         {
             // Expand the bounding box to include this child

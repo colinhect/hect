@@ -24,27 +24,94 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/TextureCube.h"
-#include "Hect/IO/AssetCache.h"
+#include "Hect/Graphics/Color.h"
 #include "Hect/Logic/Scene.h"
+#include "Hect/Math/Degrees.h"
+#include "Hect/Math/Frustum.h"
 
 namespace hect
 {
 
+class TransformComponent;
+
 ///
-/// A point where ambient and reflective lighting can be pre-computed.
+/// A camera.
 ///
 /// \component
-class HECT_EXPORT LightProbe :
-    public Component<LightProbe>
+class HECT_EXPORT CameraComponent :
+    public Component<CameraComponent>
 {
 public:
 
     ///
-    /// The texture.
+    /// The horizontal field of view.
     ///
     /// \property
-    TextureCube::Handle texture;
+    Angle fieldOfView { Degrees(90) };
+
+    ///
+    /// The aspect ratio.
+    ///
+    /// \property
+    double aspectRatio { 1.0 };
+
+    ///
+    /// The near clip distance.
+    ///
+    /// \property
+    double nearClip { 0.1 };
+
+    ///
+    /// The far clip distance.
+    ///
+    /// \property
+    double farClip { 10000 };
+
+    ///
+    /// The exposure.
+    ///
+    /// \property
+    double exposure { 1.0 };
+
+    ///
+    /// The gamma.
+    ///
+    /// \property
+    double gamma { 2.2 };
+
+    ///
+    /// The color used to clear the render target.
+    ///
+    /// \property
+    Color clearColor { Color::Zero };
+
+    ///
+    /// The front vector.
+    Vector3 front { Vector3::UnitY };
+
+    ///
+    /// The up vector.
+    Vector3 up { Vector3::UnitZ };
+
+    ///
+    /// The right vector.
+    Vector3 right { Vector3::UnitX };
+
+    ///
+    /// The position.
+    Vector3 position;
+
+    ///
+    /// The view matrix.
+    Matrix4 viewMatrix;
+
+    ///
+    /// The projection matrix.
+    Matrix4 projectionMatrix;
+
+    ///
+    /// The frustum.
+    Frustum frustum;
 };
 
 }

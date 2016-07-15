@@ -32,7 +32,7 @@ namespace hect
 {
 
 ///
-/// The mode of mobility of a Transform.
+/// The mode of mobility of a TransformComponent.
 enum class Mobility
 {
     ///
@@ -52,14 +52,14 @@ enum class Mobility
 /// TransformSystem::update().
 ///
 /// \component
-class HECT_EXPORT Transform :
-    public Component<Transform>
+class HECT_EXPORT TransformComponent :
+    public Component<TransformComponent>
 {
 public:
 
     ///
     /// An identity transform.
-    static const Transform Identity;
+    static const TransformComponent Identity;
 
     ///
     /// Indicates if and when the transform's position, orientation, or

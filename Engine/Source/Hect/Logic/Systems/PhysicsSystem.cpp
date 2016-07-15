@@ -24,8 +24,8 @@
 #include "PhysicsSystem.h"
 
 #include "Hect/Graphics/MeshReader.h"
-#include "Hect/Logic/Components/RigidBody.h"
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/RigidBodyComponent.h"
+#include "Hect/Logic/Components/TransformComponent.h"
 #include "Hect/Runtime/Engine.h"
 
 #ifdef HECT_WINDOWS_BUILD
@@ -55,7 +55,7 @@ btQuaternion convertToBullet(Quaternion q)
     return btQuaternion(q.x, q.y, q.z, -q.w);
 }
 
-btTransform convertToBullet(const Transform& t)
+btTransform convertToBullet(const TransformComponent& t)
 {
     btTransform transform;
     transform.setOrigin(convertToBullet(t.globalPosition));
@@ -99,9 +99,9 @@ Quaternion convertFromBullet(const btQuaternion& q)
     return Quaternion(q.x(), q.y(), q.z(), -q.w());
 }
 
-Transform convertFromBullet(const btTransform& t)
+TransformComponent convertFromBullet(const btTransform& t)
 {
-    Transform transform;
+    TransformComponent transform;
     transform.localPosition = convertFromBullet(t.getOrigin());
     transform.localRotation = convertFromBullet(t.getRotation());
     return transform;
@@ -121,12 +121,12 @@ PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PhysicsSystem::applyForce(RigidBody& rigidBody, Vector3 force, Vector3 relativePosition)
+void PhysicsSystem::applyForce(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition)
 {
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
-void PhysicsSystem::commit(RigidBody& rigidBody)
+void PhysicsSystem::commit(RigidBodyComponent& rigidBody)
 {
     rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
@@ -147,17 +147,17 @@ void PhysicsSystem::tick(double timeStep)
         _world->stepSimulation(timeStep, 4);
 
         // For each rigid body component
-        for (RigidBody& rigidBody : scene().components<RigidBody>())
+        for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
         {
             Entity::Iterator entity = rigidBody.entity();
-            Transform::Iterator transform = entity->component<Transform>();
+            TransformComponent::Iterator transform = entity->component<TransformComponent>();
             if (!entity->parent() && transform)
             {
                 // Update the transform to what Bullet says it should be
                 btTransform bulletTransform;
                 ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
 
-                Transform newTransform = convertFromBullet(bulletTransform);
+                TransformComponent newTransform = convertFromBullet(bulletTransform);
                 transform->localPosition = newTransform.localPosition;
                 transform->localScale = newTransform.localScale;
                 transform->localRotation = newTransform.localRotation;
@@ -171,12 +171,12 @@ void PhysicsSystem::tick(double timeStep)
     }
 }
 
-void PhysicsSystem::onComponentAdded(RigidBody::Iterator rigidBody)
+void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
 {
     if (_transformSystem)
     {
         Entity::Iterator entity = rigidBody->entity();
-        Transform::Iterator transform = entity->component<Transform>();
+        TransformComponent::Iterator transform = entity->component<TransformComponent>();
         if (transform)
         {
             Mesh& mesh = *rigidBody->mesh;
@@ -207,7 +207,7 @@ void PhysicsSystem::onComponentAdded(RigidBody::Iterator rigidBody)
     }
 }
 
-void PhysicsSystem::onComponentRemoved(RigidBody::Iterator rigidBody)
+void PhysicsSystem::onComponentRemoved(RigidBodyComponent::Iterator rigidBody)
 {
     _world->removeRigidBody(rigidBody->_rigidBody.get());
 }

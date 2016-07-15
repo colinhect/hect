@@ -21,36 +21,26 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include "ModelComponent.h"
 
-#include "Hect/Core/Export.h"
-#include "Hect/Graphics/Color.h"
-#include "Hect/Math/Vector3.h"
-#include "Hect/Logic/Scene.h"
+using namespace hect;
 
-namespace hect
+ModelSurface::ModelSurface()
 {
+}
 
-///
-/// A directional light.
-///
-/// \component
-class HECT_EXPORT DirectionalLight :
-    public Component<DirectionalLight>
+ModelSurface::ModelSurface(const Mesh::Handle& mesh, const Material::Handle& material) :
+    mesh(mesh),
+    material(material)
 {
-public:
+}
 
-    ///
-    /// The world-space direction.
-    ///
-    /// \property
-    Vector3 direction { Vector3::UnitX };
+void ModelComponent::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
+{
+    surfaces.push_back(ModelSurface(mesh, material));
+}
 
-    ///
-    /// The color.
-    ///
-    /// \property
-    Color color;
-};
-
+void ModelComponent::addSurface(const ModelSurface& surface)
+{
+    surfaces.push_back(surface);
 }

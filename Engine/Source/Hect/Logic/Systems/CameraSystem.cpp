@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "CameraSystem.h"
 
-#include "Hect/Logic/Components/Transform.h"
+#include "Hect/Logic/Components/TransformComponent.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -33,28 +33,28 @@ CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
 {
 }
 
-Camera::Iterator CameraSystem::activeCamera()
+CameraComponent::Iterator CameraSystem::activeCamera()
 {
-    Camera::Iterator camera;
+    CameraComponent::Iterator camera;
 
     if (_activeCameraEntity)
     {
-        camera = _activeCameraEntity->component<Camera>();
+        camera = _activeCameraEntity->component<CameraComponent>();
     }
 
     return camera;
 }
 
-void CameraSystem::setActiveCamera(Camera& camera)
+void CameraSystem::setActiveCamera(CameraComponent& camera)
 {
     _activeCameraEntity = camera.entity()->createHandle();
 }
 
-void CameraSystem::update(Camera& camera)
+void CameraSystem::update(CameraComponent& camera)
 {
     // If the camera's entity has a transform then use it to compute the
     // camera's position, front, and up vectors
-    Transform::Iterator transform = camera.entity()->component<Transform>();
+    TransformComponent::Iterator transform = camera.entity()->component<TransformComponent>();
     if (transform)
     {
         camera.position = transform->globalPosition;
@@ -76,13 +76,13 @@ void CameraSystem::tick(double timeStep)
 {
     (void)timeStep;
 
-    for (Camera& camera : scene().components<Camera>())
+    for (CameraComponent& camera : scene().components<CameraComponent>())
     {
         update(camera);
     }
 }
 
-void CameraSystem::onComponentAdded(Camera::Iterator camera)
+void CameraSystem::onComponentAdded(CameraComponent::Iterator camera)
 {
     // If there is no active camera then use the most recently added camera
     if (!_activeCameraEntity)
