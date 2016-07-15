@@ -172,7 +172,16 @@ size_t Scene::entityCount() const
 
 void Scene::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("sceneType", SceneRegistry::typeIdOf<Scene>());
+    SceneTypeId sceneTypeId = SceneRegistry::typeIdOf<Scene>();
+    if (encoder.isBinaryStream())
+    {
+        encoder << encodeValue(sceneTypeId);
+    }
+    else
+    {
+        Name typeName = SceneRegistry::typeNameOf(sceneTypeId);
+        encoder << encodeValue("sceneType", typeName.asString());
+    }
 
     // Component types
     encoder << beginArray("componentTypes");
@@ -267,6 +276,21 @@ void Scene::decode(Decoder& decoder)
                 throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().data(), exception.what()));
             }
         }
+    }
+
+    // Decode the scene type
+    // Note that nothing is done with the resulting value since the scene has
+    // already been constructed (obviously); this is only done to make encoding
+    // and decoding reflective
+    if (decoder.isBinaryStream())
+    {
+        SceneTypeId typeId;
+        decoder >> decodeValue(typeId);
+    }
+    else
+    {
+        std::string typeName;
+        decoder >> decodeValue("sceneType", typeName);
     }
 
     // Component types

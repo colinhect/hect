@@ -159,11 +159,19 @@ int Engine::main()
     {
         const Path scenePath = sceneValue.asString();
 
+        // Peek at the scene type to be able to create the scene object of the
+        // correct type
         SceneTypeId typeId;
-        AssetDecoder decoder(assetCache(), scenePath);
-        decoder >> decodeValue("sceneType", typeId, true);
+        {
+            AssetDecoder decoder(assetCache(), scenePath);
+            decoder >> decodeValue("sceneType", typeId, true);
+        }
 
+        // Create the scene
         auto scene = SceneRegistry::create(typeId);
+
+        // Decode the scene
+        AssetDecoder decoder(assetCache(), scenePath);
         scene->decode(decoder);
 
         playScene(*scene);
