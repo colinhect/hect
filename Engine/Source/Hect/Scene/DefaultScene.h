@@ -21,49 +21,27 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Hect/Reflection/Type.h"
+#pragma once
 
-#include "Hect/Core/Format.h"
-#include "Hect/Core/Logging.h"
-#include "Hect/Runtime/Engine.h"
+#include "Hect/Scene/Scene.h"
 
 namespace hect
 {
 
-template <typename T>
-void SceneRegistry::registerType()
+///
+/// The default Scene type.
+///
+/// \scene
+class HECT_EXPORT DefaultScene :
+    public Scene
 {
-    std::type_index typeIndex(typeid(T));
+public:
 
-    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
-    {
-        Name typeName = Type::get<T>().name();
-
-        SceneTypeId typeId = static_cast<SceneTypeId>(_sceneConstructors.size());
-
-        _sceneConstructors.push_back([]()
-        {
-            return std::shared_ptr<Scene>(new T(Engine::instance()));
-        });
-
-        _typeIndexToId[typeIndex] = typeId;
-        _typeNameToId[typeName] = typeId;
-        _typeIdToName[typeId] = typeName;
-
-        HECT_DEBUG(format("Registered scene type '%s' (type id: %d)", typeName.data(), typeId));
-    }
-}
-
-template <typename T>
-SceneTypeId SceneRegistry::typeIdOf()
-{
-    static SceneTypeId id = SceneTypeId(-1);
-    if (id == SceneTypeId(-1))
-    {
-        std::type_index typeIndex(typeid(T));
-        id = typeIdOf(typeIndex);
-    }
-    return id;
-}
+    ///
+    /// Constructs an empty default scene.
+    ///
+    /// \param engine The engine.
+    DefaultScene(Engine& engine);
+};
 
 }

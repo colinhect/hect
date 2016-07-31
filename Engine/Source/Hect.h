@@ -123,6 +123,7 @@ namespace hect {}
 #include "Hect/Scene/ComponentEvent.h"
 #include "Hect/Scene/ComponentPool.h"
 #include "Hect/Scene/ComponentRegistry.h"
+#include "Hect/Scene/DefaultScene.h"
 #include "Hect/Scene/Entity.h"
 #include "Hect/Scene/EntityEvent.h"
 #include "Hect/Scene/EntityPool.h"

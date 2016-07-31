@@ -40,6 +40,10 @@ Scene::Scene(Engine& engine) :
     }
 }
 
+Scene::~Scene()
+{
+}
+
 SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
 {
     if (!SystemRegistry::isRegisteredTypeId(typeId))
@@ -172,7 +176,8 @@ size_t Scene::entityCount() const
 
 void Scene::encode(Encoder& encoder) const
 {
-    SceneTypeId sceneTypeId = SceneRegistry::typeIdOf<Scene>();
+    std::type_index typeIndex(typeid(*this));
+    SceneTypeId sceneTypeId = SceneRegistry::typeIdOf(typeIndex);
     if (encoder.isBinaryStream())
     {
         encoder << encodeValue(sceneTypeId);
@@ -182,38 +187,6 @@ void Scene::encode(Encoder& encoder) const
         Name typeName = SceneRegistry::typeNameOf(sceneTypeId);
         encoder << encodeValue("sceneType", typeName.asString());
     }
-
-    // Component types
-    encoder << beginArray("componentTypes");
-    for (ComponentTypeId typeId : _componentTypeIds)
-    {
-        if (encoder.isBinaryStream())
-        {
-            encoder << encodeValue(typeId);
-        }
-        else
-        {
-            Name typeName = ComponentRegistry::typeNameOf(typeId);
-            encoder << encodeValue(typeName);
-        }
-    }
-    encoder << endArray();
-
-    // System types
-    encoder << beginArray("systemTypes");
-    for (SystemTypeId typeId : _systemTypeIds)
-    {
-        if (encoder.isBinaryStream())
-        {
-            encoder << encodeValue(typeId);
-        }
-        else
-        {
-            Name typeName = SystemRegistry::typeNameOf(typeId);
-            encoder << encodeValue(typeName);
-        }
-    }
-    encoder << endArray();
 
     // Systems
     encoder << beginArray("systems");
@@ -291,52 +264,6 @@ void Scene::decode(Decoder& decoder)
     {
         std::string typeName;
         decoder >> decodeValue("sceneType", typeName);
-    }
-
-    // Component types
-    if (decoder.selectMember("componentTypes"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            ComponentTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                decoder >> decodeValue(typeId);
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue(typeName);
-                typeId = ComponentRegistry::typeIdOf(typeName);
-            }
-
-            addComponentType(typeId);
-        }
-        decoder >> endArray();
-    }
-
-    // System types
-    if (decoder.selectMember("systemTypes"))
-    {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
-        {
-            SystemTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                decoder >> decodeValue(typeId);
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue(typeName);
-                typeId = SystemRegistry::typeIdOf(typeName);
-            }
-
-            addSystemType(typeId);
-        }
-        decoder >> endArray();
     }
 
     // Systems

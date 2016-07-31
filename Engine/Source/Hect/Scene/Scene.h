@@ -58,8 +58,6 @@ typedef uint32_t SceneTypeId;
 /// A scene is the fundumental piece of the games state and logic.  The
 /// object-specific game state is stored in entities and their components and
 /// higher-level game state is stored in the systems.
-///
-/// \scene
 class HECT_EXPORT Scene :
     public Uncopyable,
     public Asset<Scene>,
@@ -75,6 +73,8 @@ public:
     ///
     /// \param engine The engine.
     Scene(Engine& engine);
+
+    virtual ~Scene();
 
     ///
     /// Adds support for a System type to the scene.

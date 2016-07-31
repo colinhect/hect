@@ -164,7 +164,16 @@ int Engine::main()
         SceneTypeId typeId;
         {
             AssetDecoder decoder(assetCache(), scenePath);
-            decoder >> decodeValue("sceneType", typeId, true);
+            if (decoder.isBinaryStream())
+            {
+                decoder >> decodeValue("sceneType", typeId);
+            }
+            else
+            {
+                Name typeName;
+                decoder >> decodeValue("sceneType", typeName);
+                typeId = SceneRegistry::typeIdOf(typeName);
+            }
         }
 
         // Create the scene

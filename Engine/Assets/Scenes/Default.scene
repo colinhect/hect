@@ -1,23 +1,5 @@
 ---
-sceneType: Scene
-componentTypes:
-  - BoundingBoxComponent
-  - CameraComponent
-  - DirectionalLightComponent
-  - LightProbeComponent
-  - ModelComponent
-  - RigidBodyComponent
-  - SkyBoxComponent
-  - TransformComponent
-systemTypes:
-  - InputSystem
-  - PhysicsSystem
-  - TransformSystem
-  - BoundingBoxSystem
-  - CameraSystem
-  - RenderSystem
-  - DebugSystem
-  - InterfaceSystem
+sceneType: DefaultScene
 systems:
   - systemType: RenderSystem
     exposeShader: Hect/Rendering/Expose.shader

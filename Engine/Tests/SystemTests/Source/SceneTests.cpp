@@ -152,7 +152,7 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     DataValue dataValue;
 
     {
-        Scene scene(Engine::instance());
+        DefaultScene scene(Engine::instance());
 
         createScene(scene);
 
@@ -162,7 +162,7 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     }
 
     {
-        Scene scene(Engine::instance());
+        DefaultScene scene(Engine::instance());
 
         DataValueDecoder decoder(dataValue);
         decoder >> decodeValue(scene);
@@ -174,7 +174,7 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     std::vector<uint8_t> data;
 
     {
-        Scene scene(Engine::instance());
+        DefaultScene scene(Engine::instance());
         createScene(scene);
 
         MemoryWriteStream writeStream(data);
@@ -183,7 +183,7 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     }
 
     {
-        Scene scene(Engine::instance());
+        DefaultScene scene(Engine::instance());
 
         MemoryReadStream readStream(data);
         BinaryDecoder decoder(readStream);
@@ -1848,8 +1848,14 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
     {
         scene.addComponentType<TestA>();
 
+        // Create an entity
         Entity::Iterator a = scene.createEntity();
-        a->addComponent<TestA>("TestA");
+
+        // Add a transform component to the entity
+        auto transformComponent = a->addComponent<TransformComponent>();
+        transformComponent->localPosition = Vector3(1, 2, 3);
+
+        // Activate the entity and refresh the scene
         a->activate();
         scene.refresh();
     }, [](Scene& scene)
@@ -1860,7 +1866,7 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
 
         Entity::Iterator a = scene.entities().begin();
         REQUIRE(a);
-        REQUIRE(a->component<TestA>()->value == "TestA");
+        REQUIRE(a->component<TransformComponent>()->localPosition == Vector3(1, 2, 3));
     });
 }
 
@@ -1890,11 +1896,10 @@ TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
     {
-        scene.addSystemType<TestSystemA>();
-        scene.system<TestSystemA>()->value = "TestA";
+        scene.system<PhysicsSystem>()->gravity = Vector3(1, 2, 3);
     }, [](Scene& scene)
     {
-        REQUIRE(scene.system<TestSystemA>()->value == "TestA");
+        REQUIRE(scene.system<PhysicsSystem>()->gravity == Vector3(1, 2, 3));
     });
 }
 
