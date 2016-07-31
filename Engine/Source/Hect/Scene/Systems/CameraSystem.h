@@ -54,9 +54,12 @@ public:
     /// Updates the vectors and matrices of a camera.
     ///
     /// \param camera The camera to update.
-    void update(CameraComponent& camera);
+    void updateCamera(CameraComponent& camera);
 
-    void tick(double timeStep) override;
+    ///
+    /// Updates the vectors and matrices of all cameras in the scene.
+    void updateAllCameras();
+
     void onComponentAdded(CameraComponent::Iterator camera) override;
 
 private:

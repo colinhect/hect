@@ -121,12 +121,12 @@ PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void PhysicsSystem::applyForce(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition)
+void PhysicsSystem::applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition)
 {
     rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
 }
 
-void PhysicsSystem::commit(RigidBodyComponent& rigidBody)
+void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
 {
     rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
@@ -161,7 +161,7 @@ void PhysicsSystem::tick(double timeStep)
                 transform->localPosition = newTransform.localPosition;
                 transform->localScale = newTransform.localScale;
                 transform->localRotation = newTransform.localRotation;
-                _transformSystem->commit(*transform);
+                _transformSystem->commitTransform(*transform);
 
                 // Update rigid body properties to what Bullet says it should be
                 rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
@@ -192,7 +192,7 @@ void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
             btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
             btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-            _transformSystem->update(*transform);
+            _transformSystem->updateTransform(*transform);
 
             rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
             btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

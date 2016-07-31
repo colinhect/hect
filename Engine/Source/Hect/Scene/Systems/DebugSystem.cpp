@@ -50,9 +50,8 @@ DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     _linesMesh.setPrimitiveType(PrimitiveType::Lines);
 }
 
-void DebugSystem::tick(double timeStep)
+void DebugSystem::clearEnqueuedDebugGeometry()
 {
-    (void)timeStep;
     _linesMesh.clearVertexData();
     _linesMesh.clearIndexData();
 }

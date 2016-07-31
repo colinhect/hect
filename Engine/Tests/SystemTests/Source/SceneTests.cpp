@@ -89,7 +89,7 @@ public:
     {
     }
 
-    void tick(double timeStep) override
+    void tick(double timeStep)
     {
         (void)timeStep;
     }
@@ -128,7 +128,7 @@ public:
     {
     }
 
-    void tick(double timeStep) override
+    void tick(double timeStep)
     {
         (void)timeStep;
     }

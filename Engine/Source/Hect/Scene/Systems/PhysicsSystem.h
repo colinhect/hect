@@ -59,15 +59,20 @@ public:
     /// \param force The force to apply.
     /// \param relativePosition The position relative to the rigid body to
     /// apply the force from.
-    void applyForce(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition);
+    void applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition);
 
     ///
     /// Commits any changes made to a RigidBodyComponent to take effect.
     ///
     /// \param rigidBody The rigid body to commit.
-    void commit(RigidBodyComponent& rigidBody);
+    void commitRigidBody(RigidBodyComponent& rigidBody);
 
-    void tick(double timeStep) override;
+    ///
+    /// Performs a single tick of physics simulation.
+    ///
+    /// \param timeStep The duration of time to tick.
+    void tick(double timeStep);
+
     void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
     void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
 

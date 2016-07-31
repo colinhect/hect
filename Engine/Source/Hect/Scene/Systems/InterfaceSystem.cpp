@@ -51,10 +51,8 @@ Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Fo
     return _vectorRenderer.measureTextDimensions(text, font, size);
 }
 
-void InterfaceSystem::render(RenderTarget& target)
+void InterfaceSystem::renderAllInterfaces()
 {
-    (void)target;
-
     for (const Interface::Handle& interface : _interfaces)
     {
         RenderTarget& interfaceTarget = interface->renderTarget();
@@ -67,7 +65,7 @@ void InterfaceSystem::render(RenderTarget& target)
     }
 }
 
-void InterfaceSystem::tick(double timeStep)
+void InterfaceSystem::tickAllInterfaces(double timeStep)
 {
     for (const Interface::Handle& interface : _interfaces)
     {

@@ -63,8 +63,15 @@ public:
     /// \param size The font size.
     Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
 
-    void render(RenderTarget& target) override;
-    void tick(double timeStep) override;
+    ///
+    /// Renders all interfaces to their render targets.
+    void renderAllInterfaces();
+
+    ///
+    /// Performs a single tick of simulation for all interfaces.
+    ///
+    /// \param timeStep The duration of time to tick.
+    void tickAllInterfaces(double timeStep);
 
     void receiveEvent(const MouseEvent& event) override;
 

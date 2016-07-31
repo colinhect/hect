@@ -47,7 +47,7 @@ public:
     /// \param transform The transform to commit.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void commit(TransformComponent& transform);
+    void commitTransform(TransformComponent& transform);
 
     ///
     /// Updates the global components of a TransformComponent based on the transform
@@ -56,9 +56,13 @@ public:
     /// \param transform The transform to update.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void update(TransformComponent& transform);
+    void updateTransform(TransformComponent& transform);
 
-    void tick(double timeStep) override;
+    ///
+    /// Updates the global components of all committed TransformComponent%s
+    /// based on the transform hierarchy.
+    void updateCommittedTransforms();
+
     void onComponentAdded(TransformComponent::Iterator transform) override;
 
 private:

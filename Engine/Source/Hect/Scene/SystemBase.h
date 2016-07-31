@@ -61,29 +61,6 @@ public:
     virtual void initialize();
 
     ///
-    /// Performs a single tick of simulation for the system.
-    ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void tick(double timeStep);
-
-    ///
-    /// Performs a single tick of debug for the system.
-    ///
-    /// \note This is only invoked if debug is enabled using
-    /// SystemBase::setDebugEnabled().
-    ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void debugTick(double timeStep);
-
-    ///
-    /// Renders the current state of the system to a target.
-    ///
-    /// \param target The target to render to.
-    virtual void render(RenderTarget& target);
-
-    ///
     /// Gets the scene that the system affects.
     Scene& scene();
 

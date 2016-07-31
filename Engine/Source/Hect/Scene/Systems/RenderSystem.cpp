@@ -108,7 +108,7 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
             // Update the camera's matrices
             camera->front = cameraVectors[i].first;
             camera->up = cameraVectors[i].second;
-            _cameraSystem->update(*camera);
+            _cameraSystem->updateCamera(*camera);
 
             // Create the frame buffer and attach the corresponding face
             // of the cubic texture
@@ -197,7 +197,7 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
 
         if (_cameraSystem)
         {
-            _cameraSystem->update(camera);
+            _cameraSystem->updateCamera(camera);
         }
     }
 

@@ -33,7 +33,7 @@ TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void TransformSystem::commit(TransformComponent& transform)
+void TransformSystem::commitTransform(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
@@ -44,7 +44,7 @@ void TransformSystem::commit(TransformComponent& transform)
     _committed.push_back(id);
 }
 
-void TransformSystem::update(TransformComponent& transform)
+void TransformSystem::updateTransform(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
@@ -79,15 +79,13 @@ void TransformSystem::update(TransformComponent& transform)
     }
 }
 
-void TransformSystem::tick(double timeStep)
+void TransformSystem::updateCommittedTransforms()
 {
-    (void)timeStep;
-
     // Update all committed transforms
     for (ComponentId id : _committed)
     {
         TransformComponent& transform = scene().components<TransformComponent>().withId(id);
-        update(transform);
+        updateTransform(transform);
     }
     _committed.clear();
 }
@@ -99,7 +97,7 @@ void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
     transform->mobility = Mobility::Dynamic;
 
     // Update the transform
-    update(*transform);
+    updateTransform(*transform);
 
     // Restore the transforms mobility
     transform->mobility = mobility;

@@ -50,7 +50,7 @@ void CameraSystem::setActiveCamera(CameraComponent& camera)
     _activeCameraEntity = camera.entity()->createHandle();
 }
 
-void CameraSystem::update(CameraComponent& camera)
+void CameraSystem::updateCamera(CameraComponent& camera)
 {
     // If the camera's entity has a transform then use it to compute the
     // camera's position, front, and up vectors
@@ -72,13 +72,11 @@ void CameraSystem::update(CameraComponent& camera)
     camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
 }
 
-void CameraSystem::tick(double timeStep)
+void CameraSystem::updateAllCameras()
 {
-    (void)timeStep;
-
     for (CameraComponent& camera : scene().components<CameraComponent>())
     {
-        update(camera);
+        updateCamera(camera);
     }
 }
 

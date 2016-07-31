@@ -79,7 +79,7 @@ double InputSystem::axisValue(Name name) const
     return 0.0;
 }
 
-void InputSystem::tick(double timeStep)
+void InputSystem::updateAxes(double timeStep)
 {
     // Update each axis
     for (auto& pair : _axes)

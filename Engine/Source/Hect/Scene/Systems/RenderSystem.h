@@ -71,7 +71,8 @@ public:
     void renderToTextureCube(Vector3 position, TextureCube& texture);
 
     void initialize() override;
-    void render(RenderTarget& target) override;
+
+    void render(RenderTarget& target);
 
     ///
     /// The shader used to expose the final image to the window.

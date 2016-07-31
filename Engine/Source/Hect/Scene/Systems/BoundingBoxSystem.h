@@ -46,9 +46,12 @@ public:
     /// Updates the extents of a bounding box and all bounding boxes affected.
     ///
     /// \param boundingBox The bounding box to update.
-    void update(BoundingBoxComponent& boundingBox);
+    void updateBoundingBox(BoundingBoxComponent& boundingBox);
 
-    void debugTick(double timeStep) override;
+    ///
+    /// Renders geometry providing debug information for bounding boxes.
+    void renderDebugGeometry();
+
     void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
 
 private:

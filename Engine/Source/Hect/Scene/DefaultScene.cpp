@@ -60,22 +60,20 @@ void DefaultScene::preTick(double timeStep)
 {
     Scene::refresh();
 
-    _inputSystem->tick(timeStep);
-    _debugSystem->tick(timeStep);
+    _inputSystem->updateAxes(timeStep);
+    _debugSystem->clearEnqueuedDebugGeometry();
 }
 
 void DefaultScene::postTick(double timeStep)
 {
     _physicsSystem->tick(timeStep);
-    _transformSystem->tick(timeStep);
-    _boundingBoxSystem->tick(timeStep);
-    _cameraSystem->tick(timeStep);
-    _renderSystem->tick(timeStep);
-    _interfaceSystem->tick(timeStep);
+    _transformSystem->updateCommittedTransforms();
+    _cameraSystem->updateAllCameras();
+    _interfaceSystem->tickAllInterfaces(timeStep);
 
     if (_boundingBoxSystem->isDebugEnabled())
     {
-        _boundingBoxSystem->debugTick(timeStep);
+        _boundingBoxSystem->renderDebugGeometry();
     }
 
     Scene::refresh();
@@ -90,5 +88,5 @@ void DefaultScene::tick(double timeStep)
 void DefaultScene::render(RenderTarget& target)
 {
     _renderSystem->render(target);
-    _interfaceSystem->render(target);
+    _interfaceSystem->renderAllInterfaces();
 }

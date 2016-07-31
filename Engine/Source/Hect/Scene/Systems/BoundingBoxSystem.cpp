@@ -35,16 +35,14 @@ BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
 {
 }
 
-void BoundingBoxSystem::update(BoundingBoxComponent& boundingBox)
+void BoundingBoxSystem::updateBoundingBox(BoundingBoxComponent& boundingBox)
 {
     Entity::Iterator root = boundingBox.entity()->root();
     updateRecursively(*root);
 }
 
-void BoundingBoxSystem::debugTick(double timeStep)
+void BoundingBoxSystem::renderDebugGeometry()
 {
-    (void)timeStep;
-
     if (_debugSystem)
     {
         // Render a debug box for each bounding box

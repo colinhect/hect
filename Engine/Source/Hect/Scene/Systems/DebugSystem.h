@@ -48,7 +48,9 @@ class HECT_EXPORT DebugSystem :
 public:
     DebugSystem(Engine& engine, Scene& scene);
 
-    void tick(double timeStep) override;
+    ///
+    /// Clears all enqueued debug geometry.
+    void clearEnqueuedDebugGeometry();
 
     ///
     /// Enqueues a line to be rendered for a duration of time.

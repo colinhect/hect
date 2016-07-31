@@ -59,7 +59,11 @@ public:
     /// \returns The value of the axis; 0 if the axis does not exist.
     double axisValue(Name name) const;
 
-    void tick(double timeStep) override;
+    ///
+    /// Update the values of all axes.
+    ///
+    /// \param timeStep The duration of time to tick.
+    void updateAxes(double timeStep);
 
 private:
     std::unordered_map<Name, InputAxis> _axes;

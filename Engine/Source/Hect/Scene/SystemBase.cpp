@@ -46,21 +46,6 @@ void SystemBase::initialize()
 {
 }
 
-void SystemBase::tick(double timeStep)
-{
-    (void)timeStep;
-}
-
-void SystemBase::debugTick(double timeStep)
-{
-    (void)timeStep;
-}
-
-void SystemBase::render(RenderTarget& target)
-{
-    (void)target;
-}
-
 bool SystemBase::isDebugEnabled() const
 {
     return _debugEnabled;
