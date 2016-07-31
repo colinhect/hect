@@ -81,8 +81,14 @@ bool ComponentRegistry::isRegisteredTypeId(ComponentTypeId typeId)
     return typeId < _componentConstructors.size();
 }
 
+ComponentRegistry::ComponentTypeIdSequence ComponentRegistry::typeIds()
+{
+    return ComponentTypeIdSequence(_typeIds);
+}
+
 std::map<ComponentTypeId, Name> ComponentRegistry::_typeIdToName;
 std::map<Name, ComponentTypeId> ComponentRegistry::_typeNameToId;
 std::map<std::type_index, ComponentTypeId> ComponentRegistry::_typeIndexToId;
 std::vector<ComponentRegistry::ComponentConstructor> ComponentRegistry::_componentConstructors;
 std::vector<ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_componentPoolConstructors;
+ComponentRegistry::ComponentTypeIdContainer ComponentRegistry::_typeIds;

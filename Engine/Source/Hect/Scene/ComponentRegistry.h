@@ -42,7 +42,12 @@ namespace hect
 /// based on type information.
 class HECT_EXPORT ComponentRegistry
 {
+    typedef std::vector<ComponentTypeId> ComponentTypeIdContainer;
 public:
+
+    ///
+    /// A sequence of component type ids.
+    typedef Sequence<ComponentTypeId, ComponentTypeIdContainer> ComponentTypeIdSequence;
 
     ///
     /// Creates a Component of the specified type.
@@ -99,6 +104,10 @@ public:
     static bool isRegisteredTypeId(ComponentTypeId typeId);
 
     ///
+    /// Returns a sequence of all of the registered type ids.
+    static ComponentTypeIdSequence typeIds();
+
+    ///
     /// Registers a Component type.
     ///
     /// \warning The type must be registered with Type.
@@ -119,6 +128,7 @@ private:
     static std::map<ComponentTypeId, Name> _typeIdToName;
     static std::map<Name, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
+    static ComponentTypeIdContainer _typeIds;
 
     typedef std::function<std::shared_ptr<ComponentBase>(void)> ComponentConstructor;
     typedef std::function<std::shared_ptr<ComponentPoolBase>(Scene&)> ComponentPoolConstructor;

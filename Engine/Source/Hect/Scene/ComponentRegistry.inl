@@ -53,6 +53,7 @@ void ComponentRegistry::registerType()
         _typeIndexToId[typeIndex] = typeId;
         _typeNameToId[typeName] = typeId;
         _typeIdToName[typeId] = typeName;
+        _typeIds.push_back(typeId);
 
         HECT_DEBUG(format("Registered component type '%s' (type id: %d)", typeName.data(), typeId));
     }
