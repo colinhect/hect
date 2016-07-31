@@ -28,10 +28,9 @@ using namespace hect;
 
 TEST_CASE("Log an info message from a script", "[ScriptSystem]")
 {
-    Scene scene(Engine::instance());
-    scene.addSystemType<ScriptSystem>();
+    DefaultScene scene(Engine::instance());
 
-    ScriptSystem::Handle scriptSystem = scene.system<ScriptSystem>();
+    ScriptSystem::Handle scriptSystem = scene.createSystem<ScriptSystem>();
     REQUIRE(scriptSystem);
 
     scriptSystem->execute("info('Testing...')");

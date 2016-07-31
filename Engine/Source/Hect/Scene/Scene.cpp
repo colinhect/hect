@@ -38,6 +38,11 @@ Scene::Scene(Engine& engine) :
     {
         _entityPool.registerListener(*this);
     }
+
+    for (ComponentTypeId typeId : ComponentRegistry::typeIds())
+    {
+        addComponentType(typeId);
+    }
 }
 
 Scene::~Scene()
@@ -101,47 +106,6 @@ void Scene::refresh()
     }
 }
 
-void Scene::tick(double timeStep)
-{
-    refresh();
-
-    // Tick all stages in order
-    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
-    {
-        // Tick all systems in the stage
-        for (SystemTypeId typeId : tickStage)
-        {
-            SystemBase& system = *_systems[typeId];
-            system.tick(timeStep);
-        }
-
-        // Debug tick all systems
-        for (SystemTypeId typeId : tickStage)
-        {
-            SystemBase& system = *_systems[typeId];
-            if (system.isDebugEnabled())
-            {
-                system.debugTick(timeStep);
-            }
-        }
-    }
-
-    refresh();
-}
-
-void Scene::render(RenderTarget& target)
-{
-    // Perform rendering for all systems
-    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
-    {
-        for (SystemTypeId typeId : tickStage)
-        {
-            SystemBase& system = *_systems[typeId];
-            system.render(target);
-        }
-    }
-}
-
 Entity::Iterator Scene::createEntity(Name name)
 {
     Entity::Iterator entity = _entityPool.create(name);
@@ -190,12 +154,10 @@ void Scene::encode(Encoder& encoder) const
 
     // Systems
     encoder << beginArray("systems");
-    for (const std::vector<SystemTypeId>& tickStage : _tickStages)
+    for (auto& system : _systems)
     {
-        for (SystemTypeId typeId : tickStage)
+        if (system)
         {
-            SystemBase* system = _systems[typeId].get();
-
             encoder << beginObject();
 
             if (encoder.isBinaryStream())
@@ -336,7 +298,6 @@ void Scene::addSystemType(SystemTypeId typeId)
     // Add the system
     auto system = SystemRegistry::create(typeId, _engine, *this);
     _systems[typeId] = system;
-    _tickStages[static_cast<size_t>(system->tickStage())].push_back(typeId);
     _systemTypeIds.push_back(typeId);
     _systemsToInitialize.push_back(system.get());
 }

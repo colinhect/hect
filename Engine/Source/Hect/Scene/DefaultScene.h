@@ -24,6 +24,14 @@
 #pragma once
 
 #include "Hect/Scene/Scene.h"
+#include "Hect/Scene/Systems/BoundingBoxSystem.h"
+#include "Hect/Scene/Systems/CameraSystem.h"
+#include "Hect/Scene/Systems/DebugSystem.h"
+#include "Hect/Scene/Systems/InputSystem.h"
+#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "Hect/Scene/Systems/PhysicsSystem.h"
+#include "Hect/Scene/Systems/RenderSystem.h"
+#include "Hect/Scene/Systems/TransformSystem.h"
 
 namespace hect
 {
@@ -42,6 +50,22 @@ public:
     ///
     /// \param engine The engine.
     DefaultScene(Engine& engine);
+
+    void preTick(double timeStep);
+    void postTick(double timeStep);
+
+    virtual void tick(double timeStep) override;
+    virtual void render(RenderTarget& target) override;
+
+private:
+    BoundingBoxSystem::Handle _boundingBoxSystem;
+    CameraSystem::Handle _cameraSystem;
+    DebugSystem::Handle _debugSystem;
+    InputSystem::Handle _inputSystem;
+    InterfaceSystem::Handle _interfaceSystem;
+    PhysicsSystem::Handle _physicsSystem;
+    RenderSystem::Handle _renderSystem;
+    TransformSystem::Handle _transformSystem;
 };
 
 }

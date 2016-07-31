@@ -44,23 +44,51 @@
 using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
-    Scene(engine)
+    Scene(engine),
+    _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
+    _cameraSystem(createSystem<CameraSystem>()),
+    _debugSystem(createSystem<DebugSystem>()),
+    _inputSystem(createSystem<InputSystem>()),
+    _interfaceSystem(createSystem<InterfaceSystem>()),
+    _physicsSystem(createSystem<PhysicsSystem>()),
+    _renderSystem(createSystem<RenderSystem>()),
+    _transformSystem(createSystem<TransformSystem>())
 {
-    addComponentType<BoundingBoxComponent>();
-    addComponentType<CameraComponent>();
-    addComponentType<DirectionalLightComponent>();
-    addComponentType<LightProbeComponent>();
-    addComponentType<MeshComponent>();
-    addComponentType<RigidBodyComponent>();
-    addComponentType<SkyBoxComponent>();
-    addComponentType<TransformComponent>();
+}
 
-    addSystemType<InputSystem>();
-    addSystemType<PhysicsSystem>();
-    addSystemType<TransformSystem>();
-    addSystemType<BoundingBoxSystem>();
-    addSystemType<CameraSystem>();
-    addSystemType<RenderSystem>();
-    addSystemType<DebugSystem>();
-    addSystemType<InterfaceSystem>();
+void DefaultScene::preTick(double timeStep)
+{
+    Scene::refresh();
+
+    _inputSystem->tick(timeStep);
+    _debugSystem->tick(timeStep);
+}
+
+void DefaultScene::postTick(double timeStep)
+{
+    _physicsSystem->tick(timeStep);
+    _transformSystem->tick(timeStep);
+    _boundingBoxSystem->tick(timeStep);
+    _cameraSystem->tick(timeStep);
+    _renderSystem->tick(timeStep);
+    _interfaceSystem->tick(timeStep);
+
+    if (_boundingBoxSystem->isDebugEnabled())
+    {
+        _boundingBoxSystem->debugTick(timeStep);
+    }
+
+    Scene::refresh();
+}
+
+void DefaultScene::tick(double timeStep)
+{
+    preTick(timeStep);
+    postTick(timeStep);
+}
+
+void DefaultScene::render(RenderTarget& target)
+{
+    _renderSystem->render(target);
+    _interfaceSystem->render(target);
 }

@@ -25,31 +25,11 @@ namespace hect
 {
 
 template <typename T>
-void Scene::addSystemType()
+typename T::Handle Scene::createSystem()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     addSystemType(typeId);
-}
-
-template <typename T>
-void Scene::removeSystemType()
-{
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-
-    // Ensure that the system is supported
-    if (!hasSystemType<T>())
-    {
-        throw InvalidOperation(format("Scene does not support system type '%s'", Type::get<T>().name().data()));
-    }
-
-    // Remove the system from the tick stages
-    for (std::vector<SystemTypeId>& tickStage : _tickStages)
-    {
-        tickStage.erase(std::remove(tickStage.begin(), tickStage.end(), typeId), tickStage.end());
-    }
-
-    // Remove the system
-    _systems[typeId].reset();
+    return system<T>();
 }
 
 template <typename T>
@@ -71,20 +51,6 @@ typename T::ConstHandle Scene::system() const
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     return SystemConstHandle<T>(*this, typeId);
-}
-
-template <typename T>
-void Scene::addComponentType()
-{
-    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
-    addComponentType(typeId);
-}
-
-template <typename T>
-bool Scene::hasComponentType()
-{
-    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
-    return typeId < _componentPools.size() && _componentPools[typeId];
 }
 
 template <typename T>

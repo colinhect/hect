@@ -77,27 +77,14 @@ public:
     virtual ~Scene();
 
     ///
-    /// Adds support for a System type to the scene.
-    ///
-    /// \note The order in which systems are added dictates the order they tick
-    /// in.
+    /// Creates a System of a specific type in the scene.
     ///
     /// \warning The type must be registered with SystemRegistry.
     ///
-    /// \throws InvalidOperation If the system type is already supported by the
-    /// scene.
+    /// \throws InvalidOperation If a system of the same type was already
+    /// created for the scene.
     template <typename T>
-    void addSystemType();
-
-    ///
-    /// Removes support for a System type to the scene.
-    ///
-    /// \warning The type must be registered with SystemRegistry.
-    ///
-    /// \throws InvalidOperation If the system type is not supported by the
-    /// scene.
-    template <typename T>
-    void removeSystemType();
+    typename T::Handle createSystem();
 
     ///
     /// Returns whether the scene supports the specified System type.
@@ -145,21 +132,6 @@ public:
     const SystemBase& systemOfTypeId(SystemTypeId typeId) const;
 
     ///
-    /// Adds support for a Component type to the scene.
-    ///
-    /// \warning The type must be registered with ComponentRegistry.
-    ///
-    /// \throws InvalidOperation If the component type is already supported by
-    /// the scene.
-    template <typename T>
-    void addComponentType();
-
-    ///
-    /// Returns whether the scene supports the specified Component type.
-    template <typename T>
-    bool hasComponentType();
-
-    ///
     /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws InvalidOperation If the component type is unknown.
@@ -195,13 +167,13 @@ public:
     ///
     /// \param timeStep The duration of time in seconds for the tick to
     /// simulate.
-    virtual void tick(double timeStep);
+    virtual void tick(double timeStep) = 0;
 
     ///
     /// Renders all of the Systems in the scene.
     ///
     /// \param target The target to render to.
-    void render(RenderTarget& target);
+    virtual void render(RenderTarget& target) = 0;
 
     ///
     /// Creates a new Entity.
@@ -283,7 +255,6 @@ private:
     std::vector<SystemTypeId> _systemTypeIds;
     std::vector<std::shared_ptr<SystemBase>> _systems;
     std::vector<SystemBase*> _systemsToInitialize;
-    std::array<std::vector<SystemTypeId>, 3> _tickStages;
 };
 
 }
