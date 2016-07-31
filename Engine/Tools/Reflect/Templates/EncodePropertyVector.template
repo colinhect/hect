@@ -1,0 +1,1 @@
+            encoder << encodeVector("$(property_name)", typedValue.$(property_name));

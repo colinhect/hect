@@ -1,0 +1,5 @@
+        type.setDecodeFunction([](void* value, Decoder& decoder)
+        {
+            $(type_name)& typedValue = *reinterpret_cast<$(type_name)*>(value);
+$(decode_properties)
+        });

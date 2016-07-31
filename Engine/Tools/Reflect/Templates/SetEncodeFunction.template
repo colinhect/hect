@@ -1,0 +1,5 @@
+        type.setEncodeFunction([](const void* value, Encoder& encoder)
+        {
+            const $(type_name)& typedValue = *reinterpret_cast<const $(type_name)*>(value);
+$(encode_properties)
+        });

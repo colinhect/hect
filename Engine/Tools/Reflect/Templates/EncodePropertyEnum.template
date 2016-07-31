@@ -1,0 +1,1 @@
+            encoder << encodeEnum("$(property_name)", typedValue.$(property_name));

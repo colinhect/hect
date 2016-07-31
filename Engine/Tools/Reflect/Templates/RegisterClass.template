@@ -1,0 +1,8 @@
+    
+    // $(type_name)
+    {
+        hect::Type& type = hect::Type::create<$(type_name)>(hect::Kind::Class, "$(type_name)");
+        (void)type;
+$(set_encode_function)
+$(set_decode_function)
+    }
