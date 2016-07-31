@@ -28,7 +28,7 @@
 using namespace hect;
 
 InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Subsequent),
+    System(engine, scene),
     _mouse(engine.mouse()),
     _renderer(engine.renderer()),
     _vectorRenderer(engine.vectorRenderer())

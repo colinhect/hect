@@ -36,7 +36,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Subsequent),
+    System(engine, scene),
     _renderer(engine.renderer()),
     _taskPool(engine.taskPool()),
     _cameraSystem(scene.system<CameraSystem>()),

@@ -269,7 +269,6 @@ set(SOURCE_FILES
     "Source/Hect/Scene/SystemRegistry.cpp"
     "Source/Hect/Scene/SystemRegistry.h"
     "Source/Hect/Scene/SystemRegistry.inl"
-    "Source/Hect/Scene/SystemTickStage.h"
     "Source/Hect/Scene/Components/BoundingBoxComponent.h"
     "Source/Hect/Scene/Components/CameraComponent.h"
     "Source/Hect/Scene/Components/DirectionalLightComponent.h"
@@ -634,7 +633,6 @@ source_group("Source\\Hect\\Scene" FILES
     "Source/Hect/Scene/SystemRegistry.cpp"
     "Source/Hect/Scene/SystemRegistry.h"
     "Source/Hect/Scene/SystemRegistry.inl"
-    "Source/Hect/Scene/SystemTickStage.h"
     )
 
 source_group("Source\\Hect\\Scene\\Components" FILES

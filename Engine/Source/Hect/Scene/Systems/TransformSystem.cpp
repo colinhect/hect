@@ -28,7 +28,7 @@
 using namespace hect;
 
 TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Subsequent),
+    System(engine, scene),
     _boundingBoxSystem(scene.system<BoundingBoxSystem>())
 {
 }

@@ -27,9 +27,8 @@
 
 using namespace hect;
 
-SystemBase::SystemBase(Scene& scene, SystemTickStage tickStage) :
-    _scene(scene),
-    _tickStage(tickStage)
+SystemBase::SystemBase(Scene& scene) :
+    _scene(scene)
 {
 }
 
@@ -60,11 +59,6 @@ void SystemBase::debugTick(double timeStep)
 void SystemBase::render(RenderTarget& target)
 {
     (void)target;
-}
-
-SystemTickStage SystemBase::tickStage() const
-{
-    return _tickStage;
 }
 
 bool SystemBase::isDebugEnabled() const

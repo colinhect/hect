@@ -28,7 +28,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/Scene/SystemTickStage.h"
 
 namespace hect
 {
@@ -53,8 +52,7 @@ public:
     /// Constructs a system.
     ///
     /// \param scene The scene that the system exists in.
-    /// \param tickStage The stage to tick the system in.
-    SystemBase(Scene& scene, SystemTickStage tickStage = SystemTickStage::Normal);
+    SystemBase(Scene& scene);
 
     virtual ~SystemBase() { }
 
@@ -94,10 +92,6 @@ public:
     const Scene& scene() const;
 
     ///
-    /// Returns the tick stage.
-    SystemTickStage tickStage() const;
-
-    ///
     /// Returns whether the system has debug-related functionality enabled.
     bool isDebugEnabled() const;
 
@@ -109,7 +103,6 @@ public:
 
 private:
     Scene& _scene;
-    SystemTickStage _tickStage { SystemTickStage::Normal };
     bool _debugEnabled { false };
 };
 

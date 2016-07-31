@@ -34,7 +34,7 @@
 using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
-    System(engine, scene, SystemTickStage::Precedent),
+    System(engine, scene),
     _renderer(engine.renderer()),
     _window(engine.window()),
     _interfaceSystem(scene.system<InterfaceSystem>()),
