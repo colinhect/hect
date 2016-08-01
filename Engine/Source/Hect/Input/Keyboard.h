@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventDispatcher.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Input/Key.h"
 #include "Hect/Input/KeyboardEvent.h"
@@ -34,7 +34,7 @@ namespace hect
 ///
 /// Provides access to the system keyboard.
 class HECT_EXPORT Keyboard :
-    public Dispatcher<KeyboardEvent>
+    public EventDispatcher<KeyboardEvent>
 {
 public:
     Keyboard();

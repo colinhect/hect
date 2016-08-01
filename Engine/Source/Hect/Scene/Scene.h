@@ -61,7 +61,7 @@ typedef uint32_t SceneTypeId;
 class HECT_EXPORT Scene :
     public Uncopyable,
     public Asset<Scene>,
-    public Listener<EntityEvent>
+    public EventListener<EntityEvent>
 {
     friend class Entity;
     template <typename T> friend class Component;

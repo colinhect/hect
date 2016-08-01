@@ -22,26 +22,27 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include <algorithm>
-#include <cassert>
+
+#include "Hect/Core/EventDispatcher.h"
 
 namespace hect
 {
 
 template <typename T>
-Listener<T>::~Listener()
+EventListener<T>::~EventListener()
 {
     // Copy the vector so it will remain valid when items are removed from it
     auto dispatchers = _dispatchers;
 
     // Unregister the listener from all dispatchers
-    for (Dispatcher<T>* dispatcher : dispatchers)
+    for (EventDispatcher<T>* dispatcher : dispatchers)
     {
         dispatcher->unregisterListener(*this);
     }
 }
 
 template <typename T>
-void Listener<T>::addDispatcher(Dispatcher<T>& dispatcher)
+void EventListener<T>::addDispatcher(EventDispatcher<T>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it != _dispatchers.end())
@@ -55,7 +56,7 @@ void Listener<T>::addDispatcher(Dispatcher<T>& dispatcher)
 }
 
 template <typename T>
-void Listener<T>::removeDispatcher(Dispatcher<T>& dispatcher)
+void EventListener<T>::removeDispatcher(EventDispatcher<T>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it == _dispatchers.end())
@@ -65,58 +66,6 @@ void Listener<T>::removeDispatcher(Dispatcher<T>& dispatcher)
     else
     {
         _dispatchers.erase(it);
-    }
-}
-
-template <typename T>
-Dispatcher<T>::~Dispatcher()
-{
-    // Copy the vector so it will remain valid when items are removed from it
-    auto listeners = _listeners;
-
-    // Unregister all listeners from the dispatcher
-    for (Listener<T>* listener : listeners)
-    {
-        unregisterListener(*listener);
-    }
-}
-
-template <typename T>
-void Dispatcher<T>::registerListener(Listener<T>& listener)
-{
-    auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
-    if (it != _listeners.end())
-    {
-        throw InvalidOperation("The listener is already registered to this dispatcher");
-    }
-    else
-    {
-        _listeners.push_back(&listener);
-        listener.addDispatcher(*this);
-    }
-}
-
-template <typename T>
-void Dispatcher<T>::unregisterListener(Listener<T>& listener)
-{
-    auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
-    if (it == _listeners.end())
-    {
-        throw InvalidOperation("The listener is not registered to this dispatcher");
-    }
-    else
-    {
-        _listeners.erase(it);
-        listener.removeDispatcher(*this);
-    }
-}
-
-template <typename T>
-void Dispatcher<T>::dispatchEvent(const T& event)
-{
-    for (Listener<T>* listener : _listeners)
-    {
-        listener->receiveEvent(event);
     }
 }
 

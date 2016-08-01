@@ -41,7 +41,7 @@ namespace hect
 /// \system
 class HECT_EXPORT InterfaceSystem :
     public System<InterfaceSystem>,
-    public Listener<MouseEvent>
+    public EventListener<MouseEvent>
 {
 public:
     InterfaceSystem(Engine& engine, Scene& scene);

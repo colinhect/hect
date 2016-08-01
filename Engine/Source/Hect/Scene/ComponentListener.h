@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventListener.h"
 #include "Hect/Scene/ComponentEvent.h"
 #include "Hect/Scene/Scene.h"
 
@@ -35,7 +35,7 @@ namespace hect
 /// from a Scene.
 template <typename T>
 class ComponentListener :
-    public Listener<ComponentEvent<T>>
+    public EventListener<ComponentEvent<T>>
 {
 public:
 

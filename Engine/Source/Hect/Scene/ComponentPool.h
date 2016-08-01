@@ -27,7 +27,7 @@
 #include <memory>
 #include <vector>
 
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventDispatcher.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Scene/Component.h"
 #include "Hect/Scene/ComponentEvent.h"
@@ -63,7 +63,7 @@ protected:
 template <typename T>
 class ComponentPool :
     public ComponentPoolBase,
-    public Dispatcher<ComponentEvent<T>>
+    public EventDispatcher<ComponentEvent<T>>
 {
     friend class Scene;
     friend class Component<T>;

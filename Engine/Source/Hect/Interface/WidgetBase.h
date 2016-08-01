@@ -23,8 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/EventListener.h"
 #include "Hect/Core/Export.h"
-#include "Hect/Core/Event.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Input/MouseEvent.h"
@@ -46,7 +46,7 @@ class InterfaceSystem;
 ///
 /// Abstract base for Widget.
 class HECT_EXPORT WidgetBase :
-    public Listener<MouseEvent>,
+    public EventListener<MouseEvent>,
     public Uncopyable
 {
     friend class InterfaceSystem;
@@ -96,7 +96,7 @@ public:
     virtual void onPressed();
 
     ///
-    /// \copydoc Listener::receiveEvent()
+    /// \copydoc EventListener::receiveEvent()
     virtual void receiveEvent(const MouseEvent& event);
 
     ///

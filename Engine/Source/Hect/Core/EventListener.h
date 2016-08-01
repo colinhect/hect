@@ -23,63 +23,42 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/EventDispatcher.h"
-#include "Hect/Core/Export.h"
-#include "Hect/Input/MouseButton.h"
-#include "Hect/Input/MouseMode.h"
-#include "Hect/Input/MouseEvent.h"
-#include "Hect/Math/Vector2.h"
+#include <vector>
+
+#include "Hect/Core/Exception.h"
 
 namespace hect
 {
 
+template <typename T>
+class EventDispatcher;
+
 ///
-/// Provides access to the system mouse.
-class HECT_EXPORT Mouse :
-    public EventDispatcher<MouseEvent>
+/// An listener of specific event.
+template <typename T>
+class EventListener
 {
+    friend class EventDispatcher<T>;
 public:
-    Mouse();
 
     ///
-    /// Returns whether the given button is down.
-    ///
-    /// \param button The button to check if it is down.
-    bool isButtonDown(MouseButton button) const;
+    /// Unregister the listener from all EventDispatcher%s that the listener is
+    /// registered to.
+    virtual ~EventListener();
 
     ///
-    /// Returns the position of the cursor in window space.
-    const IntVector2& cursorPosition() const;
-
+    /// Notifies the listener of an event.
     ///
-    /// Returns the relative motion of the cursor.
-    const IntVector2& cursorMovement() const;
-
-    ///
-    /// Clears the current relative motion of the cursor.
-    void clearMovement();
-
-    ///
-    /// Returns the mode.
-    MouseMode mode() const;
-
-    ///
-    /// Sets the mode.
-    ///
-    /// \param mode The new mode.
-    void setMode(MouseMode mode);
-
-    void enqueueEvent(const MouseEvent& event);
-    void dispatchEvents();
+    /// \param event The event.
+    virtual void receiveEvent(const T& event) = 0;
 
 private:
-    std::vector<MouseEvent> _events;
+    void addDispatcher(EventDispatcher<T>& dispatcher);
+    void removeDispatcher(EventDispatcher<T>& dispatcher);
 
-    MouseMode _mode;
-    IntVector2 _cursorPosition;
-    IntVector2 _cursorMovement;
-
-    std::vector<bool> _buttonStates;
+    std::vector<EventDispatcher<T>*> _dispatchers;
 };
 
 }
+
+#include "EventListener.inl"

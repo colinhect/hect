@@ -31,73 +31,47 @@ namespace hect
 {
 
 template <typename T>
-class Dispatcher;
+class EventListener;
 
 ///
-/// An listener of specific event.
+/// Notifies registered EventListener%s of specific events.
 template <typename T>
-class Listener
-{
-    friend class Dispatcher<T>;
-public:
-
-    ///
-    /// Unregister the listener from all Dispatcher%s that the listener is
-    /// registered to.
-    virtual ~Listener();
-
-    ///
-    /// Notifies the listener of an event.
-    ///
-    /// \param event The event.
-    virtual void receiveEvent(const T& event) = 0;
-
-private:
-    void addDispatcher(Dispatcher<T>& dispatcher);
-    void removeDispatcher(Dispatcher<T>& dispatcher);
-
-    std::vector<Dispatcher<T>*> _dispatchers;
-};
-
-///
-/// Notifies registered Listener%s of specific events.
-template <typename T>
-class Dispatcher
+class EventDispatcher
 {
 public:
 
     ///
-    /// Unregisters all Listener%s that are registered to the dispatcher.
-    virtual ~Dispatcher();
+    /// Unregisters all EventListener%s that are registered to the dispatcher.
+    virtual ~EventDispatcher();
 
     ///
-    /// Registers a Listener to receive events from the dispatcher.
+    /// Registers a EventListener to receive events from the dispatcher.
     ///
     /// \param listener The listener to register.
     ///
     /// \throws InvalidOperation If the listener is already registered to the
     /// dispatcher.
-    void registerListener(Listener<T>& listener);
+    void registerListener(EventListener<T>& listener);
 
     ///
-    /// Un-registers a Listener from receiving events from the dispatcher.
+    /// Un-registers a EventListener from receiving events from the dispatcher.
     ///
     /// \param listener The listener to un-register.
     ///
     /// \throws InvalidOperation If the listener is not registered to the
     /// dispatcher.
-    void unregisterListener(Listener<T>& listener);
+    void unregisterListener(EventListener<T>& listener);
 
     ///
-    /// Dispatches an event to all registered Listener%s.
+    /// Dispatches an event to all registered EventListener%s.
     ///
     /// \param event The event.
     void dispatchEvent(const T& event);
 
 private:
-    std::vector<Listener<T>*> _listeners;
+    std::vector<EventListener<T>*> _listeners;
 };
 
 }
 
-#include "Event.inl"
+#include "EventDispatcher.inl"

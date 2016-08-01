@@ -21,7 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Core/Event.h>
+#include <Hect/Core/EventDispatcher.h>
+#include <Hect/Core/EventListener.h>
 using namespace hect;
 
 #include <catch.hpp>
@@ -39,8 +40,8 @@ enum class TestEventB
 };
 
 class TestListener :
-    public Listener<TestEventA>,
-    public Listener<TestEventB>
+    public EventListener<TestEventA>,
+    public EventListener<TestEventB>
 {
 public:
 
@@ -60,7 +61,7 @@ public:
 
 TEST_CASE("Register a listener, dispatch event, and unregister listener", "[Event]")
 {
-    Dispatcher<TestEventA> dispatcher;
+    EventDispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
@@ -78,8 +79,8 @@ TEST_CASE("Register a listener, dispatch event, and unregister listener", "[Even
 
 TEST_CASE("Register listener to multiple dispatcher types", "[Event]")
 {
-    Dispatcher<TestEventA> dispatcherA;
-    Dispatcher<TestEventB> dispatcherB;
+    EventDispatcher<TestEventA> dispatcherA;
+    EventDispatcher<TestEventB> dispatcherB;
 
     TestListener listener;
 
@@ -98,7 +99,7 @@ TEST_CASE("Register listener to multiple dispatcher types", "[Event]")
 
 TEST_CASE("Register a listener that is already registered", "[Event]")
 {
-    Dispatcher<TestEventA> dispatcher;
+    EventDispatcher<TestEventA> dispatcher;
 
     TestListener listener;
 
@@ -111,7 +112,7 @@ TEST_CASE("Register a listener that is already registered", "[Event]")
 
 TEST_CASE("Unregister a listener that is not registered", "[Event]")
 {
-    Dispatcher<TestEventA> dispatcher;
+    EventDispatcher<TestEventA> dispatcher;
 
     TestListener listener;
     REQUIRE_THROWS_AS(dispatcher.unregisterListener(listener), InvalidOperation);

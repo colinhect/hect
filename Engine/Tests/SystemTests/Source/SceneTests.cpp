@@ -106,7 +106,7 @@ public:
 };
 
 class TestComponentPoolListener :
-    public Listener<ComponentEvent<TestA>>
+    public EventListener<ComponentEvent<TestA>>
 {
 public:
     void receiveEvent(const ComponentEvent<TestA>& event)

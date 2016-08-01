@@ -23,7 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventDispatcher.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Name.h"
 #include "Hect/Input/JoystickAxis.h"
@@ -37,7 +37,7 @@ namespace hect
 ///
 /// Provides access to a joystick.
 class HECT_EXPORT Joystick :
-    public Dispatcher<JoystickEvent>
+    public EventDispatcher<JoystickEvent>
 {
 public:
     Joystick(Name name, size_t buttonCount, size_t axisCount);

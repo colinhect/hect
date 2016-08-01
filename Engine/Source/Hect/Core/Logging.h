@@ -26,7 +26,7 @@
 #include <string>
 
 #include "Hect/Core/Configuration.h"
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventListener.h"
 #include "Hect/Core/LogLevel.h"
 #include "Hect/Core/LogMessageEvent.h"
 
@@ -44,7 +44,7 @@ HECT_EXPORT void log(LogLevel level, const std::string& message);
 /// Registers a listener of log message events.
 ///
 /// \param listener The listener.
-HECT_EXPORT void registerLogListener(Listener<LogMessageEvent>& listener);
+HECT_EXPORT void registerLogListener(EventListener<LogMessageEvent>& listener);
 
 ///
 /// Sets whether messages at the specified level are logged.

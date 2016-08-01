@@ -25,7 +25,7 @@
 
 #include <memory>
 
-#include "Hect/Core/Event.h"
+#include "Hect/Core/EventListener.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Scene/EntityEvent.h"
 #include "Hect/Scene/EntityIterator.h"
@@ -123,7 +123,7 @@ private:
     void ensureValid() const;
 
     class Context :
-        public Listener<EntityEvent>
+        public EventListener<EntityEvent>
     {
     public:
         Context(EntityPool& pool, EntityId id);

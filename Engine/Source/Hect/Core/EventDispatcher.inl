@@ -21,29 +21,63 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#pragma once
+#include <algorithm>
 
-#include "Hect/Core/Export.h"
-#include "Hect/Scene/ComponentEventType.h"
-#include "Hect/Scene/EntityIterator.h"
+#include "Hect/Core/EventListener.h"
 
 namespace hect
 {
 
-///
-/// An event relating to a Component.
 template <typename T>
-class ComponentEvent
+EventDispatcher<T>::~EventDispatcher()
 {
-public:
+    // Copy the vector so it will remain valid when items are removed from it
+    auto listeners = _listeners;
 
-    ///
-    /// The type of event.
-    ComponentEventType type { ComponentEventType::Add };
+    // Unregister all listeners from the dispatcher
+    for (EventListener<T>* listener : listeners)
+    {
+        unregisterListener(*listener);
+    }
+}
 
-    ///
-    /// An iterator to the Entity that the event is for.
-    EntityIterator entity;
-};
+template <typename T>
+void EventDispatcher<T>::registerListener(EventListener<T>& listener)
+{
+    auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
+    if (it != _listeners.end())
+    {
+        throw InvalidOperation("The listener is already registered to this dispatcher");
+    }
+    else
+    {
+        _listeners.push_back(&listener);
+        listener.addDispatcher(*this);
+    }
+}
+
+template <typename T>
+void EventDispatcher<T>::unregisterListener(EventListener<T>& listener)
+{
+    auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
+    if (it == _listeners.end())
+    {
+        throw InvalidOperation("The listener is not registered to this dispatcher");
+    }
+    else
+    {
+        _listeners.erase(it);
+        listener.removeDispatcher(*this);
+    }
+}
+
+template <typename T>
+void EventDispatcher<T>::dispatchEvent(const T& event)
+{
+    for (EventListener<T>* listener : _listeners)
+    {
+        listener->receiveEvent(event);
+    }
+}
 
 }

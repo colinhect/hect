@@ -40,7 +40,7 @@ namespace hect
 {
 
 static std::recursive_mutex _logMutex;
-static Dispatcher<LogMessageEvent> _dispatcher;
+static EventDispatcher<LogMessageEvent> _dispatcher;
 static std::vector<bool> _logLevels;
 static std::vector<std::string> _logLevelStrings;
 
@@ -121,7 +121,7 @@ void log(LogLevel level, const std::string& message)
 #endif
 }
 
-void registerLogListener(Listener<LogMessageEvent>& listener)
+void registerLogListener(EventListener<LogMessageEvent>& listener)
 {
     std::lock_guard<std::recursive_mutex> lock(_logMutex);
 
