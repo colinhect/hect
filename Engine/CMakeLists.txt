@@ -236,8 +236,6 @@ set(SOURCE_FILES
     "Source/Hect/Scene/ComponentRegistry.cpp"
     "Source/Hect/Scene/ComponentRegistry.h"
     "Source/Hect/Scene/ComponentRegistry.inl"
-    "Source/Hect/Scene/DefaultScene.cpp"
-    "Source/Hect/Scene/DefaultScene.h"
     "Source/Hect/Scene/Entity.cpp"
     "Source/Hect/Scene/Entity.h"
     "Source/Hect/Scene/Entity.inl"
@@ -281,6 +279,8 @@ set(SOURCE_FILES
     "Source/Hect/Scene/Components/SkyBoxComponent.h"
     "Source/Hect/Scene/Components/TransformComponent.cpp"
     "Source/Hect/Scene/Components/TransformComponent.h"
+    "Source/Hect/Scene/Scenes/DefaultScene.cpp"
+    "Source/Hect/Scene/Scenes/DefaultScene.h"
     "Source/Hect/Scene/Systems/BoundingBoxSystem.cpp"
     "Source/Hect/Scene/Systems/BoundingBoxSystem.h"
     "Source/Hect/Scene/Systems/CameraSystem.cpp"
@@ -602,8 +602,6 @@ source_group("Source\\Hect\\Scene" FILES
     "Source/Hect/Scene/ComponentRegistry.cpp"
     "Source/Hect/Scene/ComponentRegistry.h"
     "Source/Hect/Scene/ComponentRegistry.inl"
-    "Source/Hect/Scene/DefaultScene.cpp"
-    "Source/Hect/Scene/DefaultScene.h"
     "Source/Hect/Scene/Entity.cpp"
     "Source/Hect/Scene/Entity.h"
     "Source/Hect/Scene/Entity.inl"
@@ -650,6 +648,11 @@ source_group("Source\\Hect\\Scene\\Components" FILES
     "Source/Hect/Scene/Components/SkyBoxComponent.h"
     "Source/Hect/Scene/Components/TransformComponent.cpp"
     "Source/Hect/Scene/Components/TransformComponent.h"
+    )
+
+source_group("Source\\Hect\\Scene\\Scenes" FILES
+    "Source/Hect/Scene/Scenes/DefaultScene.cpp"
+    "Source/Hect/Scene/Scenes/DefaultScene.h"
     )
 
 source_group("Source\\Hect\\Scene\\Systems" FILES
