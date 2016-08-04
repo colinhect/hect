@@ -176,11 +176,13 @@ void DebugSystem::createSystemPanel()
             checkBox->setPressAction([this, typeId, checkBox]
             {
                 SystemBase& system = scene().systemOfTypeId(typeId);
-                system.setDebugEnabled(checkBox->isChecked());
+                // system.setDebugEnabled(checkBox->isChecked()); This doesn't work anymore
             });
 
             SystemBase& system = scene().systemOfTypeId(typeId);
-            checkBox->setChecked(system.isDebugEnabled());
+
+            // Neither does this
+            //checkBox->setChecked(system.isDebugEnabled());
 
             Grid::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
             Label::Handle label = labelCell->createChild<Label>();

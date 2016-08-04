@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include "Hect/Core/EventListener.h"
+#include "Hect/Input/KeyboardEvent.h"
 #include "Hect/Scene/Scene.h"
 #include "Hect/Scene/Systems/BoundingBoxSystem.h"
 #include "Hect/Scene/Systems/CameraSystem.h"
@@ -41,7 +43,8 @@ namespace hect
 ///
 /// \scene
 class HECT_EXPORT DefaultScene :
-    public Scene
+    public Scene,
+    public EventListener<KeyboardEvent>
 {
 public:
 
@@ -54,8 +57,12 @@ public:
     void preTick(double timeStep);
     void postTick(double timeStep);
 
+    // Scene overrides
     virtual void tick(double timeStep) override;
     virtual void render(RenderTarget& target) override;
+
+    // EventListener<KeyboardEvent> overrides
+    virtual void receiveEvent(const KeyboardEvent& event) override;
 
 private:
     BoundingBoxSystem::Handle _boundingBoxSystem;
@@ -66,6 +73,7 @@ private:
     PhysicsSystem::Handle _physicsSystem;
     RenderSystem::Handle _renderSystem;
     TransformSystem::Handle _transformSystem;
+    bool _debugRenderingEnabled { false };
 };
 
 }

@@ -45,13 +45,3 @@ const Scene& SystemBase::scene() const
 void SystemBase::initialize()
 {
 }
-
-bool SystemBase::isDebugEnabled() const
-{
-    return _debugEnabled;
-}
-
-void SystemBase::setDebugEnabled(bool enabled)
-{
-    _debugEnabled = enabled;
-}

@@ -68,19 +68,8 @@ public:
     /// Gets the scene that the system affects.
     const Scene& scene() const;
 
-    ///
-    /// Returns whether the system has debug-related functionality enabled.
-    bool isDebugEnabled() const;
-
-    ///
-    /// Sets whether the system has debug-related functionality enabled.
-    ///
-    /// \param enabled True to enable debug functionality; false to disable.
-    void setDebugEnabled(bool enabled);
-
 private:
     Scene& _scene;
-    bool _debugEnabled { false };
 };
 
 }

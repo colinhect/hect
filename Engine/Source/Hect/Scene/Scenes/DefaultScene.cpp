@@ -54,6 +54,11 @@ DefaultScene::DefaultScene(Engine& engine) :
     _renderSystem(createSystem<RenderSystem>()),
     _transformSystem(createSystem<TransformSystem>())
 {
+    if (engine.hasKeyboard())
+    {
+        Keyboard& keyboard = engine.keyboard();
+        keyboard.registerListener(*this);
+    }
 }
 
 void DefaultScene::preTick(double timeStep)
@@ -71,7 +76,7 @@ void DefaultScene::postTick(double timeStep)
     _cameraSystem->updateAllCameras();
     _interfaceSystem->tickAllInterfaces(timeStep);
 
-    if (_boundingBoxSystem->isDebugEnabled())
+    if (_debugRenderingEnabled)
     {
         _boundingBoxSystem->renderDebugGeometry();
     }
@@ -89,4 +94,12 @@ void DefaultScene::render(RenderTarget& target)
 {
     _renderSystem->render(target);
     _interfaceSystem->renderAllInterfaces();
+}
+
+void DefaultScene::receiveEvent(const KeyboardEvent& event)
+{
+    if (event.isKeyDown(Key::F5))
+    {
+        _debugRenderingEnabled = !_debugRenderingEnabled;
+    }
 }
