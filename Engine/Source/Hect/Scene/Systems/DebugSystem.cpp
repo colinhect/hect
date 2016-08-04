@@ -175,11 +175,11 @@ void DebugSystem::createSystemPanel()
             checkBox->setVerticalAlign(VerticalAlign::Center);
             checkBox->setPressAction([this, typeId, checkBox]
             {
-                SystemBase& system = scene().systemOfTypeId(typeId);
+                //SystemBase& system = scene().systemOfTypeId(typeId);
                 // system.setDebugEnabled(checkBox->isChecked()); This doesn't work anymore
             });
 
-            SystemBase& system = scene().systemOfTypeId(typeId);
+            //SystemBase& system = scene().systemOfTypeId(typeId);
 
             // Neither does this
             //checkBox->setChecked(system.isDebugEnabled());
