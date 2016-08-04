@@ -43,6 +43,18 @@ public:
     ///
     /// The key relating to the event.
     Key key { Key::Esc };
+
+    ///
+    /// Returns whether the event is for the specified key getting depressed.
+    ///
+    /// \param key The key.
+    bool isKeyDown(Key key) const;
+
+    ///
+    /// Returns whether the event is for the specified key getting released.
+    ///
+    /// \param key The key.
+    bool isKeyUp(Key key) const;
 };
 
 }
