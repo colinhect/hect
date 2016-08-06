@@ -74,6 +74,11 @@ public:
     void tickSimulation(double timeStep);
 
     ///
+    /// Syncs the transforms of all entities with physical body components with
+    /// the physics simulation.
+    void syncWithSimulation();
+
+    ///
     /// The gravitational force to apply to all rigid bodies.
     ///
     /// \property

@@ -134,18 +134,21 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
 
 void PhysicsSystem::tickSimulation(double timeStep)
 {
+    // Update gravity if needed
+    Vector3 bulletGravity = convertFromBullet(_world->getGravity());
+    if (gravity != bulletGravity)
+    {
+        _world->setGravity(convertToBullet(gravity));
+    }
+
+    // Update the dynamics scene
+    _world->stepSimulation(timeStep, 4);
+}
+
+void PhysicsSystem::syncWithSimulation()
+{
     if (_transformSystem)
     {
-        // Update gravity if needed
-        Vector3 bulletGravity = convertFromBullet(_world->getGravity());
-        if (gravity != bulletGravity)
-        {
-            _world->setGravity(convertToBullet(gravity));
-        }
-
-        // Update the dynamics scene
-        _world->stepSimulation(timeStep, 4);
-
         // For each rigid body component
         for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
         {
