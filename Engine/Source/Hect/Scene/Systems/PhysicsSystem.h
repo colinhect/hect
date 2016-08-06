@@ -70,11 +70,8 @@ public:
     ///
     /// Performs a single tick of physics simulation.
     ///
-    /// \param timeStep The duration of time to tick.
-    void tick(double timeStep);
-
-    void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
-    void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
+    /// \param timeStep The duration of time in seconds to simulate.
+    void tickSimulation(double timeStep);
 
     ///
     /// The gravitational force to apply to all rigid bodies.
@@ -83,6 +80,10 @@ public:
     Vector3 gravity;
 
 private:
+    // System overrides
+    void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
+    void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
+
     TransformSystem::Handle _transformSystem;
 
     btTriangleMesh* toBulletMesh(Mesh* mesh);

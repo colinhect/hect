@@ -62,7 +62,7 @@ public:
     ///
     /// Update the values of all axes.
     ///
-    /// \param timeStep The duration of time to tick.
+    /// \param timeStep The duration of time in seconds to update for.
     void updateAxes(double timeStep);
 
 private:

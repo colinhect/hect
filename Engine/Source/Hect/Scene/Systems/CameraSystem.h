@@ -60,9 +60,10 @@ public:
     /// Updates the vectors and matrices of all cameras in the scene.
     void updateAllCameras();
 
+private:
+    // System overrides
     void onComponentAdded(CameraComponent::Iterator camera) override;
 
-private:
     Entity::Handle _activeCameraEntity;
 };
 

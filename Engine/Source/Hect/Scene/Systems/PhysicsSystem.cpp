@@ -132,7 +132,7 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
     rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
 }
 
-void PhysicsSystem::tick(double timeStep)
+void PhysicsSystem::tickSimulation(double timeStep)
 {
     if (_transformSystem)
     {

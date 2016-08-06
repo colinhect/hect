@@ -34,6 +34,14 @@ namespace hect
 ///
 /// Manages the TransformComponent hierarchies of a Scene.
 ///
+/// A transform component contains the position, rotation, and scale of the
+/// entity.  Changes made to the local position, rotation, or scale of a
+/// transform component must be updated (see TransformSystem::updateTransform())
+/// for the effective transformation to apply to the entity and its
+/// descendants.  Alternatively, a transform component can be committed (see
+/// TransformSystem::commitTransform()) to mark the transform to be updated at
+/// some point in the current frame.
+///
 /// \system
 class HECT_EXPORT TransformSystem :
     public System<TransformSystem, Components<TransformComponent>>
@@ -63,10 +71,11 @@ public:
     /// based on the transform hierarchy.
     void updateCommittedTransforms();
 
-    void onComponentAdded(TransformComponent::Iterator transform) override;
-
 private:
     void updateRecursively(Entity& parent, Entity& child);
+
+    // System overrides
+    void onComponentAdded(TransformComponent::Iterator transform) override;
 
     BoundingBoxSystem::Handle _boundingBoxSystem;
 

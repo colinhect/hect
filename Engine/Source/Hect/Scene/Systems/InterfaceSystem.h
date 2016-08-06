@@ -73,8 +73,6 @@ public:
     /// \param timeStep The duration of time to tick.
     void tickAllInterfaces(double timeStep);
 
-    void receiveEvent(const MouseEvent& event) override;
-
     ///
     /// The font used when none is specified.
     ///
@@ -88,6 +86,9 @@ public:
     double defaultFontSize;
 
 private:
+    // EventListener overrides
+    void receiveEvent(const MouseEvent& event) override;
+
     Mouse& _mouse;
     Renderer& _renderer;
     VectorRenderer& _vectorRenderer;

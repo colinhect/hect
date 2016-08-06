@@ -55,18 +55,6 @@ void BoundingBoxSystem::renderDebugGeometry()
     }
 }
 
-void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent::Iterator boundingBox)
-{
-    Entity::Iterator entity = boundingBox->entity();
-
-    // Update the extents of the bounding box if it is adaptive
-    if (boundingBox && boundingBox->adaptive)
-    {
-        // Update the extent of the bounding box
-        updateRecursively(*entity);
-    }
-}
-
 void BoundingBoxSystem::updateRecursively(Entity& entity)
 {
     // Compute the bounding box of this entity
@@ -113,5 +101,17 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
                 boundingBox->extents.expandToInclude(childBoundingBox->extents);
             }
         }
+    }
+}
+
+void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent::Iterator boundingBox)
+{
+    Entity::Iterator entity = boundingBox->entity();
+
+    // Update the extents of the bounding box if it is adaptive
+    if (boundingBox && boundingBox->adaptive)
+    {
+        // Update the extent of the bounding box
+        updateRecursively(*entity);
     }
 }

@@ -82,7 +82,6 @@ void CameraSystem::updateAllCameras()
 
 void CameraSystem::onComponentAdded(CameraComponent::Iterator camera)
 {
-    // If there is no active camera then use the most recently added camera
     if (!_activeCameraEntity)
     {
         _activeCameraEntity = camera->entity()->createHandle();

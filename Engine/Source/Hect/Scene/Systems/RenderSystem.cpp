@@ -125,37 +125,6 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
     }
 }
 
-void RenderSystem::initialize()
-{
-    _skyBoxMaterial = new Material("Skybox");
-    _skyBoxMaterial->setShader(skyBoxShader);
-    _skyBoxMaterial->setCullMode(CullMode::None);
-
-    for (MeshComponent& mesh : scene().components<MeshComponent>())
-    {
-        for (MeshSurface& surface : mesh.surfaces)
-        {
-            Mesh& mesh = *surface.mesh;
-            Material& material = *surface.material;
-
-            _renderer.uploadMesh(mesh);
-            _renderer.uploadShader(*material.shader());
-            for (UniformValue& uniformValue : material.uniformValues())
-            {
-                if (uniformValue.type() == UniformType::Texture2)
-                {
-                    _renderer.uploadTexture(*uniformValue.asTexture2());
-                }
-            }
-        }
-    }
-
-    for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
-    {
-        _renderer.uploadTexture(*skyBox.texture);
-    }
-}
-
 void RenderSystem::render(RenderTarget& target)
 {
     if (_cameraSystem)
@@ -554,6 +523,37 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
             frame.setUniform(uniform, _frameData.geometryBuffer->lastBackBuffer());
             break;
         }
+    }
+}
+
+void RenderSystem::initialize()
+{
+    _skyBoxMaterial = new Material("Skybox");
+    _skyBoxMaterial->setShader(skyBoxShader);
+    _skyBoxMaterial->setCullMode(CullMode::None);
+
+    for (MeshComponent& mesh : scene().components<MeshComponent>())
+    {
+        for (MeshSurface& surface : mesh.surfaces)
+        {
+            Mesh& mesh = *surface.mesh;
+            Material& material = *surface.material;
+
+            _renderer.uploadMesh(mesh);
+            _renderer.uploadShader(*material.shader());
+            for (UniformValue& uniformValue : material.uniformValues())
+            {
+                if (uniformValue.type() == UniformType::Texture2)
+                {
+                    _renderer.uploadTexture(*uniformValue.asTexture2());
+                }
+            }
+        }
+    }
+
+    for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
+    {
+        _renderer.uploadTexture(*skyBox.texture);
     }
 }
 

@@ -52,10 +52,11 @@ public:
     /// Renders geometry providing debug information for bounding boxes.
     void renderDebugGeometry();
 
-    void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
-
 private:
     void updateRecursively(Entity& entity);
+
+    // System overrides
+    void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
 
     DebugSystem::Handle _debugSystem;
 };

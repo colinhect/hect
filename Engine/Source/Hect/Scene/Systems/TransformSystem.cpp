@@ -90,19 +90,6 @@ void TransformSystem::updateCommittedTransforms()
     _committed.clear();
 }
 
-void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
-{
-    // Temporarily make the transform dynamic so it can be initially updated
-    Mobility mobility = transform->mobility;
-    transform->mobility = Mobility::Dynamic;
-
-    // Update the transform
-    updateTransform(*transform);
-
-    // Restore the transforms mobility
-    transform->mobility = mobility;
-}
-
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
     // Get the child transform
@@ -133,4 +120,17 @@ void TransformSystem::updateRecursively(Entity& parent, Entity& child)
             updateRecursively(child, nextChild);
         }
     }
+}
+
+void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
+{
+    // Temporarily make the transform dynamic so it can be initially updated
+    Mobility mobility = transform->mobility;
+    transform->mobility = Mobility::Dynamic;
+
+    // Update the transform
+    updateTransform(*transform);
+
+    // Restore the transforms mobility
+    transform->mobility = mobility;
 }

@@ -61,7 +61,7 @@ public:
     virtual void tick(double timeStep) override;
     virtual void render(RenderTarget& target) override;
 
-    // EventListener<KeyboardEvent> overrides
+    // EventListener overrides
     virtual void receiveEvent(const KeyboardEvent& event) override;
 
 private:

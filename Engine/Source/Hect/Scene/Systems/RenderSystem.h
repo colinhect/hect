@@ -70,8 +70,10 @@ public:
     /// \param texture The texture to render to.
     void renderToTextureCube(Vector3 position, TextureCube& texture);
 
-    void initialize() override;
-
+    ///
+    /// Renders the scene to the specified target.
+    ///
+    /// \param target The target to render to.
     void render(RenderTarget& target);
 
     ///
@@ -120,6 +122,9 @@ private:
     void buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest = true);
     void renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
     void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform);
+
+    // System overrides
+    void initialize() override;
 
     class RenderCall
     {

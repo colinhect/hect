@@ -48,8 +48,8 @@ enum class Mobility
 /// A combination of a position, scale, and rotation.
 ///
 /// If any changes are manually made to a transform, then the changes must be
-/// committed using TransformSystem::commit() or immediately updated using
-/// TransformSystem::update().
+/// committed using TransformSystem::commitTransform() or immediately updated
+/// using TransformSystem::updateTransform().
 ///
 /// \component
 class HECT_EXPORT TransformComponent :
