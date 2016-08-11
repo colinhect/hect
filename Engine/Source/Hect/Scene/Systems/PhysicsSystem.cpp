@@ -112,6 +112,7 @@ TransformComponent convertFromBullet(const btTransform& t)
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     gravity(Vector3(0, 0, -9.8)),
+    _taskPool(engine.taskPool()),
     _transformSystem(scene.system<TransformSystem>()),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
@@ -121,9 +122,15 @@ PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
 {
 }
 
+PhysicsSystem::~PhysicsSystem()
+{
+    waitForSimulationTask();
+}
+
 void PhysicsSystem::applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition)
 {
-    rigidBody._rigidBody->applyForce(convertToBullet(force), convertToBullet(relativePosition));
+    btRigidBody* bulletRigidBody = rigidBody._rigidBody.get();
+    _forceApplications.emplace_back(bulletRigidBody, force, relativePosition);
 }
 
 void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
@@ -132,7 +139,23 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
     _committedRigidBodyIds.push_back(id);
 }
 
-void PhysicsSystem::tickSimulation(double timeStep)
+void PhysicsSystem::beginSimulationTask(double timeStep)
+{
+    _physicsSimulationTask = _taskPool.enqueue([this, timeStep]
+    {
+        _world->stepSimulation(timeStep, 4);
+    });
+}
+
+void PhysicsSystem::waitForSimulationTask()
+{
+    if (_physicsSimulationTask)
+    {
+        _physicsSimulationTask->wait();
+    }
+}
+
+void PhysicsSystem::syncWithSimulation()
 {
     ComponentPool<RigidBodyComponent>& rigidBodyComponents = scene().components<RigidBodyComponent>();
     for (ComponentId id : _committedRigidBodyIds)
@@ -143,6 +166,33 @@ void PhysicsSystem::tickSimulation(double timeStep)
     }
     _committedRigidBodyIds.clear();
 
+    // Add new rigid bodies to the Bullet world
+    for (btRigidBody* rigidBody : _addedRigidBodies)
+    {
+        _world->addRigidBody(rigidBody);
+    }
+    _addedRigidBodies.clear();
+
+    // Apply forces to rigid bodies
+    for (ForceApplication& forceApplication : _forceApplications)
+    {
+        btRigidBody* rigidBody = forceApplication.rigidBody;
+        if (rigidBody)
+        {
+            const btVector3 force = convertToBullet(forceApplication.force);
+            const btVector3 relativePosition = convertToBullet(forceApplication.relativePosition);
+            rigidBody->applyForce(force, relativePosition);
+        }
+    }
+    _forceApplications.clear();
+
+    // Remove old rigid bodies from the Bullet world
+    for (btRigidBody* rigidBody : _removedRigidBodies)
+    {
+        _world->removeRigidBody(rigidBody);
+    }
+    _removedRigidBodies.clear();
+
     // Update gravity if needed
     Vector3 bulletGravity = convertFromBullet(_world->getGravity());
     if (gravity != bulletGravity)
@@ -150,12 +200,6 @@ void PhysicsSystem::tickSimulation(double timeStep)
         _world->setGravity(convertToBullet(gravity));
     }
 
-    // Update the dynamics scene
-    _world->stepSimulation(timeStep, 4);
-}
-
-void PhysicsSystem::syncWithSimulation()
-{
     if (_transformSystem)
     {
         // For each rigid body component
@@ -214,7 +258,7 @@ void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
             rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
             rigidBody->_rigidBody->setAngularFactor(0.5);
 
-            _world->addRigidBody(rigidBody->_rigidBody.get());
+            _addedRigidBodies.push_back(rigidBody->_rigidBody.get());
         }
     }
 }
@@ -225,8 +269,7 @@ void PhysicsSystem::onComponentRemoved(RigidBodyComponent::Iterator rigidBody)
     const ComponentId id = rigidBody->id();
     _committedRigidBodyIds.erase(std::remove(_committedRigidBodyIds.begin(), _committedRigidBodyIds.end(), id), _committedRigidBodyIds.end());
 
-    // Remove the rigid body from the world
-    _world->removeRigidBody(rigidBody->_rigidBody.get());
+    _removedRigidBodies.push_back(rigidBody->_rigidBody.get());
 }
 
 btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
@@ -244,4 +287,11 @@ btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
         _bulletMeshes[mesh] = std::unique_ptr<btTriangleMesh>(bulletMesh);
         return bulletMesh;
     }
+}
+
+PhysicsSystem::ForceApplication::ForceApplication(btRigidBody* rigidBody, Vector3 force, Vector3 relativePosition) :
+    rigidBody(rigidBody),
+    force(force),
+    relativePosition(relativePosition)
+{
 }

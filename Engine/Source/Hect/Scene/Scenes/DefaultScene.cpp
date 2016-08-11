@@ -71,11 +71,13 @@ void DefaultScene::preTick(double timeStep)
 
 void DefaultScene::postTick(double timeStep)
 {
-    _physicsSystem->tickSimulation(timeStep);
+    _physicsSystem->waitForSimulationTask();
     _physicsSystem->syncWithSimulation();
+    _physicsSystem->beginSimulationTask(timeStep);
 
     _transformSystem->updateCommittedTransforms();
     _cameraSystem->updateAllCameras();
+
     _interfaceSystem->tickAllInterfaces(timeStep);
 
     if (_debugRenderingEnabled)

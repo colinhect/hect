@@ -25,6 +25,7 @@
 
 #include <vector>
 
+#include "Hect/Concurrency/Task.h"
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
@@ -53,6 +54,7 @@ class HECT_EXPORT PhysicsSystem :
 {
 public:
     PhysicsSystem(Engine& engine, Scene& scene);
+    ~PhysicsSystem();
 
     ///
     /// Applies a force to a rigid body.
@@ -70,10 +72,14 @@ public:
     void commitRigidBody(RigidBodyComponent& rigidBody);
 
     ///
-    /// Performs a single tick of physics simulation.
+    /// Begins the physics simulation task.
     ///
     /// \param timeStep The duration of time in seconds to simulate.
-    void tickSimulation(double timeStep);
+    void beginSimulationTask(double timeStep);
+
+    ///
+    /// Waits for the physics simulation task to complete if it has begin.
+    void waitForSimulationTask();
 
     ///
     /// Syncs the transforms of all entities with physical body components with
@@ -87,13 +93,31 @@ public:
     Vector3 gravity;
 
 private:
+    // A deferred application of force to a Bullet rigid body
+    class ForceApplication
+    {
+    public:
+        ForceApplication(btRigidBody* rigidBody, Vector3 force, Vector3 relativePosition);
+
+        btRigidBody* rigidBody;
+        Vector3 force;
+        Vector3 relativePosition;
+    };
+
     // System overrides
     void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
     void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
 
+    TaskPool& _taskPool;
+
     TransformSystem::Handle _transformSystem;
 
     std::vector<ComponentId> _committedRigidBodyIds;
+    std::vector<btRigidBody*> _addedRigidBodies;
+    std::vector<btRigidBody*> _removedRigidBodies;
+    std::vector<ForceApplication> _forceApplications;
+
+    Task::Handle _physicsSimulationTask;
 
     // Convert a mesh to a Bullet mesh object
     btTriangleMesh* toBulletMesh(Mesh* mesh);
