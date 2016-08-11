@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "TransformSystem.h"
 
+#include <algorithm>
+
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
@@ -133,4 +135,10 @@ void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
 
     // Restore the transforms mobility
     transform->mobility = mobility;
+}
+
+void TransformSystem::onComponentRemoved(TransformComponent::Iterator transform)
+{
+    // Remove the transform from the committed transform vector
+    _committed.erase(std::remove(_committed.begin(), _committed.end(), transform->id()), _committed.end());
 }

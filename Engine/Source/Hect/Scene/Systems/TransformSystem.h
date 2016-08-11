@@ -76,6 +76,7 @@ private:
 
     // System overrides
     void onComponentAdded(TransformComponent::Iterator transform) override;
+    void onComponentRemoved(TransformComponent::Iterator transform) override;
 
     BoundingBoxSystem::Handle _boundingBoxSystem;
 
