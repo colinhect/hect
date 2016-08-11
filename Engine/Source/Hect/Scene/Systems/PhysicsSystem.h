@@ -23,6 +23,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <vector>
+
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
@@ -91,14 +93,17 @@ private:
 
     TransformSystem::Handle _transformSystem;
 
+    std::vector<ComponentId> _committedRigidBodyIds;
+
+    // Convert a mesh to a Bullet mesh object
     btTriangleMesh* toBulletMesh(Mesh* mesh);
 
+    // Bullet related
     std::shared_ptr<btCollisionConfiguration> _configuration;
     std::shared_ptr<btCollisionDispatcher> _dispatcher;
     std::shared_ptr<btBroadphaseInterface> _broadphase;
     std::shared_ptr<btConstraintSolver> _solver;
     std::shared_ptr<btDynamicsWorld> _world;
-
     std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
 };
 

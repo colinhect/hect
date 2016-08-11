@@ -128,12 +128,21 @@ void PhysicsSystem::applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3
 
 void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
 {
-    rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
-    rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
+    const ComponentId id = rigidBody.id();
+    _committedRigidBodyIds.push_back(id);
 }
 
 void PhysicsSystem::tickSimulation(double timeStep)
 {
+    ComponentPool<RigidBodyComponent>& rigidBodyComponents = scene().components<RigidBodyComponent>();
+    for (ComponentId id : _committedRigidBodyIds)
+    {
+        RigidBodyComponent& rigidBody = rigidBodyComponents.withId(id);
+        rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
+        rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
+    }
+    _committedRigidBodyIds.clear();
+
     // Update gravity if needed
     Vector3 bulletGravity = convertFromBullet(_world->getGravity());
     if (gravity != bulletGravity)
@@ -212,6 +221,11 @@ void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
 
 void PhysicsSystem::onComponentRemoved(RigidBodyComponent::Iterator rigidBody)
 {
+    // Remove the transform from the committed transform vector
+    const ComponentId id = rigidBody->id();
+    _committedRigidBodyIds.erase(std::remove(_committedRigidBodyIds.begin(), _committedRigidBodyIds.end(), id), _committedRigidBodyIds.end());
+
+    // Remove the rigid body from the world
     _world->removeRigidBody(rigidBody->_rigidBody.get());
 }
 
