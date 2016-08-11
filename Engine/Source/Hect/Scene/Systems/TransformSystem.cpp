@@ -42,8 +42,8 @@ void TransformSystem::commitTransform(TransformComponent& transform)
         throw InvalidOperation("TransformComponent is not dynamic");
     }
 
-    ComponentId id = transform.id();
-    _committed.push_back(id);
+    const ComponentId id = transform.id();
+    _committedTransformIds.push_back(id);
 }
 
 void TransformSystem::updateTransform(TransformComponent& transform)
@@ -84,12 +84,13 @@ void TransformSystem::updateTransform(TransformComponent& transform)
 void TransformSystem::updateCommittedTransforms()
 {
     // Update all committed transforms
-    for (ComponentId id : _committed)
+    ComponentPool<TransformComponent>& transformComponents = scene().components<TransformComponent>();
+    for (ComponentId id : _committedTransformIds)
     {
-        TransformComponent& transform = scene().components<TransformComponent>().withId(id);
+        TransformComponent& transform = transformComponents.withId(id);
         updateTransform(transform);
     }
-    _committed.clear();
+    _committedTransformIds.clear();
 }
 
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
@@ -127,7 +128,7 @@ void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
 {
     // Temporarily make the transform dynamic so it can be initially updated
-    Mobility mobility = transform->mobility;
+    const Mobility mobility = transform->mobility;
     transform->mobility = Mobility::Dynamic;
 
     // Update the transform
@@ -140,5 +141,5 @@ void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
 void TransformSystem::onComponentRemoved(TransformComponent::Iterator transform)
 {
     // Remove the transform from the committed transform vector
-    _committed.erase(std::remove(_committed.begin(), _committed.end(), transform->id()), _committed.end());
+    _committedTransformIds.erase(std::remove(_committedTransformIds.begin(), _committedTransformIds.end(), transform->id()), _committedTransformIds.end());
 }

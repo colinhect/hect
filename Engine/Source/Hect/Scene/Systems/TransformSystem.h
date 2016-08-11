@@ -80,7 +80,7 @@ private:
 
     BoundingBoxSystem::Handle _boundingBoxSystem;
 
-    std::vector<ComponentId> _committed;
+    std::vector<ComponentId> _committedTransformIds;
 };
 
 }
