@@ -36,7 +36,31 @@ TEST_CASE("Construct empty mesh", "[Mesh]")
     REQUIRE(IndexType::UInt16 == mesh.indexType());
 }
 
-TEST_CASE("Construct mesh with vertex layout, primitive type, and index type", "[Mesh]")
+TEST_CASE("Construct a mesh with a descriptor", "[Mesh]")
+{
+    VertexLayout vertexLayout;
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
+
+    Mesh::Descriptor descriptor;
+    descriptor.name = "Test";
+    descriptor.vertexLayout = vertexLayout;
+    descriptor.primitiveType = PrimitiveType::TriangleStrip;
+    descriptor.indexType = IndexType::UInt8;
+
+    Mesh mesh(descriptor);
+
+    const VertexLayout& meshVertexLayout = mesh.vertexLayout();
+    REQUIRE(meshVertexLayout.attributeCount() == 2u);
+    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
+    REQUIRE(VertexAttributeType::Float32 == meshVertexLayout.attributes().begin()->type());
+    REQUIRE(meshVertexLayout.attributes().begin()->cardinality() == 3u);
+
+    REQUIRE(PrimitiveType::TriangleStrip == mesh.primitiveType());
+    REQUIRE(IndexType::UInt8 == mesh.indexType());
+}
+
+TEST_CASE("Construct mesh with name, then set the vertex layout, primitive type, and index type", "[Mesh]")
 {
     VertexLayout vertexLayout;
     vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));

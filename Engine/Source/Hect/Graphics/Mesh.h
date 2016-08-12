@@ -53,6 +53,36 @@ public:
     typedef ByteVector IndexData;
 
     ///
+    /// Describes how to construct a mesh.
+    struct Descriptor
+    {
+        ///
+        /// The name of the mesh.
+        Name name;
+
+        ///
+        /// The vertex layout.
+        VertexLayout vertexLayout { VertexLayout::createDefault() };
+
+        ///
+        /// The primitive type.
+        PrimitiveType primitiveType { PrimitiveType::Triangles };
+
+        ///
+        /// The index type.
+        IndexType indexType { IndexType::UInt16 };
+    };
+
+    ///
+    /// Creates a box mesh with the specified dimensions.
+    ///
+    /// \param dimensions The dimensions of the box.
+    /// \param descriptor The descriptor of the mesh to construct.
+    ///
+    /// \returns The box mesh.
+    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor());
+
+    ///
     /// Constructs a mesh with the default vertex layout, primitive type,
     /// and index type.
     Mesh();
@@ -63,6 +93,12 @@ public:
     ///
     /// \param name The name of the mesh.
     Mesh(Name name);
+
+    ///
+    /// Constructs a mesh from a descriptor.
+    ///
+    /// \param descriptor The descriptor of the mesh to construct.
+    Mesh(const Descriptor& descriptor);
 
     ///
     /// Returns the vertex layout.

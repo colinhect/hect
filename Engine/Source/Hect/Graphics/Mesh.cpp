@@ -30,6 +30,114 @@
 
 using namespace hect;
 
+Mesh Mesh::createBox(Vector3 dimensions, const Descriptor& descriptor)
+{
+    Mesh mesh(descriptor);
+    MeshWriter meshWriter(mesh);
+
+    const double halfX = dimensions.x * 0.5;
+    const double halfY = dimensions.y * 0.5;
+    const double halfZ = dimensions.z * 0.5;
+
+    // Top
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
+    meshWriter.addIndex(0);
+    meshWriter.addIndex(1);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(2);
+    meshWriter.addIndex(3);
+    meshWriter.addIndex(0);
+
+    // Bottom
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
+    meshWriter.addIndex(4);
+    meshWriter.addIndex(5);
+    meshWriter.addIndex(6);
+    meshWriter.addIndex(6);
+    meshWriter.addIndex(7);
+    meshWriter.addIndex(4);
+
+    // Left
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
+    meshWriter.addIndex(8);
+    meshWriter.addIndex(9);
+    meshWriter.addIndex(10);
+    meshWriter.addIndex(10);
+    meshWriter.addIndex(11);
+    meshWriter.addIndex(8);
+
+    // Right
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
+    meshWriter.addIndex(12);
+    meshWriter.addIndex(13);
+    meshWriter.addIndex(14);
+    meshWriter.addIndex(14);
+    meshWriter.addIndex(15);
+    meshWriter.addIndex(12);
+
+    // Back
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
+    meshWriter.addIndex(15);
+    meshWriter.addIndex(16);
+    meshWriter.addIndex(17);
+    meshWriter.addIndex(17);
+    meshWriter.addIndex(18);
+    meshWriter.addIndex(15);
+
+    // Front
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
+    meshWriter.addVertex();
+    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
+    meshWriter.addIndex(19);
+    meshWriter.addIndex(20);
+    meshWriter.addIndex(21);
+    meshWriter.addIndex(21);
+    meshWriter.addIndex(22);
+    meshWriter.addIndex(19);
+
+    return mesh;
+}
+
 Mesh::Mesh() :
     _vertexLayout(VertexLayout::createDefault())
 {
@@ -38,6 +146,14 @@ Mesh::Mesh() :
 Mesh::Mesh(Name name) :
     Asset(name),
     _vertexLayout(VertexLayout::createDefault())
+{
+}
+
+Mesh::Mesh(const Descriptor& descriptor) :
+    Asset(descriptor.name),
+    _vertexLayout(descriptor.vertexLayout),
+    _primitiveType(descriptor.primitiveType),
+    _indexType(descriptor.indexType)
 {
 }
 
