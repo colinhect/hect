@@ -80,7 +80,7 @@ public:
     /// \param descriptor The descriptor of the mesh to construct.
     ///
     /// \returns The box mesh.
-    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor());
+    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor::Descriptor());
 
     ///
     /// Constructs a mesh with the default vertex layout, primitive type,
