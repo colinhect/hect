@@ -30,10 +30,12 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
 {
     DefaultScene scene(Engine::instance());
 
+    const double startingHeight = 10;
+
     Entity::Iterator entity = scene.createEntity();
 
     TransformComponent::Iterator transform = entity->addComponent<TransformComponent>();
-    transform->localPosition = Vector3(0, 0, 10);
+    transform->localPosition = Vector3(0, 0, startingHeight);
 
     Mesh mesh = Mesh::createBox(Vector3::One);
 
@@ -43,13 +45,10 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
 
     entity->activate();
 
-    const int maxTickCount = 1000;
-    int tickIteration = 0;
-
-    do
+    for (int i = 0; i < 5; ++i)
     {
         scene.tick(0.1);
-    } while (transform->localPosition.z >= 0 && tickIteration++ < maxTickCount);
+    }
 
-    REQUIRE(transform->localPosition.z <= 0);
+    REQUIRE(transform->localPosition.z < startingHeight);
 }
