@@ -54,9 +54,12 @@ public:
 
     ///
     /// Describes how to construct a mesh.
-    class Descriptor
+    class HECT_EXPORT Descriptor
     {
     public:
+
+        ///
+        /// Constructs a default mesh descriptor.
         Descriptor();
 
         ///
