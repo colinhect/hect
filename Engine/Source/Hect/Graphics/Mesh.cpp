@@ -30,6 +30,10 @@
 
 using namespace hect;
 
+Mesh::Descriptor::Descriptor()
+{
+}
+
 Mesh Mesh::createBox(Vector3 dimensions, const Descriptor& descriptor)
 {
     Mesh mesh(descriptor);

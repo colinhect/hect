@@ -54,8 +54,11 @@ public:
 
     ///
     /// Describes how to construct a mesh.
-    struct Descriptor
+    class Descriptor
     {
+    public:
+        Descriptor();
+
         ///
         /// The name of the mesh.
         Name name;
@@ -80,7 +83,7 @@ public:
     /// \param descriptor The descriptor of the mesh to construct.
     ///
     /// \returns The box mesh.
-    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor::Descriptor());
+    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor());
 
     ///
     /// Constructs a mesh with the default vertex layout, primitive type,
