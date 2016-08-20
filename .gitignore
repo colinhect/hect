@@ -9,4 +9,5 @@ Workspaces/*
 *.sublime-project
 *.sublime-workspace
 *.pyc
+*.swp
 *~
