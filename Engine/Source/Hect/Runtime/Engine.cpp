@@ -39,6 +39,7 @@
 #include <fstream>
 #include <streambuf>
 #include <tclap/CmdLine.h>
+#include <unordered_map>
 
 #ifdef HECT_USE_VLD
 #include <vld.h>

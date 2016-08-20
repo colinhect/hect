@@ -619,6 +619,15 @@ void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& val
         }
     }
     break;
+    case UniformType::Texture3:
+    {
+        Texture3::Handle texture = value.asTexture3();
+        if (texture)
+        {
+            setUniform(uniform, *texture);
+        }
+    }
+    break;
     case UniformType::TextureCube:
     {
         TextureCube::Handle texture = value.asTextureCube();
@@ -1602,6 +1611,8 @@ void Renderer::initialize()
 
     // Create the mesh used to in Renderer::Frame::renderViewport()
     _viewportMesh = createViewportMesh();
+
+    checkGLError();
 }
 
 void Renderer::shutdown()
