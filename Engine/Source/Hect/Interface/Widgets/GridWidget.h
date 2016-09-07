@@ -37,12 +37,12 @@ class HECT_EXPORT GridWidget :
 public:
 
     ///
-    /// A numeric identifier to a column in a grid.
-    typedef size_t ColumnId;
+    /// The index of a column in a GridWidget.
+    typedef unsigned Column;
 
     ///
-    /// A numeric identifier to a row in a grid.
-    typedef size_t RowId;
+    /// The index of a row in a GridWidget.
+    typedef unsigned Row;
 
     ///
     /// A cell in a GridWidget.
@@ -62,69 +62,68 @@ public:
     GridWidget(InterfaceSystem& interfaceSystem);
 
     ///
-    /// Adds a column to the grid.
+    /// Returns the number of columns.
+    unsigned columnCount() const;
+
+    ///
+    /// Adds a new column.
     ///
     /// \param width The width of the column.
     ///
-    /// \returns The new column id.
-    ColumnId addColumn(double width = 0.0);
+    /// \returns The column that was added.
+    Column addColumn(double width);
 
     ///
-    /// Resizes the width of a column.
+    /// Sets the width of the specified column.
     ///
-    /// \param columnId The id of the column to resize.
-    /// \param width The new width of the column
+    /// \param column The column.
+    /// \param width The new width of the column.
     ///
-    /// \throws InvalidOperation If the column id is out of range.
-    void resizeColumn(ColumnId columnId, double width);
+    /// \throws InvalidOperation If the column is out of range.
+    void resizeColumn(Column column, double width);
 
     ///
-    /// Adds a row to the grid.
+    /// Returns the number of rows.
+    unsigned rowCount() const;
+
+    ///
+    /// Adds a new row.
     ///
     /// \param height The height of the row.
     ///
-    /// \returns The new row id.
-    RowId addRow(double height = 0.0);
+    /// \returns The row that was added.
+    Column addRow(double height);
 
     ///
-    /// Resizes the height of a row.
+    /// Sets the row of the specified row.
     ///
-    /// \param rowId The id of the row to resize.
-    /// \param height The new height of the column.
+    /// \param row The row.
+    /// \param height The new height of the row.
     ///
-    /// \throws InvalidOperation If the row id is out of range.
-    void resizeRow(RowId rowId, double height);
+    /// \throws InvalidOperation If the row is out of range.
+    void resizeRow(Row row, double height);
 
     ///
     /// Creates a cell widget at the specified coordinates.
     ///
-    /// \param columnId The id of the column.
-    /// \param rowId The id of the row.
+    /// \param column The column.
+    /// \param row The row.
     ///
-    /// \throws InvalidOperation If the row id or column id is out of range or
-    /// a cell widget already exists in the specified cell.
-    Cell::Handle createCell(ColumnId columnId, RowId rowId);
+    /// \throws InvalidOperation If the row or column is out of range or a
+    /// cell widget already exists in the Row coordinates.
+    Cell::Handle createCell(Column column, Row row);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 private:
     void updateDimensions();
+    void checkColumn(Column column) const;
+    void checkRow(Row row) const;
 
-    struct Column
-    {
-        double width;
-    };
-
-    struct Row
-    {
-        double height;
-    };
-
-    std::map<ColumnId, std::map<RowId, WidgetBase::Handle>> _cells;
-
-    std::vector<Column> _columns;
-    std::vector<Row> _rows;
+    std::map<Column, std::map<Row, WidgetBase::Handle>> _cells;
+    std::vector<double> _columnWidths;
+    std::vector<double> _rowHeights;
 };
 
 }

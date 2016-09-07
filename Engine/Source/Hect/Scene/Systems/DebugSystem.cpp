@@ -152,8 +152,8 @@ void DebugSystem::createSystemPanel()
     grid->setHorizontalAlign(HorizontalAlign::Center);
     grid->setVerticalAlign(VerticalAlign::Center);
 
-    GridWidget::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
-    GridWidget::ColumnId systemNameColumnId = grid->addColumn(systemNameColumnWidth);
+    GridWidget::Column checkBoxColumn = grid->addColumn(checkBoxColumnWidth);
+    GridWidget::Column systemNameColumn = grid->addColumn(systemNameColumnWidth);
 
     SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
     std::sort(typeIds.begin(), typeIds.end(), [] (SystemTypeId a, SystemTypeId b)
@@ -165,11 +165,11 @@ void DebugSystem::createSystemPanel()
     {
         if (scene().hasSystemOfTypeId(typeId))
         {
-            GridWidget::RowId rowId = grid->addRow(rowHeight);
+            GridWidget::Row row = grid->addRow(rowHeight);
 
             Name systemName = SystemRegistry::typeNameOf(typeId);
 
-            GridWidget::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumnId, rowId);
+            GridWidget::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumn, row);
             CheckBoxWidget::Handle checkBox = checkBoxCell->createChild<CheckBoxWidget>();
             checkBox->setHorizontalAlign(HorizontalAlign::Center);
             checkBox->setVerticalAlign(VerticalAlign::Center);
@@ -184,7 +184,7 @@ void DebugSystem::createSystemPanel()
             // Neither does this
             //checkBox->setChecked(system.isDebugEnabled());
 
-            GridWidget::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
+            GridWidget::Cell::Handle labelCell = grid->createCell(systemNameColumn, row);
             LabelWidget::Handle label = labelCell->createChild<LabelWidget>();
             label->setText(systemName.asString());
             label->setHorizontalAlign(HorizontalAlign::Left);

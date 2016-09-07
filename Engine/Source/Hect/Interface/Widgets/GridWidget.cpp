@@ -47,76 +47,73 @@ GridWidget::GridWidget(InterfaceSystem& interfaceSystem) :
 {
 }
 
-GridWidget::ColumnId GridWidget::addColumn(double width)
+unsigned GridWidget::columnCount() const
 {
-    ColumnId id = static_cast<ColumnId>(_columns.size());
-    _columns.push_back(Column { width });
-    updateDimensions();
-    return id;
+    return static_cast<unsigned>(_columnWidths.size());
 }
 
-void GridWidget::resizeColumn(ColumnId columnId, double width)
+GridWidget::Column GridWidget::addColumn(double width)
 {
-    if (columnId >= _columns.size())
-    {
-        throw InvalidOperation("Column id out of range");
-    }
-
-    _columns[columnId] = Column { width };
+    const Column column = static_cast<Column>(_columnWidths.size());
+    _columnWidths.push_back(width);
     updateDimensions();
+    return column;
 }
 
-GridWidget::RowId GridWidget::addRow(double height)
+void GridWidget::resizeColumn(Column column, double width)
 {
-    RowId id = static_cast<RowId>(_rows.size());
-    _rows.push_back(Row { height });
-    updateDimensions();
-    return id;
-}
-
-void GridWidget::resizeRow(RowId rowId, double height)
-{
-    if (rowId >= _rows.size())
-    {
-        throw InvalidOperation("Row id out of range");
-    }
-
-    _rows[rowId] = Row { height };
+    checkColumn(column);
+    _columnWidths[column] = width;
     updateDimensions();
 }
 
-GridWidget::Cell::Handle GridWidget::createCell(ColumnId columnId, RowId rowId)
+unsigned GridWidget::rowCount() const
 {
-    if (columnId >= _columns.size())
-    {
-        throw InvalidOperation("Column id out of range");
-    }
-    else if (rowId >= _rows.size())
-    {
-        throw InvalidOperation("Row id out of range");
-    }
+    return static_cast<unsigned>(_rowHeights.size());
+}
+
+GridWidget::Row GridWidget::addRow(double height)
+{
+    const Row row = static_cast<Row>(_rowHeights.size());
+    _rowHeights.push_back(height);
+    updateDimensions();
+    return row;
+}
+
+void GridWidget::resizeRow(Row row, double height)
+{
+    checkRow(row);
+    _rowHeights[row] = height;
+    updateDimensions();
+}
+
+GridWidget::Cell::Handle GridWidget::createCell(Column column, Row row)
+{
+    checkColumn(column);
+    checkRow(row);
 
     // Compute the position of the cell
     Vector2 position;
-    for (ColumnId id = 0; id < columnId; ++id)
+    for (Column index = 0; index < column; ++index)
     {
-        position.x += _columns[id].width;
+        position.x += _columnWidths[index];
     }
-    for (RowId id = 0; id < rowId; ++id)
+    for (Row index = 0; index < row; ++index)
     {
-        position.y += _rows[id].height;
+        position.y += _rowHeights[index];
     }
 
     // Compute the dimensions of the cell
     Vector2 dimensions;
-    dimensions.x = _columns[columnId].width;
-    dimensions.y = _rows[rowId].height;
+    dimensions.x = _columnWidths[column];
+    dimensions.y = _rowHeights[row];
 
+    // Create the cell
     Cell::Handle cellWidget = createChild<Cell>();
     cellWidget->setPosition(position);
     cellWidget->setDimensions(dimensions);
 
-    _cells[columnId][rowId] = cellWidget;
+    _cells[column][row] = cellWidget;
 
     return cellWidget;
 }
@@ -134,15 +131,31 @@ void GridWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 void GridWidget::updateDimensions()
 {
     Vector2 dimensions;
-    for (const Column& column : _columns)
+    for (double width : _columnWidths)
     {
-        dimensions.x += column.width;
+        dimensions.x += width;
     }
 
-    for (const Row& row : _rows)
+    for (double height : _rowHeights)
     {
-        dimensions.y += row.height;
+        dimensions.y += height;
     }
 
     setDimensions(dimensions);
+}
+
+void GridWidget::checkColumn(Column column) const
+{
+    if (column >= _columnWidths.size())
+    {
+        throw InvalidOperation("Column is out of range");
+    }
+}
+
+void GridWidget::checkRow(Row row) const
+{
+    if (row >= _rowHeights.size())
+    {
+        throw InvalidOperation("Row is out of range");
+    }
 }
