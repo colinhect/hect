@@ -106,8 +106,7 @@ public:
     void setPressAction(const WidgetBase::Action& action);
 
     ///
-    /// Returns the local position of the widget (only relevant if the widget
-    /// is not aligned).
+    /// Returns the local position of the widget.
     Vector2 position() const;
 
     ///

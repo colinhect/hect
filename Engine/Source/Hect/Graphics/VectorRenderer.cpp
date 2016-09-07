@@ -42,6 +42,17 @@ VectorRenderer::Frame::Frame(VectorRenderer& renderer, RenderTarget& target) :
     renderer.onBeginFrame(target);
 }
 
+VectorRenderer::FrameStateScope::FrameStateScope(Frame& frame) :
+    _frame(frame)
+{
+    _frame.pushState();
+}
+
+VectorRenderer::FrameStateScope::~FrameStateScope()
+{
+    _frame.popState();
+}
+
 VectorRenderer::~VectorRenderer()
 {
     shutdown();

@@ -40,7 +40,7 @@ const std::string& Label::text() const
 void Label::setText(const std::string& text)
 {
     _text = text;
-    updateLayout();
+    markLayoutDirty();
 }
 
 Font::Handle Label::font() const
@@ -52,20 +52,21 @@ void Label::setFont(Font::Handle font, double size)
 {
     _font = font;
     _fontSize = size;
-    updateLayout();
+    markLayoutDirty();
 }
 
 void Label::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(bounds);
 
     if (!_text.empty())
     {
         StyleColor forgroundStyleColor = StyleColor::Foreground;
 
-        Font& font = effectiveFont();
-        double fontSize = effectiveFontSize();
+        const Font& font = effectiveFont();
+        const double fontSize = effectiveFontSize();
 
         frame.translate(position());
         frame.setFont(font, fontSize);
@@ -74,8 +75,6 @@ void Label::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     }
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }
 
 void Label::updateLayout()

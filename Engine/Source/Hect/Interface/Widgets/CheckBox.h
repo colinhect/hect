@@ -52,6 +52,7 @@ public:
     /// \param checked Whether the check box is checked.
     void setChecked(bool checked);
 
+    // Widget overrides
     virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
     virtual void onPressed() override;
 

@@ -42,6 +42,7 @@ public:
     /// \param interfaceSystem The interface system.
     Panel(InterfaceSystem& interfaceSystem);
 
+    // Widget overrides
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 };
 

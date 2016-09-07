@@ -72,9 +72,12 @@ public:
     /// \param size The font size.
     void setFont(Font::Handle font, double size);
 
+    // Widget overrides
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 private:
+
+    // Widget overrides
     void updateLayout() override;
 
     Font& effectiveFont();

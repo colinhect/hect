@@ -105,6 +105,7 @@ public:
     /// a cell widget already exists in the specified cell.
     Cell::Handle createCell(ColumnId columnId, RowId rowId);
 
+    // Widget overrides
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
 
 private:

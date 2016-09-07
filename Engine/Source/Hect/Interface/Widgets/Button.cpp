@@ -46,7 +46,8 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
         borderStyleColor = StyleColor::BorderMouseOver;
     }
 
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(clipping);
     frame.beginPath();
     frame.rectangle(bounds());
@@ -60,6 +61,4 @@ void Button::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }

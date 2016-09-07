@@ -51,7 +51,8 @@ void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
     }
 
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(bounds);
     frame.beginPath();
     frame.rectangle(bounds());
@@ -72,8 +73,6 @@ void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     }
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }
 
 void CheckBox::onPressed()

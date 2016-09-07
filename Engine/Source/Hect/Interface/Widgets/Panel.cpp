@@ -42,7 +42,8 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 
     StyleColor borderStyleColor = StyleColor::Border;
 
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(clipping);
     frame.beginPath();
     frame.setFillColor(styleColor(backgroundStyleColor));
@@ -56,6 +57,4 @@ void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }

@@ -133,6 +133,26 @@ public:
         VectorRenderer& _renderer;
     };
 
+    ///
+    /// Pushes the state of a VectorRenderer::Frame for the duration of the
+    /// scope's life time.
+    class HECT_EXPORT FrameStateScope :
+        public Uncopyable
+    {
+    public:
+
+        ///
+        /// Constructs a state scope given the frame.
+        ///
+        /// \param frame The frame to push the state for.
+        FrameStateScope(Frame& frame);
+
+        ~FrameStateScope();
+
+    private:
+        Frame& _frame;
+    };
+
     ~VectorRenderer();
 
     ///

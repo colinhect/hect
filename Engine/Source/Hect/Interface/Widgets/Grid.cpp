@@ -34,13 +34,12 @@ Grid::Cell::Cell(InterfaceSystem& interfaceSystem) :
 
 void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(clipping);
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }
 
 Grid::Grid(InterfaceSystem& interfaceSystem) :
@@ -124,13 +123,12 @@ Grid::Cell::Handle Grid::createCell(ColumnId columnId, RowId rowId)
 
 void Grid::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
-    frame.pushState();
+    VectorRenderer::FrameStateScope scope(frame);
+
     //frame.setClipping(clipping);
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
-
-    frame.popState();
 }
 
 void Grid::updateDimensions()
