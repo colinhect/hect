@@ -21,18 +21,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "GridWidget.h"
+#include "TableWidget.h"
 
 #include "Hect/Scene/Systems/InterfaceSystem.h"
 
 using namespace hect;
 
-GridWidget::Cell::Cell(InterfaceSystem& interfaceSystem) :
+TableWidget::Cell::Cell(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-void GridWidget::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void TableWidget::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
@@ -42,17 +42,17 @@ void GridWidget::Cell::render(VectorRenderer::Frame& frame, const Rectangle& cli
     WidgetBase::render(frame, clipping);
 }
 
-GridWidget::GridWidget(InterfaceSystem& interfaceSystem) :
+TableWidget::TableWidget(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-unsigned GridWidget::columnCount() const
+unsigned TableWidget::columnCount() const
 {
     return static_cast<unsigned>(_columnWidths.size());
 }
 
-GridWidget::Column GridWidget::addColumn(double width)
+TableWidget::Column TableWidget::addColumn(double width)
 {
     const Column column = static_cast<Column>(_columnWidths.size());
     _columnWidths.push_back(width);
@@ -60,19 +60,19 @@ GridWidget::Column GridWidget::addColumn(double width)
     return column;
 }
 
-void GridWidget::resizeColumn(Column column, double width)
+void TableWidget::resizeColumn(Column column, double width)
 {
     checkColumn(column);
     _columnWidths[column] = width;
     updateDimensions();
 }
 
-unsigned GridWidget::rowCount() const
+unsigned TableWidget::rowCount() const
 {
     return static_cast<unsigned>(_rowHeights.size());
 }
 
-GridWidget::Row GridWidget::addRow(double height)
+TableWidget::Row TableWidget::addRow(double height)
 {
     const Row row = static_cast<Row>(_rowHeights.size());
     _rowHeights.push_back(height);
@@ -80,14 +80,14 @@ GridWidget::Row GridWidget::addRow(double height)
     return row;
 }
 
-void GridWidget::resizeRow(Row row, double height)
+void TableWidget::resizeRow(Row row, double height)
 {
     checkRow(row);
     _rowHeights[row] = height;
     updateDimensions();
 }
 
-GridWidget::Cell::Handle GridWidget::createCell(Column column, Row row)
+TableWidget::Cell::Handle TableWidget::createCell(Column column, Row row)
 {
     checkColumn(column);
     checkRow(row);
@@ -118,7 +118,7 @@ GridWidget::Cell::Handle GridWidget::createCell(Column column, Row row)
     return cellWidget;
 }
 
-void GridWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void TableWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
@@ -128,7 +128,7 @@ void GridWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     WidgetBase::render(frame, clipping);
 }
 
-void GridWidget::updateDimensions()
+void TableWidget::updateDimensions()
 {
     Vector2 dimensions;
     for (double width : _columnWidths)
@@ -144,7 +144,7 @@ void GridWidget::updateDimensions()
     setDimensions(dimensions);
 }
 
-void GridWidget::checkColumn(Column column) const
+void TableWidget::checkColumn(Column column) const
 {
     if (column >= _columnWidths.size())
     {
@@ -152,7 +152,7 @@ void GridWidget::checkColumn(Column column) const
     }
 }
 
-void GridWidget::checkRow(Row row) const
+void TableWidget::checkRow(Row row) const
 {
     if (row >= _rowHeights.size())
     {

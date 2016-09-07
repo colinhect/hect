@@ -30,22 +30,22 @@ namespace hect
 {
 
 ///
-/// A grid.
-class HECT_EXPORT GridWidget :
-    public Widget<GridWidget>
+/// A table.
+class HECT_EXPORT TableWidget :
+    public Widget<TableWidget>
 {
 public:
 
     ///
-    /// The index of a column in a GridWidget.
+    /// The index of a column in a TableWidget.
     typedef unsigned Column;
 
     ///
-    /// The index of a row in a GridWidget.
+    /// The index of a row in a TableWidget.
     typedef unsigned Row;
 
     ///
-    /// A cell in a GridWidget.
+    /// A cell in a TableWidget.
     class Cell :
         public Widget<Cell>
     {
@@ -56,10 +56,10 @@ public:
     };
 
     ///
-    /// Constructs an empty grid widget.
+    /// Constructs an empty table widget.
     ///
     /// \param interfaceSystem The interface system.
-    GridWidget(InterfaceSystem& interfaceSystem);
+    TableWidget(InterfaceSystem& interfaceSystem);
 
     ///
     /// Returns the number of columns.
