@@ -21,61 +21,40 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "CheckBox.h"
+#include "PanelWidget.h"
 
 using namespace hect;
 
-CheckBox::CheckBox(InterfaceSystem& interfaceSystem) :
+PanelWidget::PanelWidget(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
-    setDimensions(Vector2(10));
+    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
+    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }
 
-bool CheckBox::isChecked() const
+void PanelWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
-    return _checked;
-}
-
-void CheckBox::setChecked(bool checked)
-{
-    _checked = checked;
-}
-
-void CheckBox::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
-{
-    StyleColor forgroundStyleColor = StyleColor::Foreground;
     StyleColor backgroundStyleColor = StyleColor::Background;
-
     if (isMouseOver())
     {
         backgroundStyleColor = StyleColor::BackgroundMouseOver;
     }
 
+    StyleColor borderStyleColor = StyleColor::Border;
+
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(bounds);
+    //frame.setClipping(clipping);
+    frame.beginPath();
+    frame.setFillColor(styleColor(backgroundStyleColor));
+    frame.rectangle(bounds());
+    frame.fill();
     frame.beginPath();
     frame.rectangle(bounds());
-    frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.fill();
+    frame.setStrokeColor(styleColor(borderStyleColor));
+    frame.stroke();
 
     frame.translate(position());
 
-    if (_checked)
-    {
-        Vector2 checkPosition = dimensions() * 0.25;
-        Vector2 checkDimensions = dimensions() * 0.75;
-
-        frame.beginPath();
-        frame.rectangle(Rectangle(checkPosition.ceil(), checkDimensions.floor()));
-        frame.setFillColor(styleColor(forgroundStyleColor));
-        frame.fill();
-    }
-
     WidgetBase::render(frame, clipping);
-}
-
-void CheckBox::onPressed()
-{
-    _checked = !_checked;
 }

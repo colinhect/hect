@@ -31,8 +31,8 @@ namespace hect
 
 ///
 /// A grid.
-class HECT_EXPORT Grid :
-    public Widget<Grid>
+class HECT_EXPORT GridWidget :
+    public Widget<GridWidget>
 {
 public:
 
@@ -45,7 +45,7 @@ public:
     typedef size_t RowId;
 
     ///
-    /// A cell in a Grid.
+    /// A cell in a GridWidget.
     class Cell :
         public Widget<Cell>
     {
@@ -59,7 +59,7 @@ public:
     /// Constructs an empty grid widget.
     ///
     /// \param interfaceSystem The interface system.
-    Grid(InterfaceSystem& interfaceSystem);
+    GridWidget(InterfaceSystem& interfaceSystem);
 
     ///
     /// Adds a column to the grid.

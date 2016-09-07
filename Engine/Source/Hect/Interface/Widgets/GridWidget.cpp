@@ -21,18 +21,18 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Grid.h"
+#include "GridWidget.h"
 
 #include "Hect/Scene/Systems/InterfaceSystem.h"
 
 using namespace hect;
 
-Grid::Cell::Cell(InterfaceSystem& interfaceSystem) :
+GridWidget::Cell::Cell(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void GridWidget::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
@@ -42,12 +42,12 @@ void Grid::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     WidgetBase::render(frame, clipping);
 }
 
-Grid::Grid(InterfaceSystem& interfaceSystem) :
+GridWidget::GridWidget(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-Grid::ColumnId Grid::addColumn(double width)
+GridWidget::ColumnId GridWidget::addColumn(double width)
 {
     ColumnId id = static_cast<ColumnId>(_columns.size());
     _columns.push_back(Column { width });
@@ -55,7 +55,7 @@ Grid::ColumnId Grid::addColumn(double width)
     return id;
 }
 
-void Grid::resizeColumn(ColumnId columnId, double width)
+void GridWidget::resizeColumn(ColumnId columnId, double width)
 {
     if (columnId >= _columns.size())
     {
@@ -66,7 +66,7 @@ void Grid::resizeColumn(ColumnId columnId, double width)
     updateDimensions();
 }
 
-Grid::RowId Grid::addRow(double height)
+GridWidget::RowId GridWidget::addRow(double height)
 {
     RowId id = static_cast<RowId>(_rows.size());
     _rows.push_back(Row { height });
@@ -74,7 +74,7 @@ Grid::RowId Grid::addRow(double height)
     return id;
 }
 
-void Grid::resizeRow(RowId rowId, double height)
+void GridWidget::resizeRow(RowId rowId, double height)
 {
     if (rowId >= _rows.size())
     {
@@ -85,7 +85,7 @@ void Grid::resizeRow(RowId rowId, double height)
     updateDimensions();
 }
 
-Grid::Cell::Handle Grid::createCell(ColumnId columnId, RowId rowId)
+GridWidget::Cell::Handle GridWidget::createCell(ColumnId columnId, RowId rowId)
 {
     if (columnId >= _columns.size())
     {
@@ -121,7 +121,7 @@ Grid::Cell::Handle Grid::createCell(ColumnId columnId, RowId rowId)
     return cellWidget;
 }
 
-void Grid::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void GridWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
@@ -131,7 +131,7 @@ void Grid::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
     WidgetBase::render(frame, clipping);
 }
 
-void Grid::updateDimensions()
+void GridWidget::updateDimensions()
 {
     Vector2 dimensions;
     for (const Column& column : _columns)

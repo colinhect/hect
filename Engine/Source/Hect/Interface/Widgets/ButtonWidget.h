@@ -24,68 +24,26 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Graphics/Font.h"
 #include "Hect/Interface/Widget.h"
-
-#include <string>
 
 namespace hect
 {
 
 ///
-/// A textual label.
-class HECT_EXPORT Label :
-    public Widget<Label>
+/// A button.
+class HECT_EXPORT ButtonWidget :
+    public Widget<ButtonWidget>
 {
 public:
 
     ///
-    /// Constructs an empty label widget.
+    /// Constructs an empty button widget.
     ///
     /// \param interfaceSystem The interface system.
-    Label(InterfaceSystem& interfaceSystem);
-
-    ///
-    /// Returns the text of the label.
-    const std::string& text() const;
-
-    ///
-    /// Sets the text of the label.
-    ///
-    /// \note The dimensions of the label will automatically size to fit the
-    /// text with the set font and font size.
-    ///
-    /// \param text The new text of the label.
-    void setText(const std::string& text);
-
-    ///
-    /// Returns the font of the label.
-    Font::Handle font() const;
-
-    ///
-    /// Sets the font of the label.
-    ///
-    /// \note The dimensions of the label will automatically size to fit the
-    /// text with the set font and font size.
-    ///
-    /// \param font The font.
-    /// \param size The font size.
-    void setFont(Font::Handle font, double size);
+    ButtonWidget(InterfaceSystem& interfaceSystem);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
-
-private:
-
-    // Widget overrides
-    void updateLayout() override;
-
-    Font& effectiveFont();
-    double effectiveFontSize();
-
-    std::string _text;
-    Font::Handle _font;
-    double _fontSize { 0.0 };
 };
 
 }

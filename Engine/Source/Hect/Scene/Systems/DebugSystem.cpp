@@ -25,9 +25,9 @@
 
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/MeshWriter.h"
-#include "Hect/Interface/Widgets/CheckBox.h"
-#include "Hect/Interface/Widgets/Grid.h"
-#include "Hect/Interface/Widgets/Label.h"
+#include "Hect/Interface/Widgets/CheckBoxWidget.h"
+#include "Hect/Interface/Widgets/GridWidget.h"
+#include "Hect/Interface/Widgets/LabelWidget.h"
 #include "Hect/Runtime/Engine.h"
 #include "Hect/Scene/Systems/RenderSystem.h"
 
@@ -146,14 +146,14 @@ void DebugSystem::createSystemPanel()
     const double rowHeight = 18;
     const double panelMargin = 10;
 
-    _systemPanel = _interface->createChild<Panel>();
+    _systemPanel = _interface->createChild<PanelWidget>();
 
-    Grid::Handle grid = _systemPanel->createChild<Grid>();
+    GridWidget::Handle grid = _systemPanel->createChild<GridWidget>();
     grid->setHorizontalAlign(HorizontalAlign::Center);
     grid->setVerticalAlign(VerticalAlign::Center);
 
-    Grid::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
-    Grid::ColumnId systemNameColumnId = grid->addColumn(systemNameColumnWidth);
+    GridWidget::ColumnId checkBoxColumnId = grid->addColumn(checkBoxColumnWidth);
+    GridWidget::ColumnId systemNameColumnId = grid->addColumn(systemNameColumnWidth);
 
     SystemRegistry::SystemTypeIdSequence typeIds = SystemRegistry::typeIds();
     std::sort(typeIds.begin(), typeIds.end(), [] (SystemTypeId a, SystemTypeId b)
@@ -165,12 +165,12 @@ void DebugSystem::createSystemPanel()
     {
         if (scene().hasSystemOfTypeId(typeId))
         {
-            Grid::RowId rowId = grid->addRow(rowHeight);
+            GridWidget::RowId rowId = grid->addRow(rowHeight);
 
             Name systemName = SystemRegistry::typeNameOf(typeId);
 
-            Grid::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumnId, rowId);
-            CheckBox::Handle checkBox = checkBoxCell->createChild<CheckBox>();
+            GridWidget::Cell::Handle checkBoxCell = grid->createCell(checkBoxColumnId, rowId);
+            CheckBoxWidget::Handle checkBox = checkBoxCell->createChild<CheckBoxWidget>();
             checkBox->setHorizontalAlign(HorizontalAlign::Center);
             checkBox->setVerticalAlign(VerticalAlign::Center);
             checkBox->setPressAction([this, typeId, checkBox]
@@ -184,8 +184,8 @@ void DebugSystem::createSystemPanel()
             // Neither does this
             //checkBox->setChecked(system.isDebugEnabled());
 
-            Grid::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
-            Label::Handle label = labelCell->createChild<Label>();
+            GridWidget::Cell::Handle labelCell = grid->createCell(systemNameColumnId, rowId);
+            LabelWidget::Handle label = labelCell->createChild<LabelWidget>();
             label->setText(systemName.asString());
             label->setHorizontalAlign(HorizontalAlign::Left);
             label->setVerticalAlign(VerticalAlign::Bottom);

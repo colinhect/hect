@@ -53,7 +53,7 @@ TEST_CASE("Create a button", "[InterfaceSystem]")
     Interface::Handle interface = interfaceSystem->createInterface(engine.window());
     REQUIRE(interface);
 
-    Button::Handle button = interface->createChild<Button>();
+    ButtonWidget::Handle button = interface->createChild<ButtonWidget>();
     REQUIRE(button);
 
     button->setPressAction([] { HECT_DEBUG("Press"); });

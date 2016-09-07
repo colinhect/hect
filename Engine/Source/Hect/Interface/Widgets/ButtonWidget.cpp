@@ -21,16 +21,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Button.h"
+#include "ButtonWidget.h"
 
 using namespace hect;
 
-Button::Button(InterfaceSystem& interfaceSystem) :
+ButtonWidget::ButtonWidget(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
 }
 
-void Button::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void ButtonWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
     StyleColor borderStyleColor = StyleColor::Border;

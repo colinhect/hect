@@ -27,7 +27,7 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Interface/Widgets/Panel.h"
+#include "Hect/Interface/Widgets/PanelWidget.h"
 #include "Hect/Math/Box.h"
 #include "Hect/Scene/System.h"
 #include "Hect/Scene/Components/TransformComponent.h"
@@ -103,7 +103,7 @@ private:
     InterfaceSystem::Handle _interfaceSystem;
 
     Interface::Handle _interface;
-    Panel::Handle _systemPanel;
+    PanelWidget::Handle _systemPanel;
 
     Mesh _linesMesh;
 };

@@ -21,40 +21,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Panel.h"
+#pragma once
 
-using namespace hect;
+#include "Hect/Core/Export.h"
+#include "Hect/Interface/Widget.h"
 
-Panel::Panel(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+namespace hect
 {
-    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
-}
 
-void Panel::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+///
+/// A panel.
+class HECT_EXPORT PanelWidget :
+    public Widget<PanelWidget>
 {
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    if (isMouseOver())
-    {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
-    }
+public:
 
-    StyleColor borderStyleColor = StyleColor::Border;
+    ///
+    /// Constructs an empty panel widget.
+    ///
+    /// \param interfaceSystem The interface system.
+    PanelWidget(InterfaceSystem& interfaceSystem);
 
-    VectorRenderer::FrameStateScope scope(frame);
+    // Widget overrides
+    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+};
 
-    //frame.setClipping(clipping);
-    frame.beginPath();
-    frame.setFillColor(styleColor(backgroundStyleColor));
-    frame.rectangle(bounds());
-    frame.fill();
-    frame.beginPath();
-    frame.rectangle(bounds());
-    frame.setStrokeColor(styleColor(borderStyleColor));
-    frame.stroke();
-
-    frame.translate(position());
-
-    WidgetBase::render(frame, clipping);
 }

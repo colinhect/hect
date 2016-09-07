@@ -30,20 +30,34 @@ namespace hect
 {
 
 ///
-/// A panel.
-class HECT_EXPORT Panel :
-    public Widget<Panel>
+/// A check box.
+class HECT_EXPORT CheckBoxWidget :
+    public Widget<CheckBoxWidget>
 {
 public:
 
     ///
-    /// Constructs an empty panel widget.
+    /// Constructs an empty check box widget.
     ///
     /// \param interfaceSystem The interface system.
-    Panel(InterfaceSystem& interfaceSystem);
+    CheckBoxWidget(InterfaceSystem& interfaceSystem);
+
+    ///
+    /// Returns whether the check box is checked.
+    bool isChecked() const;
+
+    ///
+    /// Sets whether the check box is checked.
+    ///
+    /// \param checked Whether the check box is checked.
+    void setChecked(bool checked);
 
     // Widget overrides
-    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    virtual void onPressed() override;
+
+private:
+    bool _checked { false };
 };
 
 }

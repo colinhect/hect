@@ -21,89 +21,61 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "Label.h"
-
-#include "Hect/Scene/Systems/InterfaceSystem.h"
+#include "CheckBoxWidget.h"
 
 using namespace hect;
 
-Label::Label(InterfaceSystem& interfaceSystem) :
+CheckBoxWidget::CheckBoxWidget(InterfaceSystem& interfaceSystem) :
     Widget(interfaceSystem)
 {
+    setDimensions(Vector2(10));
 }
 
-const std::string& Label::text() const
+bool CheckBoxWidget::isChecked() const
 {
-    return _text;
+    return _checked;
 }
 
-void Label::setText(const std::string& text)
+void CheckBoxWidget::setChecked(bool checked)
 {
-    _text = text;
-    markLayoutDirty();
+    _checked = checked;
 }
 
-Font::Handle Label::font() const
+void CheckBoxWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
 {
-    return _font;
-}
+    StyleColor forgroundStyleColor = StyleColor::Foreground;
+    StyleColor backgroundStyleColor = StyleColor::Background;
 
-void Label::setFont(Font::Handle font, double size)
-{
-    _font = font;
-    _fontSize = size;
-    markLayoutDirty();
-}
+    if (isMouseOver())
+    {
+        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+    }
 
-void Label::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
-{
     VectorRenderer::FrameStateScope scope(frame);
 
     //frame.setClipping(bounds);
+    frame.beginPath();
+    frame.rectangle(bounds());
+    frame.setFillColor(styleColor(backgroundStyleColor));
+    frame.fill();
 
-    if (!_text.empty())
+    frame.translate(position());
+
+    if (_checked)
     {
-        StyleColor forgroundStyleColor = StyleColor::Foreground;
+        Vector2 checkPosition = dimensions() * 0.25;
+        Vector2 checkDimensions = dimensions() * 0.75;
 
-        const Font& font = effectiveFont();
-        const double fontSize = effectiveFontSize();
-
-        frame.translate(position());
-        frame.setFont(font, fontSize);
+        frame.beginPath();
+        frame.rectangle(Rectangle(checkPosition.ceil(), checkDimensions.floor()));
         frame.setFillColor(styleColor(forgroundStyleColor));
-        frame.renderText(_text);
+        frame.fill();
     }
 
     WidgetBase::render(frame, clipping);
 }
 
-void Label::updateLayout()
+void CheckBoxWidget::onPressed()
 {
-    Vector2 dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
-    setDimensions(dimensions);
-    WidgetBase::updateLayout();
-}
-
-Font& Label::effectiveFont()
-{
-    // If no font is set then defer to the interface system
-    Font::Handle font = _font;
-    if (!font)
-    {
-        font = interfaceSystem().defaultFont;
-    }
-
-    return *font;
-}
-
-double Label::effectiveFontSize()
-{
-    // If no font size is set then defer to the interface system
-    double fontSize = _fontSize;
-    if (fontSize <= 0.0)
-    {
-        fontSize = interfaceSystem().defaultFontSize;
-    }
-
-    return fontSize;
+    _checked = !_checked;
 }
