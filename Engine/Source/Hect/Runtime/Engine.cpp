@@ -201,6 +201,9 @@ void Engine::playScene(Scene& scene)
     double timeStepSeconds = timeStep.seconds();
     int64_t timeStepMicroseconds = timeStep.microseconds();
 
+    // Perform one initial tick before entering the main loop
+    scene.tick(timeStepSeconds);
+
     while (_platform->handleEvents() && scene.active())
     {
         TimeSpan deltaTime = timer.elapsed();
