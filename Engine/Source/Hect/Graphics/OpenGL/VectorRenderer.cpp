@@ -138,7 +138,6 @@ void VectorRenderer::Frame::setClipping(Rectangle clipping)
 void VectorRenderer::Frame::setFont(const Font& font, double size)
 {
     assert(_nvgContext);
-
     _renderer.setFont(font, size);
 }
 

@@ -56,7 +56,8 @@ void WidgetBase::render(VectorRenderer::Frame& frame, Rectangle clipping)
     {
         if (child->isVisible())
         {
-            const Rectangle childClipping = child->globalBounds().intersect(clipping);
+            const Rectangle childBounds = child->globalBounds();
+            const Rectangle childClipping = childBounds.intersect(clipping);
             if (childClipping.size() != Vector2::Zero)
             {
                 child->render(frame, childClipping);
