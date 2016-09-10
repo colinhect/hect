@@ -86,13 +86,13 @@ public:
     /// Constructs a vector from a 2-dimensional vector.
     ///
     /// \param v The vector.
-    Vector4T(const Vector2T<T>& v);
+    Vector4T(Vector2T<T> v);
 
     ///
     /// Constructs a vector from a 3-dimensional vector.
     ///
     /// \param v The vector.
-    Vector4T(const Vector3T<T>& v);
+    Vector4T(Vector3T<T> v);
 
     ///
     /// \copydoc hect::Vector2T::normalize()
@@ -291,7 +291,7 @@ typedef Vector4T<double> Vector4;
 typedef Vector4T<int> IntVector4;
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector4T<T>& v);
+Encoder& operator<<(Encoder& encoder, Vector4T<T> v);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector4T<T>& v);

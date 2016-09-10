@@ -81,7 +81,7 @@ public:
     ///
     /// \param frame The frame to render to.
     /// \param clipping The clipping bounds of the render area.
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping);
+    virtual void render(VectorRenderer::Frame& frame, Rectangle clipping);
 
     ///
     /// Invoked when the mouse cursor enters the bounds of the widget.

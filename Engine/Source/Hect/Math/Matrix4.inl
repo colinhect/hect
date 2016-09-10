@@ -30,7 +30,7 @@ namespace hect
 {
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromTranslation(const Vector3T<T>& translation)
+Matrix4T<T> Matrix4T<T>::fromTranslation(Vector3T<T> translation)
 {
     Matrix4T m;
     m[12] = translation.x;
@@ -40,7 +40,7 @@ Matrix4T<T> Matrix4T<T>::fromTranslation(const Vector3T<T>& translation)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromScale(const Vector3T<T>& scale)
+Matrix4T<T> Matrix4T<T>::fromScale(Vector3T<T> scale)
 {
     Matrix4T m;
     m[ 0] *= scale.x;
@@ -50,7 +50,7 @@ Matrix4T<T> Matrix4T<T>::fromScale(const Vector3T<T>& scale)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromRotation(const QuaternionT<T>& rotation)
+Matrix4T<T> Matrix4T<T>::fromRotation(QuaternionT<T> rotation)
 {
     T x = rotation.x;
     T y = rotation.y;
@@ -73,7 +73,7 @@ Matrix4T<T> Matrix4T<T>::fromRotation(const QuaternionT<T>& rotation)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::createView(const Vector3T<T>& position, const Vector3T<T>& direction, const Vector3T<T>& up)
+Matrix4T<T> Matrix4T<T>::createView(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up)
 {
     Matrix4T m;
 
@@ -141,7 +141,7 @@ Matrix4T<T>::Matrix4T()
 }
 
 template <typename T>
-void Matrix4T<T>::translate(const Vector3T<T>& translation)
+void Matrix4T<T>::translate(Vector3T<T> translation)
 {
     _c[12] += translation.x;
     _c[13] += translation.y;
@@ -149,7 +149,7 @@ void Matrix4T<T>::translate(const Vector3T<T>& translation)
 }
 
 template <typename T>
-void Matrix4T<T>::scale(const Vector3T<T>& scale)
+void Matrix4T<T>::scale(Vector3T<T> scale)
 {
     _c[ 0] *= scale.x;
     _c[ 5] *= scale.y;
@@ -157,20 +157,20 @@ void Matrix4T<T>::scale(const Vector3T<T>& scale)
 }
 
 template <typename T>
-void Matrix4T<T>::rotate(const QuaternionT<T>& rotation)
+void Matrix4T<T>::rotate(QuaternionT<T> rotation)
 {
     *this *= Matrix4T<T>::fromRotation(rotation);
 }
 
 template <typename T>
-Vector3T<T> Matrix4T<T>::operator*(const Vector3T<T>& v) const
+Vector3T<T> Matrix4T<T>::operator*(Vector3T<T> v) const
 {
     Vector4T<T> v4 = *this * Vector4T<T>(v.x, v.y, v.z, T(0));
     return Vector3T<T>(v4.x, v4.y, v4.z);
 }
 
 template <typename T>
-Vector4T<T> Matrix4T<T>::operator*(const Vector4T<T>& v) const
+Vector4T<T> Matrix4T<T>::operator*(Vector4T<T> v) const
 {
     T x = v.x * _c[0] + v.y * _c[4] + v.z * _c[8] + v.w * _c[12];
     T y = v.x * _c[1] + v.y * _c[5] + v.z * _c[9] + v.w * _c[13];

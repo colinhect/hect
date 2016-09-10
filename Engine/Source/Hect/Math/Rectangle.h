@@ -85,19 +85,19 @@ public:
     /// Returns the intersection between the rectangle and another.
     ///
     /// \param rectangle The other rectangle.
-    Rectangle intersect(const Rectangle& rectangle) const;
+    Rectangle intersect(Rectangle rectangle) const;
 
     ///
     /// Returns whether the rectangle is equivalent to another.
     ///
     /// \param rectangle The other rectangle.
-    bool operator==(const Rectangle& rectangle) const;
+    bool operator==(Rectangle rectangle) const;
 
     ///
     /// Returns whether the rectangle is different from another.
     ///
     /// \param rectangle The other rectangle.
-    bool operator!=(const Rectangle& rectangle) const;
+    bool operator!=(Rectangle rectangle) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

@@ -48,7 +48,7 @@ public:
     /// \param translation The translation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromTranslation(const Vector3T<T>& translation);
+    static Matrix4T fromTranslation(Vector3T<T> translation);
 
     ///
     /// Constructs a matrix from a scale.
@@ -56,7 +56,7 @@ public:
     /// \param scale The scale of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromScale(const Vector3T<T>& scale);
+    static Matrix4T fromScale(Vector3T<T> scale);
 
     ///
     /// Constructs a matrix from a rotation.
@@ -64,7 +64,7 @@ public:
     /// \param rotation The rotation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromRotation(const QuaternionT<T>& rotation);
+    static Matrix4T fromRotation(QuaternionT<T> rotation);
 
     ///
     /// Constructs a view matrix.
@@ -74,7 +74,7 @@ public:
     /// \param up The up direction of the view.
     ///
     /// \returns The view matrix.
-    static Matrix4T createView(const Vector3T<T>& position, const Vector3T<T>& direction, const Vector3T<T>& up);
+    static Matrix4T createView(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up);
 
     ///
     /// Constructs a perspective projection matrix.
@@ -108,31 +108,31 @@ public:
     /// Translates the matrix.
     ///
     /// \param translation The translation to apply.
-    void translate(const Vector3T<T>& translation);
+    void translate(Vector3T<T> translation);
 
     ///
     /// Scales the matrix.
     ///
     /// \param scale The scale to apply.
-    void scale(const Vector3T<T>& scale);
+    void scale(Vector3T<T> scale);
 
     ///
     /// Rotates the matrix.
     ///
     /// \param rotation The rotation to apply.
-    void rotate(const QuaternionT<T>& rotation);
+    void rotate(QuaternionT<T> rotation);
 
     ///
     /// Returns the given 3-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector3T<T> operator*(const Vector3T<T>& v) const;
+    Vector3T<T> operator*(Vector3T<T> v) const;
 
     ///
     /// Returns the given 4-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector4T<T> operator*(const Vector4T<T>& v) const;
+    Vector4T<T> operator*(Vector4T<T> v) const;
 
     ///
     /// Returns the product of the matrix and another matrix.

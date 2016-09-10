@@ -30,7 +30,7 @@ template <typename T>
 const QuaternionT<T> QuaternionT<T>::Identity = QuaternionT<T>();
 
 template <typename T>
-QuaternionT<T> QuaternionT<T>::fromAxisAngle(const Vector3T<T>& axis, Angle angle)
+QuaternionT<T> QuaternionT<T>::fromAxisAngle(Vector3T<T> axis, Angle angle)
 {
     // Special case for identity quaternion
     if (angle.inDegrees() == 0 || axis.lengthSquared() == T(0))
@@ -63,7 +63,7 @@ QuaternionT<T>::QuaternionT(T x, T y, T z, T w) :
 }
 
 template <typename T>
-QuaternionT<T>::QuaternionT(const Vector3T<T>& v, T w) :
+QuaternionT<T>::QuaternionT(Vector3T<T> v, T w) :
     x(v.x),
     y(v.y),
     z(v.z),
@@ -72,7 +72,7 @@ QuaternionT<T>::QuaternionT(const Vector3T<T>& v, T w) :
 }
 
 template <typename T>
-QuaternionT<T>::QuaternionT(const Vector4T<T>& v) :
+QuaternionT<T>::QuaternionT(Vector4T<T> v) :
     x(v.x),
     y(v.y),
     z(v.z),
@@ -155,7 +155,7 @@ QuaternionT<T> QuaternionT<T>::operator*(T value) const
 }
 
 template <typename T>
-Vector3T<T> QuaternionT<T>::operator*(const Vector3T<T>& v) const
+Vector3T<T> QuaternionT<T>::operator*(Vector3T<T> v) const
 {
     return Matrix4T<T>::fromRotation(*this) * v;
 }
@@ -234,7 +234,7 @@ QuaternionT<T>::operator Vector4T<T>() const
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q)
+Encoder& operator<<(Encoder& encoder, QuaternionT<T> q)
 {
     Vector3T<T> axis;
     Angle angle;

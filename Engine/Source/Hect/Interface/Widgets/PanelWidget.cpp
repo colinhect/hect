@@ -32,7 +32,7 @@ PanelWidget::PanelWidget(InterfaceSystem& interfaceSystem) :
     setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }
 
-void PanelWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void PanelWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
     if (isMouseOver())

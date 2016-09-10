@@ -41,7 +41,7 @@ void CheckBoxWidget::setChecked(bool checked)
     _checked = checked;
 }
 
-void CheckBoxWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void CheckBoxWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     StyleColor forgroundStyleColor = StyleColor::Foreground;
     StyleColor backgroundStyleColor = StyleColor::Background;
@@ -53,7 +53,7 @@ void CheckBoxWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipp
 
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(bounds);
+    //frame.setClipping(clipping);
     frame.beginPath();
     frame.rectangle(bounds());
     frame.setFillColor(styleColor(backgroundStyleColor));

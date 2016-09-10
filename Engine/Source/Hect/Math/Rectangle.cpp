@@ -67,7 +67,7 @@ bool Rectangle::contains(Vector2 point) const
            && point.y >= _minimum.y && point.y <= _maximum.y;
 }
 
-Rectangle Rectangle::intersect(const Rectangle& rectangle) const
+Rectangle Rectangle::intersect(Rectangle rectangle) const
 {
     Vector2 minimum(std::max(_minimum.x, rectangle._minimum.x), std::max(_minimum.y, rectangle._minimum.y));
     Vector2 maximum(std::min(_maximum.x, rectangle._maximum.x), std::min(_maximum.y, rectangle._maximum.y));
@@ -75,12 +75,12 @@ Rectangle Rectangle::intersect(const Rectangle& rectangle) const
     return Rectangle(minimum, maximum);
 }
 
-bool Rectangle::operator==(const Rectangle& rectangle) const
+bool Rectangle::operator==(Rectangle rectangle) const
 {
     return _minimum == rectangle._minimum && _maximum == rectangle._maximum;
 }
 
-bool Rectangle::operator!=(const Rectangle& rectangle) const
+bool Rectangle::operator!=(Rectangle rectangle) const
 {
     return _minimum != rectangle._minimum || _maximum != rectangle._maximum;
 }

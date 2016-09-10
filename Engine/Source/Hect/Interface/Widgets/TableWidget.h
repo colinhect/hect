@@ -52,7 +52,7 @@ public:
     public:
         Cell(InterfaceSystem& interfaceSystem);
 
-        void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+        void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
     };
 
     ///
@@ -114,7 +114,7 @@ public:
     Cell::Handle createCell(Column column, Row row);
 
     // Widget overrides
-    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
 
 private:
     void updateDimensions();

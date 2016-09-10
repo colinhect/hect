@@ -73,7 +73,7 @@ public:
     void setFont(Font::Handle font, double size);
 
     // Widget overrides
-    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
 
 private:
 

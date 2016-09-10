@@ -72,14 +72,14 @@ Vector4T<T>::Vector4T(T x, T y, T z, T w) :
 }
 
 template <typename T>
-Vector4T<T>::Vector4T(const Vector2T<T>& v) :
+Vector4T<T>::Vector4T(Vector2T<T> v) :
     x(v.x),
     y(v.y)
 {
 }
 
 template <typename T>
-Vector4T<T>::Vector4T(const Vector3T<T>& v) :
+Vector4T<T>::Vector4T(Vector3T<T> v) :
     x(v.x),
     y(v.y),
     z(v.z)
@@ -334,7 +334,7 @@ Vector4T<T>::operator Vector4T<U>() const
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector4T<T>& v)
+Encoder& operator<<(Encoder& encoder, Vector4T<T> v)
 {
     encoder << beginArray() << v.x << v.y << v.z << v.w << endArray();
     return encoder;

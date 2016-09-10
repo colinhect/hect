@@ -32,7 +32,7 @@ TableWidget::Cell::Cell(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void TableWidget::Cell::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void TableWidget::Cell::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
@@ -118,7 +118,7 @@ TableWidget::Cell::Handle TableWidget::createCell(Column column, Row row)
     return cellWidget;
 }
 
-void TableWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void TableWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 

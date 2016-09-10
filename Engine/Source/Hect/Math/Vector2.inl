@@ -285,7 +285,7 @@ Vector2T<T>::operator Vector2T<U>() const
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v)
+Encoder& operator<<(Encoder& encoder, Vector2T<T> v)
 {
     encoder << beginArray() << v.x << v.y << endArray();
     return encoder;

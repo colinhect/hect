@@ -53,7 +53,7 @@ public:
     void setChecked(bool checked);
 
     // Widget overrides
-    virtual void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    virtual void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
     virtual void onPressed() override;
 
 private:

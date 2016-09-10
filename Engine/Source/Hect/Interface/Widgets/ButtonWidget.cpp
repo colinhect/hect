@@ -30,7 +30,7 @@ ButtonWidget::ButtonWidget(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void ButtonWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void ButtonWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     StyleColor backgroundStyleColor = StyleColor::Background;
     StyleColor borderStyleColor = StyleColor::Border;

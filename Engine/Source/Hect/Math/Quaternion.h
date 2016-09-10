@@ -46,7 +46,7 @@ public:
     ///
     /// \param axis The axis that the angle is relative to.
     /// \param angle The angle relative to the axis.
-    static QuaternionT fromAxisAngle(const Vector3T<T>& axis, Angle angle);
+    static QuaternionT fromAxisAngle(Vector3T<T> axis, Angle angle);
 
     ///
     /// Constructs an identity quaternion.
@@ -67,14 +67,14 @@ public:
     ///
     /// \param v The value for the x, y, and z components.
     /// \param w The value for the w component.
-    QuaternionT(const Vector3T<T>& v, T w);
+    QuaternionT(Vector3T<T> v, T w);
 
     ///
     /// Constructs a quaternion with a vector for the x, y, z, and w
     /// components.
     ///
     /// \param v The value for the x, y, z, and w components.
-    QuaternionT(const Vector4T<T>& v);
+    QuaternionT(Vector4T<T> v);
 
     ///
     /// Scales the quaternion to unit length.
@@ -125,7 +125,7 @@ public:
     /// Returns the given vector rotated by the quaternion.
     ///
     /// \param v The vector to rotate.
-    Vector3T<T> operator*(const Vector3T<T>& v) const;
+    Vector3T<T> operator*(Vector3T<T> v) const;
 
     ///
     /// Returns the product of the quaternion and another quaternion.
@@ -206,7 +206,7 @@ public:
 typedef QuaternionT<double> Quaternion;
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const QuaternionT<T>& q);
+Encoder& operator<<(Encoder& encoder, QuaternionT<T> q);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q);

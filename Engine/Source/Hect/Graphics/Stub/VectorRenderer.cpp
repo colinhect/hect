@@ -72,12 +72,12 @@ void VectorRenderer::Frame::stroke()
 {
 }
 
-void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
+void VectorRenderer::Frame::rectangle(Rectangle rectangle)
 {
     (void)rectangle;
 }
 
-void VectorRenderer::Frame::setClipping(const Rectangle& clipping)
+void VectorRenderer::Frame::setClipping(Rectangle clipping)
 {
     (void)clipping;
 }

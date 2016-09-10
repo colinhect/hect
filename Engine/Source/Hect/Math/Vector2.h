@@ -272,7 +272,7 @@ typedef Vector2T<double> Vector2;
 typedef Vector2T<int> IntVector2;
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector2T<T>& v);
+Encoder& operator<<(Encoder& encoder, Vector2T<T> v);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector2T<T>& v);

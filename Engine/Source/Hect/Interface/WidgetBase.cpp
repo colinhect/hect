@@ -50,7 +50,7 @@ void WidgetBase::tick(double timeStep)
     }
 }
 
-void WidgetBase::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void WidgetBase::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     for (const WidgetBase::Handle& child : _children)
     {

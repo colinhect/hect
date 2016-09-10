@@ -105,14 +105,14 @@ public:
         /// Creates a new rectangle shape sub-path.
         ///
         /// \param rectangle The rectangle.
-        void rectangle(const Rectangle& rectangle);
+        void rectangle(Rectangle rectangle);
 
         ///
         /// Sets the clipping bounds for subsequent render calls within the
         /// frame.
         ///
         /// \param clipping The clipping bounds.
-        void setClipping(const Rectangle& clipping);
+        void setClipping(Rectangle clipping);
 
         ///
         /// Sets the font used for subsequent render calls within the frame.

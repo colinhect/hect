@@ -119,7 +119,7 @@ void VectorRenderer::Frame::stroke()
     nvgStroke(_nvgContext);
 }
 
-void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
+void VectorRenderer::Frame::rectangle(Rectangle rectangle)
 {
     assert(_nvgContext);
     Vector2 position = rectangle.minimum();
@@ -127,7 +127,7 @@ void VectorRenderer::Frame::rectangle(const Rectangle& rectangle)
     nvgRect(_nvgContext, static_cast<float>(position.x), static_cast<float>(position.y), static_cast<float>(dimensions.x), static_cast<float>(dimensions.y));
 }
 
-void VectorRenderer::Frame::setClipping(const Rectangle& clipping)
+void VectorRenderer::Frame::setClipping(Rectangle clipping)
 {
     assert(_nvgContext);
     Vector2 position = clipping.minimum();

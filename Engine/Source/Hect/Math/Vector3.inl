@@ -67,7 +67,7 @@ Vector3T<T>::Vector3T(T x, T y, T z) :
 }
 
 template <typename T>
-Vector3T<T>::Vector3T(const Vector2T<T>& v) :
+Vector3T<T>::Vector3T(Vector2T<T> v) :
     x(v.x),
     y(v.y)
 {
@@ -315,7 +315,7 @@ Vector3T<T>::operator Vector3T<U>() const
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v)
+Encoder& operator<<(Encoder& encoder, Vector3T<T> v)
 {
     encoder << beginArray() << v.x << v.y << v.z << endArray();
     return encoder;

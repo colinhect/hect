@@ -80,7 +80,7 @@ public:
     /// Constructs a vector from a 2-dimensional vector.
     ///
     /// \param v The vector.
-    Vector3T(const Vector2T<T>& v);
+    Vector3T(Vector2T<T> v);
 
     ///
     /// \copydoc hect::Vector2T::normalize()
@@ -281,7 +281,7 @@ typedef Vector3T<double> Vector3;
 typedef Vector3T<int> IntVector3;
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const Vector3T<T>& v);
+Encoder& operator<<(Encoder& encoder, Vector3T<T> v);
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector3T<T>& v);

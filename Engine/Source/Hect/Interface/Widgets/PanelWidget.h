@@ -43,7 +43,7 @@ public:
     PanelWidget(InterfaceSystem& interfaceSystem);
 
     // Widget overrides
-    void render(VectorRenderer::Frame& frame, const Rectangle& clipping) override;
+    void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
 };
 
 }

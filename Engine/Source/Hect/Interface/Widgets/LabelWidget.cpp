@@ -55,7 +55,7 @@ void LabelWidget::setFont(Font::Handle font, double size)
     markLayoutDirty();
 }
 
-void LabelWidget::render(VectorRenderer::Frame& frame, const Rectangle& clipping)
+void LabelWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
