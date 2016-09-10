@@ -271,13 +271,16 @@ void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
         }
 
         // Render each directional light in the scene
-        frame.setShader(*directionalLightShader);
-        for (DirectionalLightComponent::ConstIterator light : _frameData.directionalLights)
+        if (!_frameData.directionalLights.empty())
         {
-            _frameData.primaryLightDirection = light->direction;
-            _frameData.primaryLightColor = light->color;
-            setBoundUniforms(frame, *directionalLightShader, camera, target, TransformComponent::Identity);
-            frame.renderViewport();
+            frame.setShader(*directionalLightShader);
+            for (DirectionalLightComponent::ConstIterator light : _frameData.directionalLights)
+            {
+                _frameData.primaryLightDirection = light->direction;
+                _frameData.primaryLightColor = light->color;
+                setBoundUniforms(frame, *directionalLightShader, camera, target, TransformComponent::Identity);
+                frame.renderViewport();
+            }
         }
     }
 
