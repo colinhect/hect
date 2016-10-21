@@ -96,7 +96,7 @@ void DefaultScene::tick(double timeStep)
 
 void DefaultScene::render(RenderTarget& target)
 {
-    _renderSystem->render(target);
+    _renderSystem->render(*this, target);
     _interfaceSystem->renderAllInterfaces();
 }
 

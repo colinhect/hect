@@ -38,9 +38,7 @@ using namespace hect;
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     _renderer(engine.renderer()),
-    _taskPool(engine.taskPool()),
-    _cameraSystem(scene.system<CameraSystem>()),
-    _debugSystem(scene.system<DebugSystem>())
+    _taskPool(engine.taskPool())
 {
 }
 
@@ -65,7 +63,7 @@ void RenderSystem::addRenderCall(const TransformComponent& transform, Mesh& mesh
     }
 }
 
-void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
+void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCube& texture)
 {
     // These values are specific to OpenGL's cube map conventions (issue #189)
     static std::vector<std::pair<Vector3, Vector3>> cameraVectors =
@@ -78,7 +76,8 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
         std::pair<Vector3, Vector3>(-Vector3::UnitZ, -Vector3::UnitY),
     };
 
-    if (_cameraSystem)
+    CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
+    if (cameraSystem)
     {
         // Create a geometry buffer for rendering to the texture cube
         unsigned width = texture.width();
@@ -86,7 +85,7 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
         GeometryBuffer geometryBuffer(width, height);
 
         // Create a transient entity for holding our camera
-        Entity::Iterator entity = scene().createEntity();
+        Entity::Iterator entity = scene.createEntity();
         entity->setTransient(true);
 
         // Create the camera
@@ -95,7 +94,7 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
         camera->exposure = -1.0;
         camera->fieldOfView = Radians(Pi / 2);
 
-        CameraComponent::Iterator activeCamera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator activeCamera = cameraSystem->activeCamera();
         if (activeCamera)
         {
             camera->nearClip = activeCamera->nearClip;
@@ -108,7 +107,7 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
             // Update the camera's matrices
             camera->front = cameraVectors[i].first;
             camera->up = cameraVectors[i].second;
-            _cameraSystem->updateCamera(*camera);
+            cameraSystem->updateCamera(*camera);
 
             // Create the frame buffer and attach the corresponding face
             // of the cubic texture
@@ -116,7 +115,7 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
             frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
 
             // Render the frame
-            prepareFrame(*camera, scene(), frameBuffer, geometryBuffer);
+            prepareFrame(*camera, scene, frameBuffer, geometryBuffer);
             renderFrame(*camera, frameBuffer);
         }
 
@@ -125,11 +124,12 @@ void RenderSystem::renderToTextureCube(Vector3 position, TextureCube& texture)
     }
 }
 
-void RenderSystem::render(RenderTarget& target)
+void RenderSystem::render(Scene& scene, RenderTarget& target)
 {
-    if (_cameraSystem)
+    CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
+    if (cameraSystem)
     {
-        CameraComponent::Iterator camera = _cameraSystem->activeCamera();
+        CameraComponent::Iterator camera = cameraSystem->activeCamera();
         if (camera)
         {
             if (!_geometryBuffer)
@@ -137,7 +137,7 @@ void RenderSystem::render(RenderTarget& target)
                 _geometryBuffer.reset(new GeometryBuffer(target.width(), target.height()));
             }
 
-            prepareFrame(*camera, scene(), target, *_geometryBuffer);
+            prepareFrame(*camera, scene, target, *_geometryBuffer);
             renderFrame(*camera, target);
         }
         else
@@ -164,9 +164,10 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     {
         camera.aspectRatio = target.aspectRatio();
 
-        if (_cameraSystem)
+        CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
+        if (cameraSystem)
         {
-            _cameraSystem->updateCamera(camera);
+            cameraSystem->updateCamera(camera);
         }
     }
 
@@ -194,9 +195,10 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     }
 
     // Add render calls for debug geometry
-    if (_debugSystem)
+    DebugSystem::Handle debugSystem = scene.system<DebugSystem>();
+    if (debugSystem)
     {
-        _debugSystem->addRenderCalls(*this);
+        debugSystem->addRenderCalls(*this);
     }
 
     // Add each directional light to the frame data

@@ -66,15 +66,17 @@ public:
     ///
     /// \note The properties of the camera camera are used.
     ///
+    /// \param scene The scene to render.
     /// \param position The position to render from.
     /// \param texture The texture to render to.
-    void renderToTextureCube(Vector3 position, TextureCube& texture);
+    void renderToTextureCube(Scene& scene, Vector3 position, TextureCube& texture);
 
     ///
     /// Renders the scene to the specified target.
     ///
+    /// \param scene The scene to render.
     /// \param target The target to render to.
-    void render(RenderTarget& target);
+    void render(Scene& scene, RenderTarget& target);
 
     ///
     /// The shader used to expose the final image to the window.
@@ -164,9 +166,6 @@ private:
     TaskPool& _taskPool;
 
     std::unique_ptr<GeometryBuffer> _geometryBuffer;
-
-    CameraSystem::Handle _cameraSystem;
-    DebugSystem::Handle _debugSystem;
 
     Material::Handle _skyBoxMaterial;
 };
