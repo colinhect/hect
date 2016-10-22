@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-typename T& Scene::createSystem()
+T& Scene::createSystem()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     addSystemType(typeId);
@@ -40,14 +40,14 @@ bool Scene::hasSystemType()
 }
 
 template <typename T>
-typename T& Scene::system()
+T& Scene::system()
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     return *reinterpret_cast<T*>(&systemOfTypeId(typeId));
 }
 
 template <typename T>
-typename const T& Scene::system() const
+const T& Scene::system() const
 {
     SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
     return *reinterpret_cast<T*>(&systemOfTypeId(typeId));

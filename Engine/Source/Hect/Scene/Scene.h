@@ -82,7 +82,7 @@ public:
     /// \throws InvalidOperation If a system of the same type was already
     /// created for the scene.
     template <typename T>
-    typename T& createSystem();
+    T& createSystem();
 
     ///
     /// Returns whether the scene supports the specified System type.
@@ -95,7 +95,7 @@ public:
     /// \throws InvalidOperation If the system type is not supported by the
     /// scene.
     template <typename T>
-    typename T& system();
+    T& system();
 
     ///
     /// Returns a handle to the System of a specific type.
@@ -103,7 +103,7 @@ public:
     /// \throws InvalidOperation If the system type is not supported by the
     /// scene.
     template <typename T>
-    typename const T& system() const;
+    const T& system() const;
 
     ///
     /// Returns whether the scene supports the specified System type id.
