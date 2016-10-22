@@ -1765,7 +1765,7 @@ TEST_CASE("Get a system before a system of that type is created for a scene", "[
 
     REQUIRE_THROWS_AS(scene.system<TestSystemA>(), InvalidOperation);
 
-    TestSystemA& testSystemA = scene.createSystem<TestSystemA>();
+    scene.createSystem<TestSystemA>();
     scene.system<TestSystemA>();
 }
 
