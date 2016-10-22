@@ -108,10 +108,6 @@ private:
     void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
     void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
 
-    TaskPool& _taskPool;
-
-    TransformSystem::Handle _transformSystem;
-
     std::vector<ComponentId> _committedRigidBodyIds;
     std::vector<btRigidBody*> _addedRigidBodies;
     std::vector<btRigidBody*> _removedRigidBodies;

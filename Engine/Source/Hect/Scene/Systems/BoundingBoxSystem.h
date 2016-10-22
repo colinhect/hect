@@ -57,8 +57,6 @@ private:
 
     // System overrides
     void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
-
-    DebugSystem::Handle _debugSystem;
 };
 
 }

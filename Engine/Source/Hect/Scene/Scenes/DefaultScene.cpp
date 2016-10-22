@@ -65,24 +65,24 @@ void DefaultScene::preTick(double timeStep)
 {
     Scene::refresh();
 
-    _inputSystem->updateAxes(timeStep);
-    _debugSystem->clearEnqueuedDebugGeometry();
+    _inputSystem.updateAxes(timeStep);
+    _debugSystem.clearEnqueuedDebugGeometry();
 }
 
 void DefaultScene::postTick(double timeStep)
 {
-    _physicsSystem->waitForSimulationTask();
-    _physicsSystem->syncWithSimulation();
-    _physicsSystem->beginSimulationTask(timeStep);
+    _physicsSystem.waitForSimulationTask();
+    _physicsSystem.syncWithSimulation();
+    _physicsSystem.beginSimulationTask(timeStep);
 
-    _transformSystem->updateCommittedTransforms();
-    _cameraSystem->updateAllCameras();
+    _transformSystem.updateCommittedTransforms();
+    _cameraSystem.updateAllCameras();
 
-    _interfaceSystem->tickAllInterfaces(timeStep);
+    _interfaceSystem.tickAllInterfaces(timeStep);
 
     if (_debugRenderingEnabled)
     {
-        _boundingBoxSystem->renderDebugGeometry();
+        _boundingBoxSystem.renderDebugGeometry();
     }
 
     Scene::refresh();
@@ -96,8 +96,8 @@ void DefaultScene::tick(double timeStep)
 
 void DefaultScene::render(RenderTarget& target)
 {
-    _renderSystem->render(*this, target);
-    _interfaceSystem->renderAllInterfaces();
+    _renderSystem.render(*this, target);
+    _interfaceSystem.renderAllInterfaces();
 }
 
 void DefaultScene::receiveEvent(const KeyboardEvent& event)

@@ -30,8 +30,7 @@ TEST_CASE("Log an info message from a script", "[ScriptSystem]")
 {
     DefaultScene scene(Engine::instance());
 
-    ScriptSystem::Handle scriptSystem = scene.createSystem<ScriptSystem>();
-    REQUIRE(scriptSystem);
+    ScriptSystem& scriptSystem = scene.createSystem<ScriptSystem>();
 
-    scriptSystem->execute("info('Testing...')");
+    scriptSystem.execute("info('Testing...')");
 }

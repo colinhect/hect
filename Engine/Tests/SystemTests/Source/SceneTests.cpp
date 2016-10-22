@@ -1745,12 +1745,10 @@ TEST_CASE("Create a system for a scene", "[Scene]")
     scene.createSystem<TestSystemA>();
     REQUIRE(scene.hasSystemType<TestSystemA>());
 
-    TestSystemA::Handle testSystemA = scene.system<TestSystemA>();
-    REQUIRE(testSystemA);
-    TestSystemA::Handle testSystemB = scene.system<TestSystemA>();
-    REQUIRE(testSystemB);
+    TestSystemA& testSystemA = scene.system<TestSystemA>();
+    TestSystemA& testSystemB = scene.system<TestSystemA>();
 
-    REQUIRE(&*testSystemA == &*testSystemB);
+    REQUIRE(&testSystemA == &testSystemB);
 }
 
 TEST_CASE("Create an existing system for a scene", "[Scene]")
@@ -1761,20 +1759,14 @@ TEST_CASE("Create an existing system for a scene", "[Scene]")
     REQUIRE_THROWS_AS(scene.createSystem<TestSystemA>(), InvalidOperation);
 }
 
-TEST_CASE("Create a system handle before a system type is created for a scene", "[Scene]")
+TEST_CASE("Get a system before a system of that type is created for a scene", "[Scene]")
 {
     DefaultScene scene(Engine::instance());
 
-    TestSystemA::Handle testSystemA = scene.system<TestSystemA>();
-    REQUIRE(!testSystemA);
-    REQUIRE_THROWS_AS(*testSystemA, InvalidOperation);
+    REQUIRE_THROWS_AS(scene.system<TestSystemA>(), InvalidOperation);
 
-    TestSystemA::Handle createdHandle = scene.createSystem<TestSystemA>();
-
-    REQUIRE(testSystemA);
-    REQUIRE(createdHandle == testSystemA);
-
-    testSystemA->value = "Test";
+    TestSystemA& testSystemA = scene.createSystem<TestSystemA>();
+    scene.system<TestSystemA>();
 }
 
 TEST_CASE("Encode and decode a simple scene", "[Scene]")
@@ -1829,10 +1821,10 @@ TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
 {
     testEncodeDecode([](Scene& scene)
     {
-        scene.system<PhysicsSystem>()->gravity = Vector3(1, 2, 3);
+        scene.system<PhysicsSystem>().gravity = Vector3(1, 2, 3);
     }, [](Scene& scene)
     {
-        REQUIRE(scene.system<PhysicsSystem>()->gravity == Vector3(1, 2, 3));
+        REQUIRE(scene.system<PhysicsSystem>().gravity == Vector3(1, 2, 3));
     });
 }
 
@@ -1848,8 +1840,8 @@ TEST_CASE("Systems are notified about the additions and removals of component ty
     entity->activate();
     scene.refresh();
 
-    REQUIRE(scene.system<TestSystemB>()->value == "TestA added");
+    REQUIRE(scene.system<TestSystemB>().value == "TestA added");
 
     entity->addComponent<TestB>();
-    REQUIRE(scene.system<TestSystemB>()->value == "TestB added");
+    REQUIRE(scene.system<TestSystemB>().value == "TestB added");
 }

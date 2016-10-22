@@ -162,9 +162,6 @@ private:
         GeometryBuffer* geometryBuffer { nullptr };
     } _frameData;
 
-    Renderer& _renderer;
-    TaskPool& _taskPool;
-
     std::unique_ptr<GeometryBuffer> _geometryBuffer;
 
     Material::Handle _skyBoxMaterial;

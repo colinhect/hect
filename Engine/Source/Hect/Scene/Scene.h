@@ -39,7 +39,6 @@
 #include "Hect/Scene/Entity.h"
 #include "Hect/Scene/EntityPool.h"
 #include "Hect/Scene/SystemBase.h"
-#include "Hect/Scene/SystemHandle.h"
 #include "Hect/Scene/SystemRegistry.h"
 
 namespace hect
@@ -65,7 +64,6 @@ class HECT_EXPORT Scene :
 {
     friend class Entity;
     template <typename T> friend class Component;
-    template <typename T> friend class SystemHandle;
 public:
 
     ///
@@ -84,7 +82,7 @@ public:
     /// \throws InvalidOperation If a system of the same type was already
     /// created for the scene.
     template <typename T>
-    typename T::Handle createSystem();
+    typename T& createSystem();
 
     ///
     /// Returns whether the scene supports the specified System type.
@@ -94,18 +92,18 @@ public:
     ///
     /// Returns a handle to the System of a specific type.
     ///
-    /// \note If the specified system type is not supported by the scene, then
-    /// the resulting handle is invalid.
+    /// \throws InvalidOperation If the system type is not supported by the
+    /// scene.
     template <typename T>
-    typename T::Handle system();
+    typename T& system();
 
     ///
     /// Returns a handle to the System of a specific type.
     ///
-    /// \note If the specified system type is not supported by the scene, then
-    /// the resulting handle is invalid.
+    /// \throws InvalidOperation If the system type is not supported by the
+    /// scene.
     template <typename T>
-    typename T::ConstHandle system() const;
+    typename const T& system() const;
 
     ///
     /// Returns whether the scene supports the specified System type id.
@@ -263,5 +261,4 @@ private:
 #include "Component.inl"
 #include "ComponentIterator.inl"
 #include "ComponentPool.inl"
-#include "SystemHandle.inl"
 #include "Scene.inl"

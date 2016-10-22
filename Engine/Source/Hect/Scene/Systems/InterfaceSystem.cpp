@@ -28,10 +28,7 @@
 using namespace hect;
 
 InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _mouse(engine.mouse()),
-    _renderer(engine.renderer()),
-    _vectorRenderer(engine.vectorRenderer())
+    System(engine, scene)
 {
     if (engine.hasMouse())
     {
@@ -48,17 +45,21 @@ Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
 
 Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
 {
-    return _vectorRenderer.measureTextDimensions(text, font, size);
+    VectorRenderer& vectorRenderer = engine().vectorRenderer();
+    return vectorRenderer.measureTextDimensions(text, font, size);
 }
 
 void InterfaceSystem::renderAllInterfaces()
 {
+    Renderer& renderer = engine().renderer();
+    VectorRenderer& vectorRenderer = engine().vectorRenderer();
+
     for (const Interface::Handle& interface : _interfaces)
     {
         RenderTarget& interfaceTarget = interface->renderTarget();
 
-        Renderer::Frame frame = _renderer.beginFrame(interfaceTarget);
-        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(interfaceTarget);
+        Renderer::Frame frame = renderer.beginFrame(interfaceTarget);
+        VectorRenderer::Frame vectorFrame = vectorRenderer.beginFrame(interfaceTarget);
 
         Rectangle clipping(0.0, 0.0, interfaceTarget.width(), interfaceTarget.height());
         interface->render(vectorFrame, clipping);
@@ -75,7 +76,8 @@ void InterfaceSystem::tickAllInterfaces(double timeStep)
 
 void InterfaceSystem::receiveEvent(const MouseEvent& event)
 {
-    if (_mouse.mode() == MouseMode::Cursor)
+    Mouse& mouse = engine().mouse();
+    if (mouse.mode() == MouseMode::Cursor)
     {
         for (const Interface::Handle& interface : _interfaces)
         {

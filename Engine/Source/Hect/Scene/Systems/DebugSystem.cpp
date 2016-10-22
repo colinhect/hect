@@ -35,9 +35,6 @@ using namespace hect;
 
 DebugSystem::DebugSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
-    _renderer(engine.renderer()),
-    _window(engine.window()),
-    _interfaceSystem(scene.system<InterfaceSystem>()),
     _linesMesh("DebugLines")
 {
     VertexLayout vertexLayout;
@@ -113,21 +110,20 @@ void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
 
 void DebugSystem::toggleShowInterface()
 {
-    if (_interfaceSystem)
+    if (!_interface && scene().hasSystemType<InterfaceSystem>())
     {
-        if (!_interface)
-        {
-            _interface = _interfaceSystem->createInterface(_window);
-        }
+        Window& window = engine().window();
+        auto& interfaceSystem = scene().system<InterfaceSystem>();
+        _interface = interfaceSystem.createInterface(window);
+    }
 
-        if (_systemPanel)
-        {
-            destroySystemPanel();
-        }
-        else
-        {
-            createSystemPanel();
-        }
+    if (_systemPanel)
+    {
+        destroySystemPanel();
+    }
+    else
+    {
+        createSystemPanel();
     }
 }
 
@@ -194,7 +190,8 @@ void DebugSystem::createSystemPanel()
 
     _systemPanel->setDimensions(table->dimensions() + panelMargin);
 
-    Vector2 windowDimensions(_window.width(), _window.height());
+    Window& window = engine().window();
+    Vector2 windowDimensions(window.width(), window.height());
     Vector2 systemPanelPosition = windowDimensions * 0.5 - _systemPanel->dimensions() * 0.5;
     _systemPanel->setPosition(systemPanelPosition);
 }

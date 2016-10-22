@@ -30,8 +30,7 @@
 using namespace hect;
 
 TransformSystem::TransformSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _boundingBoxSystem(scene.system<BoundingBoxSystem>())
+    System(engine, scene)
 {
 }
 
@@ -75,10 +74,8 @@ void TransformSystem::updateTransform(TransformComponent& transform)
     }
 
     // Force the bounding box to update
-    if (_boundingBoxSystem)
-    {
-        _boundingBoxSystem->updateRecursively(*entity);
-    }
+    BoundingBoxSystem& boundingBoxSystem = scene().system<BoundingBoxSystem>();
+    boundingBoxSystem.updateRecursively(*entity);
 }
 
 void TransformSystem::updateCommittedTransforms()

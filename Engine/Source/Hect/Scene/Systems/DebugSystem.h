@@ -98,10 +98,6 @@ private:
     void createSystemPanel();
     void destroySystemPanel();
 
-    Renderer& _renderer;
-    Window& _window;
-    InterfaceSystem::Handle _interfaceSystem;
-
     Interface::Handle _interface;
     PanelWidget::Handle _systemPanel;
 

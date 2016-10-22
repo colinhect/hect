@@ -36,9 +36,7 @@
 using namespace hect;
 
 RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
-    _renderer(engine.renderer()),
-    _taskPool(engine.taskPool())
+    System(engine, scene)
 {
 }
 
@@ -76,76 +74,72 @@ void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCu
         std::pair<Vector3, Vector3>(-Vector3::UnitZ, -Vector3::UnitY),
     };
 
-    CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
-    if (cameraSystem)
+    CameraSystem& cameraSystem = scene.system<CameraSystem>();
+
+    // Create a geometry buffer for rendering to the texture cube
+    unsigned width = texture.width();
+    unsigned height = texture.height();
+    GeometryBuffer geometryBuffer(width, height);
+
+    // Create a transient entity for holding our camera
+    Entity::Iterator entity = scene.createEntity();
+    entity->setTransient(true);
+
+    // Create the camera
+    CameraComponent::Iterator camera = entity->addComponent<CameraComponent>();
+    camera->position = position;
+    camera->exposure = -1.0;
+    camera->fieldOfView = Radians(Pi / 2);
+
+    CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
+    if (activeCamera)
     {
-        // Create a geometry buffer for rendering to the texture cube
-        unsigned width = texture.width();
-        unsigned height = texture.height();
-        GeometryBuffer geometryBuffer(width, height);
-
-        // Create a transient entity for holding our camera
-        Entity::Iterator entity = scene.createEntity();
-        entity->setTransient(true);
-
-        // Create the camera
-        CameraComponent::Iterator camera = entity->addComponent<CameraComponent>();
-        camera->position = position;
-        camera->exposure = -1.0;
-        camera->fieldOfView = Radians(Pi / 2);
-
-        CameraComponent::Iterator activeCamera = cameraSystem->activeCamera();
-        if (activeCamera)
-        {
-            camera->nearClip = activeCamera->nearClip;
-            camera->farClip = activeCamera->farClip;
-        }
-
-        // For each side of the cube face
-        for (unsigned i = 0; i < 6; ++i)
-        {
-            // Update the camera's matrices
-            camera->front = cameraVectors[i].first;
-            camera->up = cameraVectors[i].second;
-            cameraSystem->updateCamera(*camera);
-
-            // Create the frame buffer and attach the corresponding face
-            // of the cubic texture
-            FrameBuffer frameBuffer(width, height);
-            frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
-
-            // Render the frame
-            prepareFrame(*camera, scene, frameBuffer, geometryBuffer);
-            renderFrame(*camera, frameBuffer);
-        }
-
-        // Destroy the transient entity holding the camera
-        entity->destroy();
+        camera->nearClip = activeCamera->nearClip;
+        camera->farClip = activeCamera->farClip;
     }
+
+    // For each side of the cube face
+    for (unsigned i = 0; i < 6; ++i)
+    {
+        // Update the camera's matrices
+        camera->front = cameraVectors[i].first;
+        camera->up = cameraVectors[i].second;
+        cameraSystem.updateCamera(*camera);
+
+        // Create the frame buffer and attach the corresponding face
+        // of the cubic texture
+        FrameBuffer frameBuffer(width, height);
+        frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
+
+        // Render the frame
+        prepareFrame(*camera, scene, frameBuffer, geometryBuffer);
+        renderFrame(*camera, frameBuffer);
+    }
+
+    // Destroy the transient entity holding the camera
+    entity->destroy();
 }
 
 void RenderSystem::render(Scene& scene, RenderTarget& target)
 {
-    CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
-    if (cameraSystem)
+    CameraSystem& cameraSystem = scene.system<CameraSystem>();
+    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    if (camera)
     {
-        CameraComponent::Iterator camera = cameraSystem->activeCamera();
-        if (camera)
+        if (!_geometryBuffer)
         {
-            if (!_geometryBuffer)
-            {
-                _geometryBuffer.reset(new GeometryBuffer(target.width(), target.height()));
-            }
+            _geometryBuffer.reset(new GeometryBuffer(target.width(), target.height()));
+        }
 
-            prepareFrame(*camera, scene, target, *_geometryBuffer);
-            renderFrame(*camera, target);
-        }
-        else
-        {
-            // If there is no camera then just clear the target
-            Renderer::Frame frame = _renderer.beginFrame(target);
-            frame.clear();
-        }
+        prepareFrame(*camera, scene, target, *_geometryBuffer);
+        renderFrame(*camera, target);
+    }
+    else
+    {
+        // If there is no camera then just clear the target
+        Renderer& renderer = engine().renderer();
+        Renderer::Frame frame = renderer.beginFrame(target);
+        frame.clear();
     }
 }
 
@@ -164,11 +158,8 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     {
         camera.aspectRatio = target.aspectRatio();
 
-        CameraSystem::Handle cameraSystem = scene.system<CameraSystem>();
-        if (cameraSystem)
-        {
-            cameraSystem->updateCamera(camera);
-        }
+        CameraSystem& cameraSystem = scene.system<CameraSystem>();
+        cameraSystem.updateCamera(camera);
     }
 
     // Get the cube map of the active light probe
@@ -195,10 +186,10 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     }
 
     // Add render calls for debug geometry
-    DebugSystem::Handle debugSystem = scene.system<DebugSystem>();
-    if (debugSystem)
+    if (scene.hasSystemType<DebugSystem>())
     {
-        debugSystem->addRenderCalls(*this);
+        DebugSystem& debugSystem = scene.system<DebugSystem>();
+        debugSystem.addRenderCalls(*this);
     }
 
     // Add each directional light to the frame data
@@ -209,22 +200,24 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
 
     std::vector<Task::Handle> sortingTasks;
 
+    TaskPool& taskPool = engine().taskPool();
+
     // Spin up a task to sort the pre-physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sortingTasks.push_back(taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.prePhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
     // Spin up a task to sort the opaque physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sortingTasks.push_back(taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.opaquePhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
     }));
 
     // Spin up a task to sort the translucent physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sortingTasks.push_back(taskPool.enqueue([this]
     {
         std::vector<RenderCall>& renderCalls = _frameData.translucentPhysicalGeometry;
         std::sort(renderCalls.begin(), renderCalls.end());
@@ -240,10 +233,11 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
 void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
 {
     GeometryBuffer& geometryBuffer = *_frameData.geometryBuffer;
+    Renderer& renderer = engine().renderer();
 
     // Opaque geometry rendering
     {
-        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.frameBuffer());
+        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.frameBuffer());
         frame.clear(camera.clearColor);
 
         // Render pre-physical geometry
@@ -261,7 +255,7 @@ void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
 
     // Light rendering
     {
-        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
+        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.backFrameBuffer());
         frame.clear(Color::Zero, false);
 
         // Render environment light
@@ -290,7 +284,7 @@ void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
 
     // Composite
     {
-        Renderer::Frame frame = _renderer.beginFrame(geometryBuffer.backFrameBuffer());
+        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.backFrameBuffer());
         frame.clear(Color::Zero, false);
 
         // Composite
@@ -315,7 +309,7 @@ void RenderSystem::renderFrame(CameraComponent& camera, RenderTarget& target)
 
     // Expose
     {
-        Renderer::Frame frame = _renderer.beginFrame(target);
+        Renderer::Frame frame = renderer.beginFrame(target);
         frame.clear(camera.clearColor);
         frame.setShader(*exposeShader);
         setBoundUniforms(frame, *exposeShader, camera, target, TransformComponent::Identity);
@@ -537,6 +531,8 @@ void RenderSystem::initialize()
     _skyBoxMaterial->setShader(skyBoxShader);
     _skyBoxMaterial->setCullMode(CullMode::None);
 
+    Renderer& renderer = engine().renderer();
+
     for (MeshComponent& mesh : scene().components<MeshComponent>())
     {
         for (MeshSurface& surface : mesh.surfaces)
@@ -544,13 +540,13 @@ void RenderSystem::initialize()
             Mesh& mesh = *surface.mesh;
             Material& material = *surface.material;
 
-            _renderer.uploadMesh(mesh);
-            _renderer.uploadShader(*material.shader());
+            renderer.uploadMesh(mesh);
+            renderer.uploadShader(*material.shader());
             for (UniformValue& uniformValue : material.uniformValues())
             {
                 if (uniformValue.type() == UniformType::Texture2)
                 {
-                    _renderer.uploadTexture(*uniformValue.asTexture2());
+                    renderer.uploadTexture(*uniformValue.asTexture2());
                 }
             }
         }
@@ -558,7 +554,7 @@ void RenderSystem::initialize()
 
     for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
     {
-        _renderer.uploadTexture(*skyBox.texture);
+        renderer.uploadTexture(*skyBox.texture);
     }
 }
 

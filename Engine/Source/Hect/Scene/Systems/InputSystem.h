@@ -67,8 +67,6 @@ public:
 
 private:
     std::unordered_map<Name, InputAxis> _axes;
-
-    Engine& _engine;
 };
 
 }

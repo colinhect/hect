@@ -65,14 +65,14 @@ public:
     virtual void receiveEvent(const KeyboardEvent& event) override;
 
 private:
-    BoundingBoxSystem::Handle _boundingBoxSystem;
-    CameraSystem::Handle _cameraSystem;
-    DebugSystem::Handle _debugSystem;
-    InputSystem::Handle _inputSystem;
-    InterfaceSystem::Handle _interfaceSystem;
-    PhysicsSystem::Handle _physicsSystem;
-    RenderSystem::Handle _renderSystem;
-    TransformSystem::Handle _transformSystem;
+    BoundingBoxSystem& _boundingBoxSystem;
+    CameraSystem& _cameraSystem;
+    DebugSystem& _debugSystem;
+    InputSystem& _inputSystem;
+    InterfaceSystem& _interfaceSystem;
+    PhysicsSystem& _physicsSystem;
+    RenderSystem& _renderSystem;
+    TransformSystem& _transformSystem;
     bool _debugRenderingEnabled { false };
 };
 

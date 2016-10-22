@@ -23,13 +23,22 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "SystemBase.h"
 
+#include <cassert>
+
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;
 
-SystemBase::SystemBase(Scene& scene) :
+SystemBase::SystemBase(Engine& engine, Scene& scene) :
+    _engine(&engine),
     _scene(scene)
 {
+}
+
+Engine& SystemBase::engine() const
+{
+    assert(_engine);
+    return *_engine;
 }
 
 Scene& SystemBase::scene()

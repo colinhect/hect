@@ -112,8 +112,6 @@ TransformComponent convertFromBullet(const btTransform& t)
 PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
     System(engine, scene),
     gravity(Vector3(0, 0, -9.8)),
-    _taskPool(engine.taskPool()),
-    _transformSystem(scene.system<TransformSystem>()),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -141,7 +139,8 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
 
 void PhysicsSystem::beginSimulationTask(double timeStep)
 {
-    _physicsSimulationTask = _taskPool.enqueue([this, timeStep]
+    TaskPool& taskPool = engine().taskPool();
+    _physicsSimulationTask = taskPool.enqueue([this, timeStep]
     {
         _world->stepSimulation(timeStep, 4);
     });
@@ -200,66 +199,63 @@ void PhysicsSystem::syncWithSimulation()
         _world->setGravity(convertToBullet(gravity));
     }
 
-    if (_transformSystem)
+    auto& transformSystem = scene().system<TransformSystem>();
+
+    // For each rigid body component
+    for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
     {
-        // For each rigid body component
-        for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
+        Entity::Iterator entity = rigidBody.entity();
+        TransformComponent::Iterator transform = entity->component<TransformComponent>();
+        if (!entity->parent() && transform)
         {
-            Entity::Iterator entity = rigidBody.entity();
-            TransformComponent::Iterator transform = entity->component<TransformComponent>();
-            if (!entity->parent() && transform)
-            {
-                // Update the transform to what Bullet says it should be
-                btTransform bulletTransform;
-                ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            // Update the transform to what Bullet says it should be
+            btTransform bulletTransform;
+            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
 
-                TransformComponent newTransform = convertFromBullet(bulletTransform);
-                transform->localPosition = newTransform.localPosition;
-                transform->localScale = newTransform.localScale;
-                transform->localRotation = newTransform.localRotation;
-                _transformSystem->commitTransform(*transform);
+            TransformComponent newTransform = convertFromBullet(bulletTransform);
+            transform->localPosition = newTransform.localPosition;
+            transform->localScale = newTransform.localScale;
+            transform->localRotation = newTransform.localRotation;
+            transformSystem.commitTransform(*transform);
 
-                // Update rigid body properties to what Bullet says it should be
-                rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
-                rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
-            }
+            // Update rigid body properties to what Bullet says it should be
+            rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
+            rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
         }
     }
 }
 
 void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
 {
-    if (_transformSystem)
+    Entity::Iterator entity = rigidBody->entity();
+    TransformComponent::Iterator transform = entity->component<TransformComponent>();
+    if (transform)
     {
-        Entity::Iterator entity = rigidBody->entity();
-        TransformComponent::Iterator transform = entity->component<TransformComponent>();
-        if (transform)
+        Mesh& mesh = *rigidBody->mesh;
+        rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
+
+        btScalar mass = rigidBody->mass;
+        btVector3 localInertia(0, 0, 0);
+        if (mass != 0.0)
         {
-            Mesh& mesh = *rigidBody->mesh;
-            rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
-
-            btScalar mass = rigidBody->mass;
-            btVector3 localInertia(0, 0, 0);
-            if (mass != 0.0)
-            {
-                rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
-            }
-
-            btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
-            btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
-
-            _transformSystem->updateTransform(*transform);
-
-            rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
-            btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
-            rigidBody->_rigidBody.reset(new btRigidBody(info));
-            rigidBody->_rigidBody->setSleepingThresholds(0, 0);
-            rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
-            rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
-            rigidBody->_rigidBody->setAngularFactor(0.5);
-
-            _addedRigidBodies.push_back(rigidBody->_rigidBody.get());
+            rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
         }
+
+        btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
+        btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
+
+        auto& transformSystem = scene().system<TransformSystem>();
+        transformSystem.updateTransform(*transform);
+
+        rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
+        btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
+        rigidBody->_rigidBody.reset(new btRigidBody(info));
+        rigidBody->_rigidBody->setSleepingThresholds(0, 0);
+        rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
+        rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
+        rigidBody->_rigidBody->setAngularFactor(0.5);
+
+        _addedRigidBodies.push_back(rigidBody->_rigidBody.get());
     }
 }
 

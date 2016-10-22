@@ -89,10 +89,6 @@ private:
     // EventListener overrides
     void receiveEvent(const MouseEvent& event) override;
 
-    Mouse& _mouse;
-    Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
-
     std::vector<Interface::Handle> _interfaces;
 };
 

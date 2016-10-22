@@ -32,6 +32,7 @@
 namespace hect
 {
 
+class Engine;
 class RenderTarget;
 class Scene;
 
@@ -51,14 +52,19 @@ public:
     ///
     /// Constructs a system.
     ///
+    /// \param engine The engine.
     /// \param scene The scene that the system exists in.
-    SystemBase(Scene& scene);
+    SystemBase(Engine& engine, Scene& scene);
 
     virtual ~SystemBase() { }
 
     ///
     /// Called before the first call to Scene::refresh().
     virtual void initialize();
+
+    ///
+    /// Gets the engine.
+    Engine& engine() const;
 
     ///
     /// Gets the scene that the system affects.
@@ -69,6 +75,7 @@ public:
     const Scene& scene() const;
 
 private:
+    mutable Engine* _engine { nullptr };
     Scene& _scene;
 };
 
