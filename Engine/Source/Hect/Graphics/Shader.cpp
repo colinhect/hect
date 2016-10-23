@@ -90,7 +90,7 @@ Uniform& Shader::uniform(UniformIndex index)
 {
     if (index >= _uniforms.size())
     {
-        throw InvalidOperation(format("Shader does not have a uniform at index %i", index));
+        throw InvalidOperation(format("Shader '%s' does not have a uniform at index %i", name().data(), index));
     }
     return _uniforms[index];
 }
@@ -105,7 +105,7 @@ Uniform& Shader::uniform(Name name)
     auto it = _uniformIndices.find(name);
     if (it == _uniformIndices.end())
     {
-        throw InvalidOperation(format("Shader does not have a uniform named '%s'", name.data()));
+        throw InvalidOperation(format("Shader '%s' does not have a uniform named '%s'", this->name().data(), name.data()));
     }
     return _uniforms[it->second];
 }
@@ -120,7 +120,7 @@ Uniform& Shader::uniform(const char* name)
     auto it = _uniformIndices.find(name);
     if (it == _uniformIndices.end())
     {
-        throw InvalidOperation(format("Shader does not have a uniform named '%s'", name));
+        throw InvalidOperation(format("Shader '%s' does not have a uniform named '%s'", this->name().data(), name));
     }
     return _uniforms[it->second];
 }
