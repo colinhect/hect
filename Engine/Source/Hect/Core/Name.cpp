@@ -105,14 +105,14 @@ bool Name::operator!=(Name name) const
 
 Name::Index Name::lookUpIndex(const std::string& string)
 {
+    std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
+
     Name::Index index = -1;
 
     // If this is the first encounter of this name
     auto it = _nameStringToIndex.find(string);
     if (it == _nameStringToIndex.end())
     {
-        std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
-
         // If this is the first name added to the index then reserve space
         if (_nameIndexToString.size() == 0)
         {
