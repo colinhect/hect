@@ -30,7 +30,7 @@
 using namespace hect;
 
 Scene::Scene(Engine& engine) :
-    _engine(engine),
+    _engine(&engine),
     _entityPool(*this)
 {
     // Register to entity events if trace-level logging is enabled
@@ -106,6 +106,16 @@ void Scene::refresh()
     }
 }
 
+bool Scene::isInitialized() const
+{
+    return _initialized;
+}
+
+void Scene::initialize()
+{
+    _initialized = true;
+}
+
 Entity::Iterator Scene::createEntity(Name name)
 {
     Entity::Iterator entity = _entityPool.create(name);
@@ -117,7 +127,7 @@ Entity::Iterator Scene::loadEntity(const Path& path)
 {
     Entity::Iterator entity = createEntity();
 
-    AssetDecoder decoder(_engine.assetCache(), path);
+    AssetDecoder decoder(_engine->assetCache(), path);
     decoder >> decodeValue(*entity);
 
     return entity;
@@ -273,6 +283,12 @@ void Scene::decode(Decoder& decoder)
     refresh();
 }
 
+Engine& Scene::engine() const
+{
+    assert(_engine);
+    return *_engine;
+}
+
 void Scene::addSystemType(SystemTypeId typeId)
 {
     // Make sure the system isn't already added
@@ -296,7 +312,7 @@ void Scene::addSystemType(SystemTypeId typeId)
     }
 
     // Add the system
-    auto system = SystemRegistry::create(typeId, _engine, *this);
+    auto system = SystemRegistry::create(typeId, *_engine, *this);
     _systems[typeId] = system;
     _systemTypeIds.push_back(typeId);
     _systemsToInitialize.push_back(system.get());

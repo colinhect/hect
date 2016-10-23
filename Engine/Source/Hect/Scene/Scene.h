@@ -161,6 +161,17 @@ public:
     void refresh();
 
     ///
+    /// Returns whether the scene is initialized.
+    bool isInitialized() const;
+
+    ///
+    /// Perform initialization.
+    ///
+    /// \note This is always called after the Scene contructor and prior to
+    /// the first invocation of Scene::tick().
+    virtual void initialize();
+
+    ///
     /// Ticks all of the Systems in the scene.
     ///
     /// \param timeStep The duration of time in seconds for the tick to
@@ -207,6 +218,12 @@ public:
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
+protected:
+
+    ///
+    /// Returns the engine.
+    Engine& engine() const;
+
 private:
     void addSystemType(SystemTypeId typeId);
 
@@ -236,11 +253,12 @@ private:
 
     void receiveEvent(const EntityEvent& event) override;
 
-    Engine& _engine;
+    mutable Engine* _engine { nullptr };
 
     size_t _entityCount { 0 };
     EntityPool _entityPool;
 
+    bool _initialized { false };
     bool _active { true };
 
     std::deque<EntityId> _entitiesPendingCreation;
