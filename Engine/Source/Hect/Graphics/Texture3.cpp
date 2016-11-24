@@ -32,16 +32,11 @@ Texture3::Texture3()
 {
 }
 
-Texture3::Texture3(Name name, unsigned width, unsigned height, unsigned depth, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture3::Texture3(Name name, unsigned width, unsigned height, unsigned depth) :
     Asset(name),
     _width(width),
     _height(height),
-    _depth(depth),
-    _pixelFormat(pixelFormat),
-    _minFilter(minFilter),
-    _magFilter(magFilter),
-    _mipmapped(mipmapped),
-    _wrapped(wrapped)
+    _depth(depth)
 {
 }
 
@@ -123,11 +118,7 @@ TextureFilter Texture3::minFilter() const
 
 void Texture3::setMinFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _minFilter = filter;
 }
 
@@ -138,11 +129,7 @@ TextureFilter Texture3::magFilter() const
 
 void Texture3::setMagFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _magFilter = filter;
 }
 
@@ -153,11 +140,7 @@ bool Texture3::isMipmapped() const
 
 void Texture3::setMipmapped(bool mipmapped)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _mipmapped = mipmapped;
 }
 
@@ -168,11 +151,7 @@ bool Texture3::isWrapped() const
 
 void Texture3::setWrapped(bool wrapped)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _wrapped = wrapped;
 }
 
@@ -191,9 +170,15 @@ unsigned Texture3::depth() const
     return _depth;
 }
 
-const PixelFormat& Texture3::pixelFormat() const
+PixelFormat Texture3::pixelFormat() const
 {
     return _pixelFormat;
+}
+
+void Texture3::setPixelFormat(PixelFormat pixelFormat)
+{
+    destroyIfUploaded();
+    _pixelFormat = pixelFormat;
 }
 
 bool Texture3::operator==(const Texture3& texture) const
@@ -274,4 +259,12 @@ void Texture3::decode(Decoder& decoder)
             >> decodeEnum("magFilter", _magFilter)
             >> decodeValue("wrapped", _wrapped)
             >> decodeValue("mipmapped", _mipmapped);
+}
+
+void Texture3::destroyIfUploaded()
+{
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
 }

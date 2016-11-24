@@ -32,14 +32,10 @@ TextureCube::TextureCube()
 {
 }
 
-TextureCube::TextureCube(Name name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped) :
+TextureCube::TextureCube(Name name, unsigned width, unsigned height) :
     Asset(name),
     _width(width),
-    _height(height),
-    _pixelFormat(pixelFormat),
-    _minFilter(minFilter),
-    _magFilter(magFilter),
-    _mipmapped(mipmapped)
+    _height(height)
 {
 }
 
@@ -55,10 +51,7 @@ Image& TextureCube::image(CubeSide side)
 
 void TextureCube::setImage(CubeSide side, const Image::Handle& image)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
+    destroyIfUploaded();
 
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -96,11 +89,7 @@ TextureFilter TextureCube::minFilter() const
 
 void TextureCube::setMinFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _minFilter = filter;
 }
 
@@ -111,11 +100,7 @@ TextureFilter TextureCube::magFilter() const
 
 void TextureCube::setMagFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _magFilter = filter;
 }
 
@@ -126,11 +111,7 @@ bool TextureCube::isMipmapped() const
 
 void TextureCube::setMipmapped(bool mipmapped)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _mipmapped = mipmapped;
 }
 
@@ -144,11 +125,17 @@ unsigned TextureCube::height() const
     return _height;
 }
 
-const PixelFormat& TextureCube::pixelFormat() const
+PixelFormat TextureCube::pixelFormat() const
 {
     return _pixelFormat;
 }
 
+void TextureCube::setPixelFormat(PixelFormat pixelFormat)
+{
+    destroyIfUploaded();
+    _pixelFormat = pixelFormat;
+}
+    
 bool TextureCube::operator==(const TextureCube& texture) const
 {
     // Source images
@@ -232,4 +219,12 @@ void TextureCube::decode(Decoder& decoder)
     decoder >> decodeEnum("minFilter", _minFilter)
             >> decodeEnum("magFilter", _magFilter)
             >> decodeValue("mipmapped", _mipmapped);
+}
+
+void TextureCube::destroyIfUploaded()
+{
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
 }

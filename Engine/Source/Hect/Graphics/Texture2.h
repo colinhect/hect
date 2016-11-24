@@ -51,17 +51,7 @@ public:
     /// \param name The name.
     /// \param width The width.
     /// \param height The height.
-    /// \param pixelFormat The pixel format.
-    /// \param minFilter The minification filter.
-    /// \param magFilter The magnification filter.
-    /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture2(Name name, unsigned width, unsigned height,
-             const PixelFormat& pixelFormat = PixelFormat::Rgb8,
-             TextureFilter minFilter = TextureFilter::Linear,
-             TextureFilter magFilter = TextureFilter::Linear,
-             bool mipmapped = true,
-             bool wrapped = true);
+    Texture2(Name name, unsigned width, unsigned height);
 
     ///
     /// Constructs a 2-dimensional texture.
@@ -168,7 +158,16 @@ public:
 
     ///
     /// Returns the pixel format.
-    const PixelFormat& pixelFormat() const;
+    PixelFormat pixelFormat() const;
+
+    ///
+    /// Sets the pixel format.
+    ///
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the pixel format is set.
+    ///
+    /// \param pixelFormat The new pixel format.
+    void setPixelFormat(PixelFormat pixelFormat);
 
     ///
     /// Returns whether the texture is equivalent to another.
@@ -190,12 +189,14 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
+    void destroyIfUploaded();
+
     Image::Handle _image;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
 
-    PixelFormat _pixelFormat;
+    PixelFormat _pixelFormat { PixelFormat::Rgb8 };
 
     TextureFilter _minFilter { TextureFilter::Linear };
     TextureFilter _magFilter { TextureFilter::Linear };

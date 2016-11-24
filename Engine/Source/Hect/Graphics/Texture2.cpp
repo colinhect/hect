@@ -32,15 +32,10 @@ Texture2::Texture2()
 {
 }
 
-Texture2::Texture2(Name name, unsigned width, unsigned height, const PixelFormat& pixelFormat, TextureFilter minFilter, TextureFilter magFilter, bool mipmapped, bool wrapped) :
+Texture2::Texture2(Name name, unsigned width, unsigned height) :
     Asset(name),
     _width(width),
-    _height(height),
-    _pixelFormat(pixelFormat),
-    _minFilter(minFilter),
-    _magFilter(magFilter),
-    _mipmapped(mipmapped),
-    _wrapped(wrapped)
+    _height(height)
 {
 }
 
@@ -67,10 +62,7 @@ Image& Texture2::image()
 
 void Texture2::setImage(const Image::Handle& image)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
+    destroyIfUploaded();
 
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -115,11 +107,7 @@ TextureFilter Texture2::minFilter() const
 
 void Texture2::setMinFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _minFilter = filter;
 }
 
@@ -130,11 +118,7 @@ TextureFilter Texture2::magFilter() const
 
 void Texture2::setMagFilter(TextureFilter filter)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _magFilter = filter;
 }
 
@@ -145,11 +129,7 @@ bool Texture2::isMipmapped() const
 
 void Texture2::setMipmapped(bool mipmapped)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _mipmapped = mipmapped;
 }
 
@@ -160,11 +140,7 @@ bool Texture2::isWrapped() const
 
 void Texture2::setWrapped(bool wrapped)
 {
-    if (isUploaded())
-    {
-        renderer().destroyTexture(*this);
-    }
-
+    destroyIfUploaded();
     _wrapped = wrapped;
 }
 
@@ -178,11 +154,17 @@ unsigned Texture2::height() const
     return _height;
 }
 
-const PixelFormat& Texture2::pixelFormat() const
+PixelFormat Texture2::pixelFormat() const
 {
     return _pixelFormat;
 }
 
+void Texture2::setPixelFormat(PixelFormat pixelFormat)
+{
+    destroyIfUploaded();
+    _pixelFormat = pixelFormat;
+}
+    
 bool Texture2::operator==(const Texture2& texture) const
 {
     // Image
@@ -259,4 +241,12 @@ void Texture2::decode(Decoder& decoder)
             >> decodeEnum("magFilter", _magFilter)
             >> decodeValue("wrapped", _wrapped)
             >> decodeValue("mipmapped", _mipmapped);
+}
+
+void Texture2::destroyIfUploaded()
+{
+    if (isUploaded())
+    {
+        renderer().destroyTexture(*this);
+    }
 }

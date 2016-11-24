@@ -51,18 +51,8 @@ public:
     /// \param name The name.
     /// \param width The width.
     /// \param height The height.
-    /// \param depth The height.
-    /// \param pixelFormat The pixel format.
-    /// \param minFilter The minification filter.
-    /// \param magFilter The magnification filter.
-    /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    /// \param wrapped True if the texture is wrapped; false otherwise.
-    Texture3(Name name, unsigned width, unsigned height, unsigned depth,
-             const PixelFormat& pixelFormat = PixelFormat::Rgb8,
-             TextureFilter minFilter = TextureFilter::Linear,
-             TextureFilter magFilter = TextureFilter::Linear,
-             bool mipmapped = false,
-             bool wrapped = false);
+    /// \param depth The depth.
+    Texture3(Name name, unsigned width, unsigned height, unsigned depth);
 
     ///
     /// Returns the image of the texture for the specified depth.
@@ -173,7 +163,16 @@ public:
 
     ///
     /// Returns the pixel format.
-    const PixelFormat& pixelFormat() const;
+    PixelFormat pixelFormat() const;
+
+    ///
+    /// Sets the pixel format.
+    ///
+    /// \note If the texture is uploaded to a renderer then it will be
+    /// destroyed before the pixel format is set.
+    ///
+    /// \param pixelFormat The new pixel format.
+    void setPixelFormat(PixelFormat pixelFormat);
 
     ///
     /// Returns whether the texture is equivalent to another.
@@ -195,18 +194,20 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
+    void destroyIfUploaded();
+
     std::vector<Image::Handle> _images;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
     unsigned _depth { 0 };
 
-    PixelFormat _pixelFormat;
+    PixelFormat _pixelFormat { PixelFormat::Rgb8 };
 
     TextureFilter _minFilter { TextureFilter::Linear };
     TextureFilter _magFilter { TextureFilter::Linear };
 
-    bool _mipmapped { true };
+    bool _mipmapped { false };
     bool _wrapped { false };
 };
 
