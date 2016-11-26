@@ -54,7 +54,7 @@ typedef uint32_t SceneTypeId;
 /// A dynamic collection of \link Entity Entities \endlink, Component%s, and
 /// System%s.
 ///
-/// A scene is the fundumental piece of the games state and logic.  The
+/// A scene is the fundamental piece of the games state and logic.  The
 /// object-specific game state is stored in entities and their components and
 /// higher-level game state is stored in the systems.
 class HECT_EXPORT Scene :
