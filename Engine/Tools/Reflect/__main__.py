@@ -222,7 +222,7 @@ def generate_doxygen_xml(input_dir, output_dir):
         "WARN_IF_DOC_ERROR" : "YES",
         "WARN_IF_UNDOCUMENTED" : "NO",
         "WARN_NO_PARAMDOC" : "NO",
-        "WARNINGS" : "YES",
+        "WARNINGS" : "NO",
         "XML_OUTPUT" : "xml",
         "XML_PROGRAMLISTING" : "NO"
     }
