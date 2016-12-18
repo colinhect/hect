@@ -499,7 +499,7 @@ set(SOURCE_SCENE_SYSTEMS
 source_group("Source\\Hect\\Scene\\Systems" FILES
     ${SOURCE_SCENE_SYSTEMS}
     )
-   
+
 set(SOURCE_TIMING
     "Source/Hect/Timing/Timer.cpp"
     "Source/Hect/Timing/Timer.h"
@@ -509,7 +509,7 @@ set(SOURCE_TIMING
     )
 
 source_group("Source\\Hect\\Timing" FILES
-    ${SOURCE_RUNTIME_TIMING}
+    ${SOURCE_TIMING}
     )
 
 set(SOURCE_FILES
