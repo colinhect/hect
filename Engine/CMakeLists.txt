@@ -512,6 +512,21 @@ source_group("Source\\Hect\\Timing" FILES
     ${SOURCE_TIMING}
     )
 
+set(SOURCE_UNITS
+    "Source/Hect/Units/Angle.cpp"
+    "Source/Hect/Units/Angle.h"
+    "Source/Hect/Units/Distance.cpp"
+    "Source/Hect/Units/Distance.h"
+    "Source/Hect/Units/Time.cpp"
+    "Source/Hect/Units/Time.h"
+    "Source/Hect/Units/Unit.h"
+    "Source/Hect/Units/Unit.inl"
+    )
+
+source_group("Source\\Hect\\Units" FILES
+    ${SOURCE_UNITS}
+    )
+
 set(SOURCE_FILES
     ${SOURCE}
     ${SOURCE_CONCURRENCY}
@@ -535,6 +550,7 @@ set(SOURCE_FILES
     ${SOURCE_SCENE_SCENES}
     ${SOURCE_SCENE_SYSTEMS}
     ${SOURCE_TIMING}
+    ${SOURCE_UNITS}
     )
 
 add_library(Hect SHARED ${SOURCE_FILES})
