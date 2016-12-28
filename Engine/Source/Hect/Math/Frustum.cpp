@@ -34,13 +34,13 @@ Frustum::Frustum(
     Vector3 position,
     Vector3 front,
     Vector3 up,
-    Angle fieldOfView,
+    Radians fieldOfView,
     double aspectRatio,
     double nearClip,
     double farClip) :
     _position(position)
 {
-    double tangent = static_cast<double>(std::tan(fieldOfView.inRadians() * 0.5));
+    double tangent = static_cast<double>(std::tan(fieldOfView.value * 0.5));
 
     double nearHeight = nearClip * tangent;
     double nearWidth = nearHeight * aspectRatio;

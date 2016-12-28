@@ -25,9 +25,9 @@
 
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector2.h"
 #include "Hect/Math/Vector3.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -108,7 +108,7 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::angleFrom()
-    Angle angleFrom(Vector4T v) const;
+    Radians angleFrom(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::length()

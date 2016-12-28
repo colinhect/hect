@@ -28,6 +28,7 @@
 #include "Hect/Math/Plane.h"
 #include "Hect/Math/Sphere.h"
 #include "Hect/Math/Vector3.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -76,7 +77,7 @@ public:
         Vector3 position,
         Vector3 front,
         Vector3 up,
-        Angle fieldOfView,
+        Radians fieldOfView,
         double aspectRatio,
         double nearClip,
         double farClip);

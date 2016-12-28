@@ -25,9 +25,9 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Graphics/Color.h"
-#include "Hect/Math/Degrees.h"
 #include "Hect/Math/Frustum.h"
 #include "Hect/Scene/Scene.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -47,7 +47,7 @@ public:
     /// The horizontal field of view.
     ///
     /// \property
-    Angle fieldOfView { Degrees(90) };
+    Degrees fieldOfView { 90.0 };
 
     ///
     /// The aspect ratio.

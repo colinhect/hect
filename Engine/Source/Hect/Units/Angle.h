@@ -29,23 +29,25 @@
 namespace hect
 {
 
-class DegreesNew;
-class RadiansNew;
+class Degrees;
+class Radians;
 
-class HECT_EXPORT DegreesNew :
-    public Unit<DegreesNew, double>
+class HECT_EXPORT Degrees :
+    public Unit<Degrees, double>
 {
 public:
-    explicit DegreesNew(double value);
-    explicit DegreesNew(RadiansNew radians);
+    Degrees();
+    explicit Degrees(double value);
+    Degrees(Radians radians);
 };
 
-class HECT_EXPORT RadiansNew :
-    public Unit<RadiansNew, double>
+class HECT_EXPORT Radians :
+    public Unit<Radians, double>
 {
 public:
-    explicit RadiansNew(double value);
-    explicit RadiansNew(DegreesNew degrees);
+    Radians();
+    explicit Radians(double value);
+    Radians(Degrees degrees);
 };
 
 }

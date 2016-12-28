@@ -133,21 +133,21 @@ TEST_CASE("Get a normalized copy of a 3-dimensional vector", "[Vector3]")
 
 TEST_CASE("Compute the angle betwen two 3-dimensional vectors", "[Vector3]")
 {
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).inDegrees() == 0.0);
-    REQUIRE(Vector3::UnitX.angleFrom(-Vector3::UnitX).inDegrees() == 180.0);
+    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitX.angleFrom(-Vector3::UnitX)).value == 180.0);
 
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).inDegrees() == 0.0);
-    REQUIRE(Vector3::UnitY.angleFrom(-Vector3::UnitY).inDegrees() == 180.0);
+    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitY.angleFrom(-Vector3::UnitY)).value == 180.0);
 
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).inDegrees() == 0.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(-Vector3::UnitZ).inDegrees() == 180.0);
+    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(-Vector3::UnitZ)).value == 180.0);
 
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitY).inDegrees() == 90.0);
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitZ).inDegrees() == 90.0);
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitX).inDegrees() == 90.0);
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitZ).inDegrees() == 90.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitX).inDegrees() == 90.0);
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitY).inDegrees() == 90.0);
+    REQUIRE(Degrees(Vector3::UnitX.angleFrom(Vector3::UnitY)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitX.angleFrom(Vector3::UnitZ)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitY.angleFrom(Vector3::UnitX)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitY.angleFrom(Vector3::UnitZ)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(Vector3::UnitX)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(Vector3::UnitY)).value == 90.0);
 }
 
 TEST_CASE("Compute the cross product of two 3-dimensional vectors", "[Vector3]")

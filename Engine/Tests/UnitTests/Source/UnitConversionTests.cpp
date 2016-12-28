@@ -31,16 +31,16 @@ using namespace hect;
 
 TEST_CASE("Convert and compare equivalent angle units", "[Unit]")
 {
-    RadiansNew radians(Pi);
-    DegreesNew degrees(180.0);
+    Radians radians(Pi);
+    Degrees degrees(180.0);
 
-    REQUIRE(radians == RadiansNew(degrees));
-    REQUIRE(degrees == DegreesNew(radians));
+    REQUIRE(radians == Radians(degrees));
+    REQUIRE(degrees == Degrees(radians));
 }
 
 TEST_CASE("Perform basic arithmetic on angle units", "[Unit]")
 {
-    RadiansNew radians(Pi);
+    Radians radians(Pi);
     REQUIRE(radians * 2.0 == radians + radians);
 }
 

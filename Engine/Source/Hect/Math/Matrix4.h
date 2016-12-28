@@ -25,9 +25,9 @@
 
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -85,7 +85,7 @@ public:
     /// \param farClip The maximum distance from the origin to clip.
     ///
     /// \returns The projection matrix.
-    static Matrix4T createPerspective(Angle fieldOfView, T aspectRatio, T nearClip, T farClip);
+    static Matrix4T createPerspective(Radians fieldOfView, T aspectRatio, T nearClip, T farClip);
 
     ///
     /// Constructs an orthogonal projection matrix.

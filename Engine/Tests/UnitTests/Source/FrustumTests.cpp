@@ -21,8 +21,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <Hect/Math/Degrees.h>
 #include <Hect/Math/Frustum.h>
+#include <Hect/Units/Angle.h>
 using namespace hect;
 
 #include <catch.hpp>

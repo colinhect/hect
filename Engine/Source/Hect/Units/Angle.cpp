@@ -28,22 +28,30 @@
 namespace hect
 {
 
-DegreesNew::DegreesNew(double value) :
+Degrees::Degrees()
+{
+}
+
+Degrees::Degrees(double value) :
     Unit(value)
 {
 }
 
-DegreesNew::DegreesNew(RadiansNew radians) :
+Degrees::Degrees(Radians radians) :
     Unit(radians.value * (180.0 / Pi))
 {
 }
 
-RadiansNew::RadiansNew(double value) :
+Radians::Radians()
+{
+}
+
+Radians::Radians(double value) :
     Unit(value)
 {
 }
 
-RadiansNew::RadiansNew(DegreesNew degrees) :
+Radians::Radians(Degrees degrees) :
     Unit(degrees.value * (Pi / 180.0))
 {
 }

@@ -25,7 +25,7 @@
 
 #include "Hect/IO/Decoder.h"
 #include "Hect/IO/Encoder.h"
-#include "Hect/Math/Angle.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -88,7 +88,7 @@ public:
     /// Returns the angle from the vector to another vector.
     ///
     /// \param v The vector to compute the angle from.
-    Angle angleFrom(Vector2T v) const;
+    Radians angleFrom(Vector2T v) const;
 
     ///
     /// Returns the length of the vector.

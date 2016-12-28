@@ -23,9 +23,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Math/Angle.h"
 #include "Hect/Math/Vector3.h"
 #include "Hect/Math/Vector4.h"
+#include "Hect/Units/Angle.h"
 
 namespace hect
 {
@@ -46,7 +46,7 @@ public:
     ///
     /// \param axis The axis that the angle is relative to.
     /// \param angle The angle relative to the axis.
-    static QuaternionT fromAxisAngle(Vector3T<T> axis, Angle angle);
+    static QuaternionT fromAxisAngle(Vector3T<T> axis, Radians angle);
 
     ///
     /// Constructs an identity quaternion.
@@ -113,7 +113,7 @@ public:
     ///
     /// \param axis The resulting axis.
     /// \param angle The resulting angle.
-    void toAxisAngle(Vector3T<T>& axis, Angle& angle) const;
+    void toAxisAngle(Vector3T<T>& axis, Radians& angle) const;
 
     ///
     /// Returns the product of the quaternion and a scalar.

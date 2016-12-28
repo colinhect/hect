@@ -38,8 +38,8 @@ class HECT_EXPORT Seconds :
 {
 public:
     explicit Seconds(double value);
-    explicit Seconds(Minutes minutes);
-    explicit Seconds(Hours hours);
+    Seconds(Minutes minutes);
+    Seconds(Hours hours);
 };
 
 class HECT_EXPORT Minutes :
@@ -47,8 +47,8 @@ class HECT_EXPORT Minutes :
 {
 public:
     explicit Minutes(double value);
-    explicit Minutes(Seconds seconds);
-    explicit Minutes(Hours hours);
+    Minutes(Seconds seconds);
+    Minutes(Hours hours);
 };
 
 class HECT_EXPORT Hours :
@@ -56,8 +56,8 @@ class HECT_EXPORT Hours :
 {
 public:
     explicit Hours(double value);
-    explicit Hours(Seconds seconds);
-    explicit Hours(Minutes minutes);
+    Hours(Seconds seconds);
+    Hours(Minutes minutes);
 };
 
 }

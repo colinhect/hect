@@ -10,7 +10,6 @@ include_directories(
     )
 
 set(SOURCE_FILES
-    "Source/AngleTests.cpp"
     "Source/AnyTests.cpp"
     "Source/AssetTests.cpp"
     "Source/ColorTests.cpp"
@@ -47,7 +46,6 @@ set(SOURCE_FILES
     )
 
 source_group("Source" FILES
-    "Source/AngleTests.cpp"
     "Source/AnyTests.cpp"
     "Source/AssetTests.cpp"
     "Source/ColorTests.cpp"

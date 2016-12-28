@@ -294,15 +294,11 @@ source_group("Source\\Hect\\IO" FILES
     )
 
 set(SOURCE_MATH
-    "Source/Hect/Math/Angle.cpp"
-    "Source/Hect/Math/Angle.h"
     "Source/Hect/Math/AxisAlignedBox.cpp"
     "Source/Hect/Math/AxisAlignedBox.h"
     "Source/Hect/Math/Box.cpp"
     "Source/Hect/Math/Box.h"
     "Source/Hect/Math/Constants.h"
-    "Source/Hect/Math/Degrees.cpp"
-    "Source/Hect/Math/Degrees.h"
     "Source/Hect/Math/Frustum.cpp"
     "Source/Hect/Math/Frustum.h"
     "Source/Hect/Math/Functions.h"
@@ -313,8 +309,6 @@ set(SOURCE_MATH
     "Source/Hect/Math/Plane.h"
     "Source/Hect/Math/Quaternion.h"
     "Source/Hect/Math/Quaternion.inl"
-    "Source/Hect/Math/Radians.cpp"
-    "Source/Hect/Math/Radians.h"
     "Source/Hect/Math/Rectangle.cpp"
     "Source/Hect/Math/Rectangle.h"
     "Source/Hect/Math/Sphere.cpp"
