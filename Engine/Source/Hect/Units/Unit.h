@@ -29,36 +29,47 @@
 namespace hect
 {
 
-template <typename T, typename U>
+///
+/// A strongly-typed unit supporting basic arithmetic and comparison.
+template <typename UnitType, typename ValueType>
 class Unit
 {
 public:
     Unit();
-    Unit(U value);
+    Unit(ValueType value);
 
-    T operator+(T unit) const;
-    T operator-(T unit) const;
-    T operator*(U value) const;
-    T operator/(U value) const;
+    UnitType operator+(UnitType unit) const;
+    UnitType operator-(UnitType unit) const;
+    UnitType operator*(UnitType unit) const;
+    UnitType operator/(UnitType unit) const;
+    UnitType operator*(ValueType value) const;
+    UnitType operator/(ValueType value) const;
 
-    Unit& operator+=(T unit);
-    Unit& operator-=(T unit);
-    Unit& operator*=(U value);
-    Unit& operator/=(U value);
+    Unit& operator+=(UnitType unit);
+    Unit& operator-=(UnitType unit);
+    Unit& operator*=(UnitType unit);
+    Unit& operator/=(UnitType unit);
+    Unit& operator*=(ValueType value);
+    Unit& operator/=(ValueType value);
 
-    T operator-() const;
+    UnitType operator-() const;
 
-    bool operator==(T unit) const;
-    bool operator!=(T unit) const;
+    bool operator<(UnitType unit) const;
+    bool operator<=(UnitType unit) const;
+    bool operator>(UnitType unit) const;
+    bool operator>=(UnitType unit) const;
 
-    U value { U() };
+    bool operator==(UnitType unit) const;
+    bool operator!=(UnitType unit) const;
+
+    ValueType value { ValueType() };
 };
 
-template <typename T, typename U>
-Encoder& operator<<(Encoder& encoder, Unit<T, U> unit);
+template <typename UnitType, typename ValueType>
+Encoder& operator<<(Encoder& encoder, Unit<UnitType, ValueType> unit);
 
-template <typename T, typename U>
-Decoder& operator>>(Decoder& decoder, Unit<T, U>& unit);
+template <typename UnitType, typename ValueType>
+Decoder& operator>>(Decoder& decoder, Unit<UnitType, ValueType>& unit);
 
 }
 

@@ -26,96 +26,146 @@
 namespace hect
 {
 
-template <typename T, typename U>
-Unit<T, U>::Unit()
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>::Unit()
 {
 }
 
-template <typename T, typename U>
-Unit<T, U>::Unit(U value) :
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>::Unit(ValueType value) :
     value(value)
 {
 }
 
-template <typename T, typename U>
-T Unit<T, U>::operator+(T unit) const
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator+(UnitType unit) const
 {
-    return T(value + unit.value);
+    return UnitType(value + unit.value);
 }
 
-template <typename T, typename U>
-T Unit<T, U>::operator-(T unit) const
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator-(UnitType unit) const
 {
-    return T(value - unit.value);
+    return UnitType(value - unit.value);
 }
 
-template <typename T, typename U>
-T Unit<T, U>::operator*(U value) const
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator*(UnitType unit) const
 {
-    return T(this->value * value);
+    return UnitType(value * unit.value);
 }
 
-template <typename T, typename U>
-T Unit<T, U>::operator/(U value) const
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator/(UnitType unit) const
 {
-    return T(this->value / value);
+    return UnitType(value / unit.value);
 }
 
-template <typename T, typename U>
-Unit<T, U>& Unit<T, U>::operator+=(T unit)
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator*(ValueType value) const
+{
+    return UnitType(this->value * value);
+}
+
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator/(ValueType value) const
+{
+    return UnitType(this->value / value);
+}
+
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator+=(UnitType unit)
 {
     value += unit.value;
     return *this;
 }
 
-template <typename T, typename U>
-Unit<T, U>& Unit<T, U>::operator-=(T unit)
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator-=(UnitType unit)
 {
     value -= unit.value;
     return *this;
 }
 
-template <typename T, typename U>
-Unit<T, U>& Unit<T, U>::operator*=(U value)
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator*=(UnitType unit)
+{
+    value *= unit.value;
+    return *this;
+}
+
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator/=(UnitType unit)
+{
+    value /= unit.value;
+    return *this;
+}
+
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator*=(ValueType value)
 {
     this->value *= value;
     return *this;
 }
 
-template <typename T, typename U>
-Unit<T, U>& Unit<T, U>::operator/=(U value)
+template <typename UnitType, typename ValueType>
+Unit<UnitType, ValueType>& Unit<UnitType, ValueType>::operator/=(ValueType value)
 {
     this->value /= value;
     return *this;
 }
 
-template <typename T, typename U>
-T Unit<T, U>::operator-() const
+template <typename UnitType, typename ValueType>
+UnitType Unit<UnitType, ValueType>::operator-() const
 {
-    return T(-value);
+    return UnitType(-value);
 }
 
-template <typename T, typename U>
-bool Unit<T, U>::operator==(T unit) const
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator<(UnitType unit) const
+{
+    return value < unit.value;
+}
+
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator<=(UnitType unit) const
+{
+    return value <= unit.value;
+}
+
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator>(UnitType unit) const
+{
+    return value > unit.value;
+}
+
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator>=(UnitType unit) const
+{
+    return value >= unit.value;
+}
+
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator==(UnitType unit) const
 {
     return value == unit.value;
 }
 
-template <typename T, typename U>
-bool Unit<T, U>::operator!=(T unit) const
+template <typename UnitType, typename ValueType>
+bool Unit<UnitType, ValueType>::operator!=(UnitType unit) const
 {
     return value != unit.value;
 }
 
-template <typename T, typename U>
-Encoder& operator<<(Encoder& encoder, Unit<T, U> unit)
+template <typename UnitType, typename ValueType>
+Encoder& operator<<(Encoder& encoder, Unit<UnitType, ValueType> unit)
 {
     encoder << unit.value;
     return encoder;
 }
 
-template <typename T, typename U>
-Decoder& operator>>(Decoder& decoder, Unit<T, U>& unit)
+template <typename UnitType, typename ValueType>
+Decoder& operator>>(Decoder& decoder, Unit<UnitType, ValueType>& unit)
 {
     decoder >> unit.value;
     return decoder;
