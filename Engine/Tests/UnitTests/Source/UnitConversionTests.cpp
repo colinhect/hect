@@ -47,13 +47,33 @@ TEST_CASE("Perform basic arithmetic on angle units", "[Unit]")
 TEST_CASE("Convert and compare equivalent time units", "[Unit]")
 {
     Hours hours(1.0);
-    Minutes minutes(1.0 * 60.0);
-    Seconds seconds(1.0 * 60.0 * 60.0);
+    Minutes minutes(hours.value * 60.0);
+    Seconds seconds(minutes.value * 60.0);
+    Milliseconds milliseconds(static_cast<int64_t>(seconds.value) * 1000);
+    Microseconds microseconds(milliseconds.value * 1000);
 
+    REQUIRE(microseconds == Microseconds(milliseconds));
+    REQUIRE(microseconds == Microseconds(seconds));
+    REQUIRE(microseconds == Microseconds(minutes));
+    REQUIRE(microseconds == Microseconds(hours));
+
+    REQUIRE(milliseconds == Milliseconds(microseconds));
+    REQUIRE(milliseconds == Milliseconds(seconds));
+    REQUIRE(milliseconds == Milliseconds(minutes));
+    REQUIRE(milliseconds == Milliseconds(hours));
+
+    REQUIRE(seconds == Seconds(microseconds));
+    REQUIRE(seconds == Seconds(milliseconds));
     REQUIRE(seconds == Seconds(minutes));
     REQUIRE(seconds == Seconds(hours));
+
+    REQUIRE(minutes == Minutes(microseconds));
+    REQUIRE(minutes == Minutes(milliseconds));
     REQUIRE(minutes == Minutes(seconds));
     REQUIRE(minutes == Minutes(hours));
+
+    REQUIRE(hours == Hours(microseconds));
+    REQUIRE(hours == Hours(milliseconds));
     REQUIRE(hours == Hours(seconds));
     REQUIRE(hours == Hours(minutes));
 }

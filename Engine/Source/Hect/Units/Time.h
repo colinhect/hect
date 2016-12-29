@@ -38,6 +38,48 @@ class Minutes;
 class Hours;
 
 ///
+/// A length of time in microseconds.
+class HECT_EXPORT Microseconds :
+    public Unit<Microseconds, int64_t>
+{
+public:
+
+    ///
+    /// Constructs a zero-length of time in microseconds.
+    Microseconds();
+
+    ///
+    /// Constructs a length of time in microseconds.
+    ///
+    /// \param value The value of the length of time in microseconds.
+    explicit Microseconds(int64_t value);
+
+    ///
+    /// Converts milliseconds to microseconds.
+    ///
+    /// \param time The length of time to convert.
+    Microseconds(Milliseconds time);
+
+    ///
+    /// Converts seconds to microseconds.
+    ///
+    /// \param time The length of time to convert.
+    Microseconds(Seconds time);
+
+    ///
+    /// Converts minutes to microseconds.
+    ///
+    /// \param time The length of time to convert.
+    Microseconds(Minutes time);
+
+    ///
+    /// Converts hours to microseconds.
+    ///
+    /// \param time The length of time to convert.
+    Microseconds(Hours time);
+};
+
+///
 /// A length of time in milliseconds.
 class HECT_EXPORT Milliseconds :
     public Unit<Milliseconds, int64_t>
@@ -53,6 +95,12 @@ public:
     ///
     /// \param value The value of the length of time in milliseconds.
     explicit Milliseconds(int64_t value);
+
+    ///
+    /// Converts microseconds to milliseconds.
+    ///
+    /// \param time The length of time to convert.
+    Milliseconds(Microseconds time);
 
     ///
     /// Converts seconds to milliseconds.
@@ -91,6 +139,12 @@ public:
     explicit Seconds(double value);
 
     ///
+    /// Converts microseconds to seconds.
+    ///
+    /// \param time The length of time to convert.
+    Seconds(Microseconds time);
+
+    ///
     /// Converts milliseconds to seconds.
     ///
     /// \param time The length of time to convert.
@@ -127,6 +181,12 @@ public:
     explicit Minutes(double value);
 
     ///
+    /// Converts microseconds to minutes.
+    ///
+    /// \param time The length of time to convert.
+    Minutes(Microseconds time);
+
+    ///
     /// Converts milliseconds to minutes.
     ///
     /// \param time The length of time to convert.
@@ -161,6 +221,12 @@ public:
     ///
     /// \param value The value of the length of time in hours.
     explicit Hours(double value);
+
+    ///
+    /// Converts microseconds to hours.
+    ///
+    /// \param time The length of time to convert.
+    Hours(Microseconds time);
 
     ///
     /// Converts milliseconds to hours.

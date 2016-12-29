@@ -25,6 +25,34 @@
 
 namespace hect
 {
+Microseconds::Microseconds()
+{
+}
+
+Microseconds::Microseconds(int64_t value) :
+    Unit(value)
+{
+}
+
+Microseconds::Microseconds(Milliseconds time) :
+    Microseconds(time.value * 1000)
+{
+}
+
+Microseconds::Microseconds(Seconds time) :
+    Microseconds(Milliseconds(time))
+{
+}
+
+Microseconds::Microseconds(Minutes time) :
+    Microseconds(Seconds(time))
+{
+}
+
+Microseconds::Microseconds(Hours time) :
+    Microseconds(Minutes(time))
+{
+}
 
 Milliseconds::Milliseconds()
 {
@@ -32,6 +60,11 @@ Milliseconds::Milliseconds()
 
 Milliseconds::Milliseconds(int64_t value) :
     Unit(value)
+{
+}
+
+Milliseconds::Milliseconds(Microseconds time) :
+    Milliseconds(static_cast<int64_t>(static_cast<double>(time.value) / 1000.0))
 {
 }
 
@@ -59,6 +92,11 @@ Seconds::Seconds(double value) :
 {
 }
 
+Seconds::Seconds(Microseconds time) :
+    Seconds(static_cast<double>(time.value) / 1000000.0)
+{
+}
+
 Seconds::Seconds(Milliseconds time) :
     Seconds(static_cast<double>(time.value) / 1000.0)
 {
@@ -83,6 +121,11 @@ Minutes::Minutes(double value) :
 {
 }
 
+Minutes::Minutes(Microseconds time) :
+    Minutes(Seconds(time))
+{
+}
+
 Minutes::Minutes(Milliseconds time) :
     Minutes(Seconds(time))
 {
@@ -104,6 +147,11 @@ Hours::Hours()
 
 Hours::Hours(double value) :
     Unit(value)
+{
+}
+
+Hours::Hours(Microseconds time) :
+    Hours(Seconds(time))
 {
 }
 
