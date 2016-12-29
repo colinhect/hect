@@ -32,22 +32,52 @@ namespace hect
 class Degrees;
 class Radians;
 
+///
+/// An angle in degrees.
 class HECT_EXPORT Degrees :
     public Unit<Degrees, double>
 {
 public:
+
+    ///
+    /// Constructs a zero-degree angle in degrees.
     Degrees();
+
+    ///
+    /// Constructs an angle in degrees.
+    ///
+    /// \param value The value of the angle in degrees.
     explicit Degrees(double value);
-    Degrees(Radians radians);
+
+    ///
+    /// Converts radians to degrees.
+    ///
+    /// \param angle The angle to convert.
+    Degrees(Radians angle);
 };
 
+///
+/// An angle in radians.
 class HECT_EXPORT Radians :
     public Unit<Radians, double>
 {
 public:
+
+    ///
+    /// Constructs a zero-degree angle in radians.
     Radians();
+
+    ///
+    /// Constructs an angle in radians.
+    ///
+    /// \param value The value of the angle in radians.
     explicit Radians(double value);
-    Radians(Degrees degrees);
+
+    ///
+    /// Converts degrees to radians.
+    ///
+    /// \param angle The angle to convert.
+    Radians(Degrees angle);
 };
 
 }

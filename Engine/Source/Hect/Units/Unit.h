@@ -35,33 +35,143 @@ template <typename UnitType, typename ValueType>
 class Unit
 {
 public:
+
+    ///
+    /// Constructs a unit with a value of zero.
     Unit();
+
+    ///
+    /// Constructs a unit with the specified value.
+    ///
+    /// \param value The value.
     Unit(ValueType value);
 
+    ///
+    /// Returns the sum of the unit and another unit.
+    ///
+    /// \param unit The unit to compute the sum with.
     UnitType operator+(UnitType unit) const;
+
+    ///
+    /// Returns the difference of the unit and another unit.
+    ///
+    /// \param unit The unit to compute the difference with.
     UnitType operator-(UnitType unit) const;
+
+    ///
+    /// Returns the product of the unit and another unit.
+    ///
+    /// \param unit The unit to compute the product with.
     UnitType operator*(UnitType unit) const;
+
+    ///
+    /// Returns the quotient of the unit and another unit.
+    ///
+    /// \param unit The unit to compute the quotient with.
     UnitType operator/(UnitType unit) const;
+
+    ///
+    /// Returns the product of the unit and a scalar.
+    ///
+    /// \param value The scalar to compute the product with.
     UnitType operator*(ValueType value) const;
+
+    ///
+    /// Returns the quotient of the unit and a scalar.
+    ///
+    /// \param value The scalar to compute the quotient with.
     UnitType operator/(ValueType value) const;
 
+    ///
+    /// Adds a unit to the unit.
+    ///
+    /// \param unit The unit to add.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator+=(UnitType unit);
+
+    ///
+    /// Subtracts a unit from the unit.
+    ///
+    /// \param unit The unit to subtract.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator-=(UnitType unit);
+
+    ///
+    /// Multiplies the unit by a unit.
+    ///
+    /// \param unit The unit to multiply by.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator*=(UnitType unit);
+
+    ///
+    /// Divides the unit by a unit.
+    ///
+    /// \param unit The unit to divide by.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator/=(UnitType unit);
+
+    ///
+    /// Multiplies the unit by a scalar.
+    ///
+    /// \param value The scalar to multiply by.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator*=(ValueType value);
+
+    ///
+    /// Devices the unit by a scalar.
+    ///
+    /// \param value The scalar to divide by.
+    ///
+    /// \returns A reference to the unit.
     Unit& operator/=(ValueType value);
 
+    ///
+    /// Returns a negated copy of the unit.
     UnitType operator-() const;
 
+    ///
+    /// Returns whether the unit is less than another.
+    ///
+    /// \param unit The other unit.
     bool operator<(UnitType unit) const;
+
+    ///
+    /// Returns whether the unit is less than or equal to another.
+    ///
+    /// \param unit The other unit.
     bool operator<=(UnitType unit) const;
+
+    ///
+    /// Returns whether the unit is greater than another.
+    ///
+    /// \param unit The other unit.
     bool operator>(UnitType unit) const;
+
+    ///
+    /// Returns whether the unit is greater than or equal to another.
+    ///
+    /// \param unit The other unit.
     bool operator>=(UnitType unit) const;
 
+    ///
+    /// Returns whether the unit is equal to another.
+    ///
+    /// \param unit The other unit.
     bool operator==(UnitType unit) const;
+
+    ///
+    /// Returns whether the unit is not equal to another.
+    ///
+    /// \param unit The other unit.
     bool operator!=(UnitType unit) const;
 
+    ///
+    /// The value.
     ValueType value { ValueType() };
 };
 

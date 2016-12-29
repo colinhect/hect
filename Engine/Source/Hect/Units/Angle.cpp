@@ -37,8 +37,8 @@ Degrees::Degrees(double value) :
 {
 }
 
-Degrees::Degrees(Radians radians) :
-    Unit(radians.value * (180.0 / Pi))
+Degrees::Degrees(Radians angle) :
+    Unit(angle.value * (180.0 / Pi))
 {
 }
 
@@ -51,8 +51,8 @@ Radians::Radians(double value) :
 {
 }
 
-Radians::Radians(Degrees degrees) :
-    Unit(degrees.value * (Pi / 180.0))
+Radians::Radians(Degrees angle) :
+    Unit(angle.value * (Pi / 180.0))
 {
 }
 

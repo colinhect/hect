@@ -23,41 +23,162 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
+#include <cstdint>
+
 #include "Hect/Core/Export.h"
 #include "Hect/Units/Unit.h"
 
 namespace hect
 {
 
+class Microseconds;
+class Milliseconds;
 class Seconds;
 class Minutes;
 class Hours;
 
+///
+/// A length of time in milliseconds.
+class HECT_EXPORT Milliseconds :
+    public Unit<Milliseconds, int64_t>
+{
+public:
+
+    ///
+    /// Constructs a zero-length of time in milliseconds.
+    Milliseconds();
+
+    ///
+    /// Constructs a length of time in milliseconds.
+    ///
+    /// \param value The value of the length of time in milliseconds.
+    explicit Milliseconds(int64_t value);
+
+    ///
+    /// Converts seconds to milliseconds.
+    ///
+    /// \param time The length of time to convert.
+    Milliseconds(Seconds time);
+
+    ///
+    /// Converts minutes to milliseconds.
+    ///
+    /// \param time The length of time to convert.
+    Milliseconds(Minutes time);
+
+    ///
+    /// Converts hours to milliseconds.
+    ///
+    /// \param time The length of time to convert.
+    Milliseconds(Hours time);
+};
+
+///
+/// A length of time in seconds.
 class HECT_EXPORT Seconds :
     public Unit<Seconds, double>
 {
 public:
+
+    ///
+    /// Constructs a zero-length of time in seconds.
+    Seconds();
+
+    ///
+    /// Constructs a length of time in seconds.
+    ///
+    /// \param value The value of the length of time in seconds.
     explicit Seconds(double value);
-    Seconds(Minutes minutes);
-    Seconds(Hours hours);
+
+    ///
+    /// Converts milliseconds to seconds.
+    ///
+    /// \param time The length of time to convert.
+    Seconds(Milliseconds time);
+
+    ///
+    /// Converts minutes to seconds.
+    ///
+    /// \param time The length of time to convert.
+    Seconds(Minutes time);
+
+    ///
+    /// Converts hours to seconds.
+    ///
+    /// \param time The length of time to convert.
+    Seconds(Hours time);
 };
 
+///
+/// A length of time in minutes.
 class HECT_EXPORT Minutes :
     public Unit<Minutes, double>
 {
 public:
+
+    ///
+    /// Constructs a zero-length of time in minutes.
+    Minutes();
+
+    ///
+    /// Constructs a length of time in minutes.
+    ///
+    /// \param value The value of the length of time in minutes.
     explicit Minutes(double value);
-    Minutes(Seconds seconds);
-    Minutes(Hours hours);
+
+    ///
+    /// Converts milliseconds to minutes.
+    ///
+    /// \param time The length of time to convert.
+    Minutes(Milliseconds time);
+
+    ///
+    /// Converts seconds to minutes.
+    ///
+    /// \param time The length of time to convert.
+    Minutes(Seconds time);
+
+    ///
+    /// Converts hours to minutes.
+    ///
+    /// \param time The length of time to convert.
+    Minutes(Hours time);
 };
 
+///
+/// A length of time in hours.
 class HECT_EXPORT Hours :
     public Unit<Hours, double>
 {
 public:
+
+    ///
+    /// Constructs a zero-length of time in hours.
+    Hours();
+
+    ///
+    /// Constructs a length of time in hours.
+    ///
+    /// \param value The value of the length of time in hours.
     explicit Hours(double value);
-    Hours(Seconds seconds);
-    Hours(Minutes minutes);
+
+    ///
+    /// Converts milliseconds to hours.
+    ///
+    /// \param time The length of time to convert.
+    Hours(Milliseconds time);
+
+    ///
+    /// Converts seconds to hours.
+    ///
+    /// \param time The length of time to convert.
+    Hours(Seconds time);
+
+    ///
+    /// Converts minutes to hours.
+    ///
+    /// \param time The length of time to convert.
+    Hours(Minutes time);
 };
 
 }
