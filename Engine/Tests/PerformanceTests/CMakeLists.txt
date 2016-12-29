@@ -16,7 +16,7 @@ set(SOURCE_FILES
     )
 
 source_group("Source" FILES
-    "Source/Main.cpp"
+    ${SOURCE_FILES}
     )
 
 add_executable(HectPerformanceTests ${SOURCE_FILES})

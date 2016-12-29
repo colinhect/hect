@@ -22,15 +22,7 @@ set(SOURCE_FILES
     )
 
 source_group("Source" FILES
-    "Source/EncodingTests.cpp"
-    "Source/FileSystemTests.cpp"
-    "Source/HostTests.cpp"
-    "Source/InterfaceSystemTests.cpp"
-    "Source/Main.cpp"
-    "Source/PhysicsSystemTests.cpp"
-    "Source/RendererTests.cpp"
-    "Source/SceneTests.cpp"
-    "Source/ScriptSystemTests.cpp"
+    ${SOURCE_FILES}
     )
 
 add_executable(HectSystemTests ${SOURCE_FILES})
