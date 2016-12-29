@@ -71,7 +71,7 @@ public:
     /// Performs a single tick of simulation for all interfaces.
     ///
     /// \param timeStep The duration of time to tick.
-    void tickAllInterfaces(double timeStep);
+    void tickAllInterfaces(Seconds timeStep);
 
     ///
     /// The font used when none is specified.

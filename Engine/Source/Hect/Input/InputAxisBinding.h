@@ -29,6 +29,7 @@
 #include "Hect/Input/Keyboard.h"
 #include "Hect/Input/Mouse.h"
 #include "Hect/IO/Encodable.h"
+#include "Hect/Units/Time.h"
 
 namespace hect
 {
@@ -48,7 +49,7 @@ public:
     /// \param engine The engine.
     /// \param timeStep The duration of time elapsed in seconds since the last
     /// update.
-    void update(Engine& engine, double timeStep);
+    void update(Engine& engine, Seconds timeStep);
 
     ///
     /// Returns the contributing value.
@@ -139,7 +140,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    void applyGravity(double timeStep);
+    void applyGravity(Seconds timeStep);
     void modifyValue(double delta);
 
     double _value { 0 };

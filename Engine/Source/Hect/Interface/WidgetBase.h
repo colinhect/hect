@@ -72,9 +72,8 @@ public:
     ///
     /// Performs a single update tick for the widget.
     ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// update.
-    virtual void tick(double timeStep);
+    /// \param timeStep The duration of time for the tick to update.
+    virtual void tick(Seconds timeStep);
 
     ///
     /// Renders the widget to a frame.

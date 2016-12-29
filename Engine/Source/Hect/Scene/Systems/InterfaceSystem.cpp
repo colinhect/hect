@@ -66,7 +66,7 @@ void InterfaceSystem::renderAllInterfaces()
     }
 }
 
-void InterfaceSystem::tickAllInterfaces(double timeStep)
+void InterfaceSystem::tickAllInterfaces(Seconds timeStep)
 {
     for (const Interface::Handle& interface : _interfaces)
     {

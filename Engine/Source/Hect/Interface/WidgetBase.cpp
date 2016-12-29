@@ -32,7 +32,7 @@ WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
 {
 }
 
-void WidgetBase::tick(double timeStep)
+void WidgetBase::tick(Seconds timeStep)
 {
     for (const WidgetBase::Handle& child : _childrenToDestroy)
     {

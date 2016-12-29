@@ -47,7 +47,7 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
 
     for (int i = 0; i < 5; ++i)
     {
-        scene.tick(0.1);
+        scene.tick(Seconds(0.1));
     }
 
     REQUIRE(transform->localPosition.z < startingHeight);

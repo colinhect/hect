@@ -61,7 +61,7 @@ DefaultScene::DefaultScene(Engine& engine) :
     }
 }
 
-void DefaultScene::preTick(double timeStep)
+void DefaultScene::preTick(Seconds timeStep)
 {
     Scene::refresh();
 
@@ -69,7 +69,7 @@ void DefaultScene::preTick(double timeStep)
     _debugSystem.clearEnqueuedDebugGeometry();
 }
 
-void DefaultScene::postTick(double timeStep)
+void DefaultScene::postTick(Seconds timeStep)
 {
     _physicsSystem.waitForSimulationTask();
     _physicsSystem.syncWithSimulation();
@@ -88,7 +88,7 @@ void DefaultScene::postTick(double timeStep)
     Scene::refresh();
 }
 
-void DefaultScene::tick(double timeStep)
+void DefaultScene::tick(Seconds timeStep)
 {
     preTick(timeStep);
     postTick(timeStep);

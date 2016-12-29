@@ -29,6 +29,7 @@
 #include "Hect/Core/Name.h"
 #include "Hect/Input/InputAxisBinding.h"
 #include "Hect/IO/Encodable.h"
+#include "Hect/Units/Time.h"
 
 namespace hect
 {
@@ -73,7 +74,7 @@ public:
     ///
     /// \param engine The engine.
     /// \param timeStep The time step in seconds.
-    void update(Engine& engine, double timeStep);
+    void update(Engine& engine, Seconds timeStep);
 
     ///
     /// Returns the current value of the axis.

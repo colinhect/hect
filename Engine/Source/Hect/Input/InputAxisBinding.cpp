@@ -27,7 +27,7 @@
 
 using namespace hect;
 
-void InputAxisBinding::update(Engine& engine, double timeStep)
+void InputAxisBinding::update(Engine& engine, Seconds timeStep)
 {
     switch (type)
     {
@@ -58,7 +58,7 @@ void InputAxisBinding::update(Engine& engine, double timeStep)
             Mouse& mouse = engine.mouse();
             if (mouse.isButtonDown(mouseButton))
             {
-                modifyValue(acceleration * timeStep);
+                modifyValue(acceleration * timeStep.value);
             }
             else
             {
@@ -78,7 +78,7 @@ void InputAxisBinding::update(Engine& engine, double timeStep)
             Keyboard& keyboard = engine.keyboard();
             if (keyboard.isKeyDown(key))
             {
-                modifyValue(acceleration * timeStep);
+                modifyValue(acceleration * timeStep.value);
             }
             else
             {
@@ -118,7 +118,7 @@ void InputAxisBinding::update(Engine& engine, double timeStep)
             Joystick& joystick = engine.joystick(joystickIndex);
             if (joystick.isButtonDown(joystickButton))
             {
-                modifyValue(acceleration * timeStep);
+                modifyValue(acceleration * timeStep.value);
             }
             else
             {
@@ -184,11 +184,11 @@ void InputAxisBinding::decode(Decoder& decoder)
     }
 }
 
-void InputAxisBinding::applyGravity(double timeStep)
+void InputAxisBinding::applyGravity(Seconds timeStep)
 {
     if (_value != 0)
     {
-        double delta = gravity * timeStep;
+        double delta = gravity * timeStep.value;
         if (_value > 0)
         {
             _value -= delta;

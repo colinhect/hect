@@ -73,8 +73,8 @@ public:
     ///
     /// Begins the physics simulation task.
     ///
-    /// \param timeStep The duration of time in seconds to simulate.
-    void beginSimulationTask(double timeStep);
+    /// \param timeStep The duration of time to simulate.
+    void beginSimulationTask(Seconds timeStep);
 
     ///
     /// Waits for the physics simulation task to complete if it has begin.

@@ -51,7 +51,7 @@ void InputAxis::addBinding(const InputAxisBinding& binding)
     _bindings.push_back(binding);
 }
 
-void InputAxis::update(Engine& engine, double timeStep)
+void InputAxis::update(Engine& engine, Seconds timeStep)
 {
     _value = 0;
     for (InputAxisBinding& binding : _bindings)

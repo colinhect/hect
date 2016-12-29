@@ -54,11 +54,11 @@ public:
     /// \param engine The engine.
     DefaultScene(Engine& engine);
 
-    void preTick(double timeStep);
-    void postTick(double timeStep);
+    void preTick(Seconds timeStep);
+    void postTick(Seconds timeStep);
 
     // Scene overrides
-    virtual void tick(double timeStep) override;
+    virtual void tick(Seconds timeStep) override;
     virtual void render(RenderTarget& target) override;
 
     // EventListener overrides

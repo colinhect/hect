@@ -173,9 +173,8 @@ public:
     ///
     /// Ticks all of the Systems in the scene.
     ///
-    /// \param timeStep The duration of time in seconds for the tick to
-    /// simulate.
-    virtual void tick(double timeStep) = 0;
+    /// \param timeStep The duration of time for the tick to simulate.
+    virtual void tick(Seconds timeStep) = 0;
 
     ///
     /// Renders all of the Systems in the scene.

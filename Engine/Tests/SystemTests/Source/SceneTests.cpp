@@ -89,7 +89,7 @@ public:
     {
     }
 
-    void tick(double timeStep)
+    void tick(Seconds timeStep)
     {
         (void)timeStep;
     }
@@ -128,7 +128,7 @@ public:
     {
     }
 
-    void tick(double timeStep)
+    void tick(Seconds timeStep)
     {
         (void)timeStep;
     }

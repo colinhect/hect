@@ -137,12 +137,12 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
     _committedRigidBodyIds.push_back(id);
 }
 
-void PhysicsSystem::beginSimulationTask(double timeStep)
+void PhysicsSystem::beginSimulationTask(Seconds timeStep)
 {
     TaskPool& taskPool = engine().taskPool();
     _physicsSimulationTask = taskPool.enqueue([this, timeStep]
     {
-        _world->stepSimulation(timeStep, 4);
+        _world->stepSimulation(timeStep.value, 4);
     });
 }
 

@@ -63,7 +63,7 @@ public:
     /// Update the values of all axes.
     ///
     /// \param timeStep The duration of time in seconds to update for.
-    void updateAxes(double timeStep);
+    void updateAxes(Seconds timeStep);
 
 private:
     std::unordered_map<Name, InputAxis> _axes;

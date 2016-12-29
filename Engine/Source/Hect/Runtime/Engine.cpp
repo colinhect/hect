@@ -201,7 +201,7 @@ void Engine::playScene(Scene& scene)
     // Perform initialization and one initial tick before entering the main
     // loopk
     scene.initialize();
-    scene.tick(timeStep.value);
+    scene.tick(timeStep);
 
     while (_platform->handleEvents() && scene.active())
     {
@@ -213,7 +213,7 @@ void Engine::playScene(Scene& scene)
 
         while (scene.active() && accumulator >= timeStepMicroseconds)
         {
-            scene.tick(timeStep.value);
+            scene.tick(timeStep);
 
             delta = Microseconds(0);
             accumulator -= timeStep;
