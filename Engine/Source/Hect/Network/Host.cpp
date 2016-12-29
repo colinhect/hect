@@ -115,11 +115,11 @@ void Host::requestDisconnectFrom(Peer peer)
     }
 }
 
-bool Host::pollEvent(PeerEvent& event, TimeSpan timeOut)
+bool Host::pollEvent(PeerEvent& event, Milliseconds timeOut)
 {
     // Poll for the ENet event
     ENetEvent enetEvent;
-    if (enet_host_service(_enetHost, &enetEvent, static_cast<uint32_t>(timeOut.milliseconds())) > 0)
+    if (enet_host_service(_enetHost, &enetEvent, static_cast<uint32_t>(timeOut.value)) > 0)
     {
         Peer peer(enetEvent.peer);
 

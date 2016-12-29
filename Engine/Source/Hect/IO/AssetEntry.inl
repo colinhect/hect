@@ -102,7 +102,7 @@ void AssetEntry<T>::load()
         AssetDecoder decoder(_assetCache, _path);
         decoder >> decodeValue(*_asset);
 
-        HECT_INFO(format("Loaded '%s' in %ims", _path.asString().data(), timer.elapsed().milliseconds()));
+        HECT_INFO(format("Loaded '%s' in %ims", _path.asString().data(), Milliseconds(timer.elapsed()).value));
 
         // Remember when the file was last modified
         _lastModified = _assetCache.fileSystem().lastModified(_path);

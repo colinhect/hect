@@ -29,7 +29,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Timing/TimeSpan.h"
 #include "Hect/Scene/System.h"
 #include "Hect/Scene/Systems/TransformSystem.h"
 #include "Hect/Scene/Components/RigidBodyComponent.h"

@@ -33,7 +33,7 @@ static const char* _host = "localhost";
 static const size_t _maxPeerCount = 1;
 static const size_t _channelCount = 1;
 static const Port _port = 1234;
-static const TimeSpan _timeOut = TimeSpan::fromMilliseconds(100);
+static const Milliseconds _timeOut(100);
 
 // Catch macros are not thread-safe; this macro provides a simple fix for that
 static std::mutex _catchMutex;

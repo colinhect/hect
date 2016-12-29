@@ -147,7 +147,6 @@ namespace hect {}
 #include "Hect/Scene/Systems/ScriptSystem.h"
 #include "Hect/Scene/Systems/TransformSystem.h"
 #include "Hect/Timing/Timer.h"
-#include "Hect/Timing/TimeSpan.h"
 #include "Hect/Timing/TimeStamp.h"
 #include "Hect/Units/Angle.h"
 #include "Hect/Units/Distance.h"

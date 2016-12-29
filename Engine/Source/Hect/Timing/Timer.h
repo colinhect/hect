@@ -24,7 +24,7 @@
 #pragma once
 
 #include "Hect/Core/Export.h"
-#include "Hect/Timing/TimeSpan.h"
+#include "Hect/Units/Time.h"
 
 namespace hect
 {
@@ -37,7 +37,7 @@ public:
 
     ///
     /// Returns the total elapsed time since program initialization.
-    static TimeSpan totalElapsed();
+    static Microseconds totalElapsed();
 
     ///
     /// Constructs a timer and resets it.
@@ -49,10 +49,10 @@ public:
 
     ///
     /// Returns the elapsed time since the last reset.
-    TimeSpan elapsed() const;
+    Microseconds elapsed() const;
 
 private:
-    TimeSpan _start;
+    Microseconds _start;
 };
 
 }

@@ -497,8 +497,6 @@ source_group("Source\\Hect\\Scene\\Systems" FILES
 set(SOURCE_TIMING
     "Source/Hect/Timing/Timer.cpp"
     "Source/Hect/Timing/Timer.h"
-    "Source/Hect/Timing/TimeSpan.cpp"
-    "Source/Hect/Timing/TimeSpan.h"
     "Source/Hect/Timing/TimeStamp.h"
     )
 

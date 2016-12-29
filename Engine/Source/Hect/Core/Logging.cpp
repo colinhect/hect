@@ -62,7 +62,7 @@ void log(LogLevel level, const std::string& message)
     _dispatcher.dispatchEvent(event);
 
     // Calculate timestamp parts
-    int64_t total = timer.elapsed().milliseconds();
+    int64_t total = Milliseconds(timer.elapsed()).value;
     int64_t milliseconds = total % 1000;
     int64_t seconds = total / 1000 % 60;
     int64_t minutes = total / 1000 / 60 % 60;

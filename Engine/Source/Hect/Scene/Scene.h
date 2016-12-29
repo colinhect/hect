@@ -32,7 +32,6 @@
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/Timing/Timer.h"
-#include "Hect/Timing/TimeSpan.h"
 #include "Hect/Scene/Component.h"
 #include "Hect/Scene/ComponentPool.h"
 #include "Hect/Scene/ComponentRegistry.h"

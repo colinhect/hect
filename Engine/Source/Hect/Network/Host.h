@@ -27,7 +27,7 @@
 #include "Hect/Core/Uncopyable.h"
 #include "Hect/IO/ByteVector.h"
 #include "Hect/Network/Peer.h"
-#include "Hect/Timing/TimeSpan.h"
+#include "Hect/Units/Time.h"
 
 // Forward declarations for ENet types
 typedef struct _ENetHost ENetHost;
@@ -160,7 +160,7 @@ public:
     /// \param timeOut The time span to wait for an event to occur.
     ///
     /// \returns True if an event was received; false otherwise.
-    bool pollEvent(PeerEvent& event, TimeSpan timeOut = TimeSpan::fromMilliseconds(0));
+    bool pollEvent(PeerEvent& event, Milliseconds timeOut = Milliseconds(0));
 
     ///
     /// Sends a packet to a Peer.

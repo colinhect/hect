@@ -32,7 +32,6 @@
 #include "Hect/Scene/Scene.h"
 #include "Hect/Scene/SceneRegistry.h"
 #include "Hect/Timing/Timer.h"
-#include "Hect/Timing/TimeSpan.h"
 
 #include "Hect/Generated/RegisterTypes.h"
 
@@ -192,33 +191,31 @@ int Engine::main()
 
 void Engine::playScene(Scene& scene)
 {
+    const Seconds timeStep(1.0 / 60.0);
+    const Microseconds timeStepMicroseconds(timeStep);
+
     Timer timer;
-    TimeSpan accumulator;
-    TimeSpan delta;
-
-    TimeSpan timeStep = TimeSpan::fromSeconds(1.0 / 60.0);
-
-    double timeStepSeconds = timeStep.seconds();
-    int64_t timeStepMicroseconds = timeStep.microseconds();
+    Microseconds accumulator(0);
+    Microseconds delta(0);
 
     // Perform initialization and one initial tick before entering the main
-    // loop
+    // loopk
     scene.initialize();
-    scene.tick(timeStepSeconds);
+    scene.tick(timeStep.value);
 
     while (_platform->handleEvents() && scene.active())
     {
-        TimeSpan deltaTime = timer.elapsed();
+        Microseconds deltaTime = timer.elapsed();
         timer.reset();
 
         accumulator += deltaTime;
         delta += deltaTime;
 
-        while (scene.active() && accumulator.microseconds() >= timeStepMicroseconds)
+        while (scene.active() && accumulator >= timeStepMicroseconds)
         {
-            scene.tick(timeStepSeconds);
+            scene.tick(timeStep.value);
 
-            delta = TimeSpan();
+            delta = Microseconds(0);
             accumulator -= timeStep;
         }
 
