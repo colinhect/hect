@@ -26,4 +26,4 @@
 #define CATCH_CONFIG_RUNNER
 #include <catch.hpp>
 
-HECT_MAIN_SYSTEM_TEST_HARNESS("HectSystemTests.settings", { code = Catch::Session().run(argc, argv); })
+HECT_MAIN_SYSTEM_TEST_HARNESS("HectSystemTestsSettings.yaml", { code = Catch::Session().run(argc, argv); })

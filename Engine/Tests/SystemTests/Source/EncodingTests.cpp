@@ -90,6 +90,14 @@ void testEncodingForExtension(const std::string& extension)
             {
                 testEncoding<T>(filePath);
             }
+            else if (filePath.extension() == "yaml")
+            {
+                const std::string& filePathString = filePath.asString();
+                if (filePathString.find("." + extension) != std::string::npos)
+                {
+                    testEncoding<T>(filePath);
+                }
+            }
         }
     }
 }
