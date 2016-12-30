@@ -9,6 +9,14 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
     )
 
+set(SETTINGS_FILES
+    "Settings/HectSystemTestsSettings.yaml"
+    )
+
+source_group("Settings" FILES
+    ${SETTINGS_FILES}
+    )
+
 set(SOURCE_FILES
     "Source/EncodingTests.cpp"
     "Source/FileSystemTests.cpp"
@@ -25,7 +33,7 @@ source_group("Source" FILES
     ${SOURCE_FILES}
     )
 
-add_executable(HectSystemTests ${SOURCE_FILES})
+add_executable(HectSystemTests ${SOURCE_FILES} ${SETTINGS_FILES})
 
 target_link_libraries(HectSystemTests Hect)
 

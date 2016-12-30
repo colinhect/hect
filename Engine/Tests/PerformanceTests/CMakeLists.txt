@@ -11,6 +11,14 @@ include_directories(
     "${PROJECT_SOURCE_DIR}/../../Dependencies/Celero/include"
     )
 
+set(SETTINGS_FILES
+    "Settings/HectPerformanceTestsSettings.yaml"
+    )
+
+source_group("Settings" FILES
+    ${SETTINGS_FILES}
+    )
+
 set(SOURCE_FILES
     "Source/Main.cpp"
     )
@@ -19,7 +27,7 @@ source_group("Source" FILES
     ${SOURCE_FILES}
     )
 
-add_executable(HectPerformanceTests ${SOURCE_FILES})
+add_executable(HectPerformanceTests ${SOURCE_FILES} ${SETTINGS_FILES})
 
 set(LINK_LIBRARIES Hect Celero)
 
