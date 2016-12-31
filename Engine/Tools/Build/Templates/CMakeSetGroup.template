@@ -1,0 +1,2 @@
+source_group("$(group_name)" FILES ${$(var_name)})
+

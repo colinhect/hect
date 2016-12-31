@@ -1,0 +1,1 @@
+python Tools\Build GenerateSources Source Sources.cmake .bat,.cmake,.txt,xml

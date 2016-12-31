@@ -1,9 +1,9 @@
 project(HectTypes)
 
 add_custom_target(HectTypes
-    COMMAND python ${PROJECT_SOURCE_DIR}/../../../Tools/Reflect ${PROJECT_SOURCE_DIR}/../ ${PROJECT_SOURCE_DIR} hect
+    COMMAND python ${PROJECT_SOURCE_DIR}/../../../Tools/Build GenerateTypes ${PROJECT_SOURCE_DIR}/../ ${PROJECT_SOURCE_DIR} hect
     )
-    
+
 set_target_properties(HectTypes PROPERTIES
     PROJECT_LABEL HectTypes
     FOLDER "/Engine"
