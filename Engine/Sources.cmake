@@ -48,12 +48,6 @@ set(SOURCE_HECT_CORE
 
 source_group("Source\\Hect\\Core" FILES ${SOURCE_HECT_CORE})
 
-set(SOURCE_HECT_GENERATED
-    "Source/Hect/Generated/RegisterTypes.h"
-    )
-
-source_group("Source\\Hect\\Generated" FILES ${SOURCE_HECT_GENERATED})
-
 set(SOURCE_HECT_GRAPHICS
     "Source/Hect/Graphics/BlendFactor.h"
     "Source/Hect/Graphics/BlendFunction.h"
@@ -459,7 +453,6 @@ set(SOURCE_FILES
     ${SOURCE}
     ${SOURCE_HECT_CONCURRENCY}
     ${SOURCE_HECT_CORE}
-    ${SOURCE_HECT_GENERATED}
     ${SOURCE_HECT_GRAPHICS}
     ${SOURCE_HECT_GRAPHICS_OPENGL}
     ${SOURCE_HECT_GRAPHICS_STUB}
