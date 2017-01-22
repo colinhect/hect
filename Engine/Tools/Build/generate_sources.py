@@ -25,7 +25,7 @@ import os
 
 import templates
 
-def action(input_directory, output_filename, exclude_extensions):
+def action(input_directory, output_filename, root_directory, exclude_extensions):
     filepaths = []
     for root, dirs, files in os.walk(input_directory):
         if input_directory == ".":
@@ -45,17 +45,21 @@ def action(input_directory, output_filename, exclude_extensions):
             group = os.path.split(filepath)[0]
             if not group in groups:
                 groups[group] = []
-            groups[group].append(filepath.replace("\\", "/"))
+            groups[group].append(filepath)
 
         keys = sorted(groups.keys(), key=lambda s: s.lower())
         for group in keys:
-            group_name = resolve_group_name(group)
+            group_name = resolve_group_name(group, root_directory)
             group_var_name = resolve_group_var_name(group)
 
             source_files = []
             for file_name in groups[group]:
-                source_files.append(templates.emit("CMakeSourceFile",
-                    file_name=file_name))
+                if input_directory == ".":
+                    source_files.append(templates.emit("CMakeSourceFile",
+                        file_name=file_name.replace("\\", "/")))
+                else:
+                    source_files.append(templates.emit("CMakeSourceFile",
+                        file_name=os.path.join(root_directory, file_name).replace("\\", "/")))
 
             file.write(templates.emit("CMakeSetVar",
                 var_name=group_var_name,
@@ -82,5 +86,8 @@ def resolve_group_var_name(group):
         group_postfix = group.replace("\\", "_").upper()
         return "SOURCE_{}".format(group_postfix)
 
-def resolve_group_name(group):
-    return group.replace("\\", "\\\\")
+def resolve_group_name(group, root_directory):
+    if group == ".":
+        return root_directory
+    else:
+        return "{}\\\\{}".format(root_directory, group.replace("\\", "\\\\"))

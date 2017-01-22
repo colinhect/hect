@@ -26,10 +26,11 @@ import sys
 def generate_sources(argv):
     input_directory = argv[2]
     output_filename = argv[3]
-    exclude_extensions = argv[4]
+    root_directory = argv[4]
+    exclude_extensions = argv[5]
     exclude_extensions = exclude_extensions.split(",")
     import generate_sources
-    generate_sources.action(input_directory, output_filename, exclude_extensions)
+    generate_sources.action(input_directory, output_filename, root_directory, exclude_extensions)
 
 def generate_types(argv):
     input_directory = argv[2]
