@@ -112,9 +112,9 @@ void DebugSystem::toggleShowInterface()
 {
     if (!_interface && scene().hasSystemType<InterfaceSystem>())
     {
-        Window& window = engine().window();
+        Window& mainWindow = engine().mainWindow();
         auto& interfaceSystem = scene().system<InterfaceSystem>();
-        _interface = interfaceSystem.createInterface(window);
+        _interface = interfaceSystem.createInterface(mainWindow);
     }
 
     if (_systemPanel)
@@ -190,8 +190,8 @@ void DebugSystem::createSystemPanel()
 
     _systemPanel->setDimensions(table->dimensions() + panelMargin);
 
-    Window& window = engine().window();
-    Vector2 windowDimensions(window.width(), window.height());
+    Window& mainWindow = engine().mainWindow();
+    Vector2 windowDimensions(mainWindow.width(), mainWindow.height());
     Vector2 systemPanelPosition = windowDimensions * 0.5 - _systemPanel->dimensions() * 0.5;
     _systemPanel->setPosition(systemPanelPosition);
 }

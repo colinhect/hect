@@ -39,25 +39,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
 
     std::shared_ptr<AssetEntry<T>> entry;
 
-    Path resolvedPath;
-
-    // Check for a yaml source file
-    if (path.extension() != "yaml")
-    {
-        Path yamlPath = resolvePath(path + ".yaml");
-        if (_fileSystem.exists(yamlPath))
-        {
-            resolvedPath = yamlPath;
-        }
-    }
-
-    // If no yaml source file was found
-    if (resolvedPath.empty())
-    {
-        // Resolve the initial path
-        resolvedPath = resolvePath(path);
-    }
-
+    const Path resolvedPath = resolvePath(path);
     auto it = _entries.find(resolvedPath);
     if (it == _entries.end())
     {

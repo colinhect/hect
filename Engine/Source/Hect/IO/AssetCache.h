@@ -122,7 +122,9 @@ public:
     /// the current preferred directory.
     ///
     /// \param path The path to resolve.
-    Path resolvePath(const Path& path);
+    /// \param preferYamlFile Whether to prefer a YAML source file if one
+    /// exists.
+    Path resolvePath(const Path& path, bool preferYamlFile = true);
 
     ///
     /// Push the given directory as the preferred directory for the current

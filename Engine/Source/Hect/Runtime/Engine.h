@@ -138,7 +138,7 @@ public:
 
     ///
     /// Returns the main window.
-    Window& window();
+    Window& mainWindow();
 
     ///
     /// Returns the renderer.

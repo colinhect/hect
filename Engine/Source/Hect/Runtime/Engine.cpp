@@ -203,7 +203,7 @@ void Engine::playScene(Scene& scene)
     Microseconds delta(0);
 
     // Perform initialization and one initial tick before entering the main
-    // loopk
+    // loop
     scene.initialize();
     scene.tick(timeStep);
 
@@ -270,7 +270,7 @@ FileSystem& Engine::fileSystem()
     return *_fileSystem;
 }
 
-Window& Engine::window()
+Window& Engine::mainWindow()
 {
     if (!_window)
     {

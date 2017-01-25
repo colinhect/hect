@@ -69,26 +69,52 @@ TaskPool& AssetCache::taskPool()
     return _taskPool;
 }
 
-Path AssetCache::resolvePath(const Path& path)
+Path AssetCache::resolvePath(const Path& path, bool preferYamlFile)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    Path resolvedPath = path;
-
-    const std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
-
-    // If there is a selected directory
-    if (!pathStack.empty())
+    if (preferYamlFile)
     {
-        // If there is an asset relative to the selected directory
-        if (_fileSystem.exists(pathStack.top() + path))
-        {
-            // Use that asset
-            resolvedPath = pathStack.top() + path;
-        }
-    }
+        Path resolvedPath;
 
-    return resolvedPath;
+        // Check for a yaml source file
+        if (path.extension() != "yaml")
+        {
+            Path yamlPath = resolvePath(path.asString() + ".yaml", false);
+            if (_fileSystem.exists(yamlPath))
+            {
+                resolvedPath = yamlPath;
+            }
+        }
+
+        // If no yaml source file was found
+        if (resolvedPath.empty())
+        {
+            // Resolve the initial path
+            resolvedPath = resolvePath(path, false);
+        }
+
+        return resolvedPath;
+    }
+    else
+    {
+        Path resolvedPath = path;
+
+        const std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
+
+        // If there is a selected directory
+        if (!pathStack.empty())
+        {
+            // If there is an asset relative to the selected directory
+            if (_fileSystem.exists(pathStack.top() + path))
+            {
+                // Use that asset
+                resolvedPath = pathStack.top() + path;
+            }
+        }
+
+        return resolvedPath;
+    }
 }
 
 void AssetCache::pushDirectory(const Path& directoryPath)
