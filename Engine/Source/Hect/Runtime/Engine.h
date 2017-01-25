@@ -73,10 +73,12 @@ public:
     ///
     /// \param argc The number of command-line arguments passed to main().
     /// \param argv The array of command-line arguments passed to main().
+    /// \param settingsFilePath The path to the settings file to use if none
+    /// is specified in the arguments.
     ///
     /// \throws InvalidOperation If an instance of Engine has already been
     /// instantiated.
-    Engine(int argc, char* const argv[]);
+    Engine(int argc, char* const argv[], const Path& settingsFilePath = Path());
 
     ~Engine();
 
@@ -181,14 +183,14 @@ private:
 
 }
 
-#define HECT_MAIN_PROJECT(project) \
+#define HECT_MAIN_PROJECT(project, settingsFile) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
             hect::Engine::preInitialize(); \
             project::registerTypes(); \
-            hect::Engine engine(argc, argv); \
+            hect::Engine engine(argc, argv, settingsFile); \
             int code = engine.main(); \
             hect::Engine::postUninitialize(); \
             return code; \

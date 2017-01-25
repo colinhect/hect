@@ -70,7 +70,7 @@ void Engine::postUninitialize()
 {
 }
 
-Engine::Engine(int argc, char* const argv[])
+Engine::Engine(int argc, char* const argv[], const Path& settingsFilesPath)
 {
     if (_instance)
     {
@@ -85,6 +85,10 @@ Engine::Engine(int argc, char* const argv[])
     if (!arguments.settingsFilePath.empty())
     {
         _settings = loadConfig(arguments.settingsFilePath);
+    }
+    else if (!settingsFilesPath.empty())
+    {
+        _settings = loadConfig(settingsFilesPath);
     }
 
     setConfiguredLogLevels();
