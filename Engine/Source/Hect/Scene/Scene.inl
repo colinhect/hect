@@ -24,50 +24,51 @@
 namespace hect
 {
 
-template <typename T>
-T& Scene::createSystem()
+template <typename SystemType>
+SystemType& Scene::createSystem()
 {
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
     addSystemType(typeId);
-    return system<T>();
+    return system<SystemType>();
 }
 
-template <typename T>
+template <typename SystemType>
 bool Scene::hasSystemType()
 {
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
+    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
     return hasSystemOfTypeId(typeId);
 }
 
-template <typename T>
-T& Scene::system()
+template <typename SystemType>
+SystemType& Scene::system()
 {
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-    return *reinterpret_cast<T*>(&systemOfTypeId(typeId));
+    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
+    return *reinterpret_cast<SystemType*>(&systemOfTypeId(typeId));
 }
 
-template <typename T>
-const T& Scene::system() const
+template <typename SystemType>
+const SystemType& Scene::system() const
 {
-    SystemTypeId typeId = SystemRegistry::typeIdOf<T>();
-    return *reinterpret_cast<T*>(&systemOfTypeId(typeId));
+    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
+    return *reinterpret_cast<SystemType*>(&systemOfTypeId(typeId));
 }
 
-template <typename T>
-ComponentPool<T>& Scene::components()
+template <typename ComponentType>
+ComponentPool<ComponentType>& Scene::components()
 {
-    ComponentTypeId typeId = ComponentRegistry::typeIdOf<T>();
+    ComponentTypeId typeId = ComponentRegistry::typeIdOf<ComponentType>();
     if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
-        throw InvalidOperation(format("Scene does not support component type '%s'", Type::get<T>().name().data()));
+        const Name componentTypeName = Type::get<ComponentType>().name();
+        throw InvalidOperation(format("Scene does not support component type '%s'", componentTypeName.data()));
     }
-    return static_cast<ComponentPool<T>&>(*_componentPools[typeId]);
+    return static_cast<ComponentPool<ComponentType>&>(*_componentPools[typeId]);
 }
 
-template <typename T>
-const ComponentPool<T>& Scene::components() const
+template <typename ComponentType>
+const ComponentPool<ComponentType>& Scene::components() const
 {
-    return const_cast<Scene*>(this)->components<T>();
+    return const_cast<Scene*>(this)->components<ComponentType>();
 }
 
 }

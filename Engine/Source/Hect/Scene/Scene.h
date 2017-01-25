@@ -62,7 +62,7 @@ class HECT_EXPORT Scene :
     public EventListener<EntityEvent>
 {
     friend class Entity;
-    template <typename T> friend class Component;
+    template <typename ComponentType> friend class Component;
 public:
 
     ///
@@ -80,29 +80,29 @@ public:
     ///
     /// \throws InvalidOperation If a system of the same type was already
     /// created for the scene.
-    template <typename T>
-    T& createSystem();
+    template <typename SystemType>
+    SystemType& createSystem();
 
     ///
     /// Returns whether the scene supports the specified System type.
-    template <typename T>
+    template <typename SystemType>
     bool hasSystemType();
 
     ///
-    /// Returns a handle to the System of a specific type.
+    /// Returns a reference to the System of a specific type.
     ///
     /// \throws InvalidOperation If the system type is not supported by the
     /// scene.
-    template <typename T>
-    T& system();
+    template <typename SystemType>
+    SystemType& system();
 
     ///
-    /// Returns a handle to the System of a specific type.
+    /// Returns a reference to the System of a specific type.
     ///
     /// \throws InvalidOperation If the system type is not supported by the
     /// scene.
-    template <typename T>
-    const T& system() const;
+    template <typename SystemType>
+    const SystemType& system() const;
 
     ///
     /// Returns whether the scene supports the specified System type id.
@@ -132,15 +132,15 @@ public:
     /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws InvalidOperation If the component type is unknown.
-    template <typename T>
-    ComponentPool<T>& components();
+    template <typename ComponentType>
+    ComponentPool<ComponentType>& components();
 
     ///
     /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws InvalidOperation If the component type is unknown.
-    template <typename T>
-    const ComponentPool<T>& components() const;
+    template <typename ComponentType>
+    const ComponentPool<ComponentType>& components() const;
 
     ///
     /// Returns whether the scene is active.
