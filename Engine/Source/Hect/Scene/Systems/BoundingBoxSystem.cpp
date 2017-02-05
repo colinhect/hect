@@ -29,8 +29,9 @@
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene, DebugSystem& debugSystem) :
+    System(engine, scene),
+    _debugSystem(debugSystem)
 {
 }
 
@@ -48,11 +49,7 @@ void BoundingBoxSystem::renderDebugGeometry()
         AxisAlignedBox axisAlignedBox = boundingBox.extents;
         Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
 
-        if (scene().hasSystemType<DebugSystem>())
-        {
-            auto& debugSystem = scene().system<DebugSystem>();
-            debugSystem.renderBox(Color::Green, box, axisAlignedBox.center());
-        }
+        _debugSystem.renderBox(Color::Green, box, axisAlignedBox.center());
     }
 }
 

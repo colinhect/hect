@@ -28,15 +28,6 @@
 
 using namespace hect;
 
-std::shared_ptr<SystemBase> SystemRegistry::create(SystemTypeId typeId, Engine& engine, Scene& scene)
-{
-    if (!isRegisteredTypeId(typeId))
-    {
-        throw InvalidOperation("Unknown system type id");
-    }
-    return _constructors[typeId](engine, scene);
-}
-
 SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
 {
     auto it = _typeIndexToId.find(typeIndex);
@@ -69,7 +60,7 @@ Name SystemRegistry::typeNameOf(SystemTypeId typeId)
 
 bool SystemRegistry::isRegisteredTypeId(SystemTypeId typeId)
 {
-    return typeId < _constructors.size();
+    return typeId < _typeIds.size();
 }
 
 SystemRegistry::SystemTypeIdSequence SystemRegistry::typeIds()
@@ -80,5 +71,4 @@ SystemRegistry::SystemTypeIdSequence SystemRegistry::typeIds()
 std::map<SystemTypeId, Name> SystemRegistry::_typeIdToName;
 std::map<Name, SystemTypeId> SystemRegistry::_typeNameToId;
 std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
-std::vector<SystemRegistry::SystemConstructor> SystemRegistry::_constructors;
 SystemRegistry::SystemTypeIdContainer SystemRegistry::_typeIds;

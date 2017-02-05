@@ -35,9 +35,44 @@
 
 using namespace hect;
 
-RenderSystem::RenderSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+RenderSystem::RenderSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, DebugSystem& debugSystem) :
+    System(engine, scene),
+    _cameraSystem(cameraSystem),
+    _debugSystem(debugSystem)
 {
+}
+
+void RenderSystem::initialize()
+{
+    _skyBoxMaterial = new Material("Skybox");
+    _skyBoxMaterial->setShader(skyBoxShader);
+    _skyBoxMaterial->setCullMode(CullMode::None);
+
+    Renderer& renderer = engine().renderer();
+
+    for (MeshComponent& mesh : scene().components<MeshComponent>())
+    {
+        for (MeshSurface& surface : mesh.surfaces)
+        {
+            Mesh& mesh = *surface.mesh;
+            Material& material = *surface.material;
+
+            renderer.uploadMesh(mesh);
+            renderer.uploadShader(*material.shader());
+            for (UniformValue& uniformValue : material.uniformValues())
+            {
+                if (uniformValue.type() == UniformType::Texture2)
+                {
+                    renderer.uploadTexture(*uniformValue.asTexture2());
+                }
+            }
+        }
+    }
+
+    for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
+    {
+        renderer.uploadTexture(*skyBox.texture);
+    }
 }
 
 void RenderSystem::addRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material)
@@ -74,8 +109,6 @@ void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCu
         std::pair<Vector3, Vector3>(-Vector3::UnitZ, -Vector3::UnitY),
     };
 
-    CameraSystem& cameraSystem = scene.system<CameraSystem>();
-
     // Create a geometry buffer for rendering to the texture cube
     unsigned width = texture.width();
     unsigned height = texture.height();
@@ -91,7 +124,7 @@ void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCu
     camera->exposure = -1.0;
     camera->fieldOfView = Degrees(180.0);
 
-    CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
+    CameraComponent::Iterator activeCamera = _cameraSystem.activeCamera();
     if (activeCamera)
     {
         camera->nearClip = activeCamera->nearClip;
@@ -104,7 +137,7 @@ void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCu
         // Update the camera's matrices
         camera->front = cameraVectors[i].first;
         camera->up = cameraVectors[i].second;
-        cameraSystem.updateCamera(*camera);
+        _cameraSystem.updateCamera(*camera);
 
         // Create the frame buffer and attach the corresponding face
         // of the cubic texture
@@ -122,8 +155,7 @@ void RenderSystem::renderToTextureCube(Scene& scene, Vector3 position, TextureCu
 
 void RenderSystem::render(Scene& scene, RenderTarget& target)
 {
-    CameraSystem& cameraSystem = scene.system<CameraSystem>();
-    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    CameraComponent::Iterator camera = _cameraSystem.activeCamera();
     if (camera)
     {
         if (!_geometryBuffer)
@@ -158,8 +190,7 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     {
         camera.aspectRatio = target.aspectRatio();
 
-        CameraSystem& cameraSystem = scene.system<CameraSystem>();
-        cameraSystem.updateCamera(camera);
+        _cameraSystem.updateCamera(camera);
     }
 
     // Get the cube map of the active light probe
@@ -186,11 +217,7 @@ void RenderSystem::prepareFrame(CameraComponent& camera, Scene& scene, RenderTar
     }
 
     // Add render calls for debug geometry
-    if (scene.hasSystemType<DebugSystem>())
-    {
-        DebugSystem& debugSystem = scene.system<DebugSystem>();
-        debugSystem.addRenderCalls(*this);
-    }
+    _debugSystem.addRenderCalls(*this);
 
     // Add each directional light to the frame data
     for (const DirectionalLightComponent& light : scene.components<DirectionalLightComponent>())
@@ -522,39 +549,6 @@ void RenderSystem::setBoundUniforms(Renderer::Frame& frame, Shader& shader, cons
             frame.setUniform(uniform, _frameData.geometryBuffer->lastBackBuffer());
             break;
         }
-    }
-}
-
-void RenderSystem::initialize()
-{
-    _skyBoxMaterial = new Material("Skybox");
-    _skyBoxMaterial->setShader(skyBoxShader);
-    _skyBoxMaterial->setCullMode(CullMode::None);
-
-    Renderer& renderer = engine().renderer();
-
-    for (MeshComponent& mesh : scene().components<MeshComponent>())
-    {
-        for (MeshSurface& surface : mesh.surfaces)
-        {
-            Mesh& mesh = *surface.mesh;
-            Material& material = *surface.material;
-
-            renderer.uploadMesh(mesh);
-            renderer.uploadShader(*material.shader());
-            for (UniformValue& uniformValue : material.uniformValues())
-            {
-                if (uniformValue.type() == UniformType::Texture2)
-                {
-                    renderer.uploadTexture(*uniformValue.asTexture2());
-                }
-            }
-        }
-    }
-
-    for (SkyBoxComponent& skyBox : scene().components<SkyBoxComponent>())
-    {
-        renderer.uploadTexture(*skyBox.texture);
     }
 }
 

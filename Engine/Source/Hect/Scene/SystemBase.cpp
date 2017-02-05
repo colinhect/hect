@@ -26,6 +26,7 @@
 #include <cassert>
 
 #include "Hect/Runtime/Engine.h"
+#include "Hect/Scene/Scene.h"
 
 using namespace hect;
 
@@ -33,6 +34,7 @@ SystemBase::SystemBase(Engine& engine, Scene& scene) :
     _engine(&engine),
     _scene(scene)
 {
+    scene.addSystem(*this);
 }
 
 Engine& SystemBase::engine() const
@@ -49,8 +51,4 @@ Scene& SystemBase::scene()
 const Scene& SystemBase::scene() const
 {
     return _scene;
-}
-
-void SystemBase::initialize()
-{
 }

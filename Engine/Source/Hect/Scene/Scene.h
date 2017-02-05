@@ -74,14 +74,13 @@ public:
     virtual ~Scene();
 
     ///
-    /// Creates a System of a specific type in the scene.
+    /// Registers a system instance with the scene.
     ///
-    /// \warning The type must be registered with SystemRegistry.
+    /// \param system The system to register.
     ///
-    /// \throws InvalidOperation If a system of the same type was already
-    /// created for the scene.
-    template <typename SystemType>
-    SystemType& createSystem();
+    /// \throws InvalidOperation If the a system of the same type is already
+    /// registered with the scene.
+    void addSystem(SystemBase& system);
 
     ///
     /// Returns whether the scene supports the specified System type.
@@ -223,7 +222,7 @@ protected:
     Engine& engine() const;
 
 private:
-    void addSystemType(SystemTypeId typeId);
+    void addPendingSystems();
 
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
@@ -266,9 +265,9 @@ private:
     std::vector<ComponentTypeId> _componentTypeIds;
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
 
+    std::vector<SystemBase*> _systemsToAdd;
     std::vector<SystemTypeId> _systemTypeIds;
-    std::vector<std::shared_ptr<SystemBase>> _systems;
-    std::vector<SystemBase*> _systemsToInitialize;
+    std::vector<SystemBase*> _systems;
 };
 
 }

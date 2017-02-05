@@ -32,7 +32,7 @@ TEST_CASE("Create an interface", "[InterfaceSystem]")
 
     DefaultScene scene(engine);
 
-    InterfaceSystem& interfaceSystem = scene.system<InterfaceSystem>();
+    InterfaceSystem& interfaceSystem = scene.interfaceSystem();
 
     Window& mainWindow = engine.mainWindow();
     Interface::Handle interface = interfaceSystem.createInterface(mainWindow);
@@ -46,7 +46,7 @@ TEST_CASE("Create a button", "[InterfaceSystem]")
 
     DefaultScene scene(engine);
 
-    InterfaceSystem& interfaceSystem = scene.system<InterfaceSystem>();
+    InterfaceSystem& interfaceSystem = scene.interfaceSystem();
 
     Interface::Handle interface = interfaceSystem.createInterface(engine.mainWindow());
     REQUIRE(interface);

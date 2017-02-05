@@ -59,10 +59,6 @@ public:
     virtual ~SystemBase() { }
 
     ///
-    /// Called before the first call to Scene::refresh().
-    virtual void initialize();
-
-    ///
     /// Gets the engine.
     Engine& engine() const;
 

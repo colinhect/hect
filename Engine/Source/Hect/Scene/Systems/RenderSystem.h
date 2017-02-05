@@ -51,7 +51,11 @@ class HECT_EXPORT RenderSystem :
     public System<RenderSystem>
 {
 public:
-    RenderSystem(Engine& engine, Scene& scene);
+    RenderSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, DebugSystem& debugSystem);
+
+    ///
+    /// Initializes the render system.
+    void initialize();
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
@@ -125,9 +129,6 @@ private:
     void renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
     void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform);
 
-    // System overrides
-    void initialize() override;
-
     class RenderCall
     {
     public:
@@ -161,6 +162,9 @@ private:
         TextureCube* skyBoxTexture { nullptr };
         GeometryBuffer* geometryBuffer { nullptr };
     } _frameData;
+
+    CameraSystem& _cameraSystem;
+    DebugSystem& _debugSystem;
 
     std::unique_ptr<GeometryBuffer> _geometryBuffer;
 

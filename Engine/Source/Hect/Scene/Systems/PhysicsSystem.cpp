@@ -109,9 +109,10 @@ TransformComponent convertFromBullet(const btTransform& t)
 
 }
 
-PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene) :
+PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene, TransformSystem& transformSystem) :
     System(engine, scene),
     gravity(Vector3(0, 0, -9.8)),
+    _transformSystem(transformSystem),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -199,8 +200,6 @@ void PhysicsSystem::syncWithSimulation()
         _world->setGravity(convertToBullet(gravity));
     }
 
-    auto& transformSystem = scene().system<TransformSystem>();
-
     // For each rigid body component
     for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
     {
@@ -216,7 +215,7 @@ void PhysicsSystem::syncWithSimulation()
             transform->localPosition = newTransform.localPosition;
             transform->localScale = newTransform.localScale;
             transform->localRotation = newTransform.localRotation;
-            transformSystem.commitTransform(*transform);
+            _transformSystem.commitTransform(*transform);
 
             // Update rigid body properties to what Bullet says it should be
             rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
@@ -244,8 +243,7 @@ void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
         btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
         btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
 
-        auto& transformSystem = scene().system<TransformSystem>();
-        transformSystem.updateTransform(*transform);
+        _transformSystem.updateTransform(*transform);
 
         rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(*transform)));
         btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);

@@ -47,7 +47,7 @@ class HECT_EXPORT TransformSystem :
     public System<TransformSystem, Components<TransformComponent>>
 {
 public:
-    TransformSystem(Engine& engine, Scene& scene);
+    TransformSystem(Engine& engine, Scene& scene, BoundingBoxSystem& boundingBoxSystem);
 
     ///
     /// Commits any changes made to a TransformComponent to take effect.
@@ -77,6 +77,8 @@ private:
     // System overrides
     void onComponentAdded(TransformComponent::Iterator transform) override;
     void onComponentRemoved(TransformComponent::Iterator transform) override;
+
+    BoundingBoxSystem& _boundingBoxSystem;
 
     std::vector<ComponentId> _committedTransformIds;
 };

@@ -64,15 +64,47 @@ public:
     // EventListener overrides
     virtual void receiveEvent(const KeyboardEvent& event) override;
 
+    ///
+    /// Returns the InterfaceSystem.
+    InterfaceSystem& interfaceSystem();
+
+    ///
+    /// Returns the DebugSystem.
+    DebugSystem& debugSystem();
+
+    ///
+    /// Returns the InputSystem.
+    InputSystem& inputSystem();
+
+    ///
+    /// Returns the CameraSystem.
+    CameraSystem& cameraSystem();
+
+    ///
+    /// Returns the BoundingBoxSystem.
+    BoundingBoxSystem& boundingBoxSystem();
+
+    ///
+    /// Returns the TransformSystem.
+    TransformSystem& transformSystem();
+
+    ///
+    /// Returns the PhysicsSystem.
+    PhysicsSystem& physicsSystem();
+
+    ///
+    /// Returns the RenderSystem.
+    RenderSystem& renderSystem();
+
 private:
-    BoundingBoxSystem& _boundingBoxSystem;
-    CameraSystem& _cameraSystem;
-    DebugSystem& _debugSystem;
-    InputSystem& _inputSystem;
-    InterfaceSystem& _interfaceSystem;
-    PhysicsSystem& _physicsSystem;
-    RenderSystem& _renderSystem;
-    TransformSystem& _transformSystem;
+    InterfaceSystem _interfaceSystem;
+    DebugSystem _debugSystem;
+    InputSystem _inputSystem;
+    CameraSystem _cameraSystem;
+    BoundingBoxSystem _boundingBoxSystem;
+    TransformSystem _transformSystem;
+    PhysicsSystem _physicsSystem;
+    RenderSystem _renderSystem;
     bool _debugRenderingEnabled { false };
 };
 

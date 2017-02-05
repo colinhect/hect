@@ -52,7 +52,7 @@ class HECT_EXPORT PhysicsSystem :
     public System<PhysicsSystem, Components<RigidBodyComponent>>
 {
 public:
-    PhysicsSystem(Engine& engine, Scene& scene);
+    PhysicsSystem(Engine& engine, Scene& scene, TransformSystem& transformSystem);
     ~PhysicsSystem();
 
     ///
@@ -106,6 +106,8 @@ private:
     // System overrides
     void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
     void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
+
+    TransformSystem& _transformSystem;
 
     std::vector<ComponentId> _committedRigidBodyIds;
     std::vector<btRigidBody*> _addedRigidBodies;

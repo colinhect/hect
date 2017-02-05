@@ -45,14 +45,14 @@ using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
     Scene(engine),
-    _boundingBoxSystem(createSystem<BoundingBoxSystem>()),
-    _cameraSystem(createSystem<CameraSystem>()),
-    _debugSystem(createSystem<DebugSystem>()),
-    _inputSystem(createSystem<InputSystem>()),
-    _interfaceSystem(createSystem<InterfaceSystem>()),
-    _physicsSystem(createSystem<PhysicsSystem>()),
-    _renderSystem(createSystem<RenderSystem>()),
-    _transformSystem(createSystem<TransformSystem>())
+    _interfaceSystem(engine, *this),
+    _debugSystem(engine, *this, _interfaceSystem),
+    _inputSystem(engine, *this),
+    _cameraSystem(engine, *this),
+    _boundingBoxSystem(engine, *this, _debugSystem),
+    _transformSystem(engine, *this, _boundingBoxSystem),
+    _physicsSystem(engine, *this, _transformSystem),
+    _renderSystem(engine, *this, _cameraSystem, _debugSystem)
 {
     if (engine.hasKeyboard())
     {
@@ -106,4 +106,44 @@ void DefaultScene::receiveEvent(const KeyboardEvent& event)
     {
         _debugRenderingEnabled = !_debugRenderingEnabled;
     }
+}
+
+InterfaceSystem& DefaultScene::interfaceSystem()
+{
+    return _interfaceSystem;
+}
+
+DebugSystem& DefaultScene::debugSystem()
+{
+    return _debugSystem;
+}
+
+InputSystem& DefaultScene::inputSystem()
+{
+    return _inputSystem;
+}
+
+CameraSystem& DefaultScene::cameraSystem()
+{
+    return _cameraSystem;
+}
+
+BoundingBoxSystem& DefaultScene::boundingBoxSystem()
+{
+    return _boundingBoxSystem;
+}
+
+TransformSystem& DefaultScene::transformSystem()
+{
+    return _transformSystem;
+}
+
+PhysicsSystem& DefaultScene::physicsSystem()
+{
+    return _physicsSystem;
+}
+
+RenderSystem& DefaultScene::renderSystem()
+{
+    return _renderSystem;
 }

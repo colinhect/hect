@@ -46,7 +46,7 @@ class HECT_EXPORT DebugSystem :
     public System<DebugSystem>
 {
 public:
-    DebugSystem(Engine& engine, Scene& scene);
+    DebugSystem(Engine& engine, Scene& scene, InterfaceSystem& interfaceSystem);
 
     ///
     /// Clears all enqueued debug geometry.
@@ -95,11 +95,9 @@ public:
 private:
     Mesh& meshForDuration(double duration);
 
-    void createSystemPanel();
-    void destroySystemPanel();
+    InterfaceSystem& _interfaceSystem;
 
     Interface::Handle _interface;
-    PanelWidget::Handle _systemPanel;
 
     Mesh _linesMesh;
 };

@@ -146,15 +146,15 @@ public:
     }
 };
 
-void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::function<void(Scene& scene)> verifyScene)
+void testEncodeDecode(std::function<void(DefaultScene& scene)> createScene, std::function<void(DefaultScene& scene)> verifyScene)
 {
     // Json
     DataValue dataValue;
 
     {
         DefaultScene scene(Engine::instance());
-
         createScene(scene);
+        scene.refresh();
 
         DataValueEncoder encoder;
         encoder << encodeValue(scene);
@@ -176,6 +176,7 @@ void testEncodeDecode(std::function<void(Scene& scene)> createScene, std::functi
     {
         DefaultScene scene(Engine::instance());
         createScene(scene);
+        scene.refresh();
 
         MemoryWriteStream writeStream(data);
         BinaryEncoder encoder(writeStream);
@@ -1737,41 +1738,9 @@ TEST_CASE("Copy an entity handle", "[Scene]")
     REQUIRE_THROWS_AS(*handleCopy, InvalidOperation);
 }
 
-TEST_CASE("Create a system for a scene", "[Scene]")
-{
-    DefaultScene scene(Engine::instance());
-
-    REQUIRE(!scene.hasSystemType<TestSystemA>());
-    scene.createSystem<TestSystemA>();
-    REQUIRE(scene.hasSystemType<TestSystemA>());
-
-    TestSystemA& testSystemA = scene.system<TestSystemA>();
-    TestSystemA& testSystemB = scene.system<TestSystemA>();
-
-    REQUIRE(&testSystemA == &testSystemB);
-}
-
-TEST_CASE("Create an existing system for a scene", "[Scene]")
-{
-    DefaultScene scene(Engine::instance());
-
-    scene.createSystem<TestSystemA>();
-    REQUIRE_THROWS_AS(scene.createSystem<TestSystemA>(), InvalidOperation);
-}
-
-TEST_CASE("Get a system before a system of that type is created for a scene", "[Scene]")
-{
-    DefaultScene scene(Engine::instance());
-
-    REQUIRE_THROWS_AS(scene.system<TestSystemA>(), InvalidOperation);
-
-    scene.createSystem<TestSystemA>();
-    scene.system<TestSystemA>();
-}
-
 TEST_CASE("Encode and decode a simple scene", "[Scene]")
 {
-    testEncodeDecode([](Scene& scene)
+    testEncodeDecode([](DefaultScene& scene)
     {
         // Create an entity
         Entity::Iterator a = scene.createEntity();
@@ -1783,7 +1752,7 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
         // Activate the entity and refresh the scene
         a->activate();
         scene.refresh();
-    }, [](Scene& scene)
+    }, [](DefaultScene& scene)
     {
         scene.refresh();
 
@@ -1797,14 +1766,14 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
 
 TEST_CASE("Encode and decode a simple scene with children entities", "[Scene]")
 {
-    testEncodeDecode([](Scene& scene)
+    testEncodeDecode([](DefaultScene& scene)
     {
         Entity::Iterator a = scene.createEntity();
         Entity::Iterator b = scene.createEntity();
         a->addChild(*b);
         a->activate();
         scene.refresh();
-    }, [](Scene& scene)
+    }, [](DefaultScene& scene)
     {
         scene.refresh();
         REQUIRE(scene.entityCount() == 2);
@@ -1819,29 +1788,29 @@ TEST_CASE("Encode and decode a simple scene with children entities", "[Scene]")
 
 TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
 {
-    testEncodeDecode([](Scene& scene)
+    testEncodeDecode([](DefaultScene& scene)
     {
-        scene.system<PhysicsSystem>().gravity = Vector3(1, 2, 3);
-    }, [](Scene& scene)
+        scene.physicsSystem().gravity = Vector3(1, 2, 3);
+    }, [](DefaultScene& scene)
     {
-        REQUIRE(scene.system<PhysicsSystem>().gravity == Vector3(1, 2, 3));
+        REQUIRE(scene.physicsSystem().gravity == Vector3(1, 2, 3));
     });
 }
 
 TEST_CASE("Systems are notified about the additions and removals of component types specified", "[Scene]")
 {
+    Engine& engine = Engine::instance();
     DefaultScene scene(Engine::instance());
 
-    scene.createSystem<TestSystemA>();
-    scene.createSystem<TestSystemB>();
+    TestSystemB testSystemB(engine, scene);
 
     Entity::Iterator entity = scene.createEntity();
     entity->addComponent<TestA>();
     entity->activate();
     scene.refresh();
 
-    REQUIRE(scene.system<TestSystemB>().value == "TestA added");
+    REQUIRE(testSystemB.value == "TestA added");
 
     entity->addComponent<TestB>();
-    REQUIRE(scene.system<TestSystemB>().value == "TestB added");
+    REQUIRE(testSystemB.value == "TestB added");
 }
