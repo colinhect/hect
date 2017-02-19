@@ -64,10 +64,11 @@ private:
 FileReadStream::FileReadStream(const Path& path) :
     _path(path)
 {
-    _handle = PHYSFS_openRead(path.asString().data());
+    const char* pathString = path.asString().data();
+    _handle = PHYSFS_openRead(pathString);
     if (!_handle)
     {
-        throw IOError(format("Failed to open file for reading: %s", PHYSFS_getLastError()));
+        throw IOError(format("Failed to open file '%s' for reading: %s", pathString, PHYSFS_getLastError()));
     }
 }
 
@@ -157,10 +158,11 @@ private:
 FileWriteStream::FileWriteStream(const Path& path) :
     _path(path)
 {
-    _handle = PHYSFS_openWrite(path.asString().data());
+    const char* pathString = path.asString().data();
+    _handle = PHYSFS_openWrite(pathString);
     if (!_handle)
     {
-        throw IOError(format("Failed to open file for writing: %s", PHYSFS_getLastError()));
+        throw IOError(format("Failed to open file '%s' for writing: %s", pathString, PHYSFS_getLastError()));
     }
 }
 
