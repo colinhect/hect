@@ -83,51 +83,6 @@ public:
     void addSystem(SystemBase& system);
 
     ///
-    /// Returns whether the scene supports the specified System type.
-    template <typename SystemType>
-    bool hasSystemType();
-
-    ///
-    /// Returns a reference to the System of a specific type.
-    ///
-    /// \throws InvalidOperation If the system type is not supported by the
-    /// scene.
-    template <typename SystemType>
-    SystemType& system();
-
-    ///
-    /// Returns a reference to the System of a specific type.
-    ///
-    /// \throws InvalidOperation If the system type is not supported by the
-    /// scene.
-    template <typename SystemType>
-    const SystemType& system() const;
-
-    ///
-    /// Returns whether the scene supports the specified System type id.
-    ///
-    /// \param typeId The type id of the system.
-    bool hasSystemOfTypeId(SystemTypeId typeId);
-
-    ///
-    /// Returns a reference to the System of a specific type id.
-    ///
-    /// \param typeId The type id of the system.
-    ///
-    /// \throws InvalidOperation If the specified system type is not supported
-    /// by the scene.
-    SystemBase& systemOfTypeId(SystemTypeId typeId);
-
-    ///
-    /// Returns a reference to the System of a specific type id.
-    ///
-    /// \param typeId The type id of the system.
-    ///
-    /// \throws InvalidOperation If the specified system type is not supported
-    /// by the scene.
-    const SystemBase& systemOfTypeId(SystemTypeId typeId) const;
-
-    ///
     /// Returns the pool of Component%s of a specific type.
     ///
     /// \throws InvalidOperation If the component type is unknown.
@@ -222,8 +177,6 @@ protected:
     Engine& engine() const;
 
 private:
-    void addPendingSystems();
-
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
 
@@ -265,8 +218,6 @@ private:
     std::vector<ComponentTypeId> _componentTypeIds;
     std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
 
-    std::vector<SystemBase*> _systemsToAdd;
-    std::vector<SystemTypeId> _systemTypeIds;
     std::vector<SystemBase*> _systems;
 };
 

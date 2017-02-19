@@ -126,6 +126,7 @@ namespace hect {}
 #include "Hect/Scene/EntityPool.h"
 #include "Hect/Scene/IdPool.h"
 #include "Hect/Scene/Scene.h"
+#include "Hect/Scene/SceneRegistry.h"
 #include "Hect/Scene/System.h"
 #include "Hect/Scene/SystemRegistry.h"
 #include "Hect/Scene/Components/BoundingBoxComponent.h"

@@ -51,34 +51,7 @@ Scene::~Scene()
 
 void Scene::addSystem(SystemBase& system)
 {
-    _systemsToAdd.push_back(&system);
-}
-
-SystemBase& Scene::systemOfTypeId(SystemTypeId typeId)
-{
-    if (!SystemRegistry::isRegisteredTypeId(typeId))
-    {
-        throw InvalidOperation("Unknown system type id");
-    }
-    else if (typeId >= _systems.size() || !_systems[typeId])
-    {
-        Name typeName = SystemRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene does not support system type '%s'", typeName.data()));
-    }
-    else
-    {
-        return *_systems[typeId];
-    }
-}
-
-bool Scene::hasSystemOfTypeId(SystemTypeId typeId)
-{
-    return typeId < _systems.size() && _systems[typeId];
-}
-
-const SystemBase& Scene::systemOfTypeId(SystemTypeId typeId) const
-{
-    return const_cast<Scene*>(this)->systemOfTypeId(typeId);
+    _systems.push_back(&system);
 }
 
 bool Scene::active() const
@@ -93,8 +66,6 @@ void Scene::setActive(bool active)
 
 void Scene::refresh()
 {
-    addPendingSystems();
-
     // Create/activate/destroy all pending entities and dispatch related
     while (hasPendingEntities())
     {
@@ -164,25 +135,17 @@ void Scene::encode(Encoder& encoder) const
     encoder << beginArray("systems");
     for (auto& system : _systems)
     {
-        if (system)
+        encoder << beginObject();
+
+        if (!encoder.isBinaryStream())
         {
-            encoder << beginObject();
-
-            if (encoder.isBinaryStream())
-            {
-                std::type_index typeIndex(typeid(*system));
-                encoder << encodeValue(SystemRegistry::typeIdOf(typeIndex));
-            }
-            else
-            {
-                Name typeName = Type::of(*system).name();
-                encoder << encodeValue("systemType", typeName);
-            }
-
-            system->encode(encoder);
-
-            encoder << endObject();
+            const Name typeName = Type::of(*system).name();
+            encoder << encodeValue("systemType", typeName);
         }
+
+        system->encode(encoder);
+
+        encoder << endObject();
     }
     encoder << endArray();
 
@@ -201,8 +164,6 @@ void Scene::encode(Encoder& encoder) const
 
 void Scene::decode(Decoder& decoder)
 {
-    addPendingSystems();
-
     // Base
     if (!decoder.isBinaryStream())
     {
@@ -242,28 +203,15 @@ void Scene::decode(Decoder& decoder)
     if (decoder.selectMember("systems"))
     {
         decoder >> beginArray();
+
+        size_t systemIndex = 0;
         while (decoder.hasMoreElements())
         {
             decoder >> beginObject();
-
-            SystemTypeId typeId;
-            if (decoder.isBinaryStream())
-            {
-                ReadStream& stream = decoder.binaryStream();
-                stream >> typeId;
-            }
-            else
-            {
-                std::string typeName;
-                decoder >> decodeValue("systemType", typeName, true);
-                typeId = SystemRegistry::typeIdOf(typeName);
-            }
-
-            SystemBase& system = systemOfTypeId(typeId);
-            system.decode(decoder);
-
+            _systems[systemIndex++]->decode(decoder);
             decoder >> endObject();
         }
+
         decoder >> endArray();
     }
 
@@ -287,40 +235,6 @@ Engine& Scene::engine() const
 {
     assert(_engine);
     return *_engine;
-}
-
-void Scene::addPendingSystems()
-{
-    for (SystemBase* system : _systemsToAdd)
-    {
-        const SystemTypeId typeId = SystemRegistry::typeIdOf(typeid(*system));
-
-        // Make sure the system isn't already added
-        if (typeId < _systems.size() && _systems[typeId])
-        {
-            Name typeName = SystemRegistry::typeNameOf(typeId);
-            throw InvalidOperation(format("Scene already supports system type '%s'", typeName.data()));
-        }
-
-        // Make sure the type id is a real type id
-        if (!SystemRegistry::isRegisteredTypeId(typeId))
-        {
-            throw InvalidOperation("Unknown system type id");
-        }
-
-        // Resize the systems vector if needed
-        while (typeId >= _systems.size())
-        {
-            size_t oldSize = _systems.size();
-            _systems.resize(std::max(oldSize * 2, size_t(8)));
-        }
-
-        // Add the system
-        _systems[typeId] = system;
-        _systemTypeIds.push_back(typeId);
-    }
-
-    _systemsToAdd.clear();
 }
 
 void Scene::addComponentType(ComponentTypeId typeId)

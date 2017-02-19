@@ -24,31 +24,10 @@
 namespace hect
 {
 
-template <typename SystemType>
-bool Scene::hasSystemType()
-{
-    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
-    return hasSystemOfTypeId(typeId);
-}
-
-template <typename SystemType>
-SystemType& Scene::system()
-{
-    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
-    return *reinterpret_cast<SystemType*>(&systemOfTypeId(typeId));
-}
-
-template <typename SystemType>
-const SystemType& Scene::system() const
-{
-    SystemTypeId typeId = SystemRegistry::typeIdOf<SystemType>();
-    return *reinterpret_cast<SystemType*>(&systemOfTypeId(typeId));
-}
-
 template <typename ComponentType>
 ComponentPool<ComponentType>& Scene::components()
 {
-    ComponentTypeId typeId = ComponentRegistry::typeIdOf<ComponentType>();
+    const ComponentTypeId typeId = ComponentRegistry::typeIdOf<ComponentType>();
     if (typeId >= _componentPools.size() || !_componentPools[typeId])
     {
         const Name componentTypeName = Type::get<ComponentType>().name();
