@@ -40,8 +40,8 @@ class HECT_EXPORT BoundingBoxSystem :
 {
     friend class TransformSystem;
 public:
-    BoundingBoxSystem(Engine& engine, Scene& scene);
-    BoundingBoxSystem(Engine& engine, Scene& scene, DebugSystem& debugSystem);
+    BoundingBoxSystem(Scene& scene);
+    BoundingBoxSystem(Scene& scene, DebugSystem& debugSystem);
 
     ///
     /// Updates the extents of a bounding box and all bounding boxes affected.

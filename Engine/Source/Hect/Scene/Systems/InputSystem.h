@@ -41,7 +41,7 @@ class HECT_EXPORT InputSystem :
     public System<InputSystem>
 {
 public:
-    InputSystem(Engine& engine, Scene& scene);
+    InputSystem(Scene& scene, const DataValue& settings);
 
     ///
     /// Adds an axis.
@@ -62,8 +62,9 @@ public:
     ///
     /// Update the values of all axes.
     ///
+    /// \param engine The engine (used to access peripheral input devices).
     /// \param timeStep The duration of time in seconds to update for.
-    void updateAxes(Seconds timeStep);
+    void updateAxes(Engine& engine, Seconds timeStep);
 
 private:
     std::unordered_map<Name, InputAxis> _axes;

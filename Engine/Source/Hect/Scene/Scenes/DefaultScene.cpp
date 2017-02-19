@@ -44,13 +44,13 @@ using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(engine, *this),
-    _debugSystem(engine, *this, _interfaceSystem),
-    _inputSystem(engine, *this),
-    _cameraSystem(engine, *this),
-    _boundingBoxSystem(engine, *this, _debugSystem),
-    _transformSystem(engine, *this, _boundingBoxSystem),
-    _physicsSystem(engine, *this, _transformSystem),
+    _interfaceSystem(*this, engine.mouse(), engine.renderer(), engine.vectorRenderer()),
+    _debugSystem(*this, _interfaceSystem),
+    _inputSystem(*this, engine.settings()),
+    _cameraSystem(*this),
+    _boundingBoxSystem(*this, _debugSystem),
+    _transformSystem(*this, _boundingBoxSystem),
+    _physicsSystem(*this, _transformSystem),
     _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
     if (engine.hasKeyboard())
@@ -64,7 +64,7 @@ void DefaultScene::preTick(Seconds timeStep)
 {
     Scene::refresh();
 
-    _inputSystem.updateAxes(timeStep);
+    _inputSystem.updateAxes(engine(), timeStep);
     _debugSystem.clearEnqueuedDebugGeometry();
 }
 
@@ -72,7 +72,7 @@ void DefaultScene::postTick(Seconds timeStep)
 {
     _physicsSystem.waitForSimulationTask();
     _physicsSystem.syncWithSimulation();
-    _physicsSystem.beginSimulationTask(timeStep);
+    _physicsSystem.beginSimulationTask(engine().taskPool(), timeStep);
 
     _transformSystem.updateCommittedTransforms();
     _cameraSystem.updateAllCameras();

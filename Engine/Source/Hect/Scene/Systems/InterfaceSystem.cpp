@@ -27,13 +27,13 @@
 
 using namespace hect;
 
-InterfaceSystem::InterfaceSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+InterfaceSystem::InterfaceSystem(Scene& scene, Mouse& mouse, Renderer& renderer, VectorRenderer& vectorRenderer) :
+    System(scene),
+    _mouse(mouse),
+    _renderer(renderer),
+    _vectorRenderer(vectorRenderer)
 {
-    if (engine.hasMouse())
-    {
-        engine.mouse().registerListener(*this);
-    }
+    _mouse.registerListener(*this);
 }
 
 Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
@@ -45,21 +45,17 @@ Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
 
 Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
 {
-    VectorRenderer& vectorRenderer = engine().vectorRenderer();
-    return vectorRenderer.measureTextDimensions(text, font, size);
+    return _vectorRenderer.measureTextDimensions(text, font, size);
 }
 
 void InterfaceSystem::renderAllInterfaces()
 {
-    Renderer& renderer = engine().renderer();
-    VectorRenderer& vectorRenderer = engine().vectorRenderer();
-
     for (const Interface::Handle& interface : _interfaces)
     {
         RenderTarget& interfaceTarget = interface->renderTarget();
 
-        Renderer::Frame frame = renderer.beginFrame(interfaceTarget);
-        VectorRenderer::Frame vectorFrame = vectorRenderer.beginFrame(interfaceTarget);
+        Renderer::Frame frame = _renderer.beginFrame(interfaceTarget);
+        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(interfaceTarget);
 
         Rectangle clipping(0.0, 0.0, interfaceTarget.width(), interfaceTarget.height());
         interface->render(vectorFrame, clipping);
@@ -76,8 +72,7 @@ void InterfaceSystem::tickAllInterfaces(Seconds timeStep)
 
 void InterfaceSystem::receiveEvent(const MouseEvent& event)
 {
-    Mouse& mouse = engine().mouse();
-    if (mouse.mode() == MouseMode::Cursor)
+    if (_mouse.mode() == MouseMode::Cursor)
     {
         for (const Interface::Handle& interface : _interfaces)
         {

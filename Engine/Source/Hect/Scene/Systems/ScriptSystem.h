@@ -47,7 +47,7 @@ class HECT_EXPORT ScriptSystem :
     public System<ScriptSystem>
 {
 public:
-    ScriptSystem(Engine& engine, Scene& scene);
+    ScriptSystem(Scene& scene);
 
     ///
     /// Executes a Lua code snippet.

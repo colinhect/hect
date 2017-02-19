@@ -62,8 +62,8 @@ void trace(const std::string& message)
 }
 }
 
-ScriptSystem::ScriptSystem(Engine& engine, Scene& scene) :
-    System(engine, scene),
+ScriptSystem::ScriptSystem(Scene& scene) :
+    System(scene),
     _state(new sel::State())
 {
     sel::State& state = *_state;

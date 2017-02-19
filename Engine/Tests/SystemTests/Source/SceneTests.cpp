@@ -84,8 +84,8 @@ class TestSystemA :
 public:
     std::string value;
 
-    TestSystemA(Engine& engine, Scene& scene) :
-        System(engine, scene)
+    TestSystemA(Scene& scene) :
+        System(scene)
     {
     }
 
@@ -123,8 +123,8 @@ class TestSystemB :
 public:
     std::string value;
 
-    TestSystemB(Engine& engine, Scene& scene) :
-        System(engine, scene)
+    TestSystemB(Scene& scene) :
+        System(scene)
     {
     }
 
@@ -162,8 +162,8 @@ class TestScene :
 public:
     TestScene(Engine& engine) :
         Scene(engine),
-        testSystemA(engine, *this),
-        testSystemB(engine, *this)
+        testSystemA(*this),
+        testSystemB(*this)
     {
     }
 

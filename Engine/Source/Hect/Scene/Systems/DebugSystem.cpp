@@ -33,8 +33,8 @@
 
 using namespace hect;
 
-DebugSystem::DebugSystem(Engine& engine, Scene& scene, InterfaceSystem& interfaceSystem) :
-    System(engine, scene),
+DebugSystem::DebugSystem(Scene& scene, InterfaceSystem& interfaceSystem) :
+    System(scene),
     _interfaceSystem(interfaceSystem),
     _linesMesh("DebugLines")
 {
@@ -106,15 +106,6 @@ void DebugSystem::addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer)
     if (!_linesMesh.vertexData().empty())
     {
         sceneRenderer.enqueueRenderCall(TransformComponent::Identity, _linesMesh, *linesMaterial);
-    }
-}
-
-void DebugSystem::toggleShowInterface()
-{
-    if (!_interface)
-    {
-        Window& mainWindow = engine().mainWindow();
-        _interface = _interfaceSystem.createInterface(mainWindow);
     }
 }
 

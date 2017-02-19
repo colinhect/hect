@@ -28,8 +28,6 @@
 namespace hect
 {
 
-class Engine;
-
 ///
 /// A template list of the component types that a system is notified about.
 ///
@@ -57,9 +55,8 @@ public:
     ///
     /// Constructs a system.
     ///
-    /// \param engine The engine.
     /// \param scene The scene that the system exists in.
-    System(Engine& engine, Scene& scene);
+    System(Scene& scene);
 
     virtual ~System() { }
 };

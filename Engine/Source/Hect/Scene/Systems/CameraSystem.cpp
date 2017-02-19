@@ -28,8 +28,8 @@
 
 using namespace hect;
 
-CameraSystem::CameraSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+CameraSystem::CameraSystem(Scene& scene) :
+    System(scene)
 {
 }
 

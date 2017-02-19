@@ -29,13 +29,13 @@
 
 using namespace hect;
 
-BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
+    System(scene)
 {
 }
 
-BoundingBoxSystem::BoundingBoxSystem(Engine& engine, Scene& scene, DebugSystem& debugSystem) :
-    System(engine, scene),
+BoundingBoxSystem::BoundingBoxSystem(Scene& scene, DebugSystem& debugSystem) :
+    System(scene),
     _debugSystem(&debugSystem)
 {
 }

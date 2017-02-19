@@ -28,10 +28,10 @@
 
 using namespace hect;
 
-InputSystem::InputSystem(Engine& engine, Scene& scene) :
-    System(engine, scene)
+InputSystem::InputSystem(Scene& scene, const DataValue& settings) :
+    System(scene)
 {
-    for (const DataValue& axisValue : engine.settings()["inputAxes"])
+    for (const DataValue& axisValue : settings["inputAxes"])
     {
         try
         {
@@ -78,12 +78,12 @@ double InputSystem::axisValue(Name name) const
     return 0.0;
 }
 
-void InputSystem::updateAxes(Seconds timeStep)
+void InputSystem::updateAxes(Engine& engine, Seconds timeStep)
 {
     // Update each axis
     for (auto& pair : _axes)
     {
         InputAxis& axis = pair.second;
-        axis.update(engine(), timeStep);
+        axis.update(engine, timeStep);
     }
 }

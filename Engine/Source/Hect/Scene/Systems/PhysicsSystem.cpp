@@ -109,8 +109,8 @@ TransformComponent convertFromBullet(const btTransform& t)
 
 }
 
-PhysicsSystem::PhysicsSystem(Engine& engine, Scene& scene, TransformSystem& transformSystem) :
-    System(engine, scene),
+PhysicsSystem::PhysicsSystem(Scene& scene, TransformSystem& transformSystem) :
+    System(scene),
     gravity(Vector3(0, 0, -9.8)),
     _transformSystem(transformSystem),
     _configuration(new btDefaultCollisionConfiguration()),
@@ -138,9 +138,8 @@ void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
     _committedRigidBodyIds.push_back(id);
 }
 
-void PhysicsSystem::beginSimulationTask(Seconds timeStep)
+void PhysicsSystem::beginSimulationTask(TaskPool& taskPool, Seconds timeStep)
 {
-    TaskPool& taskPool = engine().taskPool();
     _physicsSimulationTask = taskPool.enqueue([this, timeStep]
     {
         _world->stepSimulation(timeStep.value, 4);

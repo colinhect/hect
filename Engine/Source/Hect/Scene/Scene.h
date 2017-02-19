@@ -30,6 +30,7 @@
 #include <typeinfo>
 
 #include "Hect/Core/Export.h"
+#include "Hect/Graphics/RenderTarget.h"
 #include "Hect/IO/Asset.h"
 #include "Hect/Timing/Timer.h"
 #include "Hect/Scene/Component.h"

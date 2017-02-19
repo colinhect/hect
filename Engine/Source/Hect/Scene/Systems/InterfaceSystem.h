@@ -44,7 +44,7 @@ class HECT_EXPORT InterfaceSystem :
     public EventListener<MouseEvent>
 {
 public:
-    InterfaceSystem(Engine& engine, Scene& scene);
+    InterfaceSystem(Scene& scene, Mouse& mouse, Renderer& renderer, VectorRenderer& vectorRenderer);
 
     ///
     /// Creates a new interface.
@@ -88,6 +88,10 @@ public:
 private:
     // EventListener overrides
     void receiveEvent(const MouseEvent& event) override;
+
+    Mouse& _mouse;
+    Renderer& _renderer;
+    VectorRenderer& _vectorRenderer;
 
     std::vector<Interface::Handle> _interfaces;
 };

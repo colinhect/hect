@@ -46,7 +46,7 @@ class HECT_EXPORT DebugSystem :
     public System<DebugSystem>
 {
 public:
-    DebugSystem(Engine& engine, Scene& scene, InterfaceSystem& interfaceSystem);
+    DebugSystem(Scene& scene, InterfaceSystem& interfaceSystem);
 
     ///
     /// Clears all enqueued debug geometry.
@@ -81,10 +81,6 @@ public:
     /// \param sceneRenderer The scene renderer to render the debug geometry
     /// with.
     void addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer);
-
-    ///
-    /// Toggles whether the debug interface is displayed.
-    void toggleShowInterface();
 
     ///
     /// Thee material used to render lines.

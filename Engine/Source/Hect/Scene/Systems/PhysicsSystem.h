@@ -52,7 +52,7 @@ class HECT_EXPORT PhysicsSystem :
     public System<PhysicsSystem, Components<RigidBodyComponent>>
 {
 public:
-    PhysicsSystem(Engine& engine, Scene& scene, TransformSystem& transformSystem);
+    PhysicsSystem(Scene& scene, TransformSystem& transformSystem);
     ~PhysicsSystem();
 
     ///
@@ -73,8 +73,9 @@ public:
     ///
     /// Begins the physics simulation task.
     ///
+    /// \param taskPool The task pool.
     /// \param timeStep The duration of time to simulate.
-    void beginSimulationTask(Seconds timeStep);
+    void beginSimulationTask(TaskPool& taskPool, Seconds timeStep);
 
     ///
     /// Waits for the physics simulation task to complete if it has begin.
