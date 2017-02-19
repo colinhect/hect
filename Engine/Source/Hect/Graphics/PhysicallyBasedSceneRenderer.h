@@ -56,6 +56,13 @@ public:
     ///
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
+    void enqueueRenderCall(const TransformComponent& transform, Mesh& mesh);
+
+    ///
+    /// Enqueues a render call to be rendered on the upcoming frame.
+    ///
+    /// \param transform The world-space transform.
+    /// \param mesh The mesh to render.
     /// \param material The material to use.
     void enqueueRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
 
@@ -127,29 +134,32 @@ private:
 
     TaskPool& _taskPool;
 
-    // The shader used to expose the final image to the window
-    Shader::Handle _exposeShader;
-
     // The shader used to composite all components of the image into the final
     // image
     Shader::Handle _compositeShader;
 
-    // The shader used to perform environmental lighting on physically lit
-    // objects
-    Shader::Handle _environmentShader;
+    // The default material to fall-back on if no material is provided
+    Material::Handle _defaultMaterial;
 
     // The shader used to perform directional lighting on physically lit
     // objects
     Shader::Handle _directionalLightShader;
 
-    // The shader used to render sky boxes.
-    Shader::Handle _skyBoxShader;
+    // The shader used to perform environmental lighting on physically lit
+    // objects
+    Shader::Handle _environmentShader;
 
-    // The material used to render sky boxes.
+    // The shader used to expose the final image to the window
+    Shader::Handle _exposeShader;
+
+    // The material used to render sky boxes
     Material::Handle _skyBoxMaterial;
 
-    // The mesh used to render sky boxes.
+    // The mesh used to render sky boxes
     Mesh::Handle _skyBoxMesh;
+
+    // The shader used to render sky boxes
+    Shader::Handle _skyBoxShader;
 
     std::unique_ptr<GeometryBuffer> _geometryBuffer;
 };

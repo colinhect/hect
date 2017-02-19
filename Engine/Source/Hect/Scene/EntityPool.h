@@ -112,6 +112,24 @@ public:
     std::vector<Entity::ConstIterator> find(T&& predicate) const;
 
     ///
+    /// Returns an iterator to the first Entity with the given name.
+    ///
+    /// \param name The name of the entity.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::Iterator findFirstByName(Name name);
+
+    ///
+    /// Returns an iterator to the first Entity with the given name.
+    ///
+    /// \param name The name of the entity.
+    ///
+    /// \returns An iterator to the first matching entity; invalid if there
+    /// was no matching entity.
+    Entity::ConstIterator findFirstByName(Name name) const;
+
+    ///
     /// Returns the Entity with the given id.
     ///
     /// \param id The id of the entity to get.

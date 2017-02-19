@@ -31,6 +31,14 @@ EntityHandle::EntityHandle()
 {
 }
 
+EntityHandle::EntityHandle(const EntityIterator& iterator)
+{
+    if (iterator)
+    {
+        *this = iterator->createHandle();
+    }
+}
+
 EntityHandle::EntityHandle(const EntityHandle& handle) :
     _context(handle._context)
 {

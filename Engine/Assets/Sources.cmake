@@ -8,6 +8,7 @@ source_group("Assets\\Interface" FILES ${SOURCE_INTERFACE})
 
 set(SOURCE_MATERIALS
     "Materials/DebugLines.material.yaml"
+    "Materials/Default.material.yaml"
     "Materials/Opaque.material.yaml"
     "Materials/OpaqueSolid.material.yaml"
     )

@@ -46,8 +46,8 @@ public:
     /// Constructs a surface.
     ///
     /// \param mesh The mesh.
-    /// \param material The material.
-    MeshSurface(const Mesh::Handle& mesh, const Material::Handle& material);
+    /// \param material The material (optional).
+    MeshSurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
 
     ///
     /// The mesh.
@@ -81,8 +81,8 @@ public:
     /// Adds a mesh surface.
     ///
     /// \param mesh The mesh.
-    /// \param material The material.
-    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material);
+    /// \param material The material (optional).
+    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
 
     ///
     /// Adds a mesh surface.

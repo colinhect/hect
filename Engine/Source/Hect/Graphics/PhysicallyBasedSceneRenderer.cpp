@@ -38,28 +38,35 @@ using namespace hect;
 namespace
 {
 
-static const Path ExposeShaderPath("Hect/Rendering/Expose.shader");
 static const Path CompositeShaderPath("Hect/Rendering/Composite.shader");
-static const Path EnvironmentShaderPath("Hect/Rendering/Environment.shader");
+static const Path DefaultMaterialPath("Hect/Materials/Default.material");
 static const Path DirectionalLightShaderPath("Hect/Rendering/DirectionalLight.shader");
-static const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
+static const Path EnvironmentShaderPath("Hect/Rendering/Environment.shader");
+static const Path ExposeShaderPath("Hect/Rendering/Expose.shader");
 static const Path SkyBoxMeshPath("Hect/Rendering/SkyBox.mesh");
+static const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
 
 }
 
 PhysicallyBasedSceneRenderer::PhysicallyBasedSceneRenderer(AssetCache& assetCache, TaskPool& taskPool) :
     _taskPool(taskPool)
 {
-    _exposeShader = assetCache.getHandle<Shader>(ExposeShaderPath);
     _compositeShader = assetCache.getHandle<Shader>(CompositeShaderPath);
-    _environmentShader = assetCache.getHandle<Shader>(EnvironmentShaderPath);
+    _defaultMaterial = assetCache.getHandle<Material>(DefaultMaterialPath);
     _directionalLightShader = assetCache.getHandle<Shader>(DirectionalLightShaderPath);
-    _skyBoxShader = assetCache.getHandle<Shader>(SkyBoxShaderPath);
+    _environmentShader = assetCache.getHandle<Shader>(EnvironmentShaderPath);
+    _exposeShader = assetCache.getHandle<Shader>(ExposeShaderPath);
     _skyBoxMesh = assetCache.getHandle<Mesh>(SkyBoxMeshPath);
+    _skyBoxShader = assetCache.getHandle<Shader>(SkyBoxShaderPath);
 
     _skyBoxMaterial = new Material("Skybox");
     _skyBoxMaterial->setShader(_skyBoxShader);
     _skyBoxMaterial->setCullMode(CullMode::None);
+}
+
+void PhysicallyBasedSceneRenderer::enqueueRenderCall(const TransformComponent& transform, Mesh& mesh)
+{
+    return enqueueRenderCall(transform, mesh, *_defaultMaterial);
 }
 
 void PhysicallyBasedSceneRenderer::enqueueRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material)
@@ -400,17 +407,23 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
                 }
 
                 Mesh& mesh = *surface.mesh;
-                Material& material = *surface.material;
+
+                TransformComponent transform = TransformComponent::Identity;
 
                 // If the entity has a transform component
-                TransformComponent::Iterator transform = entity.component<TransformComponent>();
-                if (transform)
+                TransformComponent::Iterator transformComponent = entity.component<TransformComponent>();
+                if (transformComponent)
                 {
-                    enqueueRenderCall(*transform, mesh, material);
+                    transform = *transformComponent;
+                }
+
+                if (surface.material)
+                {
+                    enqueueRenderCall(transform, mesh, *surface.material);
                 }
                 else
                 {
-                    enqueueRenderCall(TransformComponent::Identity, mesh, material);
+                    enqueueRenderCall(transform, mesh);
                 }
             }
         }

@@ -45,6 +45,12 @@ public:
     EntityHandle();
 
     ///
+    /// Contructs a handle from an iterator.
+    ///
+    /// \param iterator The iterator.
+    EntityHandle(const EntityIterator& iterator);
+
+    ///
     /// Contructs a handle copied from another.
     ///
     /// \param handle The handle to copy.
