@@ -204,12 +204,45 @@ void Scene::decode(Decoder& decoder)
     {
         decoder >> beginArray();
 
-        size_t systemIndex = 0;
-        while (decoder.hasMoreElements())
+        if (decoder.isBinaryStream())
         {
-            decoder >> beginObject();
-            _systems[systemIndex++]->decode(decoder);
-            decoder >> endObject();
+            size_t systemIndex = 0;
+            while (decoder.hasMoreElements())
+            {
+                decoder >> beginObject();
+                _systems[systemIndex++]->decode(decoder);
+                decoder >> endObject();
+            }
+        }
+        else
+        {
+            while (decoder.hasMoreElements())
+            {
+                decoder >> beginObject();
+
+                std::string systemType;
+                decoder >> decodeValue("systemType", systemType);
+
+                // Find the system of the specified type
+                auto it = std::find_if(_systems.begin(), _systems.end(), [&systemType](const SystemBase* system)
+                    {
+                        const Name typeName = Type::of(*system).name();
+                        return typeName.asString() == systemType;
+                    });
+
+                // If the system was found
+                if (it != _systems.end())
+                {
+                    SystemBase& system = **it;
+                    system.decode(decoder);
+                }
+                else
+                {
+                    throw DecodeError(format("Scene does not have system of type '%s'", systemType.data()));
+                }
+
+                decoder >> endObject();
+            }
         }
 
         decoder >> endArray();
