@@ -45,17 +45,11 @@ namespace hect
 ///
 /// Performs the high-level rendering algorithms (physically-based shading,
 /// deferred shading, shadows, reflections, etc).
-///
-/// \system
-class HECT_EXPORT RenderSystem :
-    public System<RenderSystem>
+class HECT_EXPORT PhysicallyBasedSceneRenderer :
+    public Uncopyable
 {
 public:
-    RenderSystem(Engine& engine, Scene& scene, CameraSystem& cameraSystem, DebugSystem& debugSystem);
-
-    ///
-    /// Initializes the render system.
-    void initialize();
+    PhysicallyBasedSceneRenderer(AssetCache& assetCache, TaskPool& taskPool);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
@@ -63,7 +57,7 @@ public:
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
     /// \param material The material to use.
-    void addRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
+    void enqueueRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
 
     ///
     /// Renders the scene to a texture cube at the specified location.
@@ -71,59 +65,27 @@ public:
     /// \note The properties of the camera camera are used.
     ///
     /// \param scene The scene to render.
+    /// \param cameraSystem The camera system.
+    /// \param renderer The renderer.
     /// \param position The position to render from.
     /// \param texture The texture to render to.
-    void renderToTextureCube(Scene& scene, Vector3 position, TextureCube& texture);
+    void renderToTextureCube(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, Vector3 position, TextureCube& texture);
 
     ///
     /// Renders the scene to the specified target.
     ///
     /// \param scene The scene to render.
+    /// \param cameraSystem The camera system.
+    /// \param renderer The renderer.
     /// \param target The target to render to.
-    void render(Scene& scene, RenderTarget& target);
+    void render(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, RenderTarget& target);
 
-    ///
-    /// The shader used to expose the final image to the window.
-    ///
-    /// \property{required}
-    Shader::Handle exposeShader;
-
-    ///
-    /// The shader used to composite all components of the image into the
-    /// final image.
-    ///
-    /// \property{required}
-    Shader::Handle compositeShader;
-
-    ///
-    /// The shader used to perform environmental lighting on physically lit
-    /// objects.
-    ///
-    /// \property{required}
-    Shader::Handle environmentShader;
-
-    ///
-    /// The shader used to perform directional lighting on physically lit
-    /// objects.
-    ///
-    /// \property{required}
-    Shader::Handle directionalLightShader;
-
-    ///
-    /// The shader used to render sky boxes.
-    ///
-    /// \property{required}
-    Shader::Handle skyBoxShader;
-
-    ///
-    /// The mesh used to render sky boxes.
-    ///
-    /// \property{required}
-    Mesh::Handle skyBoxMesh;
 
 private:
-    void prepareFrame(CameraComponent& camera, Scene& scene, RenderTarget& target, GeometryBuffer& geometryBuffer);
-    void renderFrame(CameraComponent& camera, RenderTarget& target);
+    void prepareFrame(Scene& scene, CameraSystem& cameraSystem, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometryBuffer);
+    void renderFrame(CameraComponent& camera, Renderer& renderer, RenderTarget& target);
+
+    void uploadRenderObjectsForScene(Scene& scene, Renderer& renderer);
 
     void buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest = true);
     void renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
@@ -163,12 +125,33 @@ private:
         GeometryBuffer* geometryBuffer { nullptr };
     } _frameData;
 
-    CameraSystem& _cameraSystem;
-    DebugSystem& _debugSystem;
+    TaskPool& _taskPool;
+
+    // The shader used to expose the final image to the window
+    Shader::Handle _exposeShader;
+
+    // The shader used to composite all components of the image into the final
+    // image
+    Shader::Handle _compositeShader;
+
+    // The shader used to perform environmental lighting on physically lit
+    // objects
+    Shader::Handle _environmentShader;
+
+    // The shader used to perform directional lighting on physically lit
+    // objects
+    Shader::Handle _directionalLightShader;
+
+    // The shader used to render sky boxes.
+    Shader::Handle _skyBoxShader;
+
+    // The material used to render sky boxes.
+    Material::Handle _skyBoxMaterial;
+
+    // The mesh used to render sky boxes.
+    Mesh::Handle _skyBoxMesh;
 
     std::unique_ptr<GeometryBuffer> _geometryBuffer;
-
-    Material::Handle _skyBoxMaterial;
 };
 
 }

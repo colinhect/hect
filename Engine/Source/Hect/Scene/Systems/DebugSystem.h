@@ -36,7 +36,7 @@
 namespace hect
 {
 
-class RenderSystem;
+class PhysicallyBasedSceneRenderer;
 
 ///
 /// Provides debug functionality.
@@ -78,9 +78,9 @@ public:
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
     ///
-    /// \param renderSystem The render system to render the debug geometry
+    /// \param sceneRenderer The scene renderer to render the debug geometry
     /// with.
-    void addRenderCalls(RenderSystem& renderSystem);
+    void addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer);
 
     ///
     /// Toggles whether the debug interface is displayed.

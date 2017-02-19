@@ -40,6 +40,7 @@ class HECT_EXPORT BoundingBoxSystem :
 {
     friend class TransformSystem;
 public:
+    BoundingBoxSystem(Engine& engine, Scene& scene);
     BoundingBoxSystem(Engine& engine, Scene& scene, DebugSystem& debugSystem);
 
     ///
@@ -58,7 +59,7 @@ private:
     // System overrides
     void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
 
-    DebugSystem& _debugSystem;
+    DebugSystem* _debugSystem { nullptr };
 };
 
 }

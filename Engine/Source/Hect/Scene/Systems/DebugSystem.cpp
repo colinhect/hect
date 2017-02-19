@@ -25,11 +25,11 @@
 
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/MeshWriter.h"
+#include "Hect/Graphics/PhysicallyBasedSceneRenderer.h"
 #include "Hect/Interface/Widgets/CheckBoxWidget.h"
 #include "Hect/Interface/Widgets/LabelWidget.h"
 #include "Hect/Interface/Widgets/TableWidget.h"
 #include "Hect/Runtime/Engine.h"
-#include "Hect/Scene/Systems/RenderSystem.h"
 
 using namespace hect;
 
@@ -101,11 +101,11 @@ void DebugSystem::renderBox(Color color, Box box, Vector3 position, Quaternion r
     }
 }
 
-void DebugSystem::addRenderCalls(RenderSystem& renderSystem)
+void DebugSystem::addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer)
 {
     if (!_linesMesh.vertexData().empty())
     {
-        renderSystem.addRenderCall(TransformComponent::Identity, _linesMesh, *linesMaterial);
+        sceneRenderer.enqueueRenderCall(TransformComponent::Identity, _linesMesh, *linesMaterial);
     }
 }
 

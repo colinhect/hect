@@ -37,7 +37,6 @@
 #include "Hect/Scene/Systems/TransformSystem.h"
 #include "Hect/Scene/Systems/BoundingBoxSystem.h"
 #include "Hect/Scene/Systems/CameraSystem.h"
-#include "Hect/Scene/Systems/RenderSystem.h"
 #include "Hect/Scene/Systems/DebugSystem.h"
 #include "Hect/Scene/Systems/InterfaceSystem.h"
 
@@ -52,7 +51,7 @@ DefaultScene::DefaultScene(Engine& engine) :
     _boundingBoxSystem(engine, *this, _debugSystem),
     _transformSystem(engine, *this, _boundingBoxSystem),
     _physicsSystem(engine, *this, _transformSystem),
-    _renderSystem(engine, *this, _cameraSystem, _debugSystem)
+    _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
     if (engine.hasKeyboard())
     {
@@ -96,7 +95,8 @@ void DefaultScene::tick(Seconds timeStep)
 
 void DefaultScene::render(RenderTarget& target)
 {
-    _renderSystem.render(*this, target);
+    Renderer& renderer = engine().renderer();
+    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
     _interfaceSystem.renderAllInterfaces();
 }
 
@@ -141,9 +141,4 @@ TransformSystem& DefaultScene::transformSystem()
 PhysicsSystem& DefaultScene::physicsSystem()
 {
     return _physicsSystem;
-}
-
-RenderSystem& DefaultScene::renderSystem()
-{
-    return _renderSystem;
 }

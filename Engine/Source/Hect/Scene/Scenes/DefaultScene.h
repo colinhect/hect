@@ -24,6 +24,7 @@
 #pragma once
 
 #include "Hect/Core/EventListener.h"
+#include "Hect/Graphics/PhysicallyBasedSceneRenderer.h"
 #include "Hect/Input/KeyboardEvent.h"
 #include "Hect/Scene/Scene.h"
 #include "Hect/Scene/Systems/BoundingBoxSystem.h"
@@ -32,7 +33,6 @@
 #include "Hect/Scene/Systems/InputSystem.h"
 #include "Hect/Scene/Systems/InterfaceSystem.h"
 #include "Hect/Scene/Systems/PhysicsSystem.h"
-#include "Hect/Scene/Systems/RenderSystem.h"
 #include "Hect/Scene/Systems/TransformSystem.h"
 
 namespace hect
@@ -92,10 +92,6 @@ public:
     /// Returns the PhysicsSystem.
     PhysicsSystem& physicsSystem();
 
-    ///
-    /// Returns the RenderSystem.
-    RenderSystem& renderSystem();
-
 private:
     InterfaceSystem _interfaceSystem;
     DebugSystem _debugSystem;
@@ -104,7 +100,7 @@ private:
     BoundingBoxSystem _boundingBoxSystem;
     TransformSystem _transformSystem;
     PhysicsSystem _physicsSystem;
-    RenderSystem _renderSystem;
+    PhysicallyBasedSceneRenderer _sceneRenderer;
     bool _debugRenderingEnabled { false };
 };
 
