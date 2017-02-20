@@ -94,12 +94,28 @@ Entity::Iterator Scene::createEntity(Name name)
 
 Entity::Iterator Scene::loadEntity(const Path& path)
 {
+    Timer timer;
+
     Entity::Iterator entity = createEntity();
 
-    AssetDecoder decoder(_engine->assetCache(), path);
+    // Resolve the path to the entity
+    AssetCache& assetCache = _engine->assetCache();
+    const Path resolvedPath = assetCache.resolvePath(path);
+
+    AssetDecoder decoder(_engine->assetCache(), resolvedPath);
     decoder >> decodeValue(*entity);
 
+    HECT_INFO(format("Loaded entity '%s' in %ims", resolvedPath.asString().data(), Milliseconds(timer.elapsed()).value));
+
     return entity;
+}
+
+void Scene::destroyAllEntities()
+{
+    for (Entity& entity : entities())
+    {
+        destroyEntity(entity);
+    }
 }
 
 EntityPool& Scene::entities()
@@ -115,6 +131,34 @@ const EntityPool& Scene::entities() const
 size_t Scene::entityCount() const
 {
     return _entityCount;
+}
+
+void Scene::load(const Path& path)
+{
+    if (_initialized)
+    {
+        throw InvalidOperation("Scene is already initialized and cannot be loaded");
+    }
+
+    Timer timer;
+
+    // Resolve the path to the scene
+    AssetCache& assetCache = _engine->assetCache();
+    const Path resolvedPath = assetCache.resolvePath(path);
+
+    // Set the name of the scene to the resolved path
+    setName(resolvedPath.asString());
+
+    // Decode the scene from the asset
+    AssetDecoder decoder(_engine->assetCache(), resolvedPath);
+    decoder >> decodeValue(*this);
+
+    // Refresh and initialize the scene
+    refresh();
+    initialize();
+    refresh();
+
+    HECT_INFO(format("Loaded scene '%s' in %ims", resolvedPath.asString().data(), Milliseconds(timer.elapsed()).value));
 }
 
 void Scene::encode(Encoder& encoder) const

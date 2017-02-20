@@ -140,6 +140,8 @@ public:
     ///
     /// Creates a new Entity.
     ///
+    /// \note The entity will have no effect on the scene until it is activated.
+    ///
     /// \param name The name of the entity.
     ///
     /// \returns An iterator to the new entity.
@@ -148,12 +150,18 @@ public:
     ///
     /// Loads an Entity from an asset.
     ///
+    /// \note The entity will have no effect on the scene until it is activated.
+    ///
     /// \param path The path to the entity asset.
     ///
     /// \returns An iterator to the new entity.
     ///
-    /// \throws FatalError If the entity failed to decode.
+    /// \throws DecodeError If the entity failed to decode.
     Entity::Iterator loadEntity(const Path& path);
+
+    ///
+    /// Clears all entities and components from the scene.
+    void destroyAllEntities();
 
     ///
     /// Returns the pool of \link Entity Entities \endlink.
@@ -167,6 +175,17 @@ public:
     /// Returns the number of active \link Entity Entities \endlink in the
     /// scene.
     size_t entityCount() const;
+
+    ///
+    /// Clears the state of the scene and loads a scene from an asset.
+    ///
+    /// \note The scene asset must be of the same scene type as the scene.
+    ///
+    /// \param path The path to the scene asset.
+    ///
+    /// \throws DecodeError If the scene failed to decode.
+    /// \throws InvalidOperation If the scene is already intialized.
+    void load(const Path& path);
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

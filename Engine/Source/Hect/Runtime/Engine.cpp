@@ -182,10 +182,7 @@ int Engine::main()
 
         // Create the scene
         auto scene = SceneRegistry::create(typeId);
-
-        // Decode the scene
-        AssetDecoder decoder(assetCache(), scenePath);
-        scene->decode(decoder);
+        scene->load(scenePath);
 
         playScene(*scene);
     }
@@ -195,6 +192,8 @@ int Engine::main()
 
 void Engine::playScene(Scene& scene)
 {
+    HECT_INFO(format("Playing scene '%s'...", scene.name().data()));
+
     const Seconds timeStep(1.0 / 60.0);
     const Microseconds timeStepMicroseconds(timeStep);
 
@@ -202,10 +201,11 @@ void Engine::playScene(Scene& scene)
     Microseconds accumulator(0);
     Microseconds delta(0);
 
-    // Perform initialization and one initial tick before entering the main
-    // loop
-    scene.initialize();
-    scene.tick(timeStep);
+    // Initialize the scene if needed
+    if (!scene.isInitialized())
+    {
+        scene.initialize();
+    }
 
     while (_platform->handleEvents() && scene.active())
     {
