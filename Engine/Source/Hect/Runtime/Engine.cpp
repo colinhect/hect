@@ -108,14 +108,8 @@ Engine::Engine(int argc, char* const argv[], const Path& settingsFilesPath)
     // Create platform
     _platform.reset(new Platform());
 
-    // Mount the archives specified in the settings
-    for (const DataValue& archive : _settings["archives"])
-    {
-        if (!archive["path"].isNull())
-        {
-            _fileSystem->mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
-        }
-    }
+    // Mount the archive of built-in assets
+    _fileSystem->mountArchive("Hect.data", "Hect");
 
     // Create the task pool
     size_t threadCount = _settings["taskPool"]["threadCount"].orDefault(2).asInt();
@@ -124,6 +118,15 @@ Engine::Engine(int argc, char* const argv[], const Path& settingsFilesPath)
     // Create the asset cache
     bool concurrent = _settings["assetCache"]["concurrent"].orDefault(false).asBool();
     _assetCache.reset(new AssetCache(*_fileSystem, concurrent));
+
+    // Mount the archives specified in the settings
+    for (const DataValue& archive : _settings["archives"])
+    {
+        if (!archive["path"].isNull())
+        {
+            _fileSystem->mountArchive(archive["path"].asString(), archive["mountPoint"].asString());
+        }
+    }
 
     const DataValue& videoModeValue = _settings["videoMode"];
     if (!videoModeValue.isNull())
