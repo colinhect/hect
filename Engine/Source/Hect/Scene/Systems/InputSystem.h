@@ -29,6 +29,7 @@
 #include "Hect/Core/Name.h"
 #include "Hect/Input/InputAxis.h"
 #include "Hect/Scene/System.h"
+#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
@@ -41,7 +42,7 @@ class HECT_EXPORT InputSystem :
     public System<InputSystem>
 {
 public:
-    InputSystem(Scene& scene, const DataValue& settings);
+    InputSystem(Scene& scene, Platform& platform, const DataValue& settings);
 
     ///
     /// Adds an axis.
@@ -62,11 +63,11 @@ public:
     ///
     /// Update the values of all axes.
     ///
-    /// \param engine The engine (used to access peripheral input devices).
     /// \param timeStep The duration of time in seconds to update for.
-    void updateAxes(Engine& engine, Seconds timeStep);
+    void updateAxes(Seconds timeStep);
 
 private:
+    Platform& _platform;
     std::unordered_map<Name, InputAxis> _axes;
 };
 

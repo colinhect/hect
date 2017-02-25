@@ -34,7 +34,7 @@
 namespace hect
 {
 
-class Engine;
+class Platform;
 
 ///
 /// A binding of an input device to the value of an InputAxis.
@@ -46,10 +46,10 @@ public:
     ///
     /// Updates the contributing value of the binding.
     ///
-    /// \param engine The engine.
+    /// \param platform The platform.
     /// \param timeStep The duration of time elapsed in seconds since the last
     /// update.
-    void update(Engine& engine, Seconds timeStep);
+    void update(Platform& platform, Seconds timeStep);
 
     ///
     /// Returns the contributing value.

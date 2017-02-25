@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "DefaultScene.h"
 
+#include "Hect/Runtime/Platform.h"
 #include "Hect/Scene/Components/BoundingBoxComponent.h"
 #include "Hect/Scene/Components/CameraComponent.h"
 #include "Hect/Scene/Components/DirectionalLightComponent.h"
@@ -31,7 +32,6 @@
 #include "Hect/Scene/Components/RigidBodyComponent.h"
 #include "Hect/Scene/Components/SkyBoxComponent.h"
 #include "Hect/Scene/Components/TransformComponent.h"
-
 #include "Hect/Scene/Systems/InputSystem.h"
 #include "Hect/Scene/Systems/PhysicsSystem.h"
 #include "Hect/Scene/Systems/TransformSystem.h"
@@ -44,18 +44,19 @@ using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(*this, engine.mouse(), engine.renderer(), engine.vectorRenderer()),
+    _interfaceSystem(*this, engine.platform(), engine.renderer(), engine.vectorRenderer()),
     _debugSystem(*this, _interfaceSystem),
-    _inputSystem(*this, engine.settings()),
+    _inputSystem(*this, engine.platform(), engine.settings()),
     _cameraSystem(*this),
     _boundingBoxSystem(*this, _debugSystem),
     _transformSystem(*this, _boundingBoxSystem),
     _physicsSystem(*this, _transformSystem),
     _sceneRenderer(engine.assetCache(), engine.taskPool())
 {
-    if (engine.hasKeyboard())
+    Platform& platform = engine.platform();
+    if (platform.hasKeyboard())
     {
-        Keyboard& keyboard = engine.keyboard();
+        Keyboard& keyboard = platform.keyboard();
         keyboard.registerListener(*this);
     }
 }
@@ -64,7 +65,7 @@ void DefaultScene::preTick(Seconds timeStep)
 {
     Scene::refresh();
 
-    _inputSystem.updateAxes(engine(), timeStep);
+    _inputSystem.updateAxes(timeStep);
     _debugSystem.clearEnqueuedDebugGeometry();
 }
 

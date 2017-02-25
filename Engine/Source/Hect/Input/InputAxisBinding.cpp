@@ -23,20 +23,20 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "InputAxisBinding.h"
 
-#include "Hect/Runtime/Engine.h"
+#include "Hect/Runtime/Platform.h"
 
 using namespace hect;
 
-void InputAxisBinding::update(Engine& engine, Seconds timeStep)
+void InputAxisBinding::update(Platform& platform, Seconds timeStep)
 {
     switch (type)
     {
     case InputAxisBindingType::MouseMoveX:
     {
         _value = deadValue;
-        if (engine.hasMouse())
+        if (platform.hasMouse())
         {
-            Mouse& mouse = engine.mouse();
+            Mouse& mouse = platform.mouse();
             modifyValue(mouse.cursorMovement().x * mouseSensitivity);
         }
     }
@@ -44,18 +44,18 @@ void InputAxisBinding::update(Engine& engine, Seconds timeStep)
     case InputAxisBindingType::MouseMoveY:
     {
         _value = deadValue;
-        if (engine.hasMouse())
+        if (platform.hasMouse())
         {
-            Mouse& mouse = engine.mouse();
+            Mouse& mouse = platform.mouse();
             modifyValue(mouse.cursorMovement().y * mouseSensitivity);
         }
     }
     break;
     case InputAxisBindingType::MouseButton:
     {
-        if (engine.hasMouse())
+        if (platform.hasMouse())
         {
-            Mouse& mouse = engine.mouse();
+            Mouse& mouse = platform.mouse();
             if (mouse.isButtonDown(mouseButton))
             {
                 modifyValue(acceleration * timeStep.value);
@@ -73,9 +73,9 @@ void InputAxisBinding::update(Engine& engine, Seconds timeStep)
     break;
     case InputAxisBindingType::Key:
     {
-        if (engine.hasKeyboard())
+        if (platform.hasKeyboard())
         {
-            Keyboard& keyboard = engine.keyboard();
+            Keyboard& keyboard = platform.keyboard();
             if (keyboard.isKeyDown(key))
             {
                 modifyValue(acceleration * timeStep.value);
@@ -90,9 +90,9 @@ void InputAxisBinding::update(Engine& engine, Seconds timeStep)
     case InputAxisBindingType::JoystickAxis:
     {
         _value = deadValue;
-        if (engine.hasJoystick(joystickIndex))
+        if (platform.hasJoystick(joystickIndex))
         {
-            Joystick& joystick = engine.joystick(joystickIndex);
+            Joystick& joystick = platform.joystick(joystickIndex);
             double value = joystick.axisValue(joystickAxis);
 
             // If the value is outside of the dead zone
@@ -113,9 +113,9 @@ void InputAxisBinding::update(Engine& engine, Seconds timeStep)
     break;
     case InputAxisBindingType::JoystickButton:
     {
-        if (engine.hasJoystick(joystickIndex))
+        if (platform.hasJoystick(joystickIndex))
         {
-            Joystick& joystick = engine.joystick(joystickIndex);
+            Joystick& joystick = platform.joystick(joystickIndex);
             if (joystick.isButtonDown(joystickButton))
             {
                 modifyValue(acceleration * timeStep.value);

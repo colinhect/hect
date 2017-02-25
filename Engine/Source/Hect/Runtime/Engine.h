@@ -95,42 +95,8 @@ public:
     void playScene(Scene& scene);
 
     ///
-    /// Returns whether the platform has a mouse connected.
-    bool hasMouse();
-
-    ///
-    /// Returns the mouse.
-    ///
-    /// \throws InvalidOperation If the platform does not have a mouse
-    /// connected.
-    Mouse& mouse();
-
-    ///
-    /// Returns whether the platform has a keyboard connected.
-    bool hasKeyboard();
-
-    ///
-    /// Returns the keyboard.
-    ///
-    /// \throws InvalidOperation If the platform does not have a keyboard
-    /// connected.
-    Keyboard& keyboard();
-
-    ///
-    /// Returns whether the platform has a joystick connected at the given
-    /// index.
-    ///
-    /// \param index The index of the joystick.
-    bool hasJoystick(JoystickIndex index);
-
-    ///
-    /// Returns the joystick connected at the specified index.
-    ///
-    /// \param index The index of the joystick.
-    ///
-    /// \throws InvalidOperation If no joystick is connected at the given
-    // index.
-    Joystick& joystick(JoystickIndex index);
+    /// Returns the platform.
+    Platform& platform();
 
     ///
     /// Returns the file system.

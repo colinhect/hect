@@ -31,6 +31,7 @@
 #include "Hect/Graphics/VectorRenderer.h"
 #include "Hect/Interface/Interface.h"
 #include "Hect/Scene/System.h"
+#include "Hect/Runtime/Platform.h"
 
 namespace hect
 {
@@ -44,7 +45,7 @@ class HECT_EXPORT InterfaceSystem :
     public EventListener<MouseEvent>
 {
 public:
-    InterfaceSystem(Scene& scene, Mouse& mouse, Renderer& renderer, VectorRenderer& vectorRenderer);
+    InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vectorRenderer);
 
     ///
     /// Creates a new interface.
@@ -89,7 +90,7 @@ private:
     // EventListener overrides
     void receiveEvent(const MouseEvent& event) override;
 
-    Mouse& _mouse;
+    Platform& _platform;
     Renderer& _renderer;
     VectorRenderer& _vectorRenderer;
 

@@ -34,7 +34,7 @@
 namespace hect
 {
 
-class Engine;
+class Platform;
 
 ///
 /// An axis manipulated by bindings to input devices.
@@ -72,9 +72,9 @@ public:
     ///
     /// Updates the input axis based on the current state of its bindings.
     ///
-    /// \param engine The engine.
+    /// \param platform The platform.
     /// \param timeStep The time step in seconds.
-    void update(Engine& engine, Seconds timeStep);
+    void update(Platform& platform, Seconds timeStep);
 
     ///
     /// Returns the current value of the axis.

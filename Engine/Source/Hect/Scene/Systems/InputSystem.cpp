@@ -28,8 +28,9 @@
 
 using namespace hect;
 
-InputSystem::InputSystem(Scene& scene, const DataValue& settings) :
-    System(scene)
+InputSystem::InputSystem(Scene& scene, Platform& platform, const DataValue& settings) :
+    System(scene),
+    _platform(platform)
 {
     for (const DataValue& axisValue : settings["inputAxes"])
     {
@@ -78,12 +79,12 @@ double InputSystem::axisValue(Name name) const
     return 0.0;
 }
 
-void InputSystem::updateAxes(Engine& engine, Seconds timeStep)
+void InputSystem::updateAxes(Seconds timeStep)
 {
     // Update each axis
     for (auto& pair : _axes)
     {
         InputAxis& axis = pair.second;
-        axis.update(engine, timeStep);
+        axis.update(_platform, timeStep);
     }
 }

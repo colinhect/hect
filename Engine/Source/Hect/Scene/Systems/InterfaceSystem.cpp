@@ -27,13 +27,13 @@
 
 using namespace hect;
 
-InterfaceSystem::InterfaceSystem(Scene& scene, Mouse& mouse, Renderer& renderer, VectorRenderer& vectorRenderer) :
+InterfaceSystem::InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vectorRenderer) :
     System(scene),
-    _mouse(mouse),
+    _platform(platform),
     _renderer(renderer),
     _vectorRenderer(vectorRenderer)
 {
-    _mouse.registerListener(*this);
+    platform.mouse().registerListener(*this);
 }
 
 Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
@@ -72,7 +72,7 @@ void InterfaceSystem::tickAllInterfaces(Seconds timeStep)
 
 void InterfaceSystem::receiveEvent(const MouseEvent& event)
 {
-    if (_mouse.mode() == MouseMode::Cursor)
+    if (_platform.mouse().mode() == MouseMode::Cursor)
     {
         for (const Interface::Handle& interface : _interfaces)
         {

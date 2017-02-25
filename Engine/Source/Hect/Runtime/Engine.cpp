@@ -231,40 +231,10 @@ void Engine::playScene(Scene& scene)
     }
 }
 
-bool Engine::hasMouse()
+Platform& Engine::platform()
 {
     assert(_platform);
-    return _platform->hasMouse();
-}
-
-Mouse& Engine::mouse()
-{
-    assert(_platform);
-    return _platform->mouse();
-}
-
-bool Engine::hasKeyboard()
-{
-    assert(_platform);
-    return _platform->hasKeyboard();
-}
-
-Keyboard& Engine::keyboard()
-{
-    assert(_platform);
-    return _platform->keyboard();
-}
-
-bool Engine::hasJoystick(JoystickIndex index)
-{
-    assert(_platform);
-    return _platform->hasJoystick(index);
-}
-
-Joystick& Engine::joystick(JoystickIndex index)
-{
-    assert(_platform);
-    return _platform->joystick(index);
+    return *_platform;
 }
 
 FileSystem& Engine::fileSystem()
