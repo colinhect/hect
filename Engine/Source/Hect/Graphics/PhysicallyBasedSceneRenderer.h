@@ -87,7 +87,6 @@ public:
     /// \param target The target to render to.
     void render(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, RenderTarget& target);
 
-
 private:
     void prepareFrame(Scene& scene, CameraSystem& cameraSystem, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometryBuffer);
     void renderFrame(CameraComponent& camera, Renderer& renderer, RenderTarget& target);
