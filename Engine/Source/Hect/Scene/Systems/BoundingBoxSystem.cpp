@@ -24,7 +24,7 @@
 #include "BoundingBoxSystem.h"
 
 #include "Hect/Runtime/Engine.h"
-#include "Hect/Scene/Components/MeshComponent.h"
+#include "Hect/Scene/Components/GeometryComponent.h"
 #include "Hect/Scene/Components/TransformComponent.h"
 
 using namespace hect;
@@ -72,10 +72,10 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         axisAlignedBox = AxisAlignedBox();
 
         // Expand to fit all meshes that the component has
-        MeshComponent::Iterator mesh = entity.component<MeshComponent>();
-        if (mesh)
+        GeometryComponent::Iterator geometry = entity.component<GeometryComponent>();
+        if (geometry)
         {
-            for (const MeshSurface& surface : mesh->surfaces)
+            for (const GeometrySurface& surface : geometry->surfaces)
             {
                 Mesh& mesh = *surface.mesh;
                 axisAlignedBox.expandToInclude(mesh.axisAlignedBox());

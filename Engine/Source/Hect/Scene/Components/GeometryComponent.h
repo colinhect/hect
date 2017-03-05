@@ -33,21 +33,21 @@ namespace hect
 {
 
 ///
-/// A Mesh surface with a specific Material in a MeshComponent.
+/// A geometric surface consisting of a Mesh with a specific Material.
 ///
 /// \encodable
-class HECT_EXPORT MeshSurface :
+class HECT_EXPORT GeometrySurface :
     public Encodable
 {
 public:
-    MeshSurface();
+    GeometrySurface();
 
     ///
     /// Constructs a surface.
     ///
     /// \param mesh The mesh.
     /// \param material The material (optional).
-    MeshSurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
+    GeometrySurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
 
     ///
     /// The mesh.
@@ -69,11 +69,11 @@ public:
 };
 
 ///
-/// A collection of MeshSurface%s which are rendered.
+/// A collection of GeometrySurface%s which are rendered.
 ///
 /// \component
-class HECT_EXPORT MeshComponent :
-    public Component<MeshComponent>
+class HECT_EXPORT GeometryComponent :
+    public Component<GeometryComponent>
 {
 public:
 
@@ -88,13 +88,13 @@ public:
     /// Adds a mesh surface.
     ///
     /// \param surface The surface to add.
-    void addSurface(const MeshSurface& surface);
+    void addSurface(const GeometrySurface& surface);
 
     ///
     /// The surfaces.
     ///
     /// \property{vector}
-    std::vector<MeshSurface> surfaces;
+    std::vector<GeometrySurface> surfaces;
 
     ///
     /// Whether the surfaces are visible.

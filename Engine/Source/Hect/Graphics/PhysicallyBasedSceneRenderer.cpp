@@ -28,8 +28,8 @@
 #include "Hect/Math/Constants.h"
 #include "Hect/Runtime/Engine.h"
 #include "Hect/Scene/Components/BoundingBoxComponent.h"
+#include "Hect/Scene/Components/GeometryComponent.h"
 #include "Hect/Scene/Components/LightProbeComponent.h"
-#include "Hect/Scene/Components/MeshComponent.h"
 #include "Hect/Scene/Components/SkyBoxComponent.h"
 #include "Hect/Units/Angle.h"
 
@@ -334,9 +334,9 @@ void PhysicallyBasedSceneRenderer::renderFrame(CameraComponent& camera, Renderer
 
 void PhysicallyBasedSceneRenderer::uploadRenderObjectsForScene(Scene& scene, Renderer& renderer)
 {
-    for (MeshComponent& mesh : scene.components<MeshComponent>())
+    for (GeometryComponent& geometry : scene.components<GeometryComponent>())
     {
-        for (MeshSurface& surface : mesh.surfaces)
+        for (GeometrySurface& surface : geometry.surfaces)
         {
             Mesh& mesh = *surface.mesh;
             Material& material = *surface.material;
@@ -395,11 +395,11 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
     if (visible)
     {
         // If the entity has a mesh component
-        MeshComponent::Iterator mesh = entity.component<MeshComponent>();
-        if (mesh && mesh->visible)
+        GeometryComponent::Iterator geometry = entity.component<GeometryComponent>();
+        if (geometry && geometry->visible)
         {
             // Render the mesh surfaces
-            for (const MeshSurface& surface : mesh->surfaces)
+            for (const GeometrySurface& surface : geometry->surfaces)
             {
                 if (!surface.visible)
                 {
