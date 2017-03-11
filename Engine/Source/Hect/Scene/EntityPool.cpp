@@ -67,12 +67,7 @@ Entity::ConstIterator EntityPool::end() const
     return Entity::ConstIterator(*this, std::max(maxId(), (EntityId)1));
 }
 
-Entity::Iterator EntityPool::findFirstByName(Name name)
-{
-    return findFirst([name](const Entity& entity) { return entity.name() == name; });
-}
-
-Entity::ConstIterator EntityPool::findFirstByName(Name name) const
+Entity::Handle EntityPool::findFirstByName(Name name) const
 {
     return findFirst([name](const Entity& entity) { return entity.name() == name; });
 }

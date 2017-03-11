@@ -71,64 +71,34 @@ public:
     Entity::ConstIterator end() const;
 
     ///
-    /// Returns an iterator to the first Entity matching the given
+    /// Returns a handle to the first Entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns An iterator to the first matching entity; invalid if there
+    /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Iterator findFirst(T&& predicate);
+    Entity::Handle findFirst(T&& predicate) const;
 
     ///
-    /// Returns an iterator to the first Entity matching the given
-    /// predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
-    template <typename T>
-    Entity::ConstIterator findFirst(T&& predicate) const;
-
-    ///
-    /// Returns iterators to all \link Entity Entities \endlink matching the
+    /// Returns handles to all \link Entity Entities \endlink matching the
     /// given predicate.
     ///
     /// \param predicate The predicate to use in the search.
     ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Iterator> find(T&& predicate);
+    std::vector<Entity::Handle> find(T&& predicate) const;
 
     ///
-    /// Returns iterators to all \link Entity Entities \endlink matching the
-    /// given predicate.
-    ///
-    /// \param predicate The predicate to use in the search.
-    ///
-    /// \returns A vector of iterators to the matching entities.
-    template <typename T>
-    std::vector<Entity::ConstIterator> find(T&& predicate) const;
-
-    ///
-    /// Returns an iterator to the first Entity with the given name.
+    /// Returns a handle to the first Entity with the given name.
     ///
     /// \param name The name of the entity.
     ///
-    /// \returns An iterator to the first matching entity; invalid if there
+    /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Iterator findFirstByName(Name name);
-
-    ///
-    /// Returns an iterator to the first Entity with the given name.
-    ///
-    /// \param name The name of the entity.
-    ///
-    /// \returns An iterator to the first matching entity; invalid if there
-    /// was no matching entity.
-    Entity::ConstIterator findFirstByName(Name name) const;
+    Entity::Handle findFirstByName(Name name) const;
 
     ///
     /// Returns the Entity with the given id.

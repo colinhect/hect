@@ -1252,13 +1252,13 @@ TEST_CASE("Find first entity in a entity pool with a match", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator iterator = scene.entities().findFirst([](const Entity& entity)
+    Entity::Handle handle = scene.entities().findFirst([](const Entity& entity)
     {
         return entity.component<TestComponentA>()->value == "Match";
     });
 
-    REQUIRE(iterator);
-    REQUIRE(&*iterator == &*b);
+    REQUIRE(handle);
+    REQUIRE(&*handle == &*b);
 }
 
 TEST_CASE("Find first entity in a entity pool without a match", "[Scene]")
@@ -1283,12 +1283,12 @@ TEST_CASE("Find first entity in a entity pool without a match", "[Scene]")
 
     scene.refresh();
 
-    Entity::Iterator iterator = scene.entities().findFirst([](const Entity& entity)
+    Entity::Handle handle = scene.entities().findFirst([](const Entity& entity)
     {
         return entity.component<TestComponentA>()->value == "Match";
     });
 
-    REQUIRE(!iterator);
+    REQUIRE(!handle);
 }
 
 TEST_CASE("Find entities in a entity pool with matches", "[Scene]")
@@ -1313,18 +1313,18 @@ TEST_CASE("Find entities in a entity pool with matches", "[Scene]")
 
     scene.refresh();
 
-    std::vector<Entity::Iterator> iters = scene.entities().find([](const Entity& entity)
+    std::vector<Entity::Handle> handles = scene.entities().find([](const Entity& entity)
     {
         return entity.component<TestComponentA>()->value == "Match";
     });
 
-    REQUIRE(iters.size() == 2);
+    REQUIRE(handles.size() == 2);
 
-    REQUIRE(iters[0]);
-    REQUIRE(&*iters[0] == &*b);
+    REQUIRE(handles[0]);
+    REQUIRE(&*handles[0] == &*b);
 
-    REQUIRE(iters[1]);
-    REQUIRE(&*iters[1] == &*c);
+    REQUIRE(handles[1]);
+    REQUIRE(&*handles[1] == &*c);
 }
 
 TEST_CASE("Find entities in a entity pool without matches", "[Scene]")
@@ -1349,12 +1349,12 @@ TEST_CASE("Find entities in a entity pool without matches", "[Scene]")
 
     scene.refresh();
 
-    std::vector<Entity::Iterator> iters = scene.entities().find([](const Entity& entity)
+    std::vector<Entity::Handle> handle = scene.entities().find([](const Entity& entity)
     {
         return entity.component<TestComponentA>()->value == "Match";
     });
 
-    REQUIRE(iters.size() == 0);
+    REQUIRE(handle.size() == 0);
 }
 
 TEST_CASE("Find first child entity", "[Scene]")

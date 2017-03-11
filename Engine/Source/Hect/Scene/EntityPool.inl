@@ -25,56 +25,31 @@ namespace hect
 {
 
 template <typename T>
-Entity::Iterator EntityPool::findFirst(T&& predicate)
+Entity::Handle EntityPool::findFirst(T&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
         {
-            return iterator;
+            return iterator->handle();
         }
     }
-    return end();
+
+    return Entity::Handle();
 }
 
 template <typename T>
-Entity::ConstIterator EntityPool::findFirst(T&& predicate) const
+std::vector<Entity::Handle> EntityPool::find(T&& predicate) const
 {
+    std::vector<Entity::Handle> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
         {
-            return iterator;
+            results.push_back(iterator->handle());
         }
     }
-    return end();
-}
 
-template <typename T>
-std::vector<Entity::Iterator> EntityPool::find(T&& predicate)
-{
-    std::vector<Entity::Iterator> results;
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            results.push_back(iterator);
-        }
-    }
-    return results;
-}
-
-template <typename T>
-std::vector<Entity::ConstIterator> EntityPool::find(T&& predicate) const
-{
-    std::vector<Entity::ConstIterator> results;
-    for (auto iterator = begin(); iterator != end(); ++iterator)
-    {
-        if (predicate(*iterator))
-        {
-            results.push_back(iterator);
-        }
-    }
     return results;
 }
 
