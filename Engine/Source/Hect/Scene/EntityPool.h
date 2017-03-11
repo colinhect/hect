@@ -132,11 +132,6 @@ private:
     Scene& _scene;
     IdPool<EntityId> _idPool;
 
-    struct EntityArrayDeleter
-    {
-        void operator()(Entity* entities) { delete [] entities; }
-    };
-
     // Avoiding use of std::vector because we need to keep the Entity
     // constructors private
     std::vector<std::unique_ptr<Entity[]>> _entityChunks;

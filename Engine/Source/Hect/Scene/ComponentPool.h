@@ -169,12 +169,20 @@ private:
 
     bool entityIdToComponentId(EntityId entityId, ComponentId& id) const;
 
+    T& lookUpComponent(ComponentId id);
+    const T& lookUpComponent(ComponentId id) const;
+
+    void allocateChunk();
+
     template <typename U>
     bool expandVector(std::vector<U>& vector, size_t size, U value = U());
 
     Scene& _scene;
     IdPool<ComponentId> _idPool;
-    std::vector<T> _components;
+
+    std::vector<std::unique_ptr<std::vector<T>>> _componentChunks;
+    size_t _componentChunkSize { 128 };
+
     std::vector<ComponentId> _entityToComponent;
     std::vector<EntityId> _componentToEntity;
 };

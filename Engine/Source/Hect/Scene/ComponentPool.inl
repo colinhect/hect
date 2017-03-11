@@ -138,9 +138,9 @@ T& ComponentPool<T>::withId(ComponentId id)
 template <typename T>
 const T& ComponentPool<T>::withId(ComponentId id) const
 {
-    if (id < _components.size())
+    if (id < maxId())
     {
-        const T& component = _components[id];
+        const T& component = lookUpComponent(id);
         if (component.inPool())
         {
             return component;
@@ -200,7 +200,8 @@ void ComponentPool<T>::remove(Entity& entity)
         _idPool.destroy(id);
 
         // Remove the component from the pool
-        _components[id].exitPool();
+        T& component = lookUpComponent(id);
+        component.exitPool();
 
         // Clear the mapping from entity to component and component to
         // entity
@@ -223,7 +224,8 @@ void ComponentPool<T>::clone(const Entity& source, Entity& dest)
     if (entityIdToComponentId(sourceEntityId, id))
     {
         // Add the component of the source entity to the destination entity
-        add(dest, _components[id]);
+        const T& component = lookUpComponent(id);
+        add(dest, component);
     }
 }
 
@@ -254,27 +256,19 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Ensure that the entity does not already have a component of this type
     if (id != ComponentId(-1))
     {
-        Name typeName = Type::get<T>().name();
+        const Name typeName = Type::get<T>().name();
         throw InvalidOperation(format("Entity already has component of type '%s'", typeName.data()));
     }
 
-    // Create the new component id
+    // Create the new component id and allocate chunk if needed
     id = _idPool.create();
-    _entityToComponent[entityId] = id;
-
-    // Expand the component vector if needed
-    if (expandVector(_components, id))
+    while (id >= maxId())
     {
-        // The component vector was resize, so each valid component needs to be
-        // re-added to the pool
-        for (ComponentId id = 0; id < _components.size(); ++id)
-        {
-            if (componentHasEntity(id))
-            {
-                _components[id].enterPool(*this, id);
-            }
-        }
+        allocateChunk();
     }
+
+    // Remember which component this entity has
+    _entityToComponent[entityId] = id;
 
     // Expand the component-to-entity vector if needed
     expandVector(_componentToEntity, id, EntityId(-1));
@@ -282,8 +276,9 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
     // Remember which entity this component belongs to
     _componentToEntity[id] = entityId;
 
-    // Assign the new component and get a reference to it
-    T& addedComponent = _components[id] = copiedComponent;
+    // Copy the added component into the pool
+    T& addedComponent = lookUpComponent(id);
+    addedComponent = copiedComponent;
 
     // Include the component in the pool
     addedComponent.enterPool(*this, id);
@@ -312,7 +307,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
         }
 
         // Get the old component
-        T& addedComponent = _components[id];
+        T& addedComponent = lookUpComponent(id);
 
         // Remove the old component from the pool
         addedComponent.exitPool();
@@ -373,7 +368,7 @@ typename Component<T>::ConstIterator ComponentPool<T>::get(const Entity& entity)
 template <typename T>
 ComponentId ComponentPool<T>::maxId() const
 {
-    return (ComponentId)_components.size();
+    return static_cast<ComponentId>(_componentChunks.size() * _componentChunkSize);
 }
 
 template <typename T>
@@ -431,6 +426,29 @@ bool ComponentPool<T>::entityIdToComponentId(EntityId entityId, ComponentId& id)
     }
 
     return id != ComponentId(-1);
+}
+
+template <typename T>
+T& ComponentPool<T>::lookUpComponent(ComponentId id)
+{
+    const size_t chunkIndex = id / _componentChunkSize;
+    const size_t componentIndex = id % _componentChunkSize;
+    return (*_componentChunks[chunkIndex])[componentIndex];
+}
+
+template <typename T>
+const T& ComponentPool<T>::lookUpComponent(ComponentId id) const
+{
+    const size_t chunkIndex = id / _componentChunkSize;
+    const size_t componentIndex = id % _componentChunkSize;
+    return (*_componentChunks[chunkIndex])[componentIndex];
+}
+
+template <typename T>
+void ComponentPool<T>::allocateChunk()
+{
+    std::unique_ptr<std::vector<T>> chunk(new std::vector<T>(_componentChunkSize, T()));
+    _componentChunks.push_back(std::move(chunk));
 }
 
 template <typename T>
