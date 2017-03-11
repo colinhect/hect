@@ -760,20 +760,20 @@ TEST_CASE("Clone an entity", "[Scene]")
     TestScene scene(Engine::instance());
 
     Entity::Iterator a = scene.createEntity().iterator();
-    Component<TestComponentA>::Iterator stringA = a->addComponent<TestComponentA>("TestA");
+    auto& stringA = a->addComponent<TestComponentA>("TestA");
     a->activate();
 
     scene.refresh();
 
     Entity::Iterator b = a->clone().iterator();
-    Component<TestComponentA>::Iterator stringB = b->component<TestComponentA>();
+    auto& stringB = b->component<TestComponentA>();
 
     REQUIRE(a->isActivated());
     REQUIRE(!b->isActivated());
-    REQUIRE(&stringA->entity() == &*a);
-    REQUIRE(&stringB->entity() == &*b);
-    REQUIRE(&*stringA != &*stringB);
-    REQUIRE(stringA->id() != stringB->id());
+    REQUIRE(&stringA.entity() == &*a);
+    REQUIRE(&stringB.entity() == &*b);
+    REQUIRE(&stringA != &stringB);
+    REQUIRE(stringA.id() != stringB.id());
 }
 
 TEST_CASE("Clone an entity with children", "[Scene]")
@@ -803,15 +803,12 @@ TEST_CASE("Add and remove a component to and from an entity", "[Scene]")
 
     Entity::Iterator a = scene.createEntity().iterator();
 
-    Component<TestComponentA>::Iterator string = a->addComponent<TestComponentA>("TestA");
-    REQUIRE(string == a->component<TestComponentA>());
-    REQUIRE(string);
-    REQUIRE(string->value == "TestA");
-    REQUIRE(&string->entity() == &*a);
+    auto& string = a->addComponent<TestComponentA>("TestA");
+    REQUIRE(&string == &a->component<TestComponentA>());
+    REQUIRE(string.value == "TestA");
+    REQUIRE(&string.entity() == &*a);
 
     a->removeComponent<TestComponentA>();
-    REQUIRE(!string);
-    REQUIRE(!a->component<TestComponentA>());
 }
 
 TEST_CASE("Replace a component of an entity", "[Scene]")
@@ -820,14 +817,13 @@ TEST_CASE("Replace a component of an entity", "[Scene]")
 
     Entity::Iterator a = scene.createEntity().iterator();
 
-    Component<TestComponentA>::Iterator string = a->addComponent<TestComponentA>("TestA");
-    Component<TestComponentA>::Iterator replacedString = a->replaceComponent<TestComponentA>("Replaced");
-    REQUIRE(string == a->component<TestComponentA>());
-    REQUIRE(replacedString == a->component<TestComponentA>());
-    REQUIRE(string == replacedString);
-    REQUIRE(replacedString);
-    REQUIRE(replacedString->value == "Replaced");
-    REQUIRE(&string->entity() == &*a);
+    auto& string = a->addComponent<TestComponentA>("TestA");
+    auto& replacedString = a->replaceComponent<TestComponentA>("Replaced");
+    REQUIRE(&string == &a->component<TestComponentA>());
+    REQUIRE(&replacedString == &a->component<TestComponentA>());
+    REQUIRE(&string == &replacedString);
+    REQUIRE(replacedString.value == "Replaced");
+    REQUIRE(&string.entity() == &*a);
 }
 
 TEST_CASE("Remove a non-existing component from an entity", "[Scene]")
@@ -909,10 +905,10 @@ TEST_CASE("Iterate over the components in a scene with some activated components
     TestScene scene(Engine::instance());
 
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
 
     scene.refresh();
@@ -933,10 +929,10 @@ TEST_CASE("Iterate over the components in a scene with the first component activ
 {
     TestScene scene(Engine::instance());
 
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
 
     scene.refresh();
@@ -958,10 +954,10 @@ TEST_CASE("Iterate over the components in a scene with the last component activa
     TestScene scene(Engine::instance());
 
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
 
     scene.refresh();
 
@@ -983,10 +979,10 @@ TEST_CASE("Iterate over the components in a scene with the first and last compon
 
     TestComponentA string("TestA");
 
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
     scene.createEntity();
-    scene.createEntity().addComponent<TestComponentA>("TestA")->entity().activate();
+    scene.createEntity().addComponent<TestComponentA>("TestA").entity().activate();
 
     scene.refresh();
 
@@ -1126,7 +1122,7 @@ TEST_CASE("Find first component in a component pool with a match", "[Scene]")
 
     REQUIRE(iterator);
     REQUIRE(iterator->value == "Match");
-    REQUIRE(&*iterator == &*b->component<TestComponentA>());
+    REQUIRE(&*iterator == &b->component<TestComponentA>());
 }
 
 TEST_CASE("Find first component in a component pool without a match", "[Scene]")
@@ -1192,11 +1188,11 @@ TEST_CASE("Find components in a component pool with matches", "[Scene]")
 
     REQUIRE(iters[0]);
     REQUIRE(iters[0]->value == "Match");
-    REQUIRE(&*iters[0] == &*b->component<TestComponentA>());
+    REQUIRE(&*iters[0] == &b->component<TestComponentA>());
 
     REQUIRE(iters[1]);
     REQUIRE(iters[1]->value == "Match");
-    REQUIRE(&*iters[1] == &*c->component<TestComponentA>());
+    REQUIRE(&*iters[1] == &c->component<TestComponentA>());
 }
 
 TEST_CASE("Find components in a component pool without matches", "[Scene]")
@@ -1254,7 +1250,7 @@ TEST_CASE("Find first entity in a entity pool with a match", "[Scene]")
 
     Entity::Handle handle = scene.entities().findFirst([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "Match";
+        return entity.component<TestComponentA>().value == "Match";
     });
 
     REQUIRE(handle);
@@ -1285,7 +1281,7 @@ TEST_CASE("Find first entity in a entity pool without a match", "[Scene]")
 
     Entity::Handle handle = scene.entities().findFirst([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "Match";
+        return entity.component<TestComponentA>().value == "Match";
     });
 
     REQUIRE(!handle);
@@ -1315,7 +1311,7 @@ TEST_CASE("Find entities in a entity pool with matches", "[Scene]")
 
     std::vector<Entity::Handle> handles = scene.entities().find([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "Match";
+        return entity.component<TestComponentA>().value == "Match";
     });
 
     REQUIRE(handles.size() == 2);
@@ -1351,7 +1347,7 @@ TEST_CASE("Find entities in a entity pool without matches", "[Scene]")
 
     std::vector<Entity::Handle> handle = scene.entities().find([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "Match";
+        return entity.component<TestComponentA>().value == "Match";
     });
 
     REQUIRE(handle.size() == 0);
@@ -1381,21 +1377,21 @@ TEST_CASE("Find first child entity", "[Scene]")
 
     Entity::Handle handle = a->findFirstChild([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "B";
+        return entity.component<TestComponentA>().value == "B";
     });
     REQUIRE(handle);
     REQUIRE(handle == b);
 
     handle = a->findFirstChild([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handle);
     REQUIRE(handle == c);
 
     handle = a->findFirstChild([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "D";
+        return entity.component<TestComponentA>().value == "D";
     });
     REQUIRE(!handle);
 }
@@ -1424,8 +1420,8 @@ TEST_CASE("Find children entities", "[Scene]")
 
     std::vector<Entity::Handle> handles = a->findChildren([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "B" ||
-               entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "B" ||
+               entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handles.size() == 2);
     REQUIRE(handles[0] == b);
@@ -1433,14 +1429,14 @@ TEST_CASE("Find children entities", "[Scene]")
 
     handles = a->findChildren([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handles.size() == 1);
     REQUIRE(handles[0] == c);
 
     handles = a->findChildren([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "D";
+        return entity.component<TestComponentA>().value == "D";
     });
     REQUIRE(handles.size() == 0);
 }
@@ -1501,28 +1497,28 @@ TEST_CASE("Find first descendant entity", "[Scene]")
 
     Entity::Handle handle = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "B";
+        return entity.component<TestComponentA>().value == "B";
     });
     REQUIRE(handle);
     REQUIRE(handle == b);
 
     handle = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handle);
     REQUIRE(handle == c);
 
     handle = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "D";
+        return entity.component<TestComponentA>().value == "D";
     });
     REQUIRE(handle);
     REQUIRE(handle == d);
 
     handle = a->findFirstDescendant([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "E";
+        return entity.component<TestComponentA>().value == "E";
     });
     REQUIRE(!handle);
 }
@@ -1551,8 +1547,8 @@ TEST_CASE("Find descendant entities", "[Scene]")
 
     std::vector<Entity::Handle> handles = a->findDescendants([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "B" ||
-               entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "B" ||
+               entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handles.size() == 2);
     REQUIRE(handles[0] == b);
@@ -1560,14 +1556,14 @@ TEST_CASE("Find descendant entities", "[Scene]")
 
     handles = a->findDescendants([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handles.size() == 1);
     REQUIRE(handles[0] == c);
 
     handles = a->findDescendants([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "D";
+        return entity.component<TestComponentA>().value == "D";
     });
     REQUIRE(handles.size() == 1);
     REQUIRE(handles[0] == d);
@@ -1641,21 +1637,21 @@ TEST_CASE("Find first ancestor entity", "[Scene]")
 
     Entity::Handle handle = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C";
+        return entity.component<TestComponentA>().value == "C";
     });
     REQUIRE(handle);
     REQUIRE(handle == c);
 
     handle = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "A";
+        return entity.component<TestComponentA>().value == "A";
     });
     REQUIRE(handle);
     REQUIRE(handle == a);
 
     handle = d->findFirstAncestor([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "E";
+        return entity.component<TestComponentA>().value == "E";
     });
     REQUIRE(!handle);
 }
@@ -1685,8 +1681,8 @@ TEST_CASE("Find ancestor entities", "[Scene]")
 
     std::vector<Entity::Handle> handles = d->findAncestors([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "C" ||
-               entity.component<TestComponentA>()->value == "A";
+        return entity.component<TestComponentA>().value == "C" ||
+               entity.component<TestComponentA>().value == "A";
     });
     REQUIRE(handles.size() == 2);
     REQUIRE(handles[0] == c);
@@ -1694,14 +1690,14 @@ TEST_CASE("Find ancestor entities", "[Scene]")
 
     handles = d->findAncestors([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "A";
+        return entity.component<TestComponentA>().value == "A";
     });
     REQUIRE(handles.size() == 1);
     REQUIRE(handles[0] == a);
 
     handles = d->findAncestors([](const Entity& entity)
     {
-        return entity.component<TestComponentA>()->value == "E";
+        return entity.component<TestComponentA>().value == "E";
     });
     REQUIRE(handles.size() == 0);
 }
@@ -1787,8 +1783,8 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
         Entity::Iterator a = scene.createEntity().iterator();
 
         // Add a transform component to the entity
-        auto transformComponent = a->addComponent<TransformComponent>();
-        transformComponent->localPosition = Vector3(1, 2, 3);
+        auto& transformComponent = a->addComponent<TransformComponent>();
+        transformComponent.localPosition = Vector3(1, 2, 3);
 
         // Activate the entity and refresh the scene
         a->activate();
@@ -1801,7 +1797,7 @@ TEST_CASE("Encode and decode a simple scene", "[Scene]")
 
         Entity::Iterator a = scene.entities().begin();
         REQUIRE(a);
-        REQUIRE(a->component<TransformComponent>()->localPosition == Vector3(1, 2, 3));
+        REQUIRE(a->component<TransformComponent>().localPosition == Vector3(1, 2, 3));
     });
 }
 

@@ -113,25 +113,25 @@ void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSyste
     entity.setTransient(true);
 
     // Create the camera
-    CameraComponent::Iterator camera = entity.addComponent<CameraComponent>();
-    camera->position = position;
-    camera->exposure = -1.0;
-    camera->fieldOfView = Degrees(180.0);
+    auto& camera = entity.addComponent<CameraComponent>();
+    camera.position = position;
+    camera.exposure = -1.0;
+    camera.fieldOfView = Degrees(180.0);
 
     CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
     if (activeCamera)
     {
-        camera->nearClip = activeCamera->nearClip;
-        camera->farClip = activeCamera->farClip;
+        camera.nearClip = activeCamera->nearClip;
+        camera.farClip = activeCamera->farClip;
     }
 
     // For each side of the cube face
     for (unsigned i = 0; i < 6; ++i)
     {
         // Update the camera's matrices
-        camera->front = cameraVectors[i].first;
-        camera->up = cameraVectors[i].second;
-        cameraSystem.updateCamera(*camera);
+        camera.front = cameraVectors[i].first;
+        camera.up = cameraVectors[i].second;
+        cameraSystem.updateCamera(camera);
 
         // Create the frame buffer and attach the corresponding face
         // of the cubic texture
@@ -139,8 +139,8 @@ void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSyste
         frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
 
         // Render the frame
-        prepareFrame(scene, cameraSystem, *camera, frameBuffer, geometryBuffer);
-        renderFrame(*camera, renderer, frameBuffer);
+        prepareFrame(scene, cameraSystem, camera, frameBuffer, geometryBuffer);
+        renderFrame(camera, renderer, frameBuffer);
     }
 
     // Destroy the transient entity holding the camera
@@ -367,12 +367,12 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
     // If we need to test this entity against the frustum
     if (frustumTest)
     {
-        // If the entity has a bounding box
-        BoundingBoxComponent::Iterator boundingBox = entity.component<BoundingBoxComponent>();
-        if (boundingBox)
+        if (entity.hasComponent<BoundingBoxComponent>())
         {
+            auto& boundingBox = entity.component<BoundingBoxComponent>();
+
             // Test the bounding box against the frustum
-            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->globalExtents);
+            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox.globalExtents);
             if (result == FrustumTestResult::Inside)
             {
                 // No need to test any children
@@ -394,44 +394,44 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
     // If the entity is visible
     if (visible)
     {
-        // If the entity has a mesh component
-        GeometryComponent::Iterator geometry = entity.component<GeometryComponent>();
-        if (geometry && geometry->visible)
+        if (entity.hasComponent<GeometryComponent>())
         {
-            // Render the mesh surfaces
-            for (const GeometrySurface& surface : geometry->surfaces)
+            auto& geometry = entity.component<GeometryComponent>();
+            if (geometry.visible)
             {
-                if (!surface.visible)
+                // Render the mesh surfaces
+                for (const GeometrySurface& surface : geometry.surfaces)
                 {
-                    continue;
-                }
+                    if (!surface.visible)
+                    {
+                        continue;
+                    }
 
-                Mesh& mesh = *surface.mesh;
+                    Mesh& mesh = *surface.mesh;
 
-                TransformComponent transform = TransformComponent::Identity;
+                    TransformComponent transform = TransformComponent::Identity;
 
-                // If the entity has a transform component
-                TransformComponent::Iterator transformComponent = entity.component<TransformComponent>();
-                if (transformComponent)
-                {
-                    transform = *transformComponent;
-                }
+                    if (entity.hasComponent<TransformComponent>())
+                    {
+                        auto& transformComponent = entity.component<TransformComponent>();
+                        transform = transformComponent;
+                    }
 
-                if (surface.material)
-                {
-                    enqueueRenderCall(transform, mesh, *surface.material);
-                }
-                else
-                {
-                    enqueueRenderCall(transform, mesh);
+                    if (surface.material)
+                    {
+                        enqueueRenderCall(transform, mesh, *surface.material);
+                    }
+                    else
+                    {
+                        enqueueRenderCall(transform, mesh);
+                    }
                 }
             }
         }
 
-        // If the entity has a skybox component
-        SkyBoxComponent::Iterator skyBox = entity.component<SkyBoxComponent>();
-        if (skyBox)
+        if (entity.hasComponent<SkyBoxComponent>())
         {
+            auto& skyBox = entity.component<SkyBoxComponent>();
             enqueueRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
 

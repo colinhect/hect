@@ -37,9 +37,9 @@ CameraComponent::Iterator CameraSystem::activeCamera()
 {
     CameraComponent::Iterator camera;
 
-    if (_activeCameraEntity)
+    if (_activeCameraEntity && _activeCameraEntity->hasComponent<CameraComponent>())
     {
-        camera = _activeCameraEntity->component<CameraComponent>();
+        camera = _activeCameraEntity->component<CameraComponent>().iterator();
     }
 
     return camera;
@@ -54,12 +54,13 @@ void CameraSystem::updateCamera(CameraComponent& camera)
 {
     // If the camera's entity has a transform then use it to compute the
     // camera's position, front, and up vectors
-    TransformComponent::Iterator transform = camera.entity().component<TransformComponent>();
-    if (transform)
+    if (camera.entity().hasComponent<TransformComponent>())
     {
-        camera.position = transform->globalPosition;
+        auto& transform = camera.entity().component<TransformComponent>();
 
-        Quaternion rotation = transform->globalRotation;
+        camera.position = transform.globalPosition;
+
+        Quaternion rotation = transform.globalRotation;
         camera.front = (rotation * Vector3::UnitY).normalized();
         camera.up = (rotation * Vector3::UnitZ).normalized();
     }

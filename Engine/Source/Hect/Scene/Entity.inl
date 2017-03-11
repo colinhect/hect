@@ -25,19 +25,19 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::addComponent(Args&&... args)
+T& Entity::addComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.add(*this, T(args...));
+    return *componentPool.add(*this, T(args...));
 }
 
 template <typename T, typename... Args>
-typename Component<T>::Iterator Entity::replaceComponent(Args&&... args)
+T& Entity::replaceComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.replace(*this, T(args...));
+    return *componentPool.replace(*this, T(args...));
 }
 
 template <typename T>
@@ -51,23 +51,25 @@ void Entity::removeComponent()
 template <typename T>
 bool Entity::hasComponent() const
 {
-    return static_cast<bool>(component<T>());
+    ensureInPool();
+    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
+    return componentPool.has(*this);
 }
 
 template <typename T>
-typename Component<T>::Iterator Entity::component()
+T& Entity::component()
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.get(*this);
+    return *componentPool.get(*this);
 }
 
 template <typename T>
-typename Component<T>::ConstIterator Entity::component() const
+const T& Entity::component() const
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.get(*this);
+    return *componentPool.get(*this);
 }
 
 template <typename T>

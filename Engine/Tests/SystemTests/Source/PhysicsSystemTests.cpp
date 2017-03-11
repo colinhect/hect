@@ -34,14 +34,14 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
 
     Entity& entity = scene.createEntity();
 
-    TransformComponent::Iterator transform = entity.addComponent<TransformComponent>();
-    transform->localPosition = Vector3(0, 0, startingHeight);
+    auto& transform = entity.addComponent<TransformComponent>();
+    transform.localPosition = Vector3(0, 0, startingHeight);
 
     Mesh mesh = Mesh::createBox(Vector3::One);
 
-    RigidBodyComponent::Iterator rigidBody = entity.addComponent<RigidBodyComponent>();
-    rigidBody->mass = 100;
-    rigidBody->mesh = mesh.createHandle();
+    auto& rigidBody = entity.addComponent<RigidBodyComponent>();
+    rigidBody.mass = 100;
+    rigidBody.mesh = mesh.createHandle();
 
     entity.activate();
 
@@ -50,5 +50,5 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
         scene.tick(Seconds(0.1));
     }
 
-    REQUIRE(transform->localPosition.z < startingHeight);
+    REQUIRE(transform.localPosition.z < startingHeight);
 }

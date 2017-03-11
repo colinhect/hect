@@ -63,22 +63,26 @@ void BoundingBoxSystem::renderDebugGeometry()
 
 void BoundingBoxSystem::updateRecursively(Entity& entity)
 {
+    BoundingBoxComponent* entityBoundingBox = nullptr;
+
     // Compute the bounding box of this entity
-    auto boundingBox = entity.component<BoundingBoxComponent>();
-    if (boundingBox)
+    if (entity.hasComponent<BoundingBoxComponent>())
     {
+        auto& boundingBox = entity.component<BoundingBoxComponent>();
+        entityBoundingBox = &boundingBox;
+
         // Update the local extents if the bounding box is adaptive
-        if (boundingBox->adaptive)
+        if (boundingBox.adaptive)
         {
             // Start with an empty box
-            AxisAlignedBox& localExtents = boundingBox->localExtents;
+            AxisAlignedBox& localExtents = boundingBox.localExtents;
             localExtents = AxisAlignedBox();
 
             // Expand to fit all meshes that the component has
-            auto geometry = entity.component<GeometryComponent>();
-            if (geometry)
+            if (entity.hasComponent<GeometryComponent>())
             {
-                for (const GeometrySurface& surface : geometry->surfaces)
+                auto& geometry = entity.component<GeometryComponent>();
+                for (const GeometrySurface& surface : geometry.surfaces)
                 {
                     Mesh& mesh = *surface.mesh;
                     localExtents.expandToInclude(mesh.axisAlignedBox());
@@ -87,17 +91,18 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
         }
 
         // Sync the global extents with the local extents
-        boundingBox->globalExtents = boundingBox->localExtents;
+        boundingBox.globalExtents = boundingBox.localExtents;
 
         // Transform the global extents of the bounding box by the entity's
         // global transform
-        auto transform = entity.component<TransformComponent>();
-        if (transform)
+        if (entity.hasComponent<TransformComponent>())
         {
-            AxisAlignedBox& globalExtents = boundingBox->globalExtents;
-            globalExtents.scale(transform->globalScale);
-            globalExtents.rotate(transform->globalRotation);
-            globalExtents.translate(transform->globalPosition);
+            auto& transform = entity.component<TransformComponent>();
+
+            AxisAlignedBox& globalExtents = boundingBox.globalExtents;
+            globalExtents.scale(transform.globalScale);
+            globalExtents.rotate(transform.globalRotation);
+            globalExtents.translate(transform.globalPosition);
         }
     }
 
@@ -106,14 +111,15 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
     {
         updateRecursively(child);
 
-        // If the child has a bounding box
-        auto childBoundingBox = child.component<BoundingBoxComponent>();
-        if (childBoundingBox)
+        if (entityBoundingBox)
         {
-            // Expand the bounding box to include this child
-            if (boundingBox)
+            // If the child has a bounding box
+            if (child.hasComponent<BoundingBoxComponent>())
             {
-                boundingBox->globalExtents.expandToInclude(childBoundingBox->globalExtents);
+                auto& childBoundingBox = child.component<BoundingBoxComponent>();
+
+                // Expand the bounding box to include this child
+                entityBoundingBox->globalExtents.expandToInclude(childBoundingBox.globalExtents);
             }
         }
     }

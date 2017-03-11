@@ -49,15 +49,15 @@ template <typename T>
 void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
 {
     Entity& entity = *event.entity;
-    typename T::Iterator component = entity.component<T>();
+    auto& component = entity.component<T>();
 
     if (event.type == ComponentEventType::Add)
     {
-        onComponentAdded(component);
+        onComponentAdded(component.iterator());
     }
     else
     {
-        onComponentRemoved(component);
+        onComponentRemoved(component.iterator());
     }
 }
 

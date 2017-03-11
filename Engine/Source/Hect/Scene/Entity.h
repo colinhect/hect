@@ -76,12 +76,12 @@ public:
     ///
     /// \param args The arguments to pass to the component's constructor.
     ///
-    /// \returns An iterator to the added component.
+    /// \returns A reference to the added component.
     ///
     /// \throws InvalidOperation If the entity already has a component of the
     /// type or if the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iterator addComponent(Args&&... args);
+    T& addComponent(Args&&... args);
 
     ///
     /// Replaces an existing Component that the Entity has.
@@ -92,12 +92,12 @@ public:
     ///
     /// \param args The arguments to pass to the component's constructor.
     ///
-    /// \returns An iterator to the added component.
+    /// \returns A reference to the added component.
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.
     template <typename T, typename... Args>
-    typename Component<T>::Iterator replaceComponent(Args&&... args);
+    T& replaceComponent(Args&&... args);
 
     ///
     /// Removes the Component of a specific type from the Entity.
@@ -116,24 +116,20 @@ public:
     bool hasComponent() const;
 
     ///
-    /// Returns an iterator to the Component of a specific type for the Entity.
+    /// Returns a reference to the Component of a specific type for the Entity.
     ///
-    /// \note The returned iterator is invalid if the entity does not have a
-    /// component of the type.
-    ///
-    /// \throws InvalidOperation If the entity is invalid.
+    /// \throws InvalidOperation If the entity does not have a component of the
+    /// type or the entity is invalid.
     template <typename T>
-    typename Component<T>::Iterator component();
+    T& component();
 
     ///
-    /// Returns an iterator to the Component of a specific type for the Entity.
+    /// Returns a reference to the Component of a specific type for the Entity.
     ///
-    /// \note The returned iterator is invalid if the entity does not have a
-    /// component of the type.
-    ///
-    /// \throws InvalidOperation If the entity is invalid.
+    /// \throws InvalidOperation If the entity does not have a component of the
+    /// type or the entity is invalid.
     template <typename T>
-    typename Component<T>::ConstIterator component() const;
+    const T& component() const;
 
     ///
     /// Returns the name.
