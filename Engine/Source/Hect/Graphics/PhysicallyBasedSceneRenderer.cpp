@@ -109,11 +109,11 @@ void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSyste
     GeometryBuffer geometryBuffer(width, height);
 
     // Create a transient entity for holding our camera
-    Entity::Iterator entity = scene.createEntity();
-    entity->setTransient(true);
+    Entity& entity = scene.createEntity();
+    entity.setTransient(true);
 
     // Create the camera
-    CameraComponent::Iterator camera = entity->addComponent<CameraComponent>();
+    CameraComponent::Iterator camera = entity.addComponent<CameraComponent>();
     camera->position = position;
     camera->exposure = -1.0;
     camera->fieldOfView = Degrees(180.0);
@@ -144,7 +144,7 @@ void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSyste
     }
 
     // Destroy the transient entity holding the camera
-    entity->destroy();
+    entity.destroy();
 }
 
 void PhysicallyBasedSceneRenderer::render(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, RenderTarget& target)
@@ -372,7 +372,7 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
         if (boundingBox)
         {
             // Test the bounding box against the frustum
-            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->extents);
+            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox->globalExtents);
             if (result == FrustumTestResult::Inside)
             {
                 // No need to test any children

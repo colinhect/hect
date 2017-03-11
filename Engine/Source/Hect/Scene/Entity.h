@@ -158,24 +158,24 @@ public:
     const Scene& scene() const;
 
     ///
-    /// Creates a handle to the entity.
-    Entity::Handle createHandle() const;
+    /// Returns a handle to the entity.
+    Entity::Handle handle() const;
 
     ///
-    /// Creates an entity iterator for the entity.
+    /// Returns an entity iterator for the entity.
     Entity::Iterator iterator();
 
     ///
-    /// Creates a constant entity iterator for the entity.
+    /// Returns a constant entity iterator for the entity.
     Entity::ConstIterator iterator() const;
 
     ///
     /// Clones the entity.
     ///
-    /// \returns An iterator to the cloned entity.
+    /// \returns A reference to the cloned entity.
     ///
     /// \throws InvalidOperation If the entity is invalid.
-    Entity::Iterator clone() const;
+    Entity& clone() const;
 
     ///
     /// Marks the entity and all of its children to be destroyed.
@@ -218,21 +218,13 @@ public:
     EntityId id() const;
 
     ///
-    /// Returns an iterator to the parent entity (invalid iterator if the
+    /// Returns a handle to the parent entity (invalid iterator if the
     /// entity does not have a parent).
-    Entity::Iterator parent();
+    Entity::Handle parent() const;
 
     ///
-    /// \copydoc hect::Entity::parent()
-    Entity::ConstIterator parent() const;
-
-    ///
-    /// Returns an iterator to the root entity.
-    Entity::Iterator root();
-
-    ///
-    /// \copydoc hect::Entity::root()
-    Entity::ConstIterator root() const;
+    /// Returns a handle to the root entity.
+    Entity::Handle root() const;
 
     ///
     /// Adds an entity as a child of the entity.
@@ -270,58 +262,43 @@ public:
     bool hasChildren() const;
 
     ///
-    /// Returns an iterator to the first child entity matching the given
+    /// Returns a handle to the first child entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search; must be callable
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns An iterator to the first matching entity; invalid if there
+    /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Iterator findFirstChild(T&& predicate);
+    Entity::Handle findFirstChild(T&& predicate) const;
 
     ///
-    /// \copydoc Entity::findFirstChild()
-    template <typename T>
-    Entity::ConstIterator findFirstChild(T&& predicate) const;
-
-    ///
-    /// Returns an iterator to the first descendant entity matching the given
+    /// Returns a handle to the first descendant entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search; must be callable
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns An iterator to the first matching entity; invalid if there
+    /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Iterator findFirstDescendant(T&& predicate);
+    Entity::Handle findFirstDescendant(T&& predicate) const;
 
     ///
-    /// \copydoc Entity::findFirstDescendant()
-    template <typename T>
-    Entity::ConstIterator findFirstDescendant(T&& predicate) const;
-
-    ///
-    /// Returns an iterator to the first ancestor entity matching the given
+    /// Returns a handle to the first ancestor entity matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search; must be callable
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns An iterator to the first matching entity; invalid if there
+    /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Iterator findFirstAncestor(T&& predicate);
-
-    ///
-    /// \copydoc Entity::findFirstAncestor()
-    template <typename T>
-    Entity::ConstIterator findFirstAncestor(T&& predicate) const;
+    Entity::Handle findFirstAncestor(T&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -330,14 +307,9 @@ public:
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Iterator> findChildren(T&& predicate);
-
-    ///
-    /// \copydoc Entity::findChildren()
-    template <typename T>
-    std::vector<Entity::ConstIterator> findChildren(T&& predicate) const;
+    std::vector<Entity::Handle> findChildren(T&& predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -347,14 +319,9 @@ public:
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Iterator> findDescendants(T&& predicate);
-
-    ///
-    /// \copydoc Entity::findDescendants()
-    template <typename T>
-    std::vector<Entity::ConstIterator> findDescendants(T&& predicate) const;
+    std::vector<Entity::Handle> findDescendants(T&& predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -364,14 +331,9 @@ public:
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns A vector of iterators to the matching entities.
+    /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Iterator> findAncestors(T&& predicate);
-
-    ///
-    /// \copydoc Entity::findAncestors()
-    template <typename T>
-    std::vector<Entity::ConstIterator> findAncestors(T&& predicate) const;
+    std::vector<Entity::Handle> findAncestors(T&& predicate) const;
 
     ///
     /// Iterates over all child entities.
@@ -412,8 +374,9 @@ public:
     template <typename T>
     void forAncestors(T&& action) const;
 
-    Entity& operator=(const Entity& entity);
-    Entity& operator=(Entity&& entity);
+    ///
+    /// Returns whether the entity is valid.
+    operator bool() const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
@@ -422,6 +385,9 @@ private:
     Entity();
     Entity(const Entity& entity);
     Entity(Entity&& entity);
+
+    Entity& operator=(const Entity& entity);
+    Entity& operator=(Entity&& entity);
 
     enum class Flag
     {
@@ -444,6 +410,7 @@ private:
     std::vector<EntityId> _childIds;
     Name _name;
     std::bitset<4> _flags;
+    mutable EntityHandle _handle;
 };
 
 }

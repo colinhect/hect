@@ -35,7 +35,7 @@ EntityHandle::EntityHandle(const EntityIterator& iterator)
 {
     if (iterator)
     {
-        *this = iterator->createHandle();
+        *this = iterator->handle();
     }
 }
 
@@ -118,25 +118,15 @@ void EntityHandle::ensureValid() const
     }
 }
 
+void EntityHandle::invalidate()
+{
+    ensureValid();
+    _context->valid = false;
+}
+
 EntityHandle::Context::Context(EntityPool& pool, EntityId id) :
     pool(&pool),
-    id(id)
+    id(id),
+    valid(true)
 {
-    pool.registerListener(*this);
-}
-
-EntityHandle::Context::~Context()
-{
-    pool->unregisterListener(*this);
-}
-
-void EntityHandle::Context::receiveEvent(const EntityEvent& event)
-{
-    if (valid && event.entity->id() == id)
-    {
-        if (event.type == EntityEventType::Destroy)
-        {
-            valid = false;
-        }
-    }
 }

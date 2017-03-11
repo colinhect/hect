@@ -144,8 +144,8 @@ public:
     ///
     /// \param name The name of the entity.
     ///
-    /// \returns An iterator to the new entity.
-    Entity::Iterator createEntity(Name name = Name::Unnamed);
+    /// \returns A reference to the new entity.
+    Entity& createEntity(Name name = Name::Unnamed);
 
     ///
     /// Loads an Entity from an asset.
@@ -157,7 +157,7 @@ public:
     /// \returns An iterator to the new entity.
     ///
     /// \throws DecodeError If the entity failed to decode.
-    Entity::Iterator loadEntity(const Path& path);
+    Entity& loadEntity(const Path& path);
 
     ///
     /// Clears all entities and components from the scene.
@@ -200,7 +200,7 @@ private:
     void addComponentType(ComponentTypeId typeId);
     ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
 
-    Entity::Iterator cloneEntity(const Entity& entity);
+    Entity& cloneEntity(const Entity& entity);
 
     void destroyEntity(Entity& entity);
     void activateEntity(Entity& entity);

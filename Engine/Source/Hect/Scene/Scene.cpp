@@ -85,25 +85,25 @@ void Scene::initialize()
     _initialized = true;
 }
 
-Entity::Iterator Scene::createEntity(Name name)
+Entity& Scene::createEntity(Name name)
 {
-    Entity::Iterator entity = _entityPool.create(name);
-    _entitiesPendingCreation.push_back(entity->id());
+    Entity& entity = _entityPool.create(name);
+    _entitiesPendingCreation.push_back(entity.id());
     return entity;
 }
 
-Entity::Iterator Scene::loadEntity(const Path& path)
+Entity& Scene::loadEntity(const Path& path)
 {
     Timer timer;
 
-    Entity::Iterator entity = createEntity();
+    Entity& entity = createEntity();
 
     // Resolve the path to the entity
     AssetCache& assetCache = _engine->assetCache();
     const Path resolvedPath = assetCache.resolvePath(path);
 
     AssetDecoder decoder(_engine->assetCache(), resolvedPath);
-    decoder >> decodeValue(*entity);
+    decoder >> decodeValue(entity);
 
     HECT_INFO(format("Loaded entity '%s' in %ims", resolvedPath.asString().data(), Milliseconds(timer.elapsed()).value));
 
@@ -298,9 +298,9 @@ void Scene::decode(Decoder& decoder)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Entity::Iterator entity = createEntity();
-            decoder >> decodeValue(*entity);
-            entity->activate();
+            Entity& entity = createEntity();
+            decoder >> decodeValue(entity);
+            entity.activate();
         }
         decoder >> endArray();
     }
@@ -359,22 +359,21 @@ ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
     }
 }
 
-Entity::Iterator Scene::cloneEntity(const Entity& entity)
+Entity& Scene::cloneEntity(const Entity& entity)
 {
-    Entity::ConstIterator sourceEntity = entity.iterator();
-    Entity::Iterator clonedEntity = createEntity(sourceEntity->name());
+    Entity& clonedEntity = createEntity(entity.name());
 
     for (ComponentTypeId typeId : _componentTypeIds)
     {
         ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
-        componentPool.clone(*sourceEntity, *clonedEntity);
+        componentPool.clone(entity, clonedEntity);
     }
 
     // Recursively clone all children
-    for (const Entity& child : sourceEntity->children())
+    for (const Entity& child : entity.children())
     {
-        Entity::Iterator clonedChild = child.clone();
-        clonedEntity->addChild(*clonedChild);
+        Entity& clonedChild = child.clone();
+        clonedEntity.addChild(clonedChild);
     }
 
     return clonedEntity;
@@ -420,7 +419,7 @@ void Scene::destroyEntity(Entity& entity)
     }
 
     // If the entity had a parent then remove itself as a child
-    Entity::Iterator parent = entity.parent();
+    Entity::Handle parent = entity.parent();
     if (parent)
     {
         parent->removeChild(entity);

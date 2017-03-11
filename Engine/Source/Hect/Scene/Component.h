@@ -111,11 +111,11 @@ public:
     ///
     /// \throws InvalidOperation If the component is not in a pool or the
     /// component does belong to an entity.
-    EntityIterator entity();
+    Entity& entity();
 
     ///
     /// \copydoc hect::Component::entity()
-    EntityConstIterator entity() const;
+    const Entity& entity() const;
 
     ///
     /// Creates a component iterator for the component.

@@ -47,14 +47,14 @@ CameraComponent::Iterator CameraSystem::activeCamera()
 
 void CameraSystem::setActiveCamera(CameraComponent& camera)
 {
-    _activeCameraEntity = camera.entity()->createHandle();
+    _activeCameraEntity = camera.entity().handle();
 }
 
 void CameraSystem::updateCamera(CameraComponent& camera)
 {
     // If the camera's entity has a transform then use it to compute the
     // camera's position, front, and up vectors
-    TransformComponent::Iterator transform = camera.entity()->component<TransformComponent>();
+    TransformComponent::Iterator transform = camera.entity().component<TransformComponent>();
     if (transform)
     {
         camera.position = transform->globalPosition;
@@ -84,6 +84,6 @@ void CameraSystem::onComponentAdded(CameraComponent::Iterator camera)
 {
     if (!_activeCameraEntity)
     {
-        _activeCameraEntity = camera->entity()->createHandle();
+        _activeCameraEntity = camera->entity().handle();
     }
 }

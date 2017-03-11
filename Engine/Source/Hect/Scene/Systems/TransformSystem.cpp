@@ -53,12 +53,12 @@ void TransformSystem::updateTransform(TransformComponent& transform)
         throw InvalidOperation("TransformComponent is not dynamic");
     }
 
-    Entity::Iterator entity = transform.entity();
-    Entity::Iterator parent = entity->parent();
+    Entity& entity = transform.entity();
+    Entity::Handle parent = entity.parent();
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent
-        updateRecursively(*parent, *entity);
+        updateRecursively(*parent, entity);
     }
     else
     {
@@ -68,14 +68,14 @@ void TransformSystem::updateTransform(TransformComponent& transform)
         transform.globalRotation = transform.localRotation;
 
         // Update the transform hierachy for all children
-        for (Entity& child : entity->children())
+        for (Entity& child : entity.children())
         {
-            updateRecursively(*entity, child);
+            updateRecursively(entity, child);
         }
     }
 
     // Force the bounding box to update
-    _boundingBoxSystem.updateRecursively(*entity);
+    _boundingBoxSystem.updateRecursively(entity);
 }
 
 void TransformSystem::updateCommittedTransforms()

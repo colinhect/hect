@@ -32,18 +32,18 @@ TEST_CASE("Rigid bodies are affected by gravity", "[Scene]")
 
     const double startingHeight = 10;
 
-    Entity::Iterator entity = scene.createEntity();
+    Entity& entity = scene.createEntity();
 
-    TransformComponent::Iterator transform = entity->addComponent<TransformComponent>();
+    TransformComponent::Iterator transform = entity.addComponent<TransformComponent>();
     transform->localPosition = Vector3(0, 0, startingHeight);
 
     Mesh mesh = Mesh::createBox(Vector3::One);
 
-    RigidBodyComponent::Iterator rigidBody = entity->addComponent<RigidBodyComponent>();
+    RigidBodyComponent::Iterator rigidBody = entity.addComponent<RigidBodyComponent>();
     rigidBody->mass = 100;
     rigidBody->mesh = mesh.createHandle();
 
-    entity->activate();
+    entity.activate();
 
     for (int i = 0; i < 5; ++i)
     {

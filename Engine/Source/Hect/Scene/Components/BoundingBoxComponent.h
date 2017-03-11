@@ -47,10 +47,17 @@ public:
     bool adaptive { true };
 
     ///
-    /// The extents of the bounding box
+    /// The local extents of the bounding box.
     ///
     /// \property
-    AxisAlignedBox extents;
+    AxisAlignedBox localExtents;
+
+    ///
+    /// The global extents of the bounding box.
+    ///
+    /// \warning The global extents are calculated as a function of the local
+    /// extents and the transform hierarchy.  This should not be directly.
+    AxisAlignedBox globalExtents;
 };
 
 }

@@ -202,9 +202,9 @@ void PhysicsSystem::syncWithSimulation()
     // For each rigid body component
     for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
     {
-        Entity::Iterator entity = rigidBody.entity();
-        TransformComponent::Iterator transform = entity->component<TransformComponent>();
-        if (!entity->parent() && transform)
+        Entity& entity = rigidBody.entity();
+        TransformComponent::Iterator transform = entity.component<TransformComponent>();
+        if (!entity.parent() && transform)
         {
             // Update the transform to what Bullet says it should be
             btTransform bulletTransform;
@@ -225,8 +225,8 @@ void PhysicsSystem::syncWithSimulation()
 
 void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
 {
-    Entity::Iterator entity = rigidBody->entity();
-    TransformComponent::Iterator transform = entity->component<TransformComponent>();
+    Entity& entity = rigidBody->entity();
+    TransformComponent::Iterator transform = entity.component<TransformComponent>();
     if (transform)
     {
         Mesh& mesh = *rigidBody->mesh;

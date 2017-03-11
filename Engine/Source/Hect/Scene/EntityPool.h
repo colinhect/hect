@@ -39,7 +39,8 @@ class Scene;
 ///
 /// A pool of \link Entity Entities \endlink within a Scene.
 class HECT_EXPORT EntityPool :
-    public EventDispatcher<EntityEvent>
+    public EventDispatcher<EntityEvent>,
+    public Uncopyable
 {
     friend class Scene;
 
@@ -143,7 +144,7 @@ public:
     const Entity& withId(EntityId id) const;
 
 private:
-    Entity::Iterator create(Name name);
+    Entity& create(Name name);
     void destroy(EntityId id);
 
     bool entityIsValid(EntityId id);
@@ -151,16 +152,25 @@ private:
     Entity& entityWithId(EntityId id);
     const Entity& entityWithId(EntityId id) const;
 
+    Entity& lookUpEntity(EntityId id);
+    const Entity& lookUpEntity(EntityId id) const;
+
     EntityId maxId() const;
-    void expand();
+
+    void allocateChunk();
 
     Scene& _scene;
     IdPool<EntityId> _idPool;
 
+    struct EntityArrayDeleter
+    {
+        void operator()(Entity* entities) { delete [] entities; }
+    };
+
     // Avoiding use of std::vector because we need to keep the Entity
     // constructors private
-    std::unique_ptr<Entity[]> _entities;
-    size_t _entityCount;
+    std::vector<std::unique_ptr<Entity[]>> _entityChunks;
+    size_t _entityChunkSize { 128 };
 };
 
 }

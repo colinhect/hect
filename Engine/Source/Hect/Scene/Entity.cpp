@@ -52,13 +52,19 @@ const Scene& Entity::scene() const
     return _pool->_scene;
 }
 
-Entity::Handle Entity::createHandle() const
+Entity::Handle Entity::handle() const
 {
     if (!inPool())
     {
         return Entity::Handle();
     }
-    return Entity::Handle(*_pool, _id);
+
+    if (!_handle)
+    {
+        _handle = Entity::Handle(*_pool, _id);
+    }
+
+    return _handle;
 }
 
 Entity::Iterator Entity::iterator()
@@ -71,7 +77,7 @@ Entity::ConstIterator Entity::iterator() const
     return Entity::ConstIterator(*_pool, _id);
 }
 
-Entity::Iterator Entity::clone() const
+Entity& Entity::clone() const
 {
     ensureInPool();
     return _pool->_scene.cloneEntity(*this);
@@ -137,40 +143,20 @@ EntityId Entity::id() const
     return _id;
 }
 
-Entity::Iterator Entity::parent()
+Entity::Handle Entity::parent() const
 {
     ensureInPool();
     if (_parentId != EntityId(-1))
     {
-        return Entity::Iterator(*_pool, _parentId);
+        return _pool->withId(_parentId).handle();
     }
     else
     {
-        return _pool->end();
+        return Entity::Handle();
     }
 }
 
-Entity::ConstIterator Entity::parent() const
-{
-    ensureInPool();
-    if (_parentId != EntityId(-1))
-    {
-        return Entity::ConstIterator(*_pool, _parentId);
-    }
-    else
-    {
-        return const_cast<const EntityPool*>(_pool)->end();
-    }
-}
-
-Entity::Iterator Entity::root()
-{
-    auto root = const_cast<const Entity*>(this)->root();
-    EntityId id = root->id();
-    return Entity::Iterator(*_pool, id);
-}
-
-Entity::ConstIterator Entity::root() const
+Entity::Handle Entity::root() const
 {
     ensureInPool();
 
@@ -181,7 +167,7 @@ Entity::ConstIterator Entity::root() const
 
     if (!root)
     {
-        root = iterator();
+        root = handle();
     }
 
     return root;
@@ -252,28 +238,6 @@ bool Entity::hasChildren() const
     return !_childIds.empty();
 }
 
-Entity& Entity::operator=(const Entity& entity)
-{
-    _pool = entity._pool;
-    _id = entity._id;
-    _parentId = entity._parentId;
-    _childIds = entity._childIds;
-    _name = entity._name;
-    _flags = entity._flags;
-    return *this;
-}
-
-Entity& Entity::operator=(Entity&& entity)
-{
-    _pool = entity._pool;
-    _id = entity._id;
-    _parentId = entity._parentId;
-    _childIds = std::move(entity._childIds);
-    _name = entity._name;
-    _flags = entity._flags;
-    return *this;
-}
-
 Entity::Entity() :
     _name(Name::Unnamed)
 {
@@ -300,6 +264,30 @@ Entity::Entity(Entity&& entity) :
 {
 }
 
+Entity& Entity::operator=(const Entity& entity)
+{
+    _pool = entity._pool;
+    _id = entity._id;
+    _parentId = entity._parentId;
+    _childIds = entity._childIds;
+    _handle = entity._handle;
+    _name = entity._name;
+    _flags = entity._flags;
+    return *this;
+}
+
+Entity& Entity::operator=(Entity&& entity)
+{
+    _pool = entity._pool;
+    _id = entity._id;
+    _parentId = entity._parentId;
+    _childIds = std::move(entity._childIds);
+    _handle = entity._handle;
+    _name = entity._name;
+    _flags = entity._flags;
+    return *this;
+}
+
 void Entity::enterPool(EntityPool& pool, EntityId id)
 {
     _pool = &pool;
@@ -310,7 +298,15 @@ void Entity::exitPool()
 {
     _pool = nullptr;
     _id = EntityId(-1);
+    _parentId = EntityId(-1);
+    _childIds.clear();
     _flags = std::bitset<4>();
+
+    if (_handle)
+    {
+        _handle.invalidate();
+    }
+    _handle = EntityHandle();
 }
 
 bool Entity::inPool() const
@@ -334,6 +330,11 @@ void Entity::setFlag(Flag flag, bool value)
 bool Entity::flag(Flag flag) const
 {
     return _flags[static_cast<size_t>(flag)];
+}
+
+Entity::operator bool() const
+{
+    return inPool();
 }
 
 void Entity::encode(Encoder& encoder) const
@@ -415,13 +416,13 @@ void Entity::decode(Decoder& decoder)
         decoder >> beginArray();
         while (decoder.hasMoreElements())
         {
-            Entity::Iterator child = scene.createEntity();
+            Entity& child = scene.createEntity();
 
             decoder >> beginObject();
-            child->decode(decoder);
+            child.decode(decoder);
             decoder >> endObject();
 
-            entity->addChild(*child);
+            entity->addChild(child);
         }
         decoder >> endArray();
     }

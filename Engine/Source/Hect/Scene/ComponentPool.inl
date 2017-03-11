@@ -38,7 +38,7 @@ typename Component<T>::Iterator ComponentPool<T>::begin()
     typename Component<T>::Iterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iterator || !iterator->entity()->isActivated())
+    if (!iterator || !iterator->entity().isActivated())
     {
         ++iterator;
     }
@@ -51,7 +51,7 @@ typename Component<T>::ConstIterator ComponentPool<T>::begin() const
     typename Component<T>::ConstIterator iterator(*this, 0);
 
     // Move to the first component with activated entity
-    if (!iterator || !iterator->entity()->isActivated())
+    if (!iterator || !iterator->entity().isActivated())
     {
         ++iterator;
     }
