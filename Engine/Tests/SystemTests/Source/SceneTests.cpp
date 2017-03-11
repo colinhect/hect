@@ -461,26 +461,26 @@ TEST_CASE("Create and activate many entities in a scene", "[Scene]")
 {
     TestScene scene(Engine::instance());
 
-    std::vector<Entity::Iterator> entities;
-    for (EntityId id = 0; id < 16; ++id)
+    std::vector<Entity::Handle> entityHandles;
+    std::vector<Entity*> entityPointers;
+    for (EntityId id = 0; id < 256; ++id)
     {
-        {
-            Entity::Iterator entity = scene.createEntity().iterator();
-            entity->activate();
-            entities.push_back(entity);
-        }
+        Entity& entity = scene.createEntity();
+        entity.activate();
+
+        entityHandles.push_back(entity.handle());
+        entityPointers.push_back(&entity);
 
         scene.refresh();
+    }
 
-        {
-            EntityId id = 0;
-            for (const Entity::Iterator& entity : entities)
-            {
-                REQUIRE(entity);
-                REQUIRE(entity->id() == id);
-                ++id;
-            }
-        }
+    EntityId id = 0;
+    for (const Entity::Handle& entity : entityHandles)
+    {
+        REQUIRE(entity);
+        REQUIRE(entity->id() == id);
+        REQUIRE(&*entity == entityPointers[id]);
+        ++id;
     }
 }
 
