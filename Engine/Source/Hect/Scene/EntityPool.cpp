@@ -155,14 +155,14 @@ Entity& EntityPool::lookUpEntity(EntityId id)
 {
     const size_t chunkIndex = id / _entityChunkSize;
     const size_t entityIndex = id % _entityChunkSize;
-    return _entityChunks[chunkIndex][id];
+    return _entityChunks[chunkIndex][entityIndex];
 }
 
 const Entity& EntityPool::lookUpEntity(EntityId id) const
 {
     const size_t chunkIndex = id / _entityChunkSize;
     const size_t entityIndex = id % _entityChunkSize;
-    return _entityChunks[chunkIndex][id];
+    return _entityChunks[chunkIndex][entityIndex];
 }
 
 EntityId EntityPool::maxId() const
