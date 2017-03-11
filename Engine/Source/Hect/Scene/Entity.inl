@@ -29,7 +29,7 @@ T& Entity::addComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return *componentPool.add(*this, T(args...));
+    return componentPool.add(*this, T(args...));
 }
 
 template <typename T, typename... Args>
@@ -37,7 +37,7 @@ T& Entity::replaceComponent(Args&&... args)
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return *componentPool.replace(*this, T(args...));
+    return componentPool.replace(*this, T(args...));
 }
 
 template <typename T>
@@ -61,7 +61,7 @@ T& Entity::component()
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return *componentPool.get(*this);
+    return componentPool.get(*this);
 }
 
 template <typename T>
@@ -69,7 +69,7 @@ const T& Entity::component() const
 {
     ensureInPool();
     ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return *componentPool.get(*this);
+    return componentPool.get(*this);
 }
 
 template <typename T>

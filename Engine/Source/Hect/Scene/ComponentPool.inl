@@ -169,17 +169,13 @@ void ComponentPool<T>::addBase(Entity& entity, const ComponentBase& component)
 template <typename T>
 ComponentBase& ComponentPool<T>::getBase(Entity& entity)
 {
-    auto component = get(entity);
-    assert(component);
-    return *component;
+    return get(entity);
 }
 
 template <typename T>
 const ComponentBase& ComponentPool<T>::getBase(const Entity& entity) const
 {
-    auto component = get(entity);
-    assert(component);
-    return *component;
+    return get(entity);
 }
 
 template <typename T>
@@ -239,7 +235,7 @@ bool ComponentPool<T>::has(const Entity& entity) const
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& component)
+T& ComponentPool<T>::add(Entity& entity, const T& component)
 {
     EntityId entityId = entity.id();
 
@@ -289,11 +285,11 @@ typename Component<T>::Iterator ComponentPool<T>::add(Entity& entity, const T& c
         dispatchEvent(ComponentEventType::Add, entity);
     }
 
-    return typename Component<T>::Iterator(*this, id);
+    return addedComponent;
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const T& component)
+T& ComponentPool<T>::replace(Entity& entity, const T& component)
 {
     EntityId entityId = entity.id();
 
@@ -324,7 +320,7 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
             dispatchEvent(ComponentEventType::Add, entity);
         }
 
-        return typename Component<T>::Iterator(*this, id);
+        return addedComponent;
     }
     else
     {
@@ -334,34 +330,36 @@ typename Component<T>::Iterator ComponentPool<T>::replace(Entity& entity, const 
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::get(Entity& entity)
+T& ComponentPool<T>::get(Entity& entity)
 {
     EntityId entityId = entity.id();
 
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return typename Component<T>::Iterator(*this, id);
+        return lookUpComponent(id);
     }
     else
     {
-        return end();
+        Name typeName = Type::get<T>().name();
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }
 
 template <typename T>
-typename Component<T>::ConstIterator ComponentPool<T>::get(const Entity& entity) const
+const T& ComponentPool<T>::get(const Entity& entity) const
 {
     EntityId entityId = entity.id();
 
     ComponentId id;
     if (entityIdToComponentId(entityId, id))
     {
-        return typename Component<T>::ConstIterator(*this, id);
+        return lookUpComponent(id);
     }
     else
     {
-        return end();
+        Name typeName = Type::get<T>().name();
+        throw InvalidOperation(format("Entity does not have component of type '%s'", typeName.data()));
     }
 }
 

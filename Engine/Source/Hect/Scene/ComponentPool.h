@@ -152,11 +152,11 @@ private:
 
     bool has(const Entity& entity) const override;
 
-    typename Component<T>::Iterator add(Entity& entity, const T& component);
-    typename Component<T>::Iterator replace(Entity& entity, const T& component);
+    T& add(Entity& entity, const T& component);
+    T& replace(Entity& entity, const T& component);
 
-    typename Component<T>::Iterator get(Entity& entity);
-    typename Component<T>::ConstIterator get(const Entity& entity) const;
+    T& get(Entity& entity);
+    const T& get(const Entity& entity) const;
 
     ComponentId maxId() const;
 
