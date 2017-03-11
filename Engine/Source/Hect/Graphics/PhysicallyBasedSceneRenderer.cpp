@@ -431,7 +431,6 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
 
         if (entity.hasComponent<SkyBoxComponent>())
         {
-            auto& skyBox = entity.component<SkyBoxComponent>();
             enqueueRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
         }
 
