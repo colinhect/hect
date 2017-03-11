@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Scene/EntityEventType.h"
-#include "Hect/Scene/EntityIterator.h"
+#include "Hect/Scene/EntityHandle.h"
 
 namespace hect
 {
@@ -41,8 +41,8 @@ public:
     EntityEventType type { EntityEventType::Create };
 
     ///
-    /// An iterator to the Entity that the event is for.
-    EntityIterator entity;
+    /// A handle to the Entity that the event is for.
+    EntityHandle entity;
 };
 
 }

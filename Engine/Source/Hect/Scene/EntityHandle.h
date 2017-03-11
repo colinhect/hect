@@ -26,7 +26,6 @@
 #include <memory>
 
 #include "Hect/Core/Export.h"
-#include "Hect/Scene/EntityEvent.h"
 #include "Hect/Scene/EntityIterator.h"
 
 namespace hect

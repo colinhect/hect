@@ -389,7 +389,7 @@ void Scene::destroyEntity(Entity& entity)
     // Dispatch the entity destroy event
     EntityEvent event;
     event.type = EntityEventType::Destroy;
-    event.entity = entity.iterator();
+    event.entity = entity.handle();
     _entityPool.dispatchEvent(event);
 
     // Destroy all children
@@ -444,21 +444,19 @@ void Scene::activateEntity(Entity& entity)
     entity.setFlag(Entity::Flag::Activated, true);
     entity.setFlag(Entity::Flag::PendingActivation, false);
 
-    Entity::Iterator entityIterator = entity.iterator();
-
     for (ComponentTypeId typeId : _componentTypeIds)
     {
         ComponentPoolBase& componentPool = *_componentPools[typeId];
-        if (componentPool.has(*entityIterator))
+        if (componentPool.has(entity))
         {
-            componentPool.dispatchEvent(ComponentEventType::Add, *entityIterator);
+            componentPool.dispatchEvent(ComponentEventType::Add, entity);
         }
     }
 
     // Dispatch the entity activate event
     EntityEvent event;
     event.type = EntityEventType::Activate;
-    event.entity = entityIterator;
+    event.entity = entity.handle();
     _entityPool.dispatchEvent(event);
 }
 
@@ -516,7 +514,7 @@ void Scene::dispatchEntityCreationEvents()
         // Dispatch an entity create event
         EntityEvent event;
         event.type = EntityEventType::Create;
-        event.entity = EntityIterator(_entityPool, entityId);
+        event.entity = _entityPool.withId(entityId).handle();
         _entityPool.dispatchEvent(event);
     }
 }
