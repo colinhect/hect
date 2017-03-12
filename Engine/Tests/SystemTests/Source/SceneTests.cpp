@@ -143,13 +143,13 @@ public:
         decoder >> decodeValue("value", value);
     }
 
-    void onComponentAdded(TestComponentA::Iterator test) override
+    void onComponentAdded(TestComponentA& test) override
     {
         (void)test;
         value = "TestA added";
     }
 
-    void onComponentAdded(TestComponentB::Iterator test) override
+    void onComponentAdded(TestComponentB& test) override
     {
         (void)test;
         value = "TestB added";

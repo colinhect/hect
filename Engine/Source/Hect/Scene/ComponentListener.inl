@@ -34,13 +34,13 @@ ComponentListener<T>::ComponentListener(Scene& scene)
 }
 
 template <typename T>
-void ComponentListener<T>::onComponentAdded(typename T::Iterator component)
+void ComponentListener<T>::onComponentAdded(T& component)
 {
     (void)component;
 }
 
 template <typename T>
-void ComponentListener<T>::onComponentRemoved(typename T::Iterator component)
+void ComponentListener<T>::onComponentRemoved(T& component)
 {
     (void)component;
 }
@@ -48,16 +48,22 @@ void ComponentListener<T>::onComponentRemoved(typename T::Iterator component)
 template <typename T>
 void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
 {
-    Entity& entity = *event.entity;
-    auto& component = entity.component<T>();
+    if (event.entity)
+    {
+        // Copy the event to allow access to non-const component reference of
+        // the entity
+        ComponentEvent<T> copiedEvent = event;
+        auto& component = copiedEvent.entity->component<T>();
 
-    if (event.type == ComponentEventType::Add)
-    {
-        onComponentAdded(component.iterator());
-    }
-    else
-    {
-        onComponentRemoved(component.iterator());
+        switch (event.type)
+        {
+        case ComponentEventType::Add:
+            onComponentAdded(component);
+            break;
+        case ComponentEventType::Remove:
+            onComponentRemoved(component);
+            break;
+        }
     }
 }
 

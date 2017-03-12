@@ -81,10 +81,10 @@ void CameraSystem::updateAllCameras()
     }
 }
 
-void CameraSystem::onComponentAdded(CameraComponent::Iterator camera)
+void CameraSystem::onComponentAdded(CameraComponent& camera)
 {
     if (!_activeCameraEntity)
     {
-        _activeCameraEntity = camera->entity().handle();
+        _activeCameraEntity = camera.entity().handle();
     }
 }

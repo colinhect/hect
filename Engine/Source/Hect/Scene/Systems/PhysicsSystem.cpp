@@ -224,45 +224,45 @@ void PhysicsSystem::syncWithSimulation()
     }
 }
 
-void PhysicsSystem::onComponentAdded(RigidBodyComponent::Iterator rigidBody)
+void PhysicsSystem::onComponentAdded(RigidBodyComponent& rigidBody)
 {
-    Entity& entity = rigidBody->entity();
+    Entity& entity = rigidBody.entity();
 
     auto& transform = entity.component<TransformComponent>();
 
-    Mesh& mesh = *rigidBody->mesh;
-    rigidBody->_collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
+    Mesh& mesh = *rigidBody.mesh;
+    rigidBody._collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
 
-    btScalar mass = rigidBody->mass;
+    btScalar mass = rigidBody.mass;
     btVector3 localInertia(0, 0, 0);
     if (mass != 0.0)
     {
-        rigidBody->_collisionShape->calculateLocalInertia(mass, localInertia);
+        rigidBody._collisionShape->calculateLocalInertia(mass, localInertia);
     }
 
-    btVector3 linearVelocity = convertToBullet(rigidBody->linearVelocity);
-    btVector3 angularVelocity = convertToBullet(rigidBody->angularVelocity);
+    btVector3 linearVelocity = convertToBullet(rigidBody.linearVelocity);
+    btVector3 angularVelocity = convertToBullet(rigidBody.angularVelocity);
 
     _transformSystem.updateTransform(transform);
 
-    rigidBody->_motionState.reset(new btDefaultMotionState(convertToBullet(transform)));
-    btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody->_motionState.get(), rigidBody->_collisionShape.get(), localInertia);
-    rigidBody->_rigidBody.reset(new btRigidBody(info));
-    rigidBody->_rigidBody->setSleepingThresholds(0, 0);
-    rigidBody->_rigidBody->setLinearVelocity(linearVelocity);
-    rigidBody->_rigidBody->setAngularVelocity(angularVelocity);
-    rigidBody->_rigidBody->setAngularFactor(0.5);
+    rigidBody._motionState.reset(new btDefaultMotionState(convertToBullet(transform)));
+    btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody._motionState.get(), rigidBody._collisionShape.get(), localInertia);
+    rigidBody._rigidBody.reset(new btRigidBody(info));
+    rigidBody._rigidBody->setSleepingThresholds(0, 0);
+    rigidBody._rigidBody->setLinearVelocity(linearVelocity);
+    rigidBody._rigidBody->setAngularVelocity(angularVelocity);
+    rigidBody._rigidBody->setAngularFactor(0.5);
 
-    _addedRigidBodies.push_back(rigidBody->_rigidBody.get());
+    _addedRigidBodies.push_back(rigidBody._rigidBody.get());
 }
 
-void PhysicsSystem::onComponentRemoved(RigidBodyComponent::Iterator rigidBody)
+void PhysicsSystem::onComponentRemoved(RigidBodyComponent& rigidBody)
 {
     // Remove the transform from the committed transform vector
-    const ComponentId id = rigidBody->id();
+    const ComponentId id = rigidBody.id();
     _committedRigidBodyIds.erase(std::remove(_committedRigidBodyIds.begin(), _committedRigidBodyIds.end(), id), _committedRigidBodyIds.end());
 
-    _removedRigidBodies.push_back(rigidBody->_rigidBody.get());
+    _removedRigidBodies.push_back(rigidBody._rigidBody.get());
 }
 
 btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)

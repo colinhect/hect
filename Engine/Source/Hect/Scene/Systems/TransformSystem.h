@@ -75,8 +75,8 @@ private:
     void updateRecursively(Entity& parent, Entity& child);
 
     // System overrides
-    void onComponentAdded(TransformComponent::Iterator transform) override;
-    void onComponentRemoved(TransformComponent::Iterator transform) override;
+    void onComponentAdded(TransformComponent& transform) override;
+    void onComponentRemoved(TransformComponent& transform) override;
 
     BoundingBoxSystem& _boundingBoxSystem;
 

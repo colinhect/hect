@@ -105,8 +105,8 @@ private:
     };
 
     // System overrides
-    void onComponentAdded(RigidBodyComponent::Iterator rigidBody) override;
-    void onComponentRemoved(RigidBodyComponent::Iterator rigidBody) override;
+    void onComponentAdded(RigidBodyComponent& rigidBody) override;
+    void onComponentRemoved(RigidBodyComponent& rigidBody) override;
 
     TransformSystem& _transformSystem;
 

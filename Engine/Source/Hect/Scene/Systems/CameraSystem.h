@@ -62,7 +62,7 @@ public:
 
 private:
     // System overrides
-    void onComponentAdded(CameraComponent::Iterator camera) override;
+    void onComponentAdded(CameraComponent& camera) override;
 
     Entity::Handle _activeCameraEntity;
 };

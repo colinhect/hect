@@ -125,13 +125,13 @@ void BoundingBoxSystem::updateRecursively(Entity& entity)
     }
 }
 
-void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent::Iterator boundingBox)
+void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent& boundingBox)
 {
-    Entity& entity = boundingBox->entity();
-
     // Update the extents of the bounding box if it is adaptive
-    if (boundingBox && boundingBox->adaptive)
+    if (boundingBox.adaptive)
     {
+        Entity& entity = boundingBox.entity();
+
         // Update the extent of the bounding box
         updateRecursively(entity);
     }

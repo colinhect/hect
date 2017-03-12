@@ -92,26 +92,26 @@ void TransformSystem::updateCommittedTransforms()
 
 void TransformSystem::updateRecursively(Entity& parent, Entity& child)
 {
-    // Get the child transform
-    TransformComponent::Iterator childTransform = child.component<TransformComponent>();
-    if (childTransform)
+    if (child.hasComponent<TransformComponent>())
     {
-        // Get the parent transform
-        TransformComponent::Iterator parentTransform = parent.component<TransformComponent>();
-        if (parentTransform)
+        auto& childTransform = child.component<TransformComponent>();
+
+        if (parent.hasComponent<TransformComponent>())
         {
+            auto& parentTransform = parent.component<TransformComponent>();
+
             // Compute global components of the transform
-            childTransform->globalPosition = parentTransform->globalRotation * childTransform->localPosition;
-            childTransform->globalPosition += parentTransform->globalPosition;
-            childTransform->globalScale = parentTransform->globalScale * childTransform->localScale;
-            childTransform->globalRotation = parentTransform->globalRotation * childTransform->localRotation;
+            childTransform.globalPosition = parentTransform.globalRotation * childTransform.localPosition;
+            childTransform.globalPosition += parentTransform.globalPosition;
+            childTransform.globalScale = parentTransform.globalScale * childTransform.localScale;
+            childTransform.globalRotation = parentTransform.globalRotation * childTransform.localRotation;
         }
         else
         {
             // Local and global are the same if there is no parent
-            childTransform->globalPosition = childTransform->localPosition;
-            childTransform->globalScale = childTransform->localScale;
-            childTransform->globalRotation = childTransform->localRotation;
+            childTransform.globalPosition = childTransform.localPosition;
+            childTransform.globalScale = childTransform.localScale;
+            childTransform.globalRotation = childTransform.localRotation;
         }
 
         // Recursively update for all children
@@ -122,21 +122,21 @@ void TransformSystem::updateRecursively(Entity& parent, Entity& child)
     }
 }
 
-void TransformSystem::onComponentAdded(TransformComponent::Iterator transform)
+void TransformSystem::onComponentAdded(TransformComponent& transform)
 {
     // Temporarily make the transform dynamic so it can be initially updated
-    const Mobility mobility = transform->mobility;
-    transform->mobility = Mobility::Dynamic;
+    const Mobility mobility = transform.mobility;
+    transform.mobility = Mobility::Dynamic;
 
     // Update the transform
-    updateTransform(*transform);
+    updateTransform(transform);
 
     // Restore the transforms mobility
-    transform->mobility = mobility;
+    transform.mobility = mobility;
 }
 
-void TransformSystem::onComponentRemoved(TransformComponent::Iterator transform)
+void TransformSystem::onComponentRemoved(TransformComponent& transform)
 {
     // Remove the transform from the committed transform vector
-    _committedTransformIds.erase(std::remove(_committedTransformIds.begin(), _committedTransformIds.end(), transform->id()), _committedTransformIds.end());
+    _committedTransformIds.erase(std::remove(_committedTransformIds.begin(), _committedTransformIds.end(), transform.id()), _committedTransformIds.end());
 }

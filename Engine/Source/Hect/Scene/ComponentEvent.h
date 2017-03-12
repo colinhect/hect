@@ -25,7 +25,7 @@
 
 #include "Hect/Core/Export.h"
 #include "Hect/Scene/ComponentEventType.h"
-#include "Hect/Scene/EntityIterator.h"
+#include "Hect/Scene/EntityHandle.h"
 
 namespace hect
 {
@@ -42,8 +42,8 @@ public:
     ComponentEventType type { ComponentEventType::Add };
 
     ///
-    /// An iterator to the Entity that the event is for.
-    EntityIterator entity;
+    /// A handle to the Entity that the event is for.
+    EntityHandle entity;
 };
 
 }

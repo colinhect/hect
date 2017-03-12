@@ -52,14 +52,14 @@ public:
     /// type or a component is added to an activated entity.
     ///
     /// \param component The component that was added.
-    virtual void onComponentAdded(typename T::Iterator component);
+    virtual void onComponentAdded(T& component);
 
     ///
     /// Invoked when an entity is destroyed with a component of the specified
     /// type or a component is removed from an activated entity.
     ///
     /// \param component The component that was removed.
-    virtual void onComponentRemoved(typename T::Iterator component);
+    virtual void onComponentRemoved(T& component);
 
     void receiveEvent(const ComponentEvent<T>& event) override;
 };

@@ -57,7 +57,7 @@ private:
     void updateRecursively(Entity& entity);
 
     // System overrides
-    void onComponentAdded(BoundingBoxComponent::Iterator boundingBox) override;
+    void onComponentAdded(BoundingBoxComponent& boundingBox) override;
 
     DebugSystem* _debugSystem { nullptr };
 };
