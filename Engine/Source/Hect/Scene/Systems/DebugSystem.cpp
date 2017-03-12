@@ -94,7 +94,7 @@ void DebugSystem::renderBox(Color color, Box box, Vector3 position, Quaternion r
 
     for (auto& line : unitBoxLines)
     {
-        Vector3 scale = box.scale();
+        const Vector3 scale = box.scale();
         const Vector3 start = position + rotation * (line.first * scale);
         const Vector3 end = position + rotation * (line.second * scale);
         renderLine(color, start, end, duration);

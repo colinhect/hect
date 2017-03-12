@@ -53,7 +53,7 @@ void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
         // Copy the event to allow access to non-const component reference of
         // the entity
         ComponentEvent<T> copiedEvent = event;
-        auto& component = copiedEvent.entity->component<T>();
+        auto& component = copiedEvent.entity->template component<T>();
 
         switch (event.type)
         {
