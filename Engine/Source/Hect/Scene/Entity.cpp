@@ -61,7 +61,7 @@ Entity::Handle Entity::handle() const
 
     if (!_handle)
     {
-        _handle = Entity::Handle(*_pool, _id);
+        _handle = Entity::Handle(*const_cast<Entity*>(reinterpret_cast<const Entity*>(this)));
     }
 
     return _handle;

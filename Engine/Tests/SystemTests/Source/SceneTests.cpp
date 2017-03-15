@@ -1851,3 +1851,45 @@ TEST_CASE("Systems are notified about the additions and removals of component ty
     entity->addComponent<TestComponentB>();
     REQUIRE(scene.testSystemB.value == "TestB added");
 }
+
+TEST_CASE("Entity handle is invalidated when entity is destroyed", "[Scene]")
+{
+    Engine& engine = Engine::instance();
+    TestScene scene(Engine::instance());
+
+    Entity::Handle entity = scene.createEntity().handle();
+    REQUIRE(entity);
+
+    entity->activate();
+    scene.refresh();
+    REQUIRE(entity);
+
+    entity->destroy();
+    REQUIRE(entity);
+
+    scene.refresh();
+    REQUIRE(!entity);
+}
+
+TEST_CASE("Component handle is invalidated when entity is destroyed", "[Scene]")
+{
+    Engine& engine = Engine::instance();
+    TestScene scene(Engine::instance());
+
+    Entity& entity = scene.createEntity();
+
+    TestComponentA::Handle component = entity.addComponent<TestComponentA>().handle();
+    REQUIRE(component);
+
+    entity.activate();
+    REQUIRE(component);
+
+    scene.refresh();
+    REQUIRE(component);
+
+    entity.destroy();
+    REQUIRE(component);
+
+    scene.refresh();
+    REQUIRE(!component);
+}

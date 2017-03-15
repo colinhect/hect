@@ -155,7 +155,7 @@ void ComponentPool<T>::dispatchEvent(ComponentEventType type, Entity& entity)
 {
     ComponentEvent<T> event;
     event.type = type;
-    event.entity = entity.iterator();
+    event.entity = entity.handle();
 
     EventDispatcher<ComponentEvent<T>>::dispatchEvent(event);
 }

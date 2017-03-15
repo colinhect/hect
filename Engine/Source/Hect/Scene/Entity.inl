@@ -86,7 +86,7 @@ Entity::Handle Entity::findFirstChild(T&& predicate) const
         }
     }
 
-    return _pool->end();
+    return Entity::Handle();
 }
 
 template <typename T>
@@ -111,7 +111,7 @@ Entity::Handle Entity::findFirstDescendant(T&& predicate) const
         }
     }
 
-    return _pool->end();
+    return Entity::Handle();
 }
 
 template <typename T>
@@ -130,7 +130,7 @@ Entity::Handle Entity::findFirstAncestor(T&& predicate) const
         }
     }
 
-    return _pool->end();
+    return Entity::Handle();
 }
 
 template <typename T>

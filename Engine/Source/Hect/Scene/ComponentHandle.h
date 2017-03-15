@@ -26,79 +26,83 @@
 #include <atomic>
 #include <memory>
 
-#include "Hect/Core/Export.h"
-
 namespace hect
 {
 
+template <typename T>
+class Component;
+
 ///
-/// A weak reference to an Entity.
-class HECT_EXPORT EntityHandle
+/// A weak reference to a Component.
+template <typename T>
+class ComponentHandle
 {
-    friend class Entity;
+    friend class Component<T>;
 public:
 
     ///
     /// Constructs an invalid handle.
-    EntityHandle();
+    ComponentHandle();
 
     ///
-    /// Dereferences the handle to a reference to the entity.
+    /// Dereferences the handle to a reference to the component.
     ///
-    /// \returns A reference to the entity.
+    /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    Entity& operator*();
+    T& operator*();
 
     ///
-    /// Dereferences the handle to a reference to the entity.
+    /// Dereferences the handle to a reference to the component.
     ///
-    /// \returns A reference to the entity.
+    /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    const Entity& operator*() const;
+    const T& operator*() const;
 
     ///
-    /// Dereferences the handle to a pointer to the entity.
+    /// Dereferences the handle to a pointer to the component.
     ///
-    /// \returns A pointer to the entity.
+    /// \returns A pointer to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    Entity* operator->();
+    T* operator->();
 
     ///
-    /// Dereferences the handle to a pointer to the entity.
+    /// Dereferences the handle to a pointer to the component.
     ///
-    /// \returns A pointer to the entity.
+    /// \returns A pointer to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    const Entity* operator->() const;
+    const T* operator->() const;
 
     ///
     /// Returns whether the handle is equivalent to another.
     ///
     /// \param other The other iterator.
-    bool operator==(const EntityHandle& other) const;
+    bool operator==(const ComponentHandle& other) const;
 
     ///
     /// Returns whether the handle is different from another.
     ///
     /// \param other The other iterator.
-    bool operator!=(const EntityHandle& other) const;
+    bool operator!=(const ComponentHandle& other) const;
 
     ///
     /// Returns whether the handle is valid.
     operator bool() const;
 
 private:
-    EntityHandle(Entity& entity);
+    ComponentHandle(T& component);
 
     bool isValid() const;
     void ensureValid() const;
     void invalidate();
 
-    Entity* _entity { nullptr };
+    T* _component { nullptr };
     std::shared_ptr<std::atomic_bool> _valid;
 };
 
 }
+
+#include "ComponentHandle.inl"

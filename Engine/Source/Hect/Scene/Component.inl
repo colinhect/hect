@@ -76,6 +76,22 @@ const Entity& Component<T>::entity() const
 }
 
 template <typename T>
+typename Component<T>::Handle Component<T>::handle() const
+{
+    if (!this->inPool())
+    {
+        return Component<T>::Handle();
+    }
+
+    if (!_handle)
+    {
+        _handle = Component<T>::Handle(*const_cast<T*>(reinterpret_cast<const T*>(this)));
+    }
+
+    return _handle;
+}
+
+template <typename T>
 typename Component<T>::Iterator Component<T>::iterator()
 {
     this->ensureInPool();
@@ -105,9 +121,7 @@ template <typename T>
 Component<T>& Component<T>::operator=(const Component& component)
 {
     (void)component;
-
-    this->_pool = nullptr;
-    this->_id = ComponentId(-1);
+    assert(!component.inPool());
 
     return *this;
 }
@@ -117,8 +131,11 @@ Component<T>& Component<T>::operator=(Component&& component)
 {
     (void)component;
 
-    this->_pool = nullptr;
-    this->_id = ComponentId(-1);
+    this->_pool = component._pool;
+    this->_id = component._id;
+
+    component._pool = nullptr;
+    component._id = ComponentId(-1);
 
     return *this;
 }
@@ -135,6 +152,11 @@ void Component<T>::exitPool()
 {
     this->_pool = nullptr;
     this->_id = ComponentId(-1);
+
+    if (this->_handle)
+    {
+        this->_handle.invalidate();
+    }
 }
 
 template <typename T>

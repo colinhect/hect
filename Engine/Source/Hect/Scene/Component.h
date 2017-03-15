@@ -29,6 +29,7 @@
 #include "Hect/IO/Encodable.h"
 #include "Hect/IO/Encoder.h"
 #include "Hect/IO/Decoder.h"
+#include "Hect/Scene/ComponentHandle.h"
 #include "Hect/Scene/ComponentIterator.h"
 #include "Hect/Scene/EntityIterator.h"
 
@@ -69,6 +70,10 @@ class Component :
 {
     friend class ComponentPool<T>;
 public:
+
+    ///
+    /// \copydoc hect::ComponentHandle
+    typedef ComponentHandle<T> Handle;
 
     ///
     /// \copydoc hect::ComponentIterator
@@ -118,6 +123,10 @@ public:
     const Entity& entity() const;
 
     ///
+    /// Returns a handle to the component.
+    typename Component<T>::Handle handle() const;
+
+    ///
     /// Creates a component iterator for the component.
     typename Component<T>::Iterator iterator();
 
@@ -151,6 +160,7 @@ private:
 
     ComponentPool<T>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };
+    mutable ComponentHandle<T> _handle;
 };
 
 }

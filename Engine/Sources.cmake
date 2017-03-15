@@ -341,6 +341,8 @@ set(SOURCE_HECT_SCENE
     "Source/Hect/Scene/Component.inl"
     "Source/Hect/Scene/ComponentEvent.h"
     "Source/Hect/Scene/ComponentEventType.h"
+    "Source/Hect/Scene/ComponentHandle.h"
+    "Source/Hect/Scene/ComponentHandle.inl"
     "Source/Hect/Scene/ComponentIterator.h"
     "Source/Hect/Scene/ComponentIterator.inl"
     "Source/Hect/Scene/ComponentListener.h"

@@ -21,76 +21,89 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include "EntityHandle.h"
+#include "Hect/Core/Exception.h"
 
-#include "Hect/Scene/EntityPool.h"
+namespace hect
+{
 
-using namespace hect;
-
-EntityHandle::EntityHandle()
+template <typename T>
+ComponentHandle<T>::ComponentHandle()
 {
 }
 
-Entity& EntityHandle::operator*()
-{
-    ensureValid();
-    return *_entity;
-}
-
-const Entity& EntityHandle::operator*() const
+template <typename T>
+T& ComponentHandle<T>::operator*()
 {
     ensureValid();
-    return *_entity;
+    return *_component;
 }
 
-Entity* EntityHandle::operator->()
+template <typename T>
+const T& ComponentHandle<T>::operator*() const
 {
     ensureValid();
-    return _entity;
+    return *_component;
 }
 
-const Entity* EntityHandle::operator->() const
+template <typename T>
+T* ComponentHandle<T>::operator->()
 {
     ensureValid();
-    return _entity;
+    return _component;
 }
 
-bool EntityHandle::operator==(const EntityHandle& other) const
+template <typename T>
+const T* ComponentHandle<T>::operator->() const
 {
-    return _entity == other._entity;
+    ensureValid();
+    return _component;
 }
 
-bool EntityHandle::operator!=(const EntityHandle& other) const
+template <typename T>
+bool ComponentHandle<T>::operator==(const ComponentHandle& other) const
 {
-    return _entity != other._entity;
+    return _component == other._component;
 }
 
-EntityHandle::operator bool() const
+template <typename T>
+bool ComponentHandle<T>::operator!=(const ComponentHandle& other) const
+{
+    return _component != other._component;
+}
+
+template <typename T>
+ComponentHandle<T>::operator bool() const
 {
     return isValid();
 }
 
-EntityHandle::EntityHandle(Entity& entity) :
-    _entity(&entity),
+template <typename T>
+ComponentHandle<T>::ComponentHandle(T& component) :
+    _component(&component),
     _valid(std::make_shared<std::atomic_bool>(true))
 {
 }
 
-bool EntityHandle::isValid() const
+template <typename T>
+bool ComponentHandle<T>::isValid() const
 {
-    return _entity && _valid && *_valid;
+    return _component && _valid && *_valid;
 }
 
-void EntityHandle::ensureValid() const
+template <typename T>
+void ComponentHandle<T>::ensureValid() const
 {
     if (!isValid())
     {
-        throw InvalidOperation("Invalid entity handle");
+        throw InvalidOperation("Invalid component handle");
     }
 }
 
-void EntityHandle::invalidate()
+template <typename T>
+void ComponentHandle<T>::invalidate()
 {
     ensureValid();
     _valid->store(false);
+}
+
 }
