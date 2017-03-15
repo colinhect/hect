@@ -94,38 +94,28 @@ public:
     typename Component<T>::ConstIterator end() const;
 
     ///
-    /// Returns an iterator to the first Component matching the given
+    /// Returns a handle to the first Component matching the given
     /// predicate.
     ///
     /// \param predicate The predicate to use in the search; must be callable
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns An iterator to the first matching component; invalid if there
+    /// \returns A hande to the first matching component; invalid if there
     /// was no matching component.
     template <typename U>
-    typename Component<T>::Iterator findFirst(U&& predicate);
+    typename Component<T>::Handle findFirst(U&& predicate) const;
 
     ///
-    /// \copydoc ComponentPool::findFirst()
-    template <typename U>
-    typename Component<T>::ConstIterator findFirst(U&& predicate) const;
-
-    ///
-    /// Returns iterators to all Component%s matching the given predicate.
+    /// Returns handles to all Component%s matching the given predicate.
     ///
     /// \param predicate The predicate to use in the search; must be callable
     /// as a function accepting a reference to an Entity, returning whether
     /// the entity matches the predicate.
     ///
-    /// \returns A vector of iterators to the matching components.
+    /// \returns A vector of handles to the matching components.
     template <typename U>
-    std::vector<typename Component<T>::Iterator> find(U&& predicate);
-
-    ///
-    /// \copydoc ComponentPool::find()
-    template <typename U>
-    std::vector<typename Component<T>::ConstIterator> find(U&& predicate) const;
+    std::vector<typename Component<T>::Handle> find(U&& predicate) const;
 
     ///
     /// Returns the Component with the given id.

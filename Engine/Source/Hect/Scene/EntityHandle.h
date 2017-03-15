@@ -31,6 +31,8 @@
 namespace hect
 {
 
+class Entity;
+
 ///
 /// A weak reference to an Entity.
 class HECT_EXPORT EntityHandle

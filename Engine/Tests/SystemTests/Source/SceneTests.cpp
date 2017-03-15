@@ -1115,14 +1115,14 @@ TEST_CASE("Find first component in a component pool with a match", "[Scene]")
     scene.refresh();
 
     ComponentPool<TestComponentA>& strings = scene.components<TestComponentA>();
-    Component<TestComponentA>::Iterator iterator = strings.findFirst([](const TestComponentA& string)
+    Component<TestComponentA>::Handle handle = strings.findFirst([](const TestComponentA& string)
     {
         return string.value == "Match";
     });
 
-    REQUIRE(iterator);
-    REQUIRE(iterator->value == "Match");
-    REQUIRE(&*iterator == &b->component<TestComponentA>());
+    REQUIRE(handle);
+    REQUIRE(handle->value == "Match");
+    REQUIRE(&*handle == &b->component<TestComponentA>());
 }
 
 TEST_CASE("Find first component in a component pool without a match", "[Scene]")
@@ -1148,12 +1148,12 @@ TEST_CASE("Find first component in a component pool without a match", "[Scene]")
     scene.refresh();
 
     ComponentPool<TestComponentA>& strings = scene.components<TestComponentA>();
-    Component<TestComponentA>::Iterator iterator = strings.findFirst([](const TestComponentA& string)
+    Component<TestComponentA>::Handle handle = strings.findFirst([](const TestComponentA& string)
     {
         return string.value == "Match";
     });
 
-    REQUIRE(!iterator);
+    REQUIRE(!handle);
 }
 
 TEST_CASE("Find components in a component pool with matches", "[Scene]")
@@ -1179,20 +1179,20 @@ TEST_CASE("Find components in a component pool with matches", "[Scene]")
     scene.refresh();
 
     ComponentPool<TestComponentA>& strings = scene.components<TestComponentA>();
-    std::vector<Component<TestComponentA>::Iterator> iters = strings.find([](const TestComponentA& string)
+    std::vector<Component<TestComponentA>::Handle> handles = strings.find([](const TestComponentA& string)
     {
         return string.value == "Match";
     });
 
-    REQUIRE(iters.size() == 2);
+    REQUIRE(handles.size() == 2);
 
-    REQUIRE(iters[0]);
-    REQUIRE(iters[0]->value == "Match");
-    REQUIRE(&*iters[0] == &b->component<TestComponentA>());
+    REQUIRE(handles[0]);
+    REQUIRE(handles[0]->value == "Match");
+    REQUIRE(&*handles[0] == &b->component<TestComponentA>());
 
-    REQUIRE(iters[1]);
-    REQUIRE(iters[1]->value == "Match");
-    REQUIRE(&*iters[1] == &c->component<TestComponentA>());
+    REQUIRE(handles[1]);
+    REQUIRE(handles[1]->value == "Match");
+    REQUIRE(&*handles[1] == &c->component<TestComponentA>());
 }
 
 TEST_CASE("Find components in a component pool without matches", "[Scene]")
@@ -1218,12 +1218,12 @@ TEST_CASE("Find components in a component pool without matches", "[Scene]")
     scene.refresh();
 
     ComponentPool<TestComponentA>& strings = scene.components<TestComponentA>();
-    std::vector<Component<TestComponentA>::Iterator> iters = strings.find([](const TestComponentA& string)
+    std::vector<Component<TestComponentA>::Handle> handles = strings.find([](const TestComponentA& string)
     {
         return string.value == "Match";
     });
 
-    REQUIRE(iters.size() == 0);
+    REQUIRE(handles.size() == 0);
 }
 
 TEST_CASE("Find first entity in a entity pool with a match", "[Scene]")
