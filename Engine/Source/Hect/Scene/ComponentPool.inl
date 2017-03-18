@@ -81,7 +81,7 @@ typename Component<T>::Handle ComponentPool<T>::findFirst(U&& predicate) const
             return iterator->handle();
         }
     }
-    return Component<T>::Handle();
+    return typename Component<T>::Handle();
 }
 
 template <typename T>
