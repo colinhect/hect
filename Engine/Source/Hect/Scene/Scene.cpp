@@ -228,10 +228,9 @@ void Scene::decode(Decoder& decoder)
         }
     }
 
-    // Decode the scene type
-    // Note that nothing is done with the resulting value since the scene has
-    // already been constructed (obviously); this is only done to make encoding
-    // and decoding reflective
+    // Decode the scene type; nothing is done with the resulting value since
+    // the scene has already been constructed (this is only done to make
+    // encoding and decoding reflective)
     if (decoder.isBinaryStream())
     {
         SceneTypeId typeId;
