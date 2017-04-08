@@ -121,8 +121,6 @@ template <typename T>
 Component<T>& Component<T>::operator=(const Component& component)
 {
     (void)component;
-    assert(!component.inPool());
-
     return *this;
 }
 

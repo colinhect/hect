@@ -227,11 +227,11 @@ T& ComponentPool<T>::add(Entity& entity, const T& component)
         throw InvalidOperation(format("Entity already has component of type '%s'", typeName.data()));
     }
 
-    // Create the new component id and allocate chunk if needed
+    // Create the new component id and expand the components deque if needed
     id = _idPool.create();
     while (id >= maxId())
     {
-        allocateChunk();
+        _components.emplace_back(T());
     }
 
     // Remember which component this entity has
@@ -337,7 +337,7 @@ const T& ComponentPool<T>::get(const Entity& entity) const
 template <typename T>
 ComponentId ComponentPool<T>::maxId() const
 {
-    return static_cast<ComponentId>(_componentChunks.size() * _componentChunkSize);
+    return static_cast<ComponentId>(_components.size());
 }
 
 template <typename T>
@@ -400,24 +400,13 @@ bool ComponentPool<T>::entityIdToComponentId(EntityId entityId, ComponentId& id)
 template <typename T>
 T& ComponentPool<T>::lookUpComponent(ComponentId id)
 {
-    const size_t chunkIndex = id / _componentChunkSize;
-    const size_t componentIndex = id % _componentChunkSize;
-    return (*_componentChunks[chunkIndex])[componentIndex];
+    return _components[id];
 }
 
 template <typename T>
 const T& ComponentPool<T>::lookUpComponent(ComponentId id) const
 {
-    const size_t chunkIndex = id / _componentChunkSize;
-    const size_t componentIndex = id % _componentChunkSize;
-    return (*_componentChunks[chunkIndex])[componentIndex];
-}
-
-template <typename T>
-void ComponentPool<T>::allocateChunk()
-{
-    std::unique_ptr<std::vector<T>> chunk(new std::vector<T>(_componentChunkSize, T()));
-    _componentChunks.push_back(std::move(chunk));
+    return _components[id];
 }
 
 template <typename T>
