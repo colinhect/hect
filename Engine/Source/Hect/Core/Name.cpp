@@ -47,25 +47,25 @@ static std::deque<std::string> _nameStrings;
 const Name Name::Unnamed("<unnamed>");
 
 Name::Name() :
-    _index(-1),
+    _index(-1)
 #ifdef HECT_DEBUG_BUILD
-    _value(nullptr)
+    , _value(nullptr)
 #endif
 {
 }
 
 Name::Name(const char* name) :
-    _index(lookUpIndex(name)),
+    _index(lookUpIndex(name))
 #ifdef HECT_DEBUG_BUILD
-    _value(data())
+    , _value(data())
 #endif
 {
 }
 
 Name::Name(const std::string& name) :
-    _index(lookUpIndex(name)),
+    _index(lookUpIndex(name))
 #ifdef HECT_DEBUG_BUILD
-    _value(data())
+    , _value(data())
 #endif
 {
 }
