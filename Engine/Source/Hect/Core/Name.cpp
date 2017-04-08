@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Name.h"
 
+#include <deque>
 #include <memory>
 #include <mutex>
 #include <unordered_map>
@@ -39,24 +40,33 @@ namespace
 
 static std::mutex _nameIndexLookUpMutex;
 static std::unordered_map<std::string, Name::Index> _nameStringToIndex;
-static std::vector<std::string> _nameIndexToString;
+static std::deque<std::string> _nameStrings;
 
 }
 
 const Name Name::Unnamed("<unnamed>");
 
 Name::Name() :
-    _index(-1)
+    _index(-1),
+#ifdef HECT_DEBUG_BUILD
+    _value(nullptr)
+#endif
 {
 }
 
 Name::Name(const char* name) :
-    _index(lookUpIndex(name))
+    _index(lookUpIndex(name)),
+#ifdef HECT_DEBUG_BUILD
+    _value(data())
+#endif
 {
 }
 
 Name::Name(const std::string& name) :
-    _index(lookUpIndex(name))
+    _index(lookUpIndex(name)),
+#ifdef HECT_DEBUG_BUILD
+    _value(data())
+#endif
 {
 }
 
@@ -69,7 +79,7 @@ const std::string& Name::asString() const
     }
     else
     {
-        return _nameIndexToString[_index];
+        return _nameStrings[_index];
     }
 }
 
@@ -113,15 +123,9 @@ Name::Index Name::lookUpIndex(const std::string& string)
     auto it = _nameStringToIndex.find(string);
     if (it == _nameStringToIndex.end())
     {
-        // If this is the first name added to the index then reserve space
-        if (_nameIndexToString.size() == 0)
-        {
-            _nameIndexToString.reserve(1024);
-        }
-
         // Add the string to the string look-up table
-        index = static_cast<Name::Index>(_nameIndexToString.size());
-        _nameIndexToString.push_back(string);
+        index = static_cast<Name::Index>(_nameStrings.size());
+        _nameStrings.emplace_back(string);
 
         // Add the index to the index look-up table
         _nameStringToIndex[string] = index;

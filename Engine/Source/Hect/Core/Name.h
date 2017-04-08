@@ -98,6 +98,10 @@ private:
     static Index lookUpIndex(const std::string& string);
 
     Index _index;
+
+#ifdef HECT_DEBUG_BUILD
+    const char* _value;
+#endif
 };
 
 class Encoder;
