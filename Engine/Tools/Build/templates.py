@@ -33,7 +33,7 @@ def emit(template, **kwargs):
         code = file.read()
 
     # Replace variables with their associated values
-    for key, value in kwargs.iteritems():
+    for key, value in kwargs.items():
         code = code.replace("$({})".format(key), value)
 
     return code
