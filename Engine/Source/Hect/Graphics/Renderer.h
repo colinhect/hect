@@ -437,6 +437,21 @@ public:
 private:
     Renderer();
 
+    void setCullMode(CullMode cullMode);
+
+    void setShader(Shader& shader);
+
+    void setUniform(const Uniform& uniform, int value);
+    void setUniform(const Uniform& uniform, double value);
+    void setUniform(const Uniform& uniform, Vector2 value);
+    void setUniform(const Uniform& uniform, Vector3 value);
+    void setUniform(const Uniform& uniform, Vector4 value);
+    void setUniform(const Uniform& uniform, const Matrix4& value);
+    void setUniform(const Uniform& uniform, Color value);
+    void setUniform(const Uniform& uniform, Texture2& value);
+    void setUniform(const Uniform& uniform, Texture3& value);
+    void setUniform(const Uniform& uniform, TextureCube& value);
+
     void setTarget(RenderTarget& target);
     void setTarget(Window& window);
     void setTarget(FrameBuffer& frameBuffer);

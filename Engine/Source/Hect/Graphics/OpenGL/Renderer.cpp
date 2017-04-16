@@ -515,334 +515,6 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
 
 }
 
-void Renderer::Frame::setCullMode(CullMode cullMode)
-{
-    switch (cullMode)
-    {
-    case CullMode::CounterClockwise:
-        glEnable(GL_CULL_FACE);
-        glFrontFace(GL_CCW);
-        break;
-    case CullMode::Clockwise:
-        glEnable(GL_CULL_FACE);
-        glFrontFace(GL_CW);
-        break;
-    case CullMode::None:
-        glDisable(GL_CULL_FACE);
-        break;
-    }
-}
-
-void Renderer::Frame::setShader(Shader& shader)
-{
-    // Upload the shader if needed
-    if (!shader.isUploaded())
-    {
-        _renderer.uploadShader(shader);
-    }
-
-    // Bind the shader
-    auto data = shader.dataAs<ShaderData>();
-    GL_ASSERT(glUseProgram(data->programId));
-
-    // If the blend mode is non-trivial
-    const BlendMode& blendMode = shader.blendMode();
-    if (blendMode != BlendMode())
-    {
-        GL_ASSERT(glEnable(GL_BLEND));
-
-        // Set the blend function
-        GLenum function = _blendFunctionLookUp[static_cast<GLenum>(blendMode.function())];
-        GL_ASSERT(glBlendEquation(function));
-
-        // Set the blend factors
-        GLenum sourceFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.sourceFactor())];
-        GLenum destinationFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.destinationFactor())];
-        GL_ASSERT(glBlendFunc(sourceFactor, destinationFactor));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_BLEND));
-    }
-
-    // Enable or disable depth testing
-    if (shader.isDepthTested())
-    {
-        GL_ASSERT(glEnable(GL_DEPTH_TEST));
-        GL_ASSERT(glDepthMask(GL_TRUE));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_DEPTH_TEST));
-        GL_ASSERT(glDepthMask(GL_FALSE));
-    }
-
-    // Set the values for each unbound uniform
-    for (const Uniform& uniform : shader.uniforms())
-    {
-        if (uniform.binding() == UniformBinding::None)
-        {
-            setUniform(uniform, uniform.value());
-        }
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
-{
-    switch (value.type())
-    {
-    case UniformType::Int:
-        setUniform(uniform, value.asInt());
-        break;
-    case UniformType::Float:
-        setUniform(uniform, value.asDouble());
-        break;
-    case UniformType::Vector2:
-        setUniform(uniform, value.asVector2());
-        break;
-    case UniformType::Vector3:
-        setUniform(uniform, value.asVector3());
-        break;
-    case UniformType::Vector4:
-        setUniform(uniform, value.asVector4());
-        break;
-    case UniformType::Matrix4:
-        setUniform(uniform, value.asMatrix4());
-        break;
-    case UniformType::Color:
-        setUniform(uniform, value.asColor());
-        break;
-    case UniformType::Texture2:
-    {
-        Texture2::Handle texture = value.asTexture2();
-        if (texture)
-        {
-            setUniform(uniform, *texture);
-        }
-    }
-    break;
-    case UniformType::Texture3:
-    {
-        Texture3::Handle texture = value.asTexture3();
-        if (texture)
-        {
-            setUniform(uniform, *texture);
-        }
-    }
-    break;
-    case UniformType::TextureCube:
-    {
-        TextureCube::Handle texture = value.asTextureCube();
-        if (texture)
-        {
-            setUniform(uniform, *texture);
-        }
-    }
-    break;
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, int value)
-{
-    if (uniform.type() != UniformType::Int)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, value));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, double value)
-{
-    if (uniform.type() != UniformType::Float)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp = GLfloat(value);
-        GL_ASSERT(glUniform1f(location, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector2 value)
-{
-    if (uniform.type() != UniformType::Vector2)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
-        GL_ASSERT(glUniform2fv(location, 1, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector3 value)
-{
-    if (uniform.type() != UniformType::Vector3)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
-        GL_ASSERT(glUniform3fv(location, 1, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector4 value)
-{
-    if (uniform.type() != UniformType::Vector4)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
-        GL_ASSERT(glUniform4fv(location, 1, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
-{
-    if (uniform.type() != UniformType::Matrix4)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[16] =
-        {
-            GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]),
-            GLfloat(value[4]), GLfloat(value[5]), GLfloat(value[6]), GLfloat(value[7]),
-            GLfloat(value[8]), GLfloat(value[9]), GLfloat(value[10]), GLfloat(value[11]),
-            GLfloat(value[12]), GLfloat(value[13]), GLfloat(value[14]), GLfloat(value[15])
-        };
-
-        GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Color value)
-{
-    if (uniform.type() != UniformType::Color)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
-        GL_ASSERT(glUniform4fv(location, 1, temp));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
-{
-    if (uniform.type() != UniformType::Texture2)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-        TextureIndex index = uniform.textureIndex();
-
-        if (index >= _renderer.capabilities().maxTextureUnits)
-        {
-            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-        }
-
-        if (!value.isUploaded())
-        {
-            _renderer.uploadTexture(value);
-        }
-
-        auto data = value.dataAs<Texture2Data>();
-
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture3& value)
-{
-    if (uniform.type() != UniformType::Texture3)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-        TextureIndex index = uniform.textureIndex();
-
-        if (index >= _renderer.capabilities().maxTextureUnits)
-        {
-            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-        }
-
-        if (!value.isUploaded())
-        {
-            _renderer.uploadTexture(value);
-        }
-
-        auto data = value.dataAs<Texture3Data>();
-
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-        GL_ASSERT(glBindTexture(GL_TEXTURE_3D, data->textureId));
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
-{
-    if (uniform.type() != UniformType::TextureCube)
-    {
-        throw InvalidOperation("Invalid value for uniform");
-    }
-
-    int location = uniform.location();
-    if (location >= 0)
-    {
-        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
-        TextureIndex index = uniform.textureIndex();
-
-        if (index >= _renderer.capabilities().maxTextureUnits)
-        {
-            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
-        }
-
-        if (!value.isUploaded())
-        {
-            _renderer.uploadTexture(value);
-        }
-
-        auto data = value.dataAs<TextureCubeData>();
-
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
-        GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
-    }
-}
-
 void Renderer::Frame::renderMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
@@ -1538,6 +1210,223 @@ void Renderer::destroyMesh(Mesh& mesh)
     _uploadedMeshes.erase(&mesh);
 
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().data()));
+}
+
+void Renderer::setCullMode(CullMode cullMode)
+{
+    switch (cullMode)
+    {
+    case CullMode::CounterClockwise:
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CCW);
+        break;
+    case CullMode::Clockwise:
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CW);
+        break;
+    case CullMode::None:
+        glDisable(GL_CULL_FACE);
+        break;
+    }
+}
+
+void Renderer::setShader(Shader& shader)
+{
+    // Bind the shader
+    auto data = shader.dataAs<ShaderData>();
+    GL_ASSERT(glUseProgram(data->programId));
+
+    // If the blend mode is non-trivial
+    const BlendMode& blendMode = shader.blendMode();
+    if (blendMode != BlendMode())
+    {
+        GL_ASSERT(glEnable(GL_BLEND));
+
+        // Set the blend function
+        GLenum function = _blendFunctionLookUp[static_cast<GLenum>(blendMode.function())];
+        GL_ASSERT(glBlendEquation(function));
+
+        // Set the blend factors
+        GLenum sourceFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.sourceFactor())];
+        GLenum destinationFactor = _blendFactorLookUp[static_cast<GLenum>(blendMode.destinationFactor())];
+        GL_ASSERT(glBlendFunc(sourceFactor, destinationFactor));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_BLEND));
+    }
+
+    // Enable or disable depth testing
+    if (shader.isDepthTested())
+    {
+        GL_ASSERT(glEnable(GL_DEPTH_TEST));
+        GL_ASSERT(glDepthMask(GL_TRUE));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_DEPTH_TEST));
+        GL_ASSERT(glDepthMask(GL_FALSE));
+    }
+
+    // Set the values for each unbound uniform
+    for (const Uniform& uniform : shader.uniforms())
+    {
+        if (uniform.binding() == UniformBinding::None)
+        {
+            setUniform(uniform, uniform.value());
+        }
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, int value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, value));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, double value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp = GLfloat(value);
+        GL_ASSERT(glUniform1f(location, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector2 value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[2] = { GLfloat(value[0]), GLfloat(value[1]) };
+        GL_ASSERT(glUniform2fv(location, 1, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector3 value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[3] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]) };
+        GL_ASSERT(glUniform3fv(location, 1, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector4 value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, const Matrix4& value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[16] =
+        {
+            GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]),
+            GLfloat(value[4]), GLfloat(value[5]), GLfloat(value[6]), GLfloat(value[7]),
+            GLfloat(value[8]), GLfloat(value[9]), GLfloat(value[10]), GLfloat(value[11]),
+            GLfloat(value[12]), GLfloat(value[13]), GLfloat(value[14]), GLfloat(value[15])
+        };
+
+        GL_ASSERT(glUniformMatrix4fv(location, 1, false, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Color value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GLfloat temp[4] = { GLfloat(value[0]), GLfloat(value[1]), GLfloat(value[2]), GLfloat(value[3]) };
+        GL_ASSERT(glUniform4fv(location, 1, temp));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Texture2& value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
+
+        if (index >= capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
+
+        if (!value.isUploaded())
+        {
+            uploadTexture(value);
+        }
+
+        auto data = value.dataAs<Texture2Data>();
+
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, data->textureId));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, Texture3& value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
+
+        if (index >= capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
+
+        if (!value.isUploaded())
+        {
+            uploadTexture(value);
+        }
+
+        auto data = value.dataAs<Texture3Data>();
+
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_3D, data->textureId));
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
+{
+    const int location = uniform.location();
+    if (location >= 0)
+    {
+        GL_ASSERT(glUniform1i(location, static_cast<GLint>(uniform.textureIndex())));
+        TextureIndex index = uniform.textureIndex();
+
+        if (index >= capabilities().maxTextureUnits)
+        {
+            throw InvalidOperation("Cannot bind a texture unit beyond hardware capabilities");
+        }
+
+        if (!value.isUploaded())
+        {
+            uploadTexture(value);
+        }
+
+        auto data = value.dataAs<TextureCubeData>();
+
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + static_cast<GLenum>(index)));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_CUBE_MAP, data->textureId));
+    }
 }
 
 void Renderer::setTarget(RenderTarget& renderTarget)

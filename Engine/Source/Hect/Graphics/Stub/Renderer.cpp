@@ -160,85 +160,6 @@ public:
 
 }
 
-void Renderer::Frame::setCullMode(CullMode cullMode)
-{
-    (void)cullMode;
-}
-
-void Renderer::Frame::setShader(Shader& shader)
-{
-    if (!shader.isUploaded())
-    {
-        _renderer.uploadShader(shader);
-    }
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, int value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, double value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector2 value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector3 value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector4 value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Color value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture3& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
-void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
-{
-    (void)uniform;
-    (void)value;
-}
-
 void Renderer::Frame::renderMesh(Mesh& mesh)
 {
     if (!mesh.isUploaded())
@@ -416,6 +337,79 @@ void Renderer::destroyMesh(Mesh& mesh)
     }
 
     mesh.setAsDestroyed();
+}
+
+void Renderer::setCullMode(CullMode cullMode)
+{
+    (void)cullMode;
+}
+
+void Renderer::setShader(Shader& shader)
+{
+    if (!shader.isUploaded())
+    {
+        _renderer.uploadShader(shader);
+    }
+}
+
+void Renderer::setUniform(const Uniform& uniform, int value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, double value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector2 value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector3 value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Vector4 value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, const Matrix4& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Color value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Texture2& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, Texture3& value)
+{
+    (void)uniform;
+    (void)value;
+}
+
+void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
+{
+    (void)uniform;
+    (void)value;
 }
 
 void Renderer::setTarget(RenderTarget& target)
