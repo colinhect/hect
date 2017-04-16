@@ -515,50 +515,6 @@ void uploadTexture(Renderer& renderer, Texture2& texture, bool depthComponent)
 
 }
 
-void Renderer::Frame::renderMesh(Mesh& mesh)
-{
-    if (!mesh.isUploaded())
-    {
-        _renderer.uploadMesh(mesh);
-    }
-
-    if (mesh.primitiveType() == PrimitiveType::PointSprites)
-    {
-        // Set up the point rendering profile
-        GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
-        GL_ASSERT(glEnable(GL_POINT_SPRITE));
-        GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
-    }
-    else
-    {
-        GL_ASSERT(glDisable(GL_PROGRAM_POINT_SIZE));
-        GL_ASSERT(glDisable(GL_POINT_SPRITE));
-    }
-
-    auto data = mesh.dataAs<MeshData>();
-    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
-
-    GL_ASSERT(
-        glDrawElements(
-            _primitiveTypeLookUp[static_cast<int>(mesh.primitiveType())],
-            static_cast<GLsizei>(mesh.indexCount()),
-            _indexTypeLookUp[static_cast<int>(mesh.indexType())],
-            0
-        )
-    );
-}
-
-void Renderer::Frame::renderViewport()
-{
-    renderMesh(_viewportMesh);
-}
-
-void Renderer::Frame::clear(Color color, bool depth)
-{
-    GL_ASSERT(glClearColor(static_cast<float>(color.r), static_cast<float>(color.g), static_cast<float>(color.b), static_cast<float>(color.a)));
-    GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));
-}
-
 void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
@@ -1212,6 +1168,164 @@ void Renderer::destroyMesh(Mesh& mesh)
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().data()));
 }
 
+void Renderer::initialize()
+{
+    glewExperimental = GL_TRUE;
+    GLenum error = glewInit();
+    if (error != GLEW_OK)
+    {
+        const char* errorString = reinterpret_cast<const char*>(glewGetErrorString(error));
+        throw FatalError(format("Failed to initialize OpenGL: %s", errorString));
+    }
+
+    HECT_INFO(format("OpenGL version %s", glGetString(GL_VERSION)));
+    HECT_INFO(format("GLSL version %s", glGetString(GL_SHADING_LANGUAGE_VERSION)));
+    HECT_INFO(format("%s", glGetString(GL_VENDOR)));
+    HECT_INFO(format("%s", glGetString(GL_RENDERER)));
+
+    GLint maxTextureUnits = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
+    capabilities().maxTextureUnits = (unsigned)maxTextureUnits;
+
+    HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
+
+    glGetError(); // Clear errors
+
+    // Enable 3-dimensional texturing
+    glEnable(GL_TEXTURE_3D);
+
+    // Set up the cube map rendering profile
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+    // Create the mesh used to in Renderer::Frame::renderViewport()
+    _viewportMesh = createViewportMesh();
+
+    checkGLError();
+}
+
+void Renderer::shutdown()
+{
+    const std::vector<Mesh*> meshesToDestroy(_uploadedMeshes.begin(), _uploadedMeshes.end());
+    for (Mesh* mesh : meshesToDestroy)
+    {
+        if (mesh->isUploaded())
+        {
+            destroyMesh(*mesh);
+        }
+    }
+}
+
+void Renderer::onBeginFrame(RenderTarget& target)
+{
+    GL_ASSERT(glUseProgram(0));
+    GL_ASSERT(glBindVertexArray(0));
+
+    for (unsigned i = 0; i < capabilities().maxTextureUnits; ++i)
+    {
+        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
+        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
+    }
+
+    GL_ASSERT(glDisable(GL_BLEND));
+    GL_ASSERT(glEnable(GL_DEPTH_TEST));
+    GL_ASSERT(glDepthMask(GL_TRUE));
+
+    setTarget(target);
+}
+
+void Renderer::onEndFrame()
+{
+    if (_currentFrameBuffer)
+    {
+        for (FrameBufferAttachment& attachment : _currentFrameBuffer->attachments())
+        {
+            FrameBufferAttachmentType type = attachment.type();
+            if (type == FrameBufferAttachmentType::Texture2)
+            {
+                Texture2& texture = attachment.texture2();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_2D;
+
+                    auto textureData = texture.dataAs<Texture2Data>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
+            }
+            else if (type == FrameBufferAttachmentType::Texture3)
+            {
+                Texture3& texture = attachment.texture3();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_3D;
+
+                    auto textureData = texture.dataAs<Texture3Data>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
+            }
+            else if (type == FrameBufferAttachmentType::TextureCube)
+            {
+                TextureCube& texture = attachment.textureCube();
+                if (texture.isMipmapped())
+                {
+                    GLenum type = GL_TEXTURE_CUBE_MAP;
+
+                    auto textureData = texture.dataAs<TextureCubeData>();
+                    GL_ASSERT(glBindTexture(type, textureData->textureId));
+                    GL_ASSERT(glGenerateMipmap(type));
+                }
+            }
+        }
+
+        _currentFrameBuffer = nullptr;
+    }
+}
+
+void Renderer::setTarget(RenderTarget& renderTarget)
+{
+    renderTarget.bind(*this);
+}
+
+void Renderer::setTarget(Window& window)
+{
+    GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+}
+
+void Renderer::setTarget(FrameBuffer& frameBuffer)
+{
+    _currentFrameBuffer = &frameBuffer;
+
+    if (!frameBuffer.isUploaded())
+    {
+        uploadFrameBuffer(frameBuffer);
+    }
+
+    // Invalidate local images for textures
+    for (FrameBufferAttachment& attachment : frameBuffer.attachments())
+    {
+        FrameBufferAttachmentType type = attachment.type();
+        if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.texture2().invalidateLocalImage();
+        }
+        else if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.texture3().invalidateLocalImages();
+        }
+        else if (type == FrameBufferAttachmentType::Texture2)
+        {
+            attachment.textureCube().invalidateLocalImages();
+        }
+    }
+
+    auto data = frameBuffer.dataAs<FrameBufferData>();
+
+    GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
+    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
+}
+
 void Renderer::setCullMode(CullMode cullMode)
 {
     switch (cullMode)
@@ -1429,162 +1543,43 @@ void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
     }
 }
 
-void Renderer::setTarget(RenderTarget& renderTarget)
+void Renderer::renderMesh(Mesh& mesh)
 {
-    renderTarget.bind(*this);
-}
-
-void Renderer::setTarget(Window& window)
-{
-    GL_ASSERT(glViewport(0, 0, window.width(), window.height()));
-    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-}
-
-void Renderer::setTarget(FrameBuffer& frameBuffer)
-{
-    _currentFrameBuffer = &frameBuffer;
-
-    if (!frameBuffer.isUploaded())
+    if (mesh.primitiveType() == PrimitiveType::PointSprites)
     {
-        uploadFrameBuffer(frameBuffer);
+        // Set up the point rendering profile
+        GL_ASSERT(glEnable(GL_PROGRAM_POINT_SIZE));
+        GL_ASSERT(glEnable(GL_POINT_SPRITE));
+        GL_ASSERT(glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT));
+    }
+    else
+    {
+        GL_ASSERT(glDisable(GL_PROGRAM_POINT_SIZE));
+        GL_ASSERT(glDisable(GL_POINT_SPRITE));
     }
 
-    // Invalidate local images for textures
-    for (FrameBufferAttachment& attachment : frameBuffer.attachments())
-    {
-        FrameBufferAttachmentType type = attachment.type();
-        if (type == FrameBufferAttachmentType::Texture2)
-        {
-            attachment.texture2().invalidateLocalImage();
-        }
-        else if (type == FrameBufferAttachmentType::Texture2)
-        {
-            attachment.texture3().invalidateLocalImages();
-        }
-        else if (type == FrameBufferAttachmentType::Texture2)
-        {
-            attachment.textureCube().invalidateLocalImages();
-        }
-    }
+    auto data = mesh.dataAs<MeshData>();
+    GL_ASSERT(glBindVertexArray(data->vertexArrayId));
 
-    auto data = frameBuffer.dataAs<FrameBufferData>();
-
-    GL_ASSERT(glViewport(0, 0, frameBuffer.width(), frameBuffer.height()));
-    GL_ASSERT(glBindFramebuffer(GL_FRAMEBUFFER, data->frameBufferId));
+    GL_ASSERT(
+        glDrawElements(
+            _primitiveTypeLookUp[static_cast<int>(mesh.primitiveType())],
+            static_cast<GLsizei>(mesh.indexCount()),
+            _indexTypeLookUp[static_cast<int>(mesh.indexType())],
+            0
+        )
+    );
 }
 
-void Renderer::initialize()
+void Renderer::renderViewport()
 {
-    glewExperimental = GL_TRUE;
-    GLenum error = glewInit();
-    if (error != GLEW_OK)
-    {
-        const char* errorString = reinterpret_cast<const char*>(glewGetErrorString(error));
-        throw FatalError(format("Failed to initialize OpenGL: %s", errorString));
-    }
-
-    HECT_INFO(format("OpenGL version %s", glGetString(GL_VERSION)));
-    HECT_INFO(format("GLSL version %s", glGetString(GL_SHADING_LANGUAGE_VERSION)));
-    HECT_INFO(format("%s", glGetString(GL_VENDOR)));
-    HECT_INFO(format("%s", glGetString(GL_RENDERER)));
-
-    GLint maxTextureUnits = 0;
-    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextureUnits);
-    capabilities().maxTextureUnits = (unsigned)maxTextureUnits;
-
-    HECT_INFO(format("Max texture units: %d", capabilities().maxTextureUnits));
-
-    glGetError(); // Clear errors
-
-    // Enable 3-dimensional texturing
-    glEnable(GL_TEXTURE_3D);
-
-    // Set up the cube map rendering profile
-    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
-    // Create the mesh used to in Renderer::Frame::renderViewport()
-    _viewportMesh = createViewportMesh();
-
-    checkGLError();
+    renderMesh(_viewportMesh);
 }
 
-void Renderer::shutdown()
+void Renderer::clear(Color color, bool depth)
 {
-    const std::vector<Mesh*> meshesToDestroy(_uploadedMeshes.begin(), _uploadedMeshes.end());
-    for (Mesh* mesh : meshesToDestroy)
-    {
-        if (mesh->isUploaded())
-        {
-            destroyMesh(*mesh);
-        }
-    }
-}
-
-void Renderer::onBeginFrame(RenderTarget& target)
-{
-    GL_ASSERT(glUseProgram(0));
-    GL_ASSERT(glBindVertexArray(0));
-
-    for (unsigned i = 0; i < capabilities().maxTextureUnits; ++i)
-    {
-        GL_ASSERT(glActiveTexture(GL_TEXTURE0 + i));
-        GL_ASSERT(glBindTexture(GL_TEXTURE_2D, 0));
-    }
-
-    GL_ASSERT(glDisable(GL_BLEND));
-    GL_ASSERT(glEnable(GL_DEPTH_TEST));
-    GL_ASSERT(glDepthMask(GL_TRUE));
-
-    setTarget(target);
-}
-
-void Renderer::onEndFrame()
-{
-    if (_currentFrameBuffer)
-    {
-        for (FrameBufferAttachment& attachment : _currentFrameBuffer->attachments())
-        {
-            FrameBufferAttachmentType type = attachment.type();
-            if (type == FrameBufferAttachmentType::Texture2)
-            {
-                Texture2& texture = attachment.texture2();
-                if (texture.isMipmapped())
-                {
-                    GLenum type = GL_TEXTURE_2D;
-
-                    auto textureData = texture.dataAs<Texture2Data>();
-                    GL_ASSERT(glBindTexture(type, textureData->textureId));
-                    GL_ASSERT(glGenerateMipmap(type));
-                }
-            }
-            else if (type == FrameBufferAttachmentType::Texture2)
-            {
-                Texture3& texture = attachment.texture3();
-                if (texture.isMipmapped())
-                {
-                    GLenum type = GL_TEXTURE_3D;
-
-                    auto textureData = texture.dataAs<Texture3Data>();
-                    GL_ASSERT(glBindTexture(type, textureData->textureId));
-                    GL_ASSERT(glGenerateMipmap(type));
-                }
-            }
-            else if (type == FrameBufferAttachmentType::Texture2)
-            {
-                TextureCube& texture = attachment.textureCube();
-                if (texture.isMipmapped())
-                {
-                    GLenum type = GL_TEXTURE_CUBE_MAP;
-
-                    auto textureData = texture.dataAs<TextureCubeData>();
-                    GL_ASSERT(glBindTexture(type, textureData->textureId));
-                    GL_ASSERT(glGenerateMipmap(type));
-                }
-            }
-        }
-
-        _currentFrameBuffer = nullptr;
-    }
+    GL_ASSERT(glClearColor(static_cast<float>(color.r), static_cast<float>(color.g), static_cast<float>(color.b), static_cast<float>(color.a)));
+    GL_ASSERT(glClear(depth ? (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) : GL_COLOR_BUFFER_BIT));
 }
 
 #endif

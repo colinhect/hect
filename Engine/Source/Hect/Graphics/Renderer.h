@@ -437,6 +437,16 @@ public:
 private:
     Renderer();
 
+    void initialize();
+    void shutdown();
+
+    void onBeginFrame(RenderTarget& target);
+    void onEndFrame();
+
+    void setTarget(RenderTarget& target);
+    void setTarget(Window& window);
+    void setTarget(FrameBuffer& frameBuffer);
+
     void setCullMode(CullMode cullMode);
 
     void setShader(Shader& shader);
@@ -452,14 +462,11 @@ private:
     void setUniform(const Uniform& uniform, Texture3& value);
     void setUniform(const Uniform& uniform, TextureCube& value);
 
-    void setTarget(RenderTarget& target);
-    void setTarget(Window& window);
-    void setTarget(FrameBuffer& frameBuffer);
+    void renderMesh(Mesh& mesh);
 
-    void initialize();
-    void shutdown();
-    void onBeginFrame(RenderTarget& target);
-    void onEndFrame();
+    void renderViewport();
+
+    void clear(Color color, bool depth);
 
     Capabilities _capabilities;
     Statistics _statistics;

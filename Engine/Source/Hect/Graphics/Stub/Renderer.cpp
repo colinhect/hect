@@ -160,24 +160,6 @@ public:
 
 }
 
-void Renderer::Frame::renderMesh(Mesh& mesh)
-{
-    if (!mesh.isUploaded())
-    {
-        _renderer.uploadMesh(mesh);
-    }
-}
-
-void Renderer::Frame::renderViewport()
-{
-}
-
-void Renderer::Frame::clear(Color color, bool depth)
-{
-    (void)color;
-    (void)depth;
-}
-
 void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
 {
     if (frameBuffer.isUploaded())
@@ -339,6 +321,42 @@ void Renderer::destroyMesh(Mesh& mesh)
     mesh.setAsDestroyed();
 }
 
+void Renderer::initialize()
+{
+}
+
+void Renderer::shutdown()
+{
+}
+
+void Renderer::onBeginFrame(RenderTarget& target)
+{
+    (void)target;
+}
+
+void Renderer::onEndFrame()
+{
+}
+
+void Renderer::setTarget(RenderTarget& target)
+{
+    (void)target;
+}
+
+void Renderer::setTarget(Window& window)
+{
+    (void)window;
+}
+
+void Renderer::setTarget(FrameBuffer& frameBuffer)
+{
+    if (!frameBuffer.isUploaded())
+    {
+        uploadFrameBuffer(frameBuffer);
+    }
+}
+
+
 void Renderer::setCullMode(CullMode cullMode)
 {
     (void)cullMode;
@@ -412,39 +430,19 @@ void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
     (void)value;
 }
 
-void Renderer::setTarget(RenderTarget& target)
+void Renderer::renderMesh(Mesh& mesh)
 {
-    (void)target;
+    (void)mesh;
 }
 
-void Renderer::setTarget(Window& window)
-{
-    (void)window;
-}
-
-void Renderer::setTarget(FrameBuffer& frameBuffer)
-{
-    if (!frameBuffer.isUploaded())
-    {
-        uploadFrameBuffer(frameBuffer);
-    }
-}
-
-void Renderer::initialize()
+void Renderer::renderViewport()
 {
 }
 
-void Renderer::shutdown()
+void Renderer::clear(Color color, bool depth)
 {
-}
-
-void Renderer::onBeginFrame(RenderTarget& target)
-{
-    (void)target;
-}
-
-void Renderer::onEndFrame()
-{
+    (void)color;
+    (void)depth;
 }
 
 #endif

@@ -23,6 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Renderer.h"
 
+#include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/Shader.h"
 
 using namespace hect;
@@ -213,6 +214,26 @@ void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
     }
 
     _renderer.setUniform(uniform, value);
+}
+
+void Renderer::Frame::renderMesh(Mesh& mesh)
+{
+    if (!mesh.isUploaded())
+    {
+        _renderer.uploadMesh(mesh);
+    }
+
+    _renderer.renderMesh(mesh);
+}
+
+void Renderer::Frame::renderViewport()
+{
+    _renderer.renderViewport();
+}
+
+void Renderer::Frame::clear(Color color, bool depth)
+{
+    _renderer.clear(color, depth);
 }
 
 Renderer::~Renderer()
