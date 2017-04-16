@@ -366,7 +366,7 @@ void Renderer::setShader(Shader& shader)
 {
     if (!shader.isUploaded())
     {
-        _renderer.uploadShader(shader);
+        uploadShader(shader);
     }
 }
 
