@@ -10,4 +10,5 @@ Workspaces/*
 *.sublime-workspace
 *.pyc
 *.swp
+*.log
 *~
