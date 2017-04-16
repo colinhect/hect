@@ -52,13 +52,16 @@ void Renderer::Frame::setCullMode(CullMode cullMode)
 
 void Renderer::Frame::setShader(Shader& shader)
 {
-    // Upload the shader if needed
-    if (!shader.isUploaded())
-    {
-        _renderer.uploadShader(shader);
-    }
-
     _renderer.setShader(shader);
+
+    // Set the values for each unbound uniform
+    for (const Uniform& uniform : shader.uniforms())
+    {
+        if (uniform.binding() == UniformBinding::None)
+        {
+            setUniform(uniform, uniform.value());
+        }
+    }
 }
 
 void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
@@ -218,11 +221,6 @@ void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
 
 void Renderer::Frame::renderMesh(Mesh& mesh)
 {
-    if (!mesh.isUploaded())
-    {
-        _renderer.uploadMesh(mesh);
-    }
-
     _renderer.renderMesh(mesh);
 }
 

@@ -1346,6 +1346,12 @@ void Renderer::setCullMode(CullMode cullMode)
 
 void Renderer::setShader(Shader& shader)
 {
+    // Upload the shader if needed
+    if (!shader.isUploaded())
+    {
+        uploadShader(shader);
+    }
+
     // Bind the shader
     auto data = shader.dataAs<ShaderData>();
     GL_ASSERT(glUseProgram(data->programId));
@@ -1380,15 +1386,6 @@ void Renderer::setShader(Shader& shader)
     {
         GL_ASSERT(glDisable(GL_DEPTH_TEST));
         GL_ASSERT(glDepthMask(GL_FALSE));
-    }
-
-    // Set the values for each unbound uniform
-    for (const Uniform& uniform : shader.uniforms())
-    {
-        if (uniform.binding() == UniformBinding::None)
-        {
-            setUniform(uniform, uniform.value());
-        }
     }
 }
 
@@ -1545,6 +1542,11 @@ void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
 
 void Renderer::renderMesh(Mesh& mesh)
 {
+    if (!mesh.isUploaded())
+    {
+        uploadMesh(mesh);
+    }
+
     if (mesh.primitiveType() == PrimitiveType::PointSprites)
     {
         // Set up the point rendering profile
