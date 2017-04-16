@@ -27,6 +27,7 @@
 
 #ifdef HECT_RENDERER_OPENGL
 
+#include <set>
 #include <GL/glew.h>
 
 #include "Hect/Core/Exception.h"
@@ -55,6 +56,7 @@ namespace
 
 static Mesh _viewportMesh;
 static FrameBuffer* _currentFrameBuffer { nullptr };
+static std::set<Mesh*> _uploadedMeshes;
 
 Mesh createViewportMesh()
 {
@@ -1512,6 +1514,7 @@ void Renderer::uploadMesh(Mesh& mesh)
     GL_ASSERT(glBindVertexArray(0));
 
     mesh.setAsUploaded(*this, new MeshData(*this, mesh, vertexArrayId, vertexBufferId, indexBufferId));
+    _uploadedMeshes.insert(&mesh);
 
     HECT_TRACE(format("Uploaded mesh '%s'", mesh.name().data()));
 }
@@ -1532,6 +1535,7 @@ void Renderer::destroyMesh(Mesh& mesh)
     GL_ASSERT(glDeleteVertexArrays(1, &data->vertexArrayId));
 
     mesh.setAsDestroyed();
+    _uploadedMeshes.erase(&mesh);
 
     HECT_TRACE(format("Destroyed mesh '%s'", mesh.name().data()));
 }
@@ -1617,7 +1621,14 @@ void Renderer::initialize()
 
 void Renderer::shutdown()
 {
-    destroyMesh(_viewportMesh);
+    const std::vector<Mesh*> meshesToDestroy(_uploadedMeshes.begin(), _uploadedMeshes.end());
+    for (Mesh* mesh : meshesToDestroy)
+    {
+        if (mesh->isUploaded())
+        {
+            destroyMesh(*mesh);
+        }
+    }
 }
 
 void Renderer::onBeginFrame(RenderTarget& target)
