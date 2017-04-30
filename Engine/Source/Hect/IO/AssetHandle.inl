@@ -71,6 +71,14 @@ void AssetHandle<T>::invalidate()
 }
 
 template <typename T>
+void AssetHandle<T>::reset(T* asset, bool owned)
+{
+    invalidate();
+
+    *this = AssetHandle<T>(asset, owned);
+}
+
+template <typename T>
 AssetHandle<T>::operator bool() const
 {
     return _entry || _owned || _unowned;

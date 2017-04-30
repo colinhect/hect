@@ -77,6 +77,14 @@ public:
     void invalidate();
 
     ///
+    /// Resets the handle to point to a different asset.
+    ///
+    /// \param asset A pointer to the asset.
+    /// \param owned Whether the lifetime of the asset should be owned by the
+    /// handle.
+    void reset(T* asset, bool owned = true);
+
+    ///
     /// Returns whether the handle refers to an asset.
     operator bool() const;
 

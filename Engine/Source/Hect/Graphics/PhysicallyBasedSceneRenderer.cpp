@@ -59,7 +59,7 @@ PhysicallyBasedSceneRenderer::PhysicallyBasedSceneRenderer(AssetCache& assetCach
     _skyBoxMesh = assetCache.getHandle<Mesh>(SkyBoxMeshPath);
     _skyBoxShader = assetCache.getHandle<Shader>(SkyBoxShaderPath);
 
-    _skyBoxMaterial = new Material("Skybox");
+    _skyBoxMaterial.reset(new Material("Skybox"));
     _skyBoxMaterial->setShader(_skyBoxShader);
     _skyBoxMaterial->setCullMode(CullMode::None);
 }
