@@ -41,12 +41,12 @@ public:
     {
     }
 
-    void encode(Encoder& encoder) const
+    void encode(Encoder& encoder) const override
     {
         encoder << encodeValue("value", value);
     }
 
-    void decode(Decoder& decoder)
+    void decode(Decoder& decoder) override
     {
         decoder >> decodeValue("value", value);
     }
@@ -67,12 +67,12 @@ public:
     {
     }
 
-    void encode(Encoder& encoder) const
+    void encode(Encoder& encoder) const override
     {
         encoder << encodeValue("value", value);
     }
 
-    void decode(Decoder& decoder)
+    void decode(Decoder& decoder) override
     {
         decoder >> decodeValue("value", value);
     }
@@ -94,12 +94,12 @@ public:
         (void)timeStep;
     }
 
-    void encode(Encoder& encoder) const
+    void encode(Encoder& encoder) const override
     {
         encoder << encodeValue("value", value);
     }
 
-    void decode(Decoder& decoder)
+    void decode(Decoder& decoder) override
     {
         decoder >> decodeValue("value", value);
     }
@@ -109,7 +109,7 @@ class TestComponentPoolListener :
     public EventListener<ComponentEvent<TestComponentA>>
 {
 public:
-    void receiveEvent(const ComponentEvent<TestComponentA>& event)
+    void receiveEvent(const ComponentEvent<TestComponentA>& event) override
     {
         receivedEvents.push_back(event);
     }
@@ -133,12 +133,12 @@ public:
         (void)timeStep;
     }
 
-    void encode(Encoder& encoder) const
+    void encode(Encoder& encoder) const override
     {
         encoder << encodeValue("value", value);
     }
 
-    void decode(Decoder& decoder)
+    void decode(Decoder& decoder) override
     {
         decoder >> decodeValue("value", value);
     }
@@ -1838,7 +1838,6 @@ TEST_CASE("Encode and decode a simple scene with systems", "[Scene]")
 
 TEST_CASE("Systems are notified about the additions and removals of component types specified", "[Scene]")
 {
-    Engine& engine = Engine::instance();
     TestScene scene(Engine::instance());
 
     Entity::Iterator entity = scene.createEntity().iterator();
@@ -1854,7 +1853,6 @@ TEST_CASE("Systems are notified about the additions and removals of component ty
 
 TEST_CASE("Entity handle is invalidated when entity is destroyed", "[Scene]")
 {
-    Engine& engine = Engine::instance();
     TestScene scene(Engine::instance());
 
     Entity::Handle entity = scene.createEntity().handle();
@@ -1873,7 +1871,6 @@ TEST_CASE("Entity handle is invalidated when entity is destroyed", "[Scene]")
 
 TEST_CASE("Component handle is invalidated when entity is destroyed", "[Scene]")
 {
-    Engine& engine = Engine::instance();
     TestScene scene(Engine::instance());
 
     Entity& entity = scene.createEntity();

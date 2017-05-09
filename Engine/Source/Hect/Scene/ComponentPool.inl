@@ -21,8 +21,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
-#include <cassert>
-
 namespace hect
 {
 
@@ -61,13 +59,13 @@ typename Component<T>::ConstIterator ComponentPool<T>::begin() const
 template <typename T>
 typename Component<T>::Iterator ComponentPool<T>::end()
 {
-    return typename Component<T>::Iterator(*this, std::max(maxId(), (ComponentId)1));
+    return typename Component<T>::Iterator(*this, std::max(maxId(), static_cast<ComponentId>(1)));
 }
 
 template <typename T>
 typename Component<T>::ConstIterator ComponentPool<T>::end() const
 {
-    return typename Component<T>::ConstIterator(*this, std::max(maxId(), (ComponentId)1));
+    return typename Component<T>::ConstIterator(*this, std::max(maxId(), static_cast<ComponentId>(1)));
 }
 
 template <typename T>
@@ -134,7 +132,7 @@ void ComponentPool<T>::dispatchEvent(ComponentEventType type, Entity& entity)
 template <typename T>
 void ComponentPool<T>::addBase(Entity& entity, const ComponentBase& component)
 {
-    add(entity, *(T*)&component);
+    add(entity, *const_cast<T*>(reinterpret_cast<const T*>(&component)));
 }
 
 template <typename T>

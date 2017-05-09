@@ -90,11 +90,9 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
 {
     Vector3 axis;
     Radians angle;
-    Quaternion a;
-    Quaternion b;
 
-    a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
+    Quaternion b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     a = b * a;
     a.toAxisAngle(axis, angle);
 
@@ -116,10 +114,9 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
 
 TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
 {
-    Quaternion r;
     Vector3 v;
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
     v = r * Vector3::UnitX;
     REQUIRE(v.x == -1.0);
     REQUIRE(v.y == 0.0);

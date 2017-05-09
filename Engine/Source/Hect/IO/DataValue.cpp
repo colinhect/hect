@@ -30,7 +30,6 @@
 #include <sstream>
 
 #include "Hect/IO/ReadStream.h"
-#include "Hect/IO/WriteStream.h"
 
 using namespace hect;
 
@@ -75,13 +74,13 @@ DataValue::DataValue(bool value) :
 
 DataValue::DataValue(int value) :
     _type(DataValueType::Number),
-    _any((double)value)
+    _any(static_cast<double>(value))
 {
 }
 
 DataValue::DataValue(unsigned value) :
     _type(DataValueType::Number),
-    _any((double)value)
+    _any(static_cast<double>(value))
 {
 }
 
@@ -237,7 +236,7 @@ int DataValue::asInt() const
 {
     if (isNumber())
     {
-        return (int)_any.as<double>();
+        return static_cast<int>(_any.as<double>());
     }
     else
     {
@@ -249,7 +248,7 @@ unsigned DataValue::asUnsigned() const
 {
     if (isNumber())
     {
-        return (unsigned)_any.as<double>();
+        return static_cast<unsigned>(_any.as<double>());
     }
     else
     {

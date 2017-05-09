@@ -54,9 +54,9 @@ using namespace hect;
 namespace
 {
 
-static Mesh _viewportMesh;
-static FrameBuffer* _currentFrameBuffer { nullptr };
-static std::set<Mesh*> _uploadedMeshes;
+Mesh _viewportMesh;
+FrameBuffer* _currentFrameBuffer { nullptr };
+std::set<Mesh*> _uploadedMeshes;
 
 Mesh createViewportMesh()
 {
@@ -630,8 +630,7 @@ void Renderer::uploadShader(Shader& shader)
     }
 
     // Create the shader
-    GLuint programId = 0;
-    programId = GL_ASSERT(glCreateProgram());
+    GLuint programId = GL_ASSERT(glCreateProgram());
 
     // Attach each shader to the program
     std::vector<GLuint> shaderIds;

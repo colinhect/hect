@@ -132,12 +132,12 @@ private:
     {
     public:
         ContainerValue(const T& value);
-        virtual Container* clone() const;
+        Container* clone() const override;
 
         T held;
 
     private:
-        ContainerValue& operator=(const ContainerValue&);
+        ContainerValue& operator=(const ContainerValue&) = delete;
     };
 
     Container* _container { nullptr };

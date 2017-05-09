@@ -26,9 +26,6 @@
 #include "Hect/Graphics/Mesh.h"
 #include "Hect/Graphics/MeshWriter.h"
 #include "Hect/Graphics/PhysicallyBasedSceneRenderer.h"
-#include "Hect/Interface/Widgets/CheckBoxWidget.h"
-#include "Hect/Interface/Widgets/LabelWidget.h"
-#include "Hect/Interface/Widgets/TableWidget.h"
 #include "Hect/Runtime/Engine.h"
 
 using namespace hect;

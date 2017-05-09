@@ -29,13 +29,9 @@ using namespace hect;
 
 TEST_CASE("Multiply a 3-dimensional vector by a 4x4 matrix", "[Matrix]")
 {
-    Quaternion r;
-    Matrix4 m;
-    Vector3 v;
-
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
-    m = Matrix4::fromRotation(r);
-    v = m * Vector3::UnitX;
+    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Matrix4 m = Matrix4::fromRotation(r);
+    Vector3 v = m * Vector3::UnitX;
     REQUIRE(-1.0 == v.x);
     REQUIRE(0.0 == v.y);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);

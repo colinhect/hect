@@ -209,7 +209,7 @@ void PhysicsSystem::syncWithSimulation()
 
             // Update the transform to what Bullet says it should be
             btTransform bulletTransform;
-            ((btDefaultMotionState*)rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            static_cast<btDefaultMotionState*>(rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
 
             TransformComponent newTransform = convertFromBullet(bulletTransform);
             transform.localPosition = newTransform.localPosition;

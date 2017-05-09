@@ -23,15 +23,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <functional>
-
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Encodable.h"
-#include "Hect/IO/Encoder.h"
-#include "Hect/IO/Decoder.h"
 #include "Hect/Scene/ComponentHandle.h"
 #include "Hect/Scene/ComponentIterator.h"
-#include "Hect/Scene/EntityIterator.h"
 
 namespace hect
 {

@@ -59,12 +59,12 @@ Entity::ConstIterator EntityPool::begin() const
 
 Entity::Iterator EntityPool::end()
 {
-    return Entity::Iterator(*this, std::max(maxId(), (EntityId)1));
+    return Entity::Iterator(*this, std::max(maxId(), static_cast<EntityId>(1)));
 }
 
 Entity::ConstIterator EntityPool::end() const
 {
-    return Entity::ConstIterator(*this, std::max(maxId(), (EntityId)1));
+    return Entity::ConstIterator(*this, std::max(maxId(), static_cast<EntityId>(1)));
 }
 
 Entity::Handle EntityPool::findFirstByName(Name name) const

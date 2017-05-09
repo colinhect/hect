@@ -27,7 +27,6 @@
 #include "Hect/Graphics/Color.h"
 #include "Hect/Graphics/Material.h"
 #include "Hect/Graphics/Mesh.h"
-#include "Hect/Interface/Widgets/PanelWidget.h"
 #include "Hect/Math/Box.h"
 #include "Hect/Scene/System.h"
 #include "Hect/Scene/Components/TransformComponent.h"

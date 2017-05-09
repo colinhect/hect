@@ -45,12 +45,12 @@ class TestListener :
 {
 public:
 
-    void receiveEvent(const TestEventA& event)
+    void receiveEvent(const TestEventA& event) override
     {
         lastTestEventA = event;
     }
 
-    void receiveEvent(const TestEventB& event)
+    void receiveEvent(const TestEventB& event) override
     {
         lastTestEventB = event;
     }

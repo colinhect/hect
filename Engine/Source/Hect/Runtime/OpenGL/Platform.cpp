@@ -260,6 +260,8 @@ bool Platform::handleEvents()
             _joysticks[event.index].enqueueEvent(event);
         }
         break;
+        default:
+        break;
         }
     }
 
@@ -333,13 +335,13 @@ Platform::Platform()
             HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.data(), buttonCount, axisCount));
 
             _joysticks.push_back(Joystick(name, buttonCount, axisCount));
-            for (size_t i = 0; i < axisCount; ++i)
+            for (size_t axisIndex = 0; axisIndex < axisCount; ++axisIndex)
             {
                 JoystickEvent event;
                 event.type = JoystickEventType::AxisMotion;
                 event.index = _joysticks.size() - 1;
-                event.axis = static_cast<JoystickAxis>(i);
-                event.axisValue = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(i))) / 32767.0, -1.0);
+                event.axis = static_cast<JoystickAxis>(axisIndex);
+                event.axisValue = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(axisIndex))) / 32767.0, -1.0);
                 _joysticks[event.index].enqueueEvent(event);
             }
         }

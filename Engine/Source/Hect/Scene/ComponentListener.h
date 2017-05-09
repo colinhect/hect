@@ -25,10 +25,11 @@
 
 #include "Hect/Core/EventListener.h"
 #include "Hect/Scene/ComponentEvent.h"
-#include "Hect/Scene/Scene.h"
 
 namespace hect
 {
+
+class Scene;
 
 ///
 /// Receives events when certain type of Component is added to and removed

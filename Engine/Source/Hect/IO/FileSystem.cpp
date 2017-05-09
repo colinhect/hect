@@ -277,12 +277,12 @@ void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
 
 std::unique_ptr<ReadStream> FileSystem::openFileForRead(const Path& path)
 {
-    return std::unique_ptr<ReadStream>(new FileReadStream(path));
+    return std::unique_ptr<ReadStream>(std::make_unique<FileReadStream>(path));
 }
 
 std::unique_ptr<WriteStream> FileSystem::openFileForWrite(const Path& path)
 {
-    return std::unique_ptr<WriteStream>(new FileWriteStream(path));
+    return std::unique_ptr<WriteStream>(std::make_unique<FileWriteStream>(path));
 }
 
 void FileSystem::createDirectory(const Path& path)

@@ -129,7 +129,7 @@ public:
 
     ///
     /// Returns the values in the enum.
-    const ValueSequence values() const;
+    ValueSequence values() const;
 
 private:
     Enum();

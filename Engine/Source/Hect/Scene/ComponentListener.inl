@@ -22,7 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Scene/ComponentPool.h"
-#include "Hect/Scene/Entity.h"
+#include "Hect/Scene/Scene.h"
 
 namespace hect
 {
@@ -62,6 +62,8 @@ void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
             break;
         case ComponentEventType::Remove:
             onComponentRemoved(component);
+            break;
+        default:
             break;
         }
     }

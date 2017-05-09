@@ -48,8 +48,7 @@ using namespace hect;
 
 namespace
 {
-
-static Engine* _instance = nullptr;
+    Engine* _instance = nullptr;
 
 }
 
@@ -297,10 +296,10 @@ DataValue Engine::loadConfig(const Path& settingsFilePath)
 
         // Load additional settings files
         std::vector<DataValue> includedConfigs;
-        for (const DataValue& settingsFilePath : settings["include"])
+        for (const DataValue& includeFilePath : settings["include"])
         {
-            DataValue settings = loadConfig(settingsFilePath.asString());
-            includedConfigs.push_back(std::move(settings));
+            DataValue settingsData = loadConfig(includeFilePath.asString());
+            includedConfigs.push_back(std::move(settingsData));
         }
 
         // Merge additional settingss back to the main settings

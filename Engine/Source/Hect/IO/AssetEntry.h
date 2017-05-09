@@ -24,7 +24,6 @@
 #pragma once
 
 #include "Hect/Concurrency/TaskPool.h"
-#include "Hect/Core/Configuration.h"
 #include "Hect/Core/Export.h"
 #include "Hect/IO/Path.h"
 #include "Hect/Timing/TimeStamp.h"

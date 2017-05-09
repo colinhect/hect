@@ -102,13 +102,13 @@ public:
     static SceneTypeId typeIdOf();
 
 private:
-    SceneRegistry();
+    SceneRegistry() = delete;
 
     static std::map<SceneTypeId, Name> _typeIdToName;
     static std::map<Name, SceneTypeId> _typeNameToId;
     static std::map<std::type_index, SceneTypeId> _typeIndexToId;
 
-    typedef std::function<std::shared_ptr<Scene>(void)> SceneConstructor;
+    typedef std::function<std::shared_ptr<Scene>()> SceneConstructor;
 
     static std::vector<SceneConstructor> _sceneConstructors;
 };

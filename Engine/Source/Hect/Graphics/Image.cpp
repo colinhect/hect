@@ -91,7 +91,6 @@ void Image::writePixel(unsigned x, unsigned y, Color color)
             break;
         case PixelType::Float16:
             throw InvalidOperation("16-bit floats are not implemented");
-            break;
         case PixelType::Float32:
             *reinterpret_cast<float*>(&_pixelData[offset + (componentIndex * 4)]) = static_cast<float>(value);
             break;
@@ -123,7 +122,6 @@ Color Image::readPixel(unsigned x, unsigned y) const
                 break;
             case PixelType::Float16:
                 throw InvalidOperation("16-bit floats are not implemented");
-                break;
             case PixelType::Float32:
                 color[componentIndex] = *reinterpret_cast<const float*>(&_pixelData[offset + (componentIndex * 4)]);
                 break;

@@ -24,7 +24,6 @@
 #include "BinaryDecoder.h"
 
 #include "Hect/Core/Exception.h"
-#include "Hect/Core/Format.h"
 #include "Hect/IO/MemoryReadStream.h"
 
 using namespace hect;

@@ -125,7 +125,6 @@ TEST_CASE("Read 8-bit indices from a mesh", "[MeshReader]")
         meshWriter.addIndex(2);
     }
 
-    Vector3 value;
     MeshReader meshReader(mesh);
 
     REQUIRE(meshReader.nextIndex());

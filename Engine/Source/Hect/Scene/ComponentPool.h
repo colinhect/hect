@@ -23,9 +23,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <algorithm>
 #include <deque>
-#include <memory>
 #include <vector>
 
 #include "Hect/Core/EventDispatcher.h"
@@ -46,6 +44,9 @@ class Scene;
 class HECT_EXPORT ComponentPoolBase
 {
     friend class Scene;
+public:
+    virtual ~ComponentPoolBase() = default;
+
 protected:
     virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
 

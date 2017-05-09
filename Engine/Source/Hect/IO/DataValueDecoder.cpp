@@ -125,47 +125,47 @@ std::string DataValueDecoder::decodeString()
 
 int8_t DataValueDecoder::decodeInt8()
 {
-    return (int8_t)decode().asDouble();
+    return static_cast<int8_t>(decode().asDouble());
 }
 
 uint8_t DataValueDecoder::decodeUInt8()
 {
-    return (uint8_t)decode().asDouble();
+    return static_cast<uint8_t>(decode().asDouble());
 }
 
 int16_t DataValueDecoder::decodeInt16()
 {
-    return (int16_t)decode().asDouble();
+    return static_cast<int16_t>(decode().asDouble());
 }
 
 uint16_t DataValueDecoder::decodeUInt16()
 {
-    return (uint16_t)decode().asDouble();
+    return static_cast<uint16_t>(decode().asDouble());
 }
 
 int32_t DataValueDecoder::decodeInt32()
 {
-    return (int32_t)decode().asDouble();
+    return static_cast<int32_t>(decode().asDouble());
 }
 
 uint32_t DataValueDecoder::decodeUInt32()
 {
-    return (uint32_t)decode().asDouble();
+    return static_cast<uint32_t>(decode().asDouble());
 }
 
 int64_t DataValueDecoder::decodeInt64()
 {
-    return (int64_t)decode().asDouble();
+    return static_cast<int64_t>(decode().asDouble());
 }
 
 uint64_t DataValueDecoder::decodeUInt64()
 {
-    return (uint64_t)decode().asDouble();
+    return static_cast<uint64_t>(decode().asDouble());
 }
 
 float DataValueDecoder::decodeFloat32()
 {
-    return (float)decode().asDouble();
+    return static_cast<float>(decode().asDouble());
 }
 
 double DataValueDecoder::decodeFloat64()

@@ -26,7 +26,6 @@
 #include <functional>
 #include <map>
 #include <memory>
-#include <string>
 #include <typeindex>
 #include <vector>
 
@@ -123,14 +122,14 @@ public:
     static ComponentTypeId typeIdOf();
 
 private:
-    ComponentRegistry();
+    ComponentRegistry() = delete;
 
     static std::map<ComponentTypeId, Name> _typeIdToName;
     static std::map<Name, ComponentTypeId> _typeNameToId;
     static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
     static ComponentTypeIdContainer _typeIds;
 
-    typedef std::function<std::shared_ptr<ComponentBase>(void)> ComponentConstructor;
+    typedef std::function<std::shared_ptr<ComponentBase>()> ComponentConstructor;
     typedef std::function<std::shared_ptr<ComponentPoolBase>(Scene&)> ComponentPoolConstructor;
 
     static std::vector<ComponentConstructor> _componentConstructors;

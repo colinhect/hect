@@ -361,7 +361,7 @@ void Mesh::encode(Encoder& encoder) const
         WriteStream& stream = encoder.binaryStream();
 
         // Vertex data
-        uint32_t vertexDataSize = (uint32_t)_vertexData.size();
+        uint32_t vertexDataSize = static_cast<uint32_t>(_vertexData.size());
         stream << vertexDataSize;
         if (vertexDataSize > 0)
         {
@@ -369,7 +369,7 @@ void Mesh::encode(Encoder& encoder) const
         }
 
         // Index data
-        uint32_t indexDataSize = (uint32_t)_indexData.size();
+        uint32_t indexDataSize = static_cast<uint32_t>(_indexData.size());
         stream << indexDataSize;
         if (indexDataSize > 0)
         {
@@ -449,20 +449,18 @@ void Mesh::decode(Decoder& decoder)
         ReadStream& stream = decoder.binaryStream();
 
         // Vertex data
-        Mesh::VertexData vertexData;
         uint32_t vertexDataSize;
         stream >> vertexDataSize;
-        vertexData = Mesh::VertexData(vertexDataSize);
+        Mesh::VertexData vertexData(vertexDataSize);
         if (vertexDataSize > 0)
         {
             stream.read(&vertexData[0], vertexDataSize);
         }
 
         // Index data
-        Mesh::IndexData indexData;
         uint32_t indexDataSize;
         stream >> indexDataSize;
-        indexData = Mesh::VertexData(indexDataSize);
+        Mesh::IndexData indexData(indexDataSize);
         if (indexDataSize > 0)
         {
             stream.read(&indexData[0], indexDataSize);

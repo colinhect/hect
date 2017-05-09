@@ -104,7 +104,7 @@ public:
     static SystemTypeId typeIdOf();
 
 private:
-    SystemRegistry();
+    SystemRegistry() = delete;
 
     static std::map<SystemTypeId, Name> _typeIdToName;
     static std::map<Name, SystemTypeId> _typeNameToId;

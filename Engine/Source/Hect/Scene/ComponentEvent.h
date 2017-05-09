@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include "Hect/Core/Export.h"
 #include "Hect/Scene/ComponentEventType.h"
 #include "Hect/Scene/EntityHandle.h"
 

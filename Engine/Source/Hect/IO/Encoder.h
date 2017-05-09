@@ -37,6 +37,7 @@ namespace hect
 class HECT_EXPORT Encoder
 {
 public:
+    virtual ~Encoder() = default;
 
     ///
     /// Returns whether the encoder is writing to a binary stream.

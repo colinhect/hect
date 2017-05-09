@@ -98,7 +98,7 @@ public:
     bool operator!=(const BlendMode& blendMode) const;
 
     void encode(Encoder& encoder) const override;
-    void decode(Decoder& decoder);
+    void decode(Decoder& decoder) override;
 
 private:
     BlendFunction _function { BlendFunction::Add };

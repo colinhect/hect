@@ -23,7 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "BoundingBoxSystem.h"
 
-#include "Hect/Runtime/Engine.h"
 #include "Hect/Scene/Components/GeometryComponent.h"
 #include "Hect/Scene/Components/TransformComponent.h"
 

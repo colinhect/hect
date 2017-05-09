@@ -23,8 +23,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
 
-#include <string>
-
 #include "Hect/Core/Name.h"
 #include "Hect/IO/AssetCache.h"
 #include "Hect/IO/Encodable.h"

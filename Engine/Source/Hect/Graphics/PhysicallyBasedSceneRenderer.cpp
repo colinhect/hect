@@ -38,13 +38,13 @@ using namespace hect;
 namespace
 {
 
-static const Path CompositeShaderPath("Hect/Rendering/Composite.shader");
-static const Path DefaultMaterialPath("Hect/Materials/Default.material");
-static const Path DirectionalLightShaderPath("Hect/Rendering/DirectionalLight.shader");
-static const Path EnvironmentShaderPath("Hect/Rendering/Environment.shader");
-static const Path ExposeShaderPath("Hect/Rendering/Expose.shader");
-static const Path SkyBoxMeshPath("Hect/Rendering/SkyBox.mesh");
-static const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
+const Path CompositeShaderPath("Hect/Rendering/Composite.shader");
+const Path DefaultMaterialPath("Hect/Materials/Default.material");
+const Path DirectionalLightShaderPath("Hect/Rendering/DirectionalLight.shader");
+const Path EnvironmentShaderPath("Hect/Rendering/Environment.shader");
+const Path ExposeShaderPath("Hect/Rendering/Expose.shader");
+const Path SkyBoxMeshPath("Hect/Rendering/SkyBox.mesh");
+const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
 
 }
 

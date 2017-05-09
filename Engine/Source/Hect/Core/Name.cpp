@@ -38,9 +38,9 @@ using namespace hect;
 namespace
 {
 
-static std::mutex _nameIndexLookUpMutex;
-static std::unordered_map<std::string, Name::Index> _nameStringToIndex;
-static std::deque<std::string> _nameStrings;
+std::mutex _nameIndexLookUpMutex;
+std::unordered_map<std::string, Name::Index> _nameStringToIndex;
+std::deque<std::string> _nameStrings;
 
 }
 
@@ -117,7 +117,7 @@ Name::Index Name::lookUpIndex(const std::string& string)
 {
     std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
 
-    Name::Index index = -1;
+    Name::Index index;
 
     // If this is the first encounter of this name
     auto it = _nameStringToIndex.find(string);
