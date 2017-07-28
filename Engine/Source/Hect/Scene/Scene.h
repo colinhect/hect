@@ -148,6 +148,17 @@ public:
     Entity& createEntity(Name name = Name::Unnamed);
 
     ///
+    /// Creates a new Entity with the specified Component%s.
+    ///
+    /// \note The entity will have no effect on the scene until it is activated.
+    ///
+    /// \param name The name of the entity.
+    ///
+    /// \returns A reference to the new entity.
+    template <typename ...ComponentTypes>
+    Entity& createEntityWith(Name name = Name::Unnamed);
+
+    ///
     /// Loads an Entity from an asset.
     ///
     /// \note The entity will have no effect on the scene until it is activated.

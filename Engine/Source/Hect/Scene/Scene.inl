@@ -24,6 +24,16 @@
 namespace hect
 {
 
+template <typename ...ComponentTypes>
+Entity& Scene::createEntityWith(Name name)
+{
+    Entity& entity = createEntity(name);
+    int _[] = { 0, (entity.addComponent<ComponentTypes>(), 0)... };
+    (void)_;
+    return entity;
+}
+
+
 template <typename ComponentType>
 ComponentPool<ComponentType>& Scene::components()
 {

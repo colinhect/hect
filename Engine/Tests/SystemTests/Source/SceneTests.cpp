@@ -797,6 +797,16 @@ TEST_CASE("Clone an entity with children", "[Scene]")
     REQUIRE(!++childIter);
 }
 
+TEST_CASE("Create an entity with components", "[Scene]")
+{
+    TestScene scene(Engine::instance());
+
+    Entity& a = scene.createEntityWith<TestComponentA, TestComponentB>();
+
+    REQUIRE(a.hasComponent<TestComponentA>());
+    REQUIRE(a.hasComponent<TestComponentB>());
+}
+
 TEST_CASE("Add and remove a component to and from an entity", "[Scene]")
 {
     TestScene scene(Engine::instance());
@@ -987,9 +997,9 @@ TEST_CASE("Iterate over the components in a scene with the first and last compon
     scene.refresh();
 
     std::vector<ComponentId> ids;
-    for (const TestComponentA& string : scene.components<TestComponentA>())
+    for (const TestComponentA& testComponent : scene.components<TestComponentA>())
     {
-        ids.push_back(string.id());
+        ids.push_back(testComponent.id());
     }
 
     REQUIRE(ids.size() == 3);
