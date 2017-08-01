@@ -32,6 +32,9 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/Lua")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/NanoVG")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Dependencies/PhysFS")
 
+# Add Hect tools
+add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tools/Build")
+
 # Add Hect tests
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/PerformanceTests")
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests")
