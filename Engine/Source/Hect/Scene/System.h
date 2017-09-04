@@ -44,7 +44,8 @@ public:
 };
 
 ///
-/// A system affecting entities within a scene.
+/// A system affecting the behavior of a scene by simulating and relating
+/// Component%s and \link Entity Entities \endlink within it.
 template <typename SystemType, typename ComponentListenersType = Components<>>
 class System :
     public SystemBase,
@@ -55,7 +56,7 @@ public:
     ///
     /// Constructs a system.
     ///
-    /// \param scene The scene that the system exists in.
+    /// \param scene The scene that the system is a part of.
     System(Scene& scene);
 
     virtual ~System() { }

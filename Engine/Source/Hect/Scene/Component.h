@@ -54,7 +54,7 @@ class ComponentPool;
 class Entity;
 
 ///
-/// A component of an Entity.
+/// A component of data for an Entity.
 ///
 /// \warning Raw references and pointers to a component may be invalidated as
 /// new components are added to and removed from the entity pool.  To maintain
