@@ -64,7 +64,7 @@ TEST_CASE("Get the length of a 2-dimensional vector", "[Vector2]")
 TEST_CASE("Get the squared length of a 2-dimensional vector", "[Vector2]")
 {
     Vector2 a(1.0, 2.0);
-    REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
+    REQUIRE(std::sqrt(a.length_squared()) == a.length());
 }
 
 TEST_CASE("Get the floor of a 2-dimensional vector", "[Vector2]")
@@ -124,14 +124,14 @@ TEST_CASE("Get a normalized copy of a 2-dimensional vector", "[Vector2]")
 
 TEST_CASE("Compute the angle betwen two 2-dimensional vectors", "[Vector2]")
 {
-    REQUIRE(Vector2::UnitX.angleFrom(Vector2::UnitX).value== 0.0);
-    REQUIRE(std::abs(Degrees(Vector2::UnitX.angleFrom(-Vector2::UnitX)).value - 180.0) < 0.01);
+    REQUIRE(Vector2::UnitX.angle_from(Vector2::UnitX).value== 0.0);
+    REQUIRE(std::abs(Degrees(Vector2::UnitX.angle_from(-Vector2::UnitX)).value - 180.0) < 0.01);
 
-    REQUIRE(Vector2::UnitY.angleFrom(Vector2::UnitY).value == 0.0);
-    REQUIRE(Degrees(Vector2::UnitY.angleFrom(-Vector2::UnitY)).value == 180.0);
+    REQUIRE(Vector2::UnitY.angle_from(Vector2::UnitY).value == 0.0);
+    REQUIRE(Degrees(Vector2::UnitY.angle_from(-Vector2::UnitY)).value == 180.0);
 
-    REQUIRE(Degrees(Vector2::UnitX.angleFrom(Vector2::UnitY)).value == 90.0);
-    REQUIRE(Degrees(Vector2::UnitY.angleFrom(Vector2::UnitX)).value == 90.0);
+    REQUIRE(Degrees(Vector2::UnitX.angle_from(Vector2::UnitY)).value == 90.0);
+    REQUIRE(Degrees(Vector2::UnitY.angle_from(Vector2::UnitX)).value == 90.0);
 }
 
 TEST_CASE("Compute the sum of two 2-dimensional vectors", "[Vector2]")

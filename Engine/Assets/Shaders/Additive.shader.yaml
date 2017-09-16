@@ -6,14 +6,14 @@ modules:
   - type: Fragment
     path: Additive.Fragment.glsl
 uniforms:
-  - name: modelViewProjection
+  - name: model_view_projection
     binding: ModelViewProjectionMatrix
-  - name: additiveTexture
+  - name: additive_texture
     type: Texture2
   - name: intensity
     type: Float
     value: 1.0
-depthTested: false
-blendMode:
-  sourceFactor: One
-  destinationFactor: One
+depth_tested: false
+blend_mode:
+  source_factor: One
+  destination_factor: One

@@ -1,12 +1,12 @@
 #version 440
 
-uniform samplerCube skyBoxTexture;
+uniform samplerCube sky_box_texture;
 
-in vec3 vertexPosition;
+in vec3 vertex_position;
 
-bool renderStage(
-    out vec3    outColor)
+bool render_stage(
+    out vec3    out_color)
 {
-    outColor = texture(skyBoxTexture, vertexPosition).rgb;
+    out_color = texture(sky_box_texture, vertex_position).rgb;
     return true;
 }

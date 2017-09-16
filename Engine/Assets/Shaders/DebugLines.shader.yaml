@@ -6,7 +6,7 @@ modules:
   - type: Fragment
     path: DebugLines.Fragment.glsl
 uniforms:
-  - name: modelViewProjection
+  - name: model_view_projection
     binding: ModelViewProjectionMatrix
   - name: intensity
     type: Float

@@ -74,11 +74,11 @@ TEST_CASE("Copy a quaternion", "[Quaternion]")
 
 TEST_CASE("Construct a quaternion from an axis and an angle", "[Quaternion]")
 {
-    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Quaternion a = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(180));
 
     Vector3 axis;
     Radians angle;
-    a.toAxisAngle(axis, angle);
+    a.to_axis_angle(axis, angle);
 
     REQUIRE(axis.x == 0.0);
     REQUIRE(axis.y == 1.0);
@@ -91,20 +91,20 @@ TEST_CASE("Multiply two quaternions", "[Quaternion]")
     Vector3 axis;
     Radians angle;
 
-    Quaternion a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
-    Quaternion b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Quaternion a = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(90));
+    Quaternion b = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(180));
     a = b * a;
-    a.toAxisAngle(axis, angle);
+    a.to_axis_angle(axis, angle);
 
     REQUIRE(axis.x == 0.0);
     REQUIRE(std::abs(axis.y - 1.0) < 0.01);
     REQUIRE(axis.z == 0.0);
     REQUIRE(Degrees(angle).value == 270);
 
-    a = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
-    b = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    a = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(90));
+    b = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(180));
     a *= b;
-    a.toAxisAngle(axis, angle);
+    a.to_axis_angle(axis, angle);
 
     REQUIRE(axis.x == 0.0);
     REQUIRE(axis.y == 1.0);
@@ -116,13 +116,13 @@ TEST_CASE("Multply a quaternion and a vector", "[Quaternion]")
 {
     Vector3 v;
 
-    Quaternion r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(180));
+    Quaternion r = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(180));
     v = r * Vector3::UnitX;
     REQUIRE(v.x == -1.0);
     REQUIRE(v.y == 0.0);
     REQUIRE(std::abs(v.z - 0.0) < 0.01);
 
-    r = Quaternion::fromAxisAngle(Vector3::UnitY, Degrees(90));
+    r = Quaternion::from_axis_angle(Vector3::UnitY, Degrees(90));
     v = r * Vector3::UnitX;
     REQUIRE(std::abs(v.x - 0.0) < 0.01);
     REQUIRE(v.y == 0.0);

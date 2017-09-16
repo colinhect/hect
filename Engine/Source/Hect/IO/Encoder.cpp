@@ -78,7 +78,7 @@ Encoder& operator<<(Encoder& encoder, int8_t value)
 
 Encoder& operator<<(Encoder& encoder, uint8_t value)
 {
-    encoder.encode_u_int8(value);
+    encoder.encode_uint8(value);
     return encoder;
 }
 
@@ -90,7 +90,7 @@ Encoder& operator<<(Encoder& encoder, int16_t value)
 
 Encoder& operator<<(Encoder& encoder, uint16_t value)
 {
-    encoder.encode_u_int16(value);
+    encoder.encode_uint16(value);
     return encoder;
 }
 
@@ -102,7 +102,7 @@ Encoder& operator<<(Encoder& encoder, int32_t value)
 
 Encoder& operator<<(Encoder& encoder, uint32_t value)
 {
-    encoder.encode_u_int32(value);
+    encoder.encode_uint32(value);
     return encoder;
 }
 
@@ -114,7 +114,7 @@ Encoder& operator<<(Encoder& encoder, int64_t value)
 
 Encoder& operator<<(Encoder& encoder, uint64_t value)
 {
-    encoder.encode_u_int64(value);
+    encoder.encode_uint64(value);
     return encoder;
 }
 

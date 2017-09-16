@@ -90,7 +90,7 @@ Decoder& operator>>(Decoder& decoder, int8_t& value)
 
 Decoder& operator>>(Decoder& decoder, uint8_t& value)
 {
-    value = decoder.decode_u_int8();
+    value = decoder.decode_uint8();
     return decoder;
 }
 
@@ -102,7 +102,7 @@ Decoder& operator>>(Decoder& decoder, int16_t& value)
 
 Decoder& operator>>(Decoder& decoder, uint16_t& value)
 {
-    value = decoder.decode_u_int16();
+    value = decoder.decode_uint16();
     return decoder;
 }
 
@@ -114,7 +114,7 @@ Decoder& operator>>(Decoder& decoder, int32_t& value)
 
 Decoder& operator>>(Decoder& decoder, uint32_t& value)
 {
-    value = decoder.decode_u_int32();
+    value = decoder.decode_uint32();
     return decoder;
 }
 
@@ -126,7 +126,7 @@ Decoder& operator>>(Decoder& decoder, int64_t& value)
 
 Decoder& operator>>(Decoder& decoder, uint64_t& value)
 {
-    value = decoder.decode_u_int64();
+    value = decoder.decode_uint64();
     return decoder;
 }
 

@@ -30,7 +30,7 @@ TEST_CASE("Construct an empty path", "[Path]")
 {
     Path path;
 
-    REQUIRE(path.asString() == "");
+    REQUIRE(path.as_string() == "");
     REQUIRE(path.empty());
 }
 
@@ -38,7 +38,7 @@ TEST_CASE("Construct a path with single part", "[Path]")
 {
     Path path("Data");
 
-    REQUIRE(path.asString() == "Data");
+    REQUIRE(path.as_string() == "Data");
     REQUIRE(!path.empty());
 }
 
@@ -46,28 +46,28 @@ TEST_CASE("Construct a path with multiple parts", "[Path]")
 {
     Path path("Data/Internal/Fail.log");
 
-    REQUIRE(path.asString() == "Data/Internal/Fail.log");
+    REQUIRE(path.as_string() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Construct a path with leading slash", "[Path]")
 {
     Path path("/Data/Internal/Fail.log");
 
-    REQUIRE(path.asString() == "/Data/Internal/Fail.log");
+    REQUIRE(path.as_string() == "/Data/Internal/Fail.log");
 }
 
 TEST_CASE("Construct a path with trailing slash", "[Path]")
 {
     Path path("Data/Internal/");
 
-    REQUIRE(path.asString() == "Data/Internal");
+    REQUIRE(path.as_string() == "Data/Internal");
 }
 
 TEST_CASE("Construct a path with trailing and leading slash", "[Path]")
 {
     Path path("/Data/Internal/");
 
-    REQUIRE(path.asString() == "/Data/Internal");
+    REQUIRE(path.as_string() == "/Data/Internal");
 }
 
 TEST_CASE("Get extension of a path with an extension", "[Path]")
@@ -88,21 +88,21 @@ TEST_CASE("Add two paths into a single path", "[Path]")
 {
     Path path = Path("Data") + Path("Internal/Fail.log");
 
-    REQUIRE(path.asString() == "Data/Internal/Fail.log");
+    REQUIRE(path.as_string() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Add an empty path with a non-empty path", "[Path]")
 {
     Path path = Path() + Path("Internal/Fail.log");
 
-    REQUIRE(path.asString() == "Internal/Fail.log");
+    REQUIRE(path.as_string() == "Internal/Fail.log");
 }
 
 TEST_CASE("Add a path to an empty path", "[Path]")
 {
     Path path = Path("Data/Internal") + Path();
 
-    REQUIRE(path.asString() == "Data/Internal");
+    REQUIRE(path.as_string() == "Data/Internal");
 }
 
 TEST_CASE("Append a path to an existing path", "[Path]")
@@ -110,7 +110,7 @@ TEST_CASE("Append a path to an existing path", "[Path]")
     Path path("Data");
     path += "Internal/Fail.log";
 
-    REQUIRE(path.asString() == "Data/Internal/Fail.log");
+    REQUIRE(path.as_string() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Append paths to an empty path", "[Path]")
@@ -119,22 +119,22 @@ TEST_CASE("Append paths to an empty path", "[Path]")
     path += "Data";
     path += "Internal/Fail.log";
 
-    REQUIRE(path.asString() == "Data/Internal/Fail.log");
+    REQUIRE(path.as_string() == "Data/Internal/Fail.log");
 }
 
 TEST_CASE("Get the parent directory of a non-empty path", "[Path]")
 {
     Path path("/Data/Internal/Fail.log");
 
-    Path parentDirectory = path.parentDirectory();
-    REQUIRE(parentDirectory.asString() == "/Data/Internal");
-    REQUIRE(!parentDirectory.empty());
+    Path parent_directory = path.parent_directory();
+    REQUIRE(parent_directory.as_string() == "/Data/Internal");
+    REQUIRE(!parent_directory.empty());
 
-    parentDirectory = parentDirectory.parentDirectory();
-    REQUIRE(parentDirectory.asString() == "/Data");
-    REQUIRE(!parentDirectory.empty());
+    parent_directory = parent_directory.parent_directory();
+    REQUIRE(parent_directory.as_string() == "/Data");
+    REQUIRE(!parent_directory.empty());
 
-    parentDirectory = parentDirectory.parentDirectory();
-    REQUIRE(parentDirectory.asString() == "");
-    REQUIRE(parentDirectory.empty());
+    parent_directory = parent_directory.parent_directory();
+    REQUIRE(parent_directory.as_string() == "");
+    REQUIRE(parent_directory.empty());
 }

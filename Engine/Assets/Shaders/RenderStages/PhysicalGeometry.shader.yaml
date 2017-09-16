@@ -1,5 +1,5 @@
 ---
-renderStage: PhysicalGeometry
+render_stage: PhysicalGeometry
 modules:
   - type: Fragment
     path: PhysicalGeometry.glsl

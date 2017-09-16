@@ -29,56 +29,56 @@ using namespace hect;
 TEST_CASE("Construct a null data value", "[DataValue]")
 {
     DataValue value;
-    REQUIRE(value.isNull());
+    REQUIRE(value.is_null());
 }
 
 TEST_CASE("Construct a boolean data value", "[DataValue]")
 {
     DataValue value(true);
-    REQUIRE(value.isBool());
-    REQUIRE(value.asBool());
+    REQUIRE(value.is_bool());
+    REQUIRE(value.as_bool());
 }
 
 TEST_CASE("Construct a number data value", "[DataValue]")
 {
     DataValue value(5.0);
-    REQUIRE(value.isNumber());
-    REQUIRE(value.asDouble() == 5.0);
+    REQUIRE(value.is_number());
+    REQUIRE(value.as_double() == 5.0);
 }
 
 TEST_CASE("Construct a string data value", "[DataValue]")
 {
     DataValue value("Testing");
-    REQUIRE(value.isString());
-    REQUIRE(value.asString() == "Testing");
+    REQUIRE(value.is_string());
+    REQUIRE(value.as_string() == "Testing");
 }
 
 TEST_CASE("Construct an array data value", "[DataValue]")
 {
     DataValue value(DataValueType::Array);
-    value.addElement(true);
-    value.addElement(5.0);
-    value.addElement("Testing");
+    value.add_element(true);
+    value.add_element(5.0);
+    value.add_element("Testing");
 
-    REQUIRE(value.isArray());
+    REQUIRE(value.is_array());
     REQUIRE(value.size() == 3u);
 
     for (unsigned i = 0; i < value.size(); ++i)
     {
         if (i == 0)
         {
-            REQUIRE(value[i].isBool());
-            REQUIRE(value[i].asBool());
+            REQUIRE(value[i].is_bool());
+            REQUIRE(value[i].as_bool());
         }
         else if (i == 1)
         {
-            REQUIRE(value[i].isNumber());
-            REQUIRE(value[i].asDouble() == 5.0);
+            REQUIRE(value[i].is_number());
+            REQUIRE(value[i].as_double() == 5.0);
         }
         else if (i == 2)
         {
-            REQUIRE(value[i].isString());
-            REQUIRE(value[i].asString() == "Testing");
+            REQUIRE(value[i].is_string());
+            REQUIRE(value[i].as_string() == "Testing");
         }
     }
 }
@@ -86,27 +86,27 @@ TEST_CASE("Construct an array data value", "[DataValue]")
 TEST_CASE("Construct an object data value", "[DataValue]")
 {
     DataValue value(DataValueType::Object);
-    value.addMember("someBool", true);
-    value.addMember("someNumber", 5.0);
-    value.addMember("someString", "Testing");
+    value.add_member("some_bool", true);
+    value.add_member("some_number", 5.0);
+    value.add_member("some_string", "Testing");
 
-    REQUIRE(value.isObject());
+    REQUIRE(value.is_object());
     REQUIRE(value.size() == 3u);
 
-    REQUIRE(value["someBool"].isBool());
-    REQUIRE(value["someBool"].asBool());
-    REQUIRE(value["someNumber"].isNumber());
-    REQUIRE(value["someNumber"].asDouble() == 5.0);
-    REQUIRE(value["someString"].isString());
-    REQUIRE(value["someString"].asString() == "Testing");
+    REQUIRE(value["some_bool"].is_bool());
+    REQUIRE(value["some_bool"].as_bool());
+    REQUIRE(value["some_number"].is_number());
+    REQUIRE(value["some_number"].as_double() == 5.0);
+    REQUIRE(value["some_string"].is_string());
+    REQUIRE(value["some_string"].as_string() == "Testing");
 }
 
 TEST_CASE("Construct a 2-dimensional vector data value", "[DataValue]")
 {
     DataValue value(Vector2(1, 2));
-    REQUIRE(value.isArray());
+    REQUIRE(value.is_array());
 
-    Vector2 v = value.asVector2();
+    Vector2 v = value.as_vector2();
     REQUIRE(v.x == 1);
     REQUIRE(v.y == 2);
 }
@@ -114,9 +114,9 @@ TEST_CASE("Construct a 2-dimensional vector data value", "[DataValue]")
 TEST_CASE("Construct a 3-dimensional vector data value", "[DataValue]")
 {
     DataValue value(Vector3(1, 2, 3));
-    REQUIRE(value.isArray());
+    REQUIRE(value.is_array());
 
-    Vector3 v = value.asVector3();
+    Vector3 v = value.as_vector3();
     REQUIRE(v.x == 1);
     REQUIRE(v.y == 2);
     REQUIRE(v.z == 3);
@@ -125,9 +125,9 @@ TEST_CASE("Construct a 3-dimensional vector data value", "[DataValue]")
 TEST_CASE("Construct a 4-dimensional vector data value", "[DataValue]")
 {
     DataValue value(Vector4(1, 2, 3, 4));
-    REQUIRE(value.isArray());
+    REQUIRE(value.is_array());
 
-    Vector4 v = value.asVector4();
+    Vector4 v = value.as_vector4();
     REQUIRE(v.x == 1);
     REQUIRE(v.y == 2);
     REQUIRE(v.z == 3);
@@ -139,36 +139,36 @@ TEST_CASE("Get the value of a data value as a name", "[DataValue]")
     static Name testing("Testing");
 
     DataValue value(testing);
-    REQUIRE(value.isString());
-    REQUIRE(value.asString() == "Testing");
-    REQUIRE(value.asName() == testing);
+    REQUIRE(value.is_string());
+    REQUIRE(value.as_string() == "Testing");
+    REQUIRE(value.as_name() == testing);
 }
 
 TEST_CASE("Get the member names of an object data value", "[DataValue]")
 {
     DataValue value(DataValueType::Object);
-    value.addMember("someBool", true);
-    value.addMember("someNumber", 5.0);
-    value.addMember("someString", "Testing");
+    value.add_member("some_bool", true);
+    value.add_member("some_number", 5.0);
+    value.add_member("some_string", "Testing");
 
-    auto memberNames = value.memberNames();
+    auto member_names = value.member_names();
 
-    REQUIRE(memberNames.size() == 3u);
-    REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someBool") != memberNames.end());
-    REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someNumber") != memberNames.end());
-    REQUIRE(std::find(memberNames.begin(), memberNames.end(), "someString") != memberNames.end());
+    REQUIRE(member_names.size() == 3u);
+    REQUIRE(std::find(member_names.begin(), member_names.end(), "some_bool") != member_names.end());
+    REQUIRE(std::find(member_names.begin(), member_names.end(), "some_number") != member_names.end());
+    REQUIRE(std::find(member_names.begin(), member_names.end(), "some_string") != member_names.end());
 }
 
 TEST_CASE("Null switch on a null data value", "[DataValue]")
 {
     DataValue value;
-    REQUIRE(value.orDefault(true).asBool());
+    REQUIRE(value.or_default(true).as_bool());
 }
 
 TEST_CASE("Null switch on a non-null data value", "[DataValue]")
 {
     DataValue value(true);
-    REQUIRE(value.orDefault(false).asBool());
+    REQUIRE(value.or_default(false).as_bool());
 }
 
 TEST_CASE("Iterate over array data value", "[DataValue]")
@@ -176,17 +176,17 @@ TEST_CASE("Iterate over array data value", "[DataValue]")
     DataValue value(DataValueType::Array);
     for (int i = 0; i < 10; ++i)
     {
-        value.addElement(static_cast<double>(i));
+        value.add_element(static_cast<double>(i));
     }
 
-    REQUIRE(value.isArray());
+    REQUIRE(value.is_array());
     REQUIRE(value.size() == 10u);
 
     int i = 0;
     for (const DataValue& element : value)
     {
-        REQUIRE(element.isNumber());
-        REQUIRE(element.asDouble() == i++);
+        REQUIRE(element.is_number());
+        REQUIRE(element.as_double() == i++);
     }
 }
 
@@ -203,26 +203,26 @@ TEST_CASE("Iterate over null data value", "[DataValue]")
 TEST_CASE("Perform member and array accesses on null data value", "[DataValue]")
 {
     DataValue value;
-    REQUIRE(value["root"][10]["something"].isNull());
+    REQUIRE(value["root"][10]["something"].is_null());
 }
 
 TEST_CASE("Decode data value from a YAML string", "[DataValue][Yaml]")
 {
-    std::string yaml = "---\nsomeBool: true\nsomeNumber: 1.0\nsomeArray: [ 0, 1, 2 ]\nsomeString: Testing 1 2 3";
+    std::string yaml = "---\nsome_bool: true\nsome_number: 1.0\nsome_array: [ 0, 1, 2 ]\nsome_string: Testing 1 2 3";
     DataValue value;
-    value.decodeFromYaml(yaml);
+    value.decode_from_yaml(yaml);
 
-    REQUIRE(value.isObject());
+    REQUIRE(value.is_object());
     REQUIRE(value.size() == 4u);
-    REQUIRE(value["someBool"].isBool());
-    REQUIRE(value["someBool"].asBool());
-    REQUIRE(value["someNumber"].isNumber());
-    REQUIRE(value["someNumber"].asDouble() == 1.0);
-    REQUIRE(value["someString"].isString());
-    REQUIRE(value["someString"].asString() == "Testing 1 2 3");
-    REQUIRE(value["someArray"].isArray());
-    REQUIRE(value["someArray"].size() == 3u);
-    REQUIRE(value["someArray"][0].asInt() == 0);
-    REQUIRE(value["someArray"][1].asInt() == 1);
-    REQUIRE(value["someArray"][2].asInt() == 2);
+    REQUIRE(value["some_bool"].is_bool());
+    REQUIRE(value["some_bool"].as_bool());
+    REQUIRE(value["some_number"].is_number());
+    REQUIRE(value["some_number"].as_double() == 1.0);
+    REQUIRE(value["some_string"].is_string());
+    REQUIRE(value["some_string"].as_string() == "Testing 1 2 3");
+    REQUIRE(value["some_array"].is_array());
+    REQUIRE(value["some_array"].size() == 3u);
+    REQUIRE(value["some_array"][0].as_int() == 0);
+    REQUIRE(value["some_array"][1].as_int() == 1);
+    REQUIRE(value["some_array"][2].as_int() == 2);
 }

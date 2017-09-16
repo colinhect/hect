@@ -45,7 +45,7 @@ class TestAsset :
 TEST_CASE("Get and set the name of an asset", "[Asset]")
 {
     TestAsset asset;
-    asset.setName("A");
+    asset.set_name("A");
     REQUIRE(asset.name() == "A");
 }
 
@@ -53,7 +53,7 @@ TEST_CASE("Create an unowned handle to an asset", "[Asset]")
 {
     TestAsset asset;
 
-    AssetHandle<TestAsset> handle = asset.createHandle();
+    AssetHandle<TestAsset> handle = asset.create_handle();
     REQUIRE(handle);
     REQUIRE(&*handle == &asset);
 }

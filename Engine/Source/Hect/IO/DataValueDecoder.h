@@ -63,13 +63,13 @@ public:
     std::vector<std::string> member_names() const override;
     std::string decode_string() override;
     int8_t decode_int8() override;
-    uint8_t decode_u_int8() override;
+    uint8_t decode_uint8() override;
     int16_t decode_int16() override;
-    uint16_t decode_u_int16() override;
+    uint16_t decode_uint16() override;
     int32_t decode_int32() override;
-    uint32_t decode_u_int32() override;
+    uint32_t decode_uint32() override;
     int64_t decode_int64() override;
-    uint64_t decode_u_int64() override;
+    uint64_t decode_uint64() override;
     float decode_float32() override;
     double decode_float64() override;
     bool decode_bool() override;

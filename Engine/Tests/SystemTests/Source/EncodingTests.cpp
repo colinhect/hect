@@ -29,29 +29,29 @@ using namespace hect;
 // Loads the asset at the given path and verifies that re-encoding and decoding
 // the asset results in equivalence for both binary and data encoding
 template <typename T>
-void testEncoding(const Path& assetPath)
+void test_encoding(const Path& asset_path)
 {
     Engine& engine = Engine::instance();
-    auto handle = engine.assetCache().getHandle<T>(assetPath);
+    auto handle = engine.asset_cache().get_handle<T>(asset_path);
     REQUIRE(handle);
 
     T& asset = *handle;
 
     // JSON
-    DataValue dataValue;
+    DataValue data_value;
     {
         DataValueEncoder encoder;
         encoder << asset;
-        dataValue = *encoder.dataValues().begin();
+        data_value = *encoder.data_values().begin();
     }
     {
-        T decodedAsset;
+        T decoded_asset;
 
-        DataValueDecoder decoder(dataValue, engine.assetCache());
-        decoder >> decodedAsset;
+        DataValueDecoder decoder(data_value, engine.asset_cache());
+        decoder >> decoded_asset;
 
-        INFO(assetPath.asString());
-        REQUIRE(asset == decodedAsset);
+        INFO(asset_path.as_string());
+        REQUIRE(asset == decoded_asset);
     }
 
     // Binary
@@ -62,40 +62,40 @@ void testEncoding(const Path& assetPath)
         encoder << asset;
     }
     {
-        T decodedAsset;
+        T decoded_asset;
 
         MemoryReadStream stream(data);
-        BinaryDecoder decoder(stream, engine.assetCache());
-        decoder >> decodedAsset;
+        BinaryDecoder decoder(stream, engine.asset_cache());
+        decoder >> decoded_asset;
 
-        INFO(assetPath.asString());
-        REQUIRE(asset == decodedAsset);
+        INFO(asset_path.as_string());
+        REQUIRE(asset == decoded_asset);
     }
 }
 
-const std::vector<Path> directoryPaths { "Hect/Materials", "Hect/Rendering", "Hect/Scenes", "Hect/Shaders" };
+const std::vector<Path> directory_paths { "Hect/Materials", "Hect/Rendering", "Hect/Scenes", "Hect/Shaders" };
 
 // Loads all files of a certain extension and verifies that re-encoding and
 // decoding the asset results in equivalence for both binary and data encoding
 template <typename T>
-void testEncodingForExtension(const std::string& extension)
+void test_encoding_for_extension(const std::string& extension)
 {
-    for (const Path& directoryPath : directoryPaths)
+    for (const Path& directory_path : directory_paths)
     {
         Engine& engine = Engine::instance();
-        FileSystem& fileSystem = engine.fileSystem();
-        for (const Path& filePath : fileSystem.filesInDirectory(directoryPath))
+        FileSystem& file_system = engine.file_system();
+        for (const Path& file_path : file_system.files_in_directory(directory_path))
         {
-            if (filePath.extension() == extension)
+            if (file_path.extension() == extension)
             {
-                testEncoding<T>(filePath);
+                test_encoding<T>(file_path);
             }
-            else if (filePath.extension() == "yaml")
+            else if (file_path.extension() == "yaml")
             {
-                const std::string& filePathString = filePath.asString();
-                if (filePathString.find("." + extension) != std::string::npos)
+                const std::string& file_path_string = file_path.as_string();
+                if (file_path_string.find("." + extension) != std::string::npos)
                 {
-                    testEncoding<T>(filePath);
+                    test_encoding<T>(file_path);
                 }
             }
         }
@@ -104,20 +104,20 @@ void testEncodingForExtension(const std::string& extension)
 
 TEST_CASE("Decode and re-encode all built-in Hect materials", "[Encoding][Material]")
 {
-    testEncodingForExtension<Material>("material");
+    test_encoding_for_extension<Material>("material");
 }
 
 TEST_CASE("Decode and re-encode all built-in Hect meshes", "[Encoding][Mesh]")
 {
-    testEncodingForExtension<Mesh>("mesh");
+    test_encoding_for_extension<Mesh>("mesh");
 }
 
 TEST_CASE("Decode and re-encode all built-in Hect shaders", "[Encoding][Shader]")
 {
-    testEncodingForExtension<Shader>("shader");
+    test_encoding_for_extension<Shader>("shader");
 }
 
 TEST_CASE("Decode and re-encode built-in Hect textures", "[Encoding][Texture2]")
 {
-    testEncodingForExtension<Texture2>("texture2");
+    test_encoding_for_extension<Texture2>("texture2");
 }

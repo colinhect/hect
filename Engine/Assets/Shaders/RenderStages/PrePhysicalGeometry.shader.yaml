@@ -1,5 +1,5 @@
 ---
-renderStage: PrePhysicalGeometry
+render_stage: PrePhysicalGeometry
 modules:
   - type: Fragment
     path: PrePhysicalGeometry.glsl

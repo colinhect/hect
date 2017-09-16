@@ -32,7 +32,7 @@ using namespace hect;
 
 #include <catch.hpp>
 
-void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::function<void(ReadStream&)> read)
+void test_write_and_read_stream(std::function<void(WriteStream&)> write, std::function<void(ReadStream&)> read)
 {
     // Memory streams
     std::vector<uint8_t> data;
@@ -48,12 +48,12 @@ void testWriteAndReadStream(std::function<void(WriteStream&)> write, std::functi
 
 TEST_CASE("Write and read passed the end of a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         stream << "Testing";
     }, [](ReadStream& stream)
     {
-        bool errorOccurred = false;
+        bool error_occurred = false;
 
         try
         {
@@ -62,16 +62,16 @@ TEST_CASE("Write and read passed the end of a stream", "[Stream]")
         }
         catch (Exception&)
         {
-            errorOccurred = true;
+            error_occurred = true;
         }
 
-        REQUIRE(errorOccurred);
+        REQUIRE(error_occurred);
     });
 }
 
 TEST_CASE("Write and read a string to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         stream << "Testing";
     }, [](ReadStream& stream)
@@ -79,13 +79,13 @@ TEST_CASE("Write and read a string to and from a stream", "[Stream]")
         std::string value;
         stream >> value;
         REQUIRE(value == "Testing");
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a signed 8-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         int8_t value = 123;
         stream << value;
@@ -94,13 +94,13 @@ TEST_CASE("Write and read a signed 8-bit integer to and from a stream", "[Stream
         int8_t value;
         stream >> value;
         REQUIRE(value == 123);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read an unsigned 8-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         uint8_t value = 123;
         stream << value;
@@ -109,13 +109,13 @@ TEST_CASE("Write and read an unsigned 8-bit integer to and from a stream", "[Str
         uint8_t value;
         stream >> value;
         REQUIRE(value == 123);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a signed 16-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         int16_t value = 123;
         stream << value;
@@ -124,13 +124,13 @@ TEST_CASE("Write and read a signed 16-bit integer to and from a stream", "[Strea
         int16_t value;
         stream >> value;
         REQUIRE(value == 123);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read an unsigned 16-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         uint16_t value = 123;
         stream << value;
@@ -139,13 +139,13 @@ TEST_CASE("Write and read an unsigned 16-bit integer to and from a stream", "[St
         uint16_t value;
         stream >> value;
         REQUIRE(value == 123);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a signed 32-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         int32_t value = 123;
         stream << value;
@@ -154,13 +154,13 @@ TEST_CASE("Write and read a signed 32-bit integer to and from a stream", "[Strea
         int32_t value;
         stream >> value;
         REQUIRE(value == 123);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read an unsigned 32-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         uint32_t value = 123;
         stream << value;
@@ -169,13 +169,13 @@ TEST_CASE("Write and read an unsigned 32-bit integer to and from a stream", "[St
         uint32_t value;
         stream >> value;
         REQUIRE(value == 123u);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a signed 64-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         int64_t value = 123456789;
         stream << value;
@@ -184,13 +184,13 @@ TEST_CASE("Write and read a signed 64-bit integer to and from a stream", "[Strea
         int64_t value;
         stream >> value;
         REQUIRE(value == 123456789);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read an unsigned 64-bit integer to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         uint64_t value = 123456789;
         stream << value;
@@ -199,13 +199,13 @@ TEST_CASE("Write and read an unsigned 64-bit integer to and from a stream", "[St
         uint64_t value;
         stream >> value;
         REQUIRE(value == 123456789);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a 32-bit float to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         float value = static_cast<float>(Pi);
         stream << value;
@@ -214,13 +214,13 @@ TEST_CASE("Write and read a 32-bit float to and from a stream", "[Stream]")
         float value;
         stream >> value;
         REQUIRE(std::abs(value - Pi) < 0.01);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a 64-bit float to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         double value = Pi;
         stream << value;
@@ -229,29 +229,29 @@ TEST_CASE("Write and read a 64-bit float to and from a stream", "[Stream]")
         double value;
         stream >> value;
         REQUIRE(std::abs(value - Pi) < 0.01);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Write and read a bool to and from a stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         stream << true << false;
     }, [](ReadStream& stream)
     {
-        bool trueValue;
-        bool falseValue;
-        stream >> trueValue >> falseValue;
-        REQUIRE(trueValue);
-        REQUIRE(!falseValue);
-        REQUIRE(stream.endOfStream());
+        bool true_value;
+        bool false_value;
+        stream >> true_value >> false_value;
+        REQUIRE(true_value);
+        REQUIRE(!false_value);
+        REQUIRE(stream.end_of_stream());
     });
 }
 
 TEST_CASE("Seek on a write stream", "[Stream]")
 {
-    testWriteAndReadStream([](WriteStream& stream)
+    test_write_and_read_stream([](WriteStream& stream)
     {
         uint32_t one = 1;
         uint32_t two = 2;
@@ -264,12 +264,12 @@ TEST_CASE("Seek on a write stream", "[Stream]")
         stream << one;
     }, [](ReadStream& stream)
     {
-        uint32_t firstValue;
-        uint32_t secondValue;
-        stream >> firstValue >> secondValue;
+        uint32_t first_value;
+        uint32_t second_value;
+        stream >> first_value >> second_value;
 
-        REQUIRE(firstValue == 1u);
-        REQUIRE(secondValue == 2u);
-        REQUIRE(stream.endOfStream());
+        REQUIRE(first_value == 1u);
+        REQUIRE(second_value == 2u);
+        REQUIRE(stream.end_of_stream());
     });
 }

@@ -6,9 +6,9 @@ modules:
   - type: Fragment
     path: OpaqueSolid.Fragment.glsl
 uniforms:
-  - name: modelView
+  - name: model_view
     binding: ModelViewMatrix
-  - name: modelViewProjection
+  - name: model_view_projection
     binding: ModelViewProjectionMatrix
   - name: diffuse
     type: Color

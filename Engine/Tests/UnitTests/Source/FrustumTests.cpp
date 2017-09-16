@@ -40,7 +40,7 @@ TEST_CASE("Test an axis-aligned box behind a frustum", "[Frustum]")
 
     AxisAlignedBox box(Vector3(-1, -1, 10), Vector3(1, 1, 11));
 
-    REQUIRE(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult::Outside == frustum.test_axis_aligned_box(box));
 }
 
 TEST_CASE("Test an axis-aligned box on the outside-left of a frustum", "[Frustum]")
@@ -56,7 +56,7 @@ TEST_CASE("Test an axis-aligned box on the outside-left of a frustum", "[Frustum
 
     AxisAlignedBox box(Vector3(-100, -1, -11), Vector3(-101, 1, -10));
 
-    REQUIRE(FrustumTestResult::Outside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult::Outside == frustum.test_axis_aligned_box(box));
 }
 
 TEST_CASE("Test an axis-aligned box on the inside of a frustum", "[Frustum]")
@@ -72,7 +72,7 @@ TEST_CASE("Test an axis-aligned box on the inside of a frustum", "[Frustum]")
 
     AxisAlignedBox box(Vector3(-1, -1, -50), Vector3(1, 1, -51));
 
-    REQUIRE(FrustumTestResult::Inside == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult::Inside == frustum.test_axis_aligned_box(box));
 }
 
 TEST_CASE("Test an axis-aligned box intersecting a frustum", "[Frustum]")
@@ -88,5 +88,5 @@ TEST_CASE("Test an axis-aligned box intersecting a frustum", "[Frustum]")
 
     AxisAlignedBox box(Vector3(-1, -1, -200), Vector3(1, 1, -51));
 
-    REQUIRE(FrustumTestResult::Intersect == frustum.testAxisAlignedBox(box));
+    REQUIRE(FrustumTestResult::Intersect == frustum.test_axis_aligned_box(box));
 }

@@ -62,13 +62,13 @@ public:
     void select_member(const char* name) override;
     void encode_string(const std::string& value) override;
     void encode_int8(int8_t value) override;
-    void encode_u_int8(uint8_t value) override;
+    void encode_uint8(uint8_t value) override;
     void encode_int16(int16_t value) override;
-    void encode_u_int16(uint16_t value) override;
+    void encode_uint16(uint16_t value) override;
     void encode_int32(int32_t value) override;
-    void encode_u_int32(uint32_t value) override;
+    void encode_uint32(uint32_t value) override;
     void encode_int64(int64_t value) override;
-    void encode_u_int64(uint64_t value) override;
+    void encode_uint64(uint64_t value) override;
     void encode_float32(float value) override;
     void encode_float64(double value) override;
     void encode_bool(bool value) override;

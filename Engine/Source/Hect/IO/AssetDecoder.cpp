@@ -125,10 +125,10 @@ int8_t AssetDecoder::decode_int8()
     return _implementation->decode_int8();
 }
 
-uint8_t AssetDecoder::decode_u_int8()
+uint8_t AssetDecoder::decode_uint8()
 {
     assert(_implementation);
-    return _implementation->decode_u_int8();
+    return _implementation->decode_uint8();
 }
 
 int16_t AssetDecoder::decode_int16()
@@ -137,10 +137,10 @@ int16_t AssetDecoder::decode_int16()
     return _implementation->decode_int16();
 }
 
-uint16_t AssetDecoder::decode_u_int16()
+uint16_t AssetDecoder::decode_uint16()
 {
     assert(_implementation);
-    return _implementation->decode_u_int16();
+    return _implementation->decode_uint16();
 }
 
 int32_t AssetDecoder::decode_int32()
@@ -149,10 +149,10 @@ int32_t AssetDecoder::decode_int32()
     return _implementation->decode_int32();
 }
 
-uint32_t AssetDecoder::decode_u_int32()
+uint32_t AssetDecoder::decode_uint32()
 {
     assert(_implementation);
-    return _implementation->decode_u_int32();
+    return _implementation->decode_uint32();
 }
 
 int64_t AssetDecoder::decode_int64()
@@ -161,10 +161,10 @@ int64_t AssetDecoder::decode_int64()
     return _implementation->decode_int64();
 }
 
-uint64_t AssetDecoder::decode_u_int64()
+uint64_t AssetDecoder::decode_uint64()
 {
     assert(_implementation);
-    return _implementation->decode_u_int64();
+    return _implementation->decode_uint64();
 }
 
 float AssetDecoder::decode_float32()

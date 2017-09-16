@@ -151,7 +151,7 @@ public:
     /// Decodes an 8-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint8_t decode_u_int8() = 0;
+    virtual uint8_t decode_uint8() = 0;
 
     ///
     /// Decodes a 16-bit signed integer.
@@ -163,7 +163,7 @@ public:
     /// Decodes a 16-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint16_t decode_u_int16() = 0;
+    virtual uint16_t decode_uint16() = 0;
 
     ///
     /// Decodes a 32-bit signed integer.
@@ -175,7 +175,7 @@ public:
     /// Decodes a 32-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint32_t decode_u_int32() = 0;
+    virtual uint32_t decode_uint32() = 0;
 
     ///
     /// Decodes a 64-bit signed integer.
@@ -187,7 +187,7 @@ public:
     /// Decodes a 64-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint64_t decode_u_int64() = 0;
+    virtual uint64_t decode_uint64() = 0;
 
     ///
     /// Decodes a 32-bit floating point number.

@@ -1,8 +1,8 @@
 ---
-videoMode:
+video_mode:
     width: 1440
     height: 900
-    bitsPerPixel: 32
+    bits_per_pixel: 32
     fullscreen: false
-assetCache:
+asset_cache:
     concurrent: true

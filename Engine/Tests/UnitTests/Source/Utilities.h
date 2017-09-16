@@ -33,4 +33,4 @@ using namespace hect;
 
 #include <functional>
 
-void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode);
+void test_encode_and_decode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode);

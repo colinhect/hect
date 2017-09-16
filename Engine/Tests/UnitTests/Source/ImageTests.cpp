@@ -41,8 +41,8 @@ TEST_CASE("Construct a sized image", "[Image]")
 
     REQUIRE(image.width() == 256);
     REQUIRE(image.height() == 512);
-    REQUIRE(image.pixelFormat() == PixelFormat::Rgb8);
-    REQUIRE(!image.hasPixelData());
+    REQUIRE(image.pixel_format() == PixelFormat::Rgb8);
+    REQUIRE(!image.has_pixel_data());
 }
 
 TEST_CASE("Write and read pixels", "[Image]")
@@ -67,10 +67,10 @@ TEST_CASE("Write and read pixels", "[Image]")
                     color.g = static_cast<double>(random.next(min, max)) / 255.0;
                     color.b = static_cast<double>(random.next(min, max)) / 255.0;
 
-                    image.writePixel(x, y, color);
+                    image.write_pixel(x, y, color);
 
-                    Color readColor = image.readPixel(x, y);
-                    REQUIRE(color == readColor);
+                    Color read_color = image.read_pixel(x, y);
+                    REQUIRE(color == read_color);
                 }
             }
         }
@@ -88,10 +88,10 @@ TEST_CASE("Write and read pixels", "[Image]")
                     color.g = random.next(0.0f, 1.0f);
                     color.b = random.next(0.0f, 1.0f);
 
-                    image.writePixel(x, y, color);
+                    image.write_pixel(x, y, color);
 
-                    Color readColor = image.readPixel(x, y);
-                    REQUIRE(color == readColor);
+                    Color read_color = image.read_pixel(x, y);
+                    REQUIRE(color == read_color);
                 }
             }
         }
@@ -116,10 +116,10 @@ TEST_CASE("Write and read pixels", "[Image]")
                     color.b = static_cast<double>(random.next(min, max)) / 255.0;
                     color.a = static_cast<double>(random.next(min, max)) / 255.0;
 
-                    image.writePixel(x, y, color);
+                    image.write_pixel(x, y, color);
 
-                    Color readColor = image.readPixel(x, y);
-                    REQUIRE(color == readColor);
+                    Color read_color = image.read_pixel(x, y);
+                    REQUIRE(color == read_color);
                 }
             }
         }
@@ -138,10 +138,10 @@ TEST_CASE("Write and read pixels", "[Image]")
                     color.b = random.next(0.0f, 1.0f);
                     color.a = random.next(0.0f, 1.0f);
 
-                    image.writePixel(x, y, color);
+                    image.write_pixel(x, y, color);
 
-                    Color readColor = image.readPixel(x, y);
-                    REQUIRE(color == readColor);
+                    Color read_color = image.read_pixel(x, y);
+                    REQUIRE(color == read_color);
                 }
             }
         }

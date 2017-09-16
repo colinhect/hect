@@ -128,7 +128,7 @@ int8_t DataValueDecoder::decode_int8()
     return static_cast<int8_t>(decode().as_double());
 }
 
-uint8_t DataValueDecoder::decode_u_int8()
+uint8_t DataValueDecoder::decode_uint8()
 {
     return static_cast<uint8_t>(decode().as_double());
 }
@@ -138,7 +138,7 @@ int16_t DataValueDecoder::decode_int16()
     return static_cast<int16_t>(decode().as_double());
 }
 
-uint16_t DataValueDecoder::decode_u_int16()
+uint16_t DataValueDecoder::decode_uint16()
 {
     return static_cast<uint16_t>(decode().as_double());
 }
@@ -148,7 +148,7 @@ int32_t DataValueDecoder::decode_int32()
     return static_cast<int32_t>(decode().as_double());
 }
 
-uint32_t DataValueDecoder::decode_u_int32()
+uint32_t DataValueDecoder::decode_uint32()
 {
     return static_cast<uint32_t>(decode().as_double());
 }
@@ -158,7 +158,7 @@ int64_t DataValueDecoder::decode_int64()
     return static_cast<int64_t>(decode().as_double());
 }
 
-uint64_t DataValueDecoder::decode_u_int64()
+uint64_t DataValueDecoder::decode_uint64()
 {
     return static_cast<uint64_t>(decode().as_double());
 }

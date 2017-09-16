@@ -27,114 +27,114 @@ using namespace hect;
 
 #include <catch.hpp>
 
-VertexLayout createVetexLayout()
+VertexLayout create_vetex_layout()
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float32, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float32, 3));
 
-    return vertexLayout;
+    return vertex_layout;
 }
 
 TEST_CASE("Read from an empty mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
-    mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(create_vetex_layout());
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    MeshReader meshReader(mesh);
+    MeshReader mesh_reader(mesh);
 
-    REQUIRE(!meshReader.nextVertex());
-    REQUIRE(!meshReader.nextIndex());
+    REQUIRE(!mesh_reader.next_vertex());
+    REQUIRE(!mesh_reader.next_index());
 }
 
 TEST_CASE("Read 3-dimensional vector attributes from a mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
-    mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(create_vetex_layout());
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
     {
-        MeshWriter meshWriter(mesh);
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(1, 2, 3));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(4, 5, 6));
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(7, 8, 9));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(10, 11, 12));
-        meshWriter.addVertex();
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(13, 14, 15));
-        meshWriter.writeAttributeData(VertexAttributeSemantic::Normal, Vector3(16, 17, 18));
+        MeshWriter mesh_writer(mesh);
+        mesh_writer.add_vertex();
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(1, 2, 3));
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Normal, Vector3(4, 5, 6));
+        mesh_writer.add_vertex();
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(7, 8, 9));
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Normal, Vector3(10, 11, 12));
+        mesh_writer.add_vertex();
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(13, 14, 15));
+        mesh_writer.write_attribute_data(VertexAttributeSemantic::Normal, Vector3(16, 17, 18));
     }
 
     Vector3 value;
-    MeshReader meshReader(mesh);
+    MeshReader mesh_reader(mesh);
 
-    REQUIRE(meshReader.nextVertex());
+    REQUIRE(mesh_reader.next_vertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Position);
     REQUIRE(value.x == 1);
     REQUIRE(value.y == 2);
     REQUIRE(value.z == 3);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Normal);
     REQUIRE(value.x == 4);
     REQUIRE(value.y == 5);
     REQUIRE(value.z == 6);
 
-    REQUIRE(meshReader.nextVertex());
+    REQUIRE(mesh_reader.next_vertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Position);
     REQUIRE(value.x == 7);
     REQUIRE(value.y == 8);
     REQUIRE(value.z == 9);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Normal);
     REQUIRE(value.x == 10);
     REQUIRE(value.y == 11);
     REQUIRE(value.z == 12);
 
-    REQUIRE(meshReader.nextVertex());
+    REQUIRE(mesh_reader.next_vertex());
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Position);
     REQUIRE(value.x == 13);
     REQUIRE(value.y == 14);
     REQUIRE(value.z == 15);
 
-    value = meshReader.readAttributeVector3(VertexAttributeSemantic::Normal);
+    value = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Normal);
     REQUIRE(value.x == 16);
     REQUIRE(value.y == 17);
     REQUIRE(value.z == 18);
 
-    REQUIRE(!meshReader.nextVertex());
+    REQUIRE(!mesh_reader.next_vertex());
 }
 
 TEST_CASE("Read 8-bit indices from a mesh", "[MeshReader]")
 {
     Mesh mesh("Test");
-    mesh.setVertexLayout(createVetexLayout());
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(create_vetex_layout());
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
     {
-        MeshWriter meshWriter(mesh);
-        meshWriter.addIndex(0);
-        meshWriter.addIndex(1);
-        meshWriter.addIndex(2);
+        MeshWriter mesh_writer(mesh);
+        mesh_writer.add_index(0);
+        mesh_writer.add_index(1);
+        mesh_writer.add_index(2);
     }
 
-    MeshReader meshReader(mesh);
+    MeshReader mesh_reader(mesh);
 
-    REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexUInt8() == 0);
+    REQUIRE(mesh_reader.next_index());
+    REQUIRE(mesh_reader.read_index_uint8() == 0);
 
-    REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexUInt8() == 1);
+    REQUIRE(mesh_reader.next_index());
+    REQUIRE(mesh_reader.read_index_uint8() == 1);
 
-    REQUIRE(meshReader.nextIndex());
-    REQUIRE(meshReader.readIndexUInt8() == 2);
+    REQUIRE(mesh_reader.next_index());
+    REQUIRE(mesh_reader.read_index_uint8() == 2);
 
-    REQUIRE(!meshReader.nextIndex());
+    REQUIRE(!mesh_reader.next_index());
 }

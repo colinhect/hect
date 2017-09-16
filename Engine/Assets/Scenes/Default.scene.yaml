@@ -1,8 +1,8 @@
 ---
-sceneType: DefaultScene
+scene_type: DefaultScene
 systems:
-  - systemType: DebugSystem
-    linesMaterial: Hect/Materials/DebugLines.material
-  - systemType: InterfaceSystem
-    defaultFont: Hect/Interface/Vera.font
-    defaultFontSize: 13
+  - system_type: DebugSystem
+    lines_material: Hect/Materials/DebugLines.material
+  - system_type: InterfaceSystem
+    default_font: Hect/Interface/Vera.font
+    default_font_size: 13

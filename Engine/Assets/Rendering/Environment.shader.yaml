@@ -7,17 +7,17 @@ modules:
 uniforms:
   - name: view
     binding: ViewMatrix
-  - name: diffuseBuffer
+  - name: diffuse_buffer
     binding: DiffuseBuffer
-  - name: materialBuffer
+  - name: material_buffer
     binding: MaterialBuffer
-  - name: positionBuffer
+  - name: position_buffer
     binding: PositionBuffer
-  - name: normalBuffer
+  - name: normal_buffer
     binding: NormalBuffer
-  - name: lightProbeTexture
+  - name: light_probe_texture
     binding: LightProbeTexture
-depthTested: false
-blendMode:
-    sourceFactor: One
-    destinationFactor: One
+depth_tested: false
+blend_mode:
+    source_factor: One
+    destination_factor: One

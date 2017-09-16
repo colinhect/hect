@@ -31,7 +31,7 @@ TEST_CASE("Construct an empty any value", "[Any]")
     Any a;
 
     REQUIRE(!a);
-    REQUIRE(!a.hasValue());
+    REQUIRE(!a.has_value());
 }
 
 TEST_CASE("Construct a non-empty any value", "[Any]")
@@ -39,23 +39,23 @@ TEST_CASE("Construct a non-empty any value", "[Any]")
     Any a(5);
 
     REQUIRE(a);
-    REQUIRE(a.hasValue());
+    REQUIRE(a.has_value());
 }
 
 TEST_CASE("Detect type of an empty any value", "[Any]")
 {
     Any a;
 
-    REQUIRE(!a.isType<int>());
-    REQUIRE(!a.isType<double>());
+    REQUIRE(!a.is_type<int>());
+    REQUIRE(!a.is_type<double>());
 }
 
 TEST_CASE("Detect type of a non-empty any value", "[Any]")
 {
     Any a(5);
 
-    REQUIRE(a.isType<int>());
-    REQUIRE(!a.isType<double>());
+    REQUIRE(a.is_type<int>());
+    REQUIRE(!a.is_type<double>());
 }
 
 TEST_CASE("Cast any value to correct type", "[Any]")
@@ -104,7 +104,7 @@ TEST_CASE("Move an any value", "[Any]")
 
     Any b(std::move(a));
     REQUIRE(!a);
-    REQUIRE(!a.hasValue());
+    REQUIRE(!a.has_value());
     REQUIRE(b.as<int>() == 5);
 }
 
@@ -117,7 +117,7 @@ TEST_CASE("Assign any value moved from another any value", "[Any]")
     Any b;
     b = std::move(a);
     REQUIRE(!a);
-    REQUIRE(!a.hasValue());
+    REQUIRE(!a.has_value());
     REQUIRE(b);
     REQUIRE(b.as<int>() == 5);
 }

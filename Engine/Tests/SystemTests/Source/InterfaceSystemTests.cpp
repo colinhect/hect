@@ -32,12 +32,12 @@ TEST_CASE("Create an interface", "[InterfaceSystem]")
 
     DefaultScene scene(engine);
 
-    InterfaceSystem& interfaceSystem = scene.interfaceSystem();
+    InterfaceSystem& interface_system = scene.interface_system();
 
-    Window& mainWindow = engine.mainWindow();
-    Interface::Handle interface = interfaceSystem.createInterface(mainWindow);
+    Window& main_window = engine.main_window();
+    Interface::Handle interface = interface_system.create_interface(main_window);
     REQUIRE(interface);
-    REQUIRE(interface->dimensions() == mainWindow.dimensions());
+    REQUIRE(interface->dimensions() == main_window.dimensions());
 }
 
 TEST_CASE("Create a button", "[InterfaceSystem]")
@@ -46,18 +46,18 @@ TEST_CASE("Create a button", "[InterfaceSystem]")
 
     DefaultScene scene(engine);
 
-    InterfaceSystem& interfaceSystem = scene.interfaceSystem();
+    InterfaceSystem& interface_system = scene.interface_system();
 
-    Interface::Handle interface = interfaceSystem.createInterface(engine.mainWindow());
+    Interface::Handle interface = interface_system.create_interface(engine.main_window());
     REQUIRE(interface);
 
-    ButtonWidget::Handle button = interface->createChild<ButtonWidget>();
+    ButtonWidget::Handle button = interface->create_child<ButtonWidget>();
     REQUIRE(button);
 
-    button->setPressAction([] { HECT_DEBUG("Press"); });
-    button->setDimensions(Vector2(100, 100));
-    button->setHorizontalAlign(HorizontalAlign::Center);
-    button->setVerticalAlign(VerticalAlign::Center);
+    button->set_press_action([] { HECT_DEBUG("Press"); });
+    button->set_dimensions(Vector2(100, 100));
+    button->set_horizontal_align(HorizontalAlign::Center);
+    button->set_vertical_align(VerticalAlign::Center);
 
-    //engine.playScene(scene);
+    //engine.play_scene(scene);
 }

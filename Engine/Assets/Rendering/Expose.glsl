@@ -1,18 +1,18 @@
 #version 440
 
 uniform float exposure;
-uniform float oneOverGamma;
-uniform sampler2D backBuffer;
+uniform float one_over_gamma;
+uniform sampler2D back_buffer;
 
-in vec2 vertexTextureCoords;
+in vec2 vertex_texture_coords;
 
-out vec4 outputColor;
+out vec4 output_color;
 
-vec3 correctGamma(
+vec3 correct_gamma(
     in  vec3    color,
-    in  float   oneOverGamma)
+    in  float   one_over_gamma)
 {
-    return pow(color, vec3(oneOverGamma));
+    return pow(color, vec3(one_over_gamma));
 }
 
 vec3 expose(
@@ -24,14 +24,14 @@ vec3 expose(
 
 void main()
 {
-    vec3 color = texture(backBuffer, vertexTextureCoords).rgb;
+    vec3 color = texture(back_buffer, vertex_texture_coords).rgb;
 
     if (exposure > 0.0)
     {
         // Color correct
         color = expose(color, exposure);
-        color = correctGamma(color, oneOverGamma);
+        color = correct_gamma(color, one_over_gamma);
     }
     
-    outputColor = vec4(color, 1.0);
+    output_color = vec4(color, 1.0);
 }

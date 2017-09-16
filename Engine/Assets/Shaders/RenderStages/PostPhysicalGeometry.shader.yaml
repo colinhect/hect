@@ -1,5 +1,5 @@
 ---
-renderStage: PostPhysicalGeometry
+render_stage: PostPhysicalGeometry
 modules:
   - type: Fragment
     path: PostPhysicalGeometry.glsl

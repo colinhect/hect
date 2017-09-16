@@ -428,7 +428,7 @@ void Mesh::encode(Encoder& encoder) const
         encoder << begin_array("indices");
         while (reader.next_index())
         {
-            encoder << encode_value(reader.read_index_u_int32());
+            encoder << encode_value(reader.read_index_uint32());
         }
         encoder << end_array();
     }
@@ -554,7 +554,7 @@ void Mesh::decode(Decoder& decoder)
             decoder >> begin_array();
             while (decoder.has_more_elements())
             {
-                mesh_writer.add_index(decoder.decode_u_int32());
+                mesh_writer.add_index(decoder.decode_uint32());
             }
             decoder >> end_array();
         }

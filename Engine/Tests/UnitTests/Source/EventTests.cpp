@@ -45,18 +45,18 @@ class TestListener :
 {
 public:
 
-    void receiveEvent(const TestEventA& event) override
+    void receive_event(const TestEventA& event) override
     {
-        lastTestEventA = event;
+        last_test_event_a = event;
     }
 
-    void receiveEvent(const TestEventB& event) override
+    void receive_event(const TestEventB& event) override
     {
-        lastTestEventB = event;
+        last_test_event_b = event;
     }
 
-    TestEventA lastTestEventA;
-    TestEventB lastTestEventB;
+    TestEventA last_test_event_a;
+    TestEventB last_test_event_b;
 };
 
 TEST_CASE("Register a listener, dispatch event, and unregister listener", "[Event]")
@@ -65,36 +65,36 @@ TEST_CASE("Register a listener, dispatch event, and unregister listener", "[Even
 
     TestListener listener;
 
-    dispatcher.registerListener(listener);
-    dispatcher.dispatchEvent(TestEventA::A);
-    REQUIRE(TestEventA::A == listener.lastTestEventA);
-    dispatcher.dispatchEvent(TestEventA::B);
-    REQUIRE(TestEventA::B == listener.lastTestEventA);
+    dispatcher.register_listener(listener);
+    dispatcher.dispatch_event(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.last_test_event_a);
+    dispatcher.dispatch_event(TestEventA::B);
+    REQUIRE(TestEventA::B == listener.last_test_event_a);
 
-    dispatcher.unregisterListener(listener);
-    dispatcher.dispatchEvent(TestEventA::A);
+    dispatcher.unregister_listener(listener);
+    dispatcher.dispatch_event(TestEventA::A);
 
-    REQUIRE(TestEventA::B == listener.lastTestEventA);
+    REQUIRE(TestEventA::B == listener.last_test_event_a);
 }
 
 TEST_CASE("Register listener to multiple dispatcher types", "[Event]")
 {
-    EventDispatcher<TestEventA> dispatcherA;
-    EventDispatcher<TestEventB> dispatcherB;
+    EventDispatcher<TestEventA> dispatcher_a;
+    EventDispatcher<TestEventB> dispatcher_b;
 
     TestListener listener;
 
-    dispatcherA.registerListener(listener);
-    dispatcherB.registerListener(listener);
+    dispatcher_a.register_listener(listener);
+    dispatcher_b.register_listener(listener);
 
-    dispatcherA.dispatchEvent(TestEventA::A);
-    REQUIRE(TestEventA::A == listener.lastTestEventA);
+    dispatcher_a.dispatch_event(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.last_test_event_a);
 
-    dispatcherB.dispatchEvent(TestEventB::A);
-    REQUIRE(TestEventB::A == listener.lastTestEventB);
+    dispatcher_b.dispatch_event(TestEventB::A);
+    REQUIRE(TestEventB::A == listener.last_test_event_b);
 
-    dispatcherB.dispatchEvent(TestEventB::B);
-    REQUIRE(TestEventB::B == listener.lastTestEventB);
+    dispatcher_b.dispatch_event(TestEventB::B);
+    REQUIRE(TestEventB::B == listener.last_test_event_b);
 }
 
 TEST_CASE("Register a listener that is already registered", "[Event]")
@@ -103,11 +103,11 @@ TEST_CASE("Register a listener that is already registered", "[Event]")
 
     TestListener listener;
 
-    dispatcher.registerListener(listener);
-    REQUIRE_THROWS_AS(dispatcher.registerListener(listener), InvalidOperation);
+    dispatcher.register_listener(listener);
+    REQUIRE_THROWS_AS(dispatcher.register_listener(listener), InvalidOperation);
 
-    dispatcher.dispatchEvent(TestEventA::A);
-    REQUIRE(TestEventA::A == listener.lastTestEventA);
+    dispatcher.dispatch_event(TestEventA::A);
+    REQUIRE(TestEventA::A == listener.last_test_event_a);
 }
 
 TEST_CASE("Unregister a listener that is not registered", "[Event]")
@@ -115,5 +115,5 @@ TEST_CASE("Unregister a listener that is not registered", "[Event]")
     EventDispatcher<TestEventA> dispatcher;
 
     TestListener listener;
-    REQUIRE_THROWS_AS(dispatcher.unregisterListener(listener), InvalidOperation);
+    REQUIRE_THROWS_AS(dispatcher.unregister_listener(listener), InvalidOperation);
 }

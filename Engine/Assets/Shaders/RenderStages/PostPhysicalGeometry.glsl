@@ -1,17 +1,17 @@
 #version 440
 
-out vec4 colorBuffer;
+out vec4 color_buffer;
 
-bool renderStage(
+bool render_stage(
     out vec4    color);
 
 void main()
 {
     vec4 color;
 
-    if (renderStage(color))
+    if (render_stage(color))
     {
-        colorBuffer = color;
+        color_buffer = color;
     }
     else
     {

@@ -7,8 +7,8 @@ modules:
 uniforms:
   - name: exposure
     binding: CameraExposure
-  - name: oneOverGamma
+  - name: one_over_gamma
     binding: CameraOneOverGamma
-  - name: backBuffer
+  - name: back_buffer
     binding: BackBuffer
-depthTested: false
+depth_tested: false

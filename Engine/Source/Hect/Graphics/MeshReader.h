@@ -101,21 +101,21 @@ public:
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint8_t read_index_u_int8() const;
+    uint8_t read_index_uint8() const;
 
     ///
     /// Reads the current index as an unsigned short.
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint16_t read_index_u_int16() const;
+    uint16_t read_index_uint16() const;
 
     ///
     /// Reads the current index as an unsigned int.
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint32_t read_index_u_int32() const;
+    uint32_t read_index_uint32() const;
 
 private:
     void check_vertex_boundary() const;

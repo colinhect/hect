@@ -101,7 +101,7 @@ void DataValueEncoder::encode_int8(int8_t value)
     encode(value);
 }
 
-void DataValueEncoder::encode_u_int8(uint8_t value)
+void DataValueEncoder::encode_uint8(uint8_t value)
 {
     encode(value);
 }
@@ -111,7 +111,7 @@ void DataValueEncoder::encode_int16(int16_t value)
     encode(value);
 }
 
-void DataValueEncoder::encode_u_int16(uint16_t value)
+void DataValueEncoder::encode_uint16(uint16_t value)
 {
     encode(value);
 }
@@ -121,7 +121,7 @@ void DataValueEncoder::encode_int32(int32_t value)
     encode(value);
 }
 
-void DataValueEncoder::encode_u_int32(uint32_t value)
+void DataValueEncoder::encode_uint32(uint32_t value)
 {
     encode(value);
 }
@@ -131,7 +131,7 @@ void DataValueEncoder::encode_int64(int64_t value)
     encode(static_cast<double>(value));
 }
 
-void DataValueEncoder::encode_u_int64(uint64_t value)
+void DataValueEncoder::encode_uint64(uint64_t value)
 {
     encode(static_cast<double>(value));
 }

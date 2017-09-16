@@ -5,8 +5,8 @@ modules:
   - type: Fragment
     path: Composite.glsl
 uniforms:
-  - name: diffuseBuffer
+  - name: diffuse_buffer
     binding: DiffuseBuffer
-  - name: backBuffer
+  - name: back_buffer
     binding: BackBuffer
-depthTested: false
+depth_tested: false

@@ -23,18 +23,18 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Utilities.h"
 
-void testEncodeAndDecode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode)
+void test_encode_and_decode(std::function<void(Encoder&)> encode, std::function<void(Decoder&)> decode)
 {
     // JSON
     {
-        DataValue dataValue;
+        DataValue data_value;
         {
             DataValueEncoder encoder;
             encode(encoder);
-            dataValue = *encoder.dataValues().begin();
+            data_value = *encoder.data_values().begin();
         }
         {
-            DataValueDecoder decoder(dataValue);
+            DataValueDecoder decoder(data_value);
             decode(decoder);
         }
     }

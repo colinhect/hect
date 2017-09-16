@@ -6,8 +6,8 @@ modules:
   - type: Fragment
     path: SkyBox.Fragment.glsl
 uniforms:
-  - name: modelViewProjection
+  - name: model_view_projection
     binding: ModelViewProjectionMatrix
-  - name: skyBoxTexture
+  - name: sky_box_texture
     binding: SkyBoxTexture
-depthTested: false
+depth_tested: false

@@ -29,99 +29,99 @@ using namespace hect;
 TEST_CASE("Create and remove directories", "[FileSystem]")
 {
     Engine& engine = Engine::instance();
-    FileSystem& fileSystem = engine.fileSystem();
+    FileSystem& file_system = engine.file_system();
 
-    Path baseDirectory = fileSystem.baseDirectory();
-    fileSystem.mountArchive(baseDirectory);
-    fileSystem.setWriteDirectory(baseDirectory);
+    Path base_directory = file_system.base_directory();
+    file_system.mount_archive(base_directory);
+    file_system.set_write_directory(base_directory);
 
     Path path("Directory");
 
-    REQUIRE(!fileSystem.exists(path));
-    fileSystem.createDirectory(path);
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!file_system.exists(path));
+    file_system.create_directory(path);
+    REQUIRE(file_system.exists(path));
+    file_system.remove(path);
+    REQUIRE(!file_system.exists(path));
 }
 
 TEST_CASE("Open non-existing file for write", "[FileSystem]")
 {
     Engine& engine = Engine::instance();
-    FileSystem& fileSystem = engine.fileSystem();
+    FileSystem& file_system = engine.file_system();
 
-    Path baseDirectory = fileSystem.baseDirectory();
-    fileSystem.mountArchive(baseDirectory);
-    fileSystem.setWriteDirectory(baseDirectory);
+    Path base_directory = file_system.base_directory();
+    file_system.mount_archive(base_directory);
+    file_system.set_write_directory(base_directory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!file_system.exists(path));
     {
-        auto stream = fileSystem.openFileForWrite(path);
+        auto stream = file_system.open_file_for_write(path);
     }
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(file_system.exists(path));
+    file_system.remove(path);
+    REQUIRE(!file_system.exists(path));
 }
 
 TEST_CASE("Open existing file for write", "[FileSystem]")
 {
     Engine& engine = Engine::instance();
-    FileSystem& fileSystem = engine.fileSystem();
+    FileSystem& file_system = engine.file_system();
 
-    Path baseDirectory = fileSystem.baseDirectory();
-    fileSystem.mountArchive(baseDirectory);
-    fileSystem.setWriteDirectory(baseDirectory);
+    Path base_directory = file_system.base_directory();
+    file_system.mount_archive(base_directory);
+    file_system.set_write_directory(base_directory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!file_system.exists(path));
     {
-        auto stream = fileSystem.openFileForWrite(path);
+        auto stream = file_system.open_file_for_write(path);
     }
-    REQUIRE(fileSystem.exists(path));
+    REQUIRE(file_system.exists(path));
     {
-        auto stream = fileSystem.openFileForWrite(path);
+        auto stream = file_system.open_file_for_write(path);
     }
-    REQUIRE(fileSystem.exists(path));
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(file_system.exists(path));
+    file_system.remove(path);
+    REQUIRE(!file_system.exists(path));
 }
 
 TEST_CASE("Open existing file for read", "[FileSystem]")
 {
     Engine& engine = Engine::instance();
-    FileSystem& fileSystem = engine.fileSystem();
+    FileSystem& file_system = engine.file_system();
 
-    Path baseDirectory = fileSystem.baseDirectory();
-    fileSystem.mountArchive(baseDirectory);
-    fileSystem.setWriteDirectory(baseDirectory);
+    Path base_directory = file_system.base_directory();
+    file_system.mount_archive(base_directory);
+    file_system.set_write_directory(base_directory);
 
     Path path("File.txt");
 
-    REQUIRE(!fileSystem.exists(path));
+    REQUIRE(!file_system.exists(path));
     {
-        auto stream = fileSystem.openFileForWrite(path);
+        auto stream = file_system.open_file_for_write(path);
     }
-    REQUIRE(fileSystem.exists(path));
+    REQUIRE(file_system.exists(path));
     {
-        auto stream = fileSystem.openFileForRead(path);
+        auto stream = file_system.open_file_for_read(path);
     }
 
-    fileSystem.remove(path);
-    REQUIRE(!fileSystem.exists(path));
+    file_system.remove(path);
+    REQUIRE(!file_system.exists(path));
 }
 
 TEST_CASE("Open non-existing file for read", "[FileSystem]")
 {
     Engine& engine = Engine::instance();
-    FileSystem& fileSystem = engine.fileSystem();
+    FileSystem& file_system = engine.file_system();
 
-    Path baseDirectory = fileSystem.baseDirectory();
-    fileSystem.mountArchive(baseDirectory);
-    fileSystem.setWriteDirectory(baseDirectory);
+    Path base_directory = file_system.base_directory();
+    file_system.mount_archive(base_directory);
+    file_system.set_write_directory(base_directory);
 
     Path path("DoesNotExist.txt");
 
-    REQUIRE_THROWS_AS(fileSystem.openFileForRead(path), IOError);
+    REQUIRE_THROWS_AS(file_system.open_file_for_read(path), IOError);
 }

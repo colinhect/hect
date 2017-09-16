@@ -29,12 +29,12 @@ using namespace hect;
 namespace
 {
 
-const unsigned maxThreadCount = 6;
-const unsigned maxTaskCount = 8;
+const unsigned max_thread_count = 6;
+const unsigned max_task_count = 8;
 
-void emptyTask() { }
+void empty_task() { }
 
-void shortTask()
+void short_task()
 {
     volatile float total = 0.0f;
     for (unsigned i = 0; i < 1024; ++i)
@@ -44,7 +44,7 @@ void shortTask()
     }
 }
 
-void longTask()
+void long_task()
 {
     volatile float total = 0.0f;
     for (unsigned i = 0; i < 4096 * 4; ++i)
@@ -54,20 +54,20 @@ void longTask()
     }
 }
 
-void testTasks(unsigned threadCount, unsigned taskCount, bool adaptive, Task::Action action)
+void test_tasks(unsigned thread_count, unsigned task_count, bool adaptive, Task::Action action)
 {
-    TaskPool taskPool(threadCount, adaptive);
+    TaskPool task_pool(thread_count, adaptive);
 
-    bool taskDone[maxTaskCount];
+    bool task_done[max_task_count];
     std::vector<Task::Handle> tasks;
 
-    for (unsigned i = 0; i < taskCount; ++i)
+    for (unsigned i = 0; i < task_count; ++i)
     {
-        bool* thisTaskDone = &taskDone[i];
-        Task::Handle task = taskPool.enqueue([action, thisTaskDone]
+        bool* this_task_done = &task_done[i];
+        Task::Handle task = task_pool.enqueue([action, this_task_done]
         {
             action();
-            *thisTaskDone = true;
+            *this_task_done = true;
         });
 
         tasks.push_back(task);
@@ -78,22 +78,22 @@ void testTasks(unsigned threadCount, unsigned taskCount, bool adaptive, Task::Ac
     {
         REQUIRE(task);
         task->wait();
-        REQUIRE(taskDone[i] == true);
-        REQUIRE(taskDone[i] == task->hasCompleted());
+        REQUIRE(task_done[i] == true);
+        REQUIRE(task_done[i] == task->has_completed());
 
         ++i;
     }
 }
 
-void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, bool adaptive, Task::Action action)
+void test_tasks_with_exceptions(unsigned thread_count, unsigned task_count, bool adaptive, Task::Action action)
 {
-    TaskPool taskPool(threadCount, adaptive);
+    TaskPool task_pool(thread_count, adaptive);
 
     std::vector<Task::Handle> tasks;
 
-    for (unsigned i = 0; i < taskCount; ++i)
+    for (unsigned i = 0; i < task_count; ++i)
     {
-        Task::Handle task = taskPool.enqueue([action]
+        Task::Handle task = task_pool.enqueue([action]
         {
             action();
             throw Exception("Task exception");
@@ -104,7 +104,7 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, bool adap
 
     for (Task::Handle& task : tasks)
     {
-        bool exceptionThrown = false;
+        bool exception_thrown = false;
         try
         {
             REQUIRE(task);
@@ -112,29 +112,29 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, bool adap
         }
         catch (Exception& exception)
         {
-            exceptionThrown = true;
+            exception_thrown = true;
             REQUIRE(std::string(exception.what()) == "Task exception");
         }
 
-        REQUIRE(exceptionThrown == true);
+        REQUIRE(exception_thrown == true);
     }
 }
 
 #define TEST_TASKS(action, adaptive)\
-    for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) \
+    for (unsigned thread_count = 0; thread_count < max_thread_count; ++thread_count) \
     { \
-        for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) \
+        for (unsigned task_count = 1; task_count < max_task_count; ++task_count) \
         { \
-            testTasks(threadCount, taskCount, adaptive, action); \
+            test_tasks(thread_count, task_count, adaptive, action); \
         } \
     }
 
 #define TEST_TASKS_WITH_EXCEPTIONS(action, adaptive)\
-    for (unsigned threadCount = 0; threadCount < maxThreadCount; ++threadCount) \
+    for (unsigned thread_count = 0; thread_count < max_thread_count; ++thread_count) \
     { \
-        for (unsigned taskCount = 1; taskCount < maxTaskCount; ++taskCount) \
+        for (unsigned task_count = 1; task_count < max_task_count; ++task_count) \
         { \
-            testTasksWithExceptions(threadCount, taskCount, adaptive, action); \
+            test_tasks_with_exceptions(thread_count, task_count, adaptive, action); \
         } \
     }
 
@@ -142,68 +142,68 @@ void testTasksWithExceptions(unsigned threadCount, unsigned taskCount, bool adap
 
 TEST_CASE("Execute empty tasks in a task pool", "[TaskPool]")
 {
-    TEST_TASKS(emptyTask, false);
+    TEST_TASKS(empty_task, false);
 }
 
 TEST_CASE("Execute empty tasks in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS(emptyTask, true);
+    TEST_TASKS(empty_task, true);
 }
 
 TEST_CASE("Execute short tasks in a task pool", "[TaskPool]")
 {
-    TEST_TASKS(shortTask, false);
+    TEST_TASKS(short_task, false);
 }
 
 TEST_CASE("Execute short tasks in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS(shortTask, true);
+    TEST_TASKS(short_task, true);
 }
 
 TEST_CASE("Execute long tasks in a task pool", "[TaskPool]")
 {
-    TEST_TASKS(longTask, false);
+    TEST_TASKS(long_task, false);
 }
 
 TEST_CASE("Execute long tasks in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS(longTask, true);
+    TEST_TASKS(long_task, true);
 }
 
 TEST_CASE("Execute empty tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(emptyTask, false);
+    TEST_TASKS_WITH_EXCEPTIONS(empty_task, false);
 }
 
 TEST_CASE("Execute empty tasks with errors in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(emptyTask, true);
+    TEST_TASKS_WITH_EXCEPTIONS(empty_task, true);
 }
 
 TEST_CASE("Execute short tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(shortTask, false);
+    TEST_TASKS_WITH_EXCEPTIONS(short_task, false);
 }
 
 TEST_CASE("Execute short tasks with errors in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(shortTask, true);
+    TEST_TASKS_WITH_EXCEPTIONS(short_task, true);
 }
 
 TEST_CASE("Execute long tasks with errors in a task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(longTask, false);
+    TEST_TASKS_WITH_EXCEPTIONS(long_task, false);
 }
 
 TEST_CASE("Execute long tasks with errors in an adaptive task pool", "[TaskPool]")
 {
-    TEST_TASKS_WITH_EXCEPTIONS(longTask, true);
+    TEST_TASKS_WITH_EXCEPTIONS(long_task, true);
 }
 
 TEST_CASE("Dereference an invalid task handle", "[TaskPool]")
 {
-    Task::Handle taskHandle;
-    REQUIRE(!taskHandle);
-    REQUIRE_THROWS_AS(*taskHandle, InvalidOperation);
-    REQUIRE_THROWS_AS(taskHandle->hasCompleted(), InvalidOperation);
+    Task::Handle task_handle;
+    REQUIRE(!task_handle);
+    REQUIRE_THROWS_AS(*task_handle, InvalidOperation);
+    REQUIRE_THROWS_AS(task_handle->has_completed(), InvalidOperation);
 }

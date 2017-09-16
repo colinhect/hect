@@ -109,7 +109,7 @@ public:
     /// Encodes an 8-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encode_u_int8(uint8_t value) = 0;
+    virtual void encode_uint8(uint8_t value) = 0;
 
     ///
     /// Encodes a 16-bit signed integer.
@@ -121,7 +121,7 @@ public:
     /// Encodes a 16-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encode_u_int16(uint16_t value) = 0;
+    virtual void encode_uint16(uint16_t value) = 0;
 
     ///
     /// Encodes a 32-bit signed integer.
@@ -133,7 +133,7 @@ public:
     /// Encodes a 32-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encode_u_int32(uint32_t value) = 0;
+    virtual void encode_uint32(uint32_t value) = 0;
 
     ///
     /// Encodes a 64-bit signed integer.
@@ -145,7 +145,7 @@ public:
     /// Encodes a 64-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encode_u_int64(uint64_t value) = 0;
+    virtual void encode_uint64(uint64_t value) = 0;
 
     ///
     /// Encodes a 32-bit float.

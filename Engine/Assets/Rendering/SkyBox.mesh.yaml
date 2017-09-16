@@ -1,6 +1,6 @@
 ---
-primitiveType: Triangles
-vertexLayout:
+primitive_type: Triangles
+vertex_layout:
     attributes:
       - type: Float32
         semantic: Position

@@ -115,7 +115,7 @@ TEST_CASE("Get the absolute value of a 3-dimensional vector", "[Vector3]")
 TEST_CASE("Get the squared length of a 3-dimensional vector", "[Vector3]")
 {
     Vector3 a(1.0, 2.0, 3.0);
-    REQUIRE(std::sqrt(a.lengthSquared()) == a.length());
+    REQUIRE(std::sqrt(a.length_squared()) == a.length());
 }
 
 TEST_CASE("Normalize a 3-dimensional vector", "[Vector3]")
@@ -133,21 +133,21 @@ TEST_CASE("Get a normalized copy of a 3-dimensional vector", "[Vector3]")
 
 TEST_CASE("Compute the angle betwen two 3-dimensional vectors", "[Vector3]")
 {
-    REQUIRE(Vector3::UnitX.angleFrom(Vector3::UnitX).value == 0.0);
-    REQUIRE(Degrees(Vector3::UnitX.angleFrom(-Vector3::UnitX)).value == 180.0);
+    REQUIRE(Vector3::UnitX.angle_from(Vector3::UnitX).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitX.angle_from(-Vector3::UnitX)).value == 180.0);
 
-    REQUIRE(Vector3::UnitY.angleFrom(Vector3::UnitY).value == 0.0);
-    REQUIRE(Degrees(Vector3::UnitY.angleFrom(-Vector3::UnitY)).value == 180.0);
+    REQUIRE(Vector3::UnitY.angle_from(Vector3::UnitY).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitY.angle_from(-Vector3::UnitY)).value == 180.0);
 
-    REQUIRE(Vector3::UnitZ.angleFrom(Vector3::UnitZ).value == 0.0);
-    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(-Vector3::UnitZ)).value == 180.0);
+    REQUIRE(Vector3::UnitZ.angle_from(Vector3::UnitZ).value == 0.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angle_from(-Vector3::UnitZ)).value == 180.0);
 
-    REQUIRE(Degrees(Vector3::UnitX.angleFrom(Vector3::UnitY)).value == 90.0);
-    REQUIRE(Degrees(Vector3::UnitX.angleFrom(Vector3::UnitZ)).value == 90.0);
-    REQUIRE(Degrees(Vector3::UnitY.angleFrom(Vector3::UnitX)).value == 90.0);
-    REQUIRE(Degrees(Vector3::UnitY.angleFrom(Vector3::UnitZ)).value == 90.0);
-    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(Vector3::UnitX)).value == 90.0);
-    REQUIRE(Degrees(Vector3::UnitZ.angleFrom(Vector3::UnitY)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitX.angle_from(Vector3::UnitY)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitX.angle_from(Vector3::UnitZ)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitY.angle_from(Vector3::UnitX)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitY.angle_from(Vector3::UnitZ)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angle_from(Vector3::UnitX)).value == 90.0);
+    REQUIRE(Degrees(Vector3::UnitZ.angle_from(Vector3::UnitY)).value == 90.0);
 }
 
 TEST_CASE("Compute the cross product of two 3-dimensional vectors", "[Vector3]")

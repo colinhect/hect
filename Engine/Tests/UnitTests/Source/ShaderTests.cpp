@@ -29,8 +29,8 @@ using namespace hect;
 TEST_CASE("Add modules to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
-    shader.addModule(ShaderModule(ShaderModuleType::Vertex, "A", "..."));
-    shader.addModule(ShaderModule(ShaderModuleType::Fragment, "B", "..."));
+    shader.add_module(ShaderModule(ShaderModuleType::Vertex, "A", "..."));
+    shader.add_module(ShaderModule(ShaderModuleType::Fragment, "B", "..."));
 
     REQUIRE(shader.modules()[0].name() == "A");
     REQUIRE(shader.modules()[1].name() == "B");
@@ -39,9 +39,9 @@ TEST_CASE("Add modules to a shader and iterate over them", "[Shader]")
 TEST_CASE("Add uniforms to a shader and iterate over them", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Float));
-    shader.addUniform(Uniform("B", UniformType::Vector2));
-    shader.addUniform(Uniform("C", UniformType::Vector3));
+    shader.add_uniform(Uniform("A", UniformType::Float));
+    shader.add_uniform(Uniform("B", UniformType::Vector2));
+    shader.add_uniform(Uniform("C", UniformType::Vector3));
 
     REQUIRE(shader.uniforms()[0].name() == "A");
     REQUIRE(shader.uniforms()[1].name() == "B");
@@ -51,7 +51,7 @@ TEST_CASE("Add uniforms to a shader and iterate over them", "[Shader]")
 TEST_CASE("Get an existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Float));
+    shader.add_uniform(Uniform("A", UniformType::Float));
 
     REQUIRE(shader.uniform("A").name() == "A");
     REQUIRE(shader.uniform(std::string("A")).name() == "A");
@@ -60,7 +60,7 @@ TEST_CASE("Get an existing uniform from a shader by name", "[Shader]")
 TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Float));
+    shader.add_uniform(Uniform("A", UniformType::Float));
 
     REQUIRE_THROWS_AS(shader.uniform("B"), InvalidOperation);
     REQUIRE_THROWS_AS(shader.uniform(std::string("B")), InvalidOperation);
@@ -69,7 +69,7 @@ TEST_CASE("Get a non-existing uniform from a shader by name", "[Shader]")
 TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
 {
     Shader shader;
-    UniformIndex index = shader.addUniform(Uniform("A", UniformType::Float));
+    UniformIndex index = shader.add_uniform(Uniform("A", UniformType::Float));
 
     REQUIRE(shader.uniform(index).name() == "A");
 }
@@ -77,7 +77,7 @@ TEST_CASE("Get an existing uniform from a shader by index", "[Shader]")
 TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Float));
+    shader.add_uniform(Uniform("A", UniformType::Float));
 
     REQUIRE_THROWS_AS(shader.uniform(1), InvalidOperation);
 }
@@ -85,32 +85,32 @@ TEST_CASE("Get a non-existing uniform from a shader by index", "[Shader]")
 TEST_CASE("Get and set the render stage of a shader", "[Shader]")
 {
     Shader shader;
-    REQUIRE(shader.renderStage() == RenderStage::None);
-    shader.setRenderStage(RenderStage::PhysicalGeometry);
-    REQUIRE(shader.renderStage() == RenderStage::PhysicalGeometry);
+    REQUIRE(shader.render_stage() == RenderStage::None);
+    shader.set_render_stage(RenderStage::PhysicalGeometry);
+    REQUIRE(shader.render_stage() == RenderStage::PhysicalGeometry);
 }
 
 TEST_CASE("Get and set the blend mode of a shader", "[Shader]")
 {
     Shader shader;
-    REQUIRE(shader.blendMode() == BlendMode());
-    BlendMode blendMode(BlendFunction::Subtract, BlendFactor::One, BlendFactor::One);
-    shader.setBlendMode(blendMode);
-    REQUIRE(shader.blendMode() == blendMode);
+    REQUIRE(shader.blend_mode() == BlendMode());
+    BlendMode blend_mode(BlendFunction::Subtract, BlendFactor::One, BlendFactor::One);
+    shader.set_blend_mode(blend_mode);
+    REQUIRE(shader.blend_mode() == blend_mode);
 }
 
 TEST_CASE("Get and set whether a shader is depth tested", "[Shader]")
 {
     Shader shader;
-    REQUIRE(shader.isDepthTested() == true);
-    shader.setDepthTested(false);
-    REQUIRE(shader.isDepthTested() == false);
+    REQUIRE(shader.is_depth_tested() == true);
+    shader.set_depth_tested(false);
+    REQUIRE(shader.is_depth_tested() == false);
 }
 
 TEST_CASE("Get and set the priority of a shader", "[Shader]")
 {
     Shader shader;
     REQUIRE(shader.priority() == 0);
-    shader.setPriority(1);
+    shader.set_priority(1);
     REQUIRE(shader.priority() == 1);
 }

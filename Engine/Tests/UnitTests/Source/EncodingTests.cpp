@@ -32,18 +32,18 @@ using namespace hect;
 
 TEST_CASE("Encode single object", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginObject()
-                << encodeValue("String", std::string("Testing"))
-                << endObject();
+        encoder << begin_object()
+                << encode_value("String", std::string("Testing"))
+                << end_object();
     }, [](Decoder& decoder)
     {
         std::string string;
 
-        decoder >> beginObject()
-                >> decodeValue("String", string)
-                >> endObject();
+        decoder >> begin_object()
+                >> decode_value("String", string)
+                >> end_object();
 
         REQUIRE(string == "Testing");
     });
@@ -51,25 +51,25 @@ TEST_CASE("Encode single object", "[Encoding]")
 
 TEST_CASE("Encode single array", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginArray()
-                << encodeValue(std::string("Zero"))
-                << encodeValue(std::string("One"))
-                << encodeValue(std::string("Two"))
-                << endArray();
+        encoder << begin_array()
+                << encode_value(std::string("Zero"))
+                << encode_value(std::string("One"))
+                << encode_value(std::string("Two"))
+                << end_array();
     }, [](Decoder& decoder)
     {
         std::vector<std::string> strings;
 
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
+        decoder >> begin_array();
+        while (decoder.has_more_elements())
         {
             std::string string;
-            decoder >> decodeValue(string);
+            decoder >> decode_value(string);
             strings.push_back(string);
         }
-        decoder >> endArray();
+        decoder >> end_array();
 
         REQUIRE(strings[0] == "Zero");
         REQUIRE(strings[1] == "One");
@@ -79,29 +79,29 @@ TEST_CASE("Encode single array", "[Encoding]")
 
 TEST_CASE("Encode array in object", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginObject()
-                << beginArray("Array")
-                << encodeValue(std::string("Zero"))
-                << encodeValue(std::string("One"))
-                << encodeValue(std::string("Two"))
-                << endArray()
-                << endObject();
+        encoder << begin_object()
+                << begin_array("Array")
+                << encode_value(std::string("Zero"))
+                << encode_value(std::string("One"))
+                << encode_value(std::string("Two"))
+                << end_array()
+                << end_object();
     }, [](Decoder& decoder)
     {
-        decoder >> beginObject()
-                >> beginArray("Array");
+        decoder >> begin_object()
+                >> begin_array("Array");
 
         std::vector<std::string> strings;
-        while (decoder.hasMoreElements())
+        while (decoder.has_more_elements())
         {
             std::string string;
-            decoder >> decodeValue(string);
+            decoder >> decode_value(string);
             strings.push_back(string);
         }
-        decoder >> endArray()
-                >> endObject();
+        decoder >> end_array()
+                >> end_object();
 
         REQUIRE(strings[0] == "Zero");
         REQUIRE(strings[1] == "One");
@@ -111,32 +111,32 @@ TEST_CASE("Encode array in object", "[Encoding]")
 
 TEST_CASE("Encode array in array", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginArray();
+        encoder << begin_array();
         for (int i = 0; i < 3; ++i)
         {
-            encoder << beginArray()
-                    << encodeValue(std::string("Zero"))
-                    << encodeValue(std::string("One"))
-                    << encodeValue(std::string("Two"))
-                    << endArray();
+            encoder << begin_array()
+                    << encode_value(std::string("Zero"))
+                    << encode_value(std::string("One"))
+                    << encode_value(std::string("Two"))
+                    << end_array();
         }
-        encoder << endArray();
+        encoder << end_array();
     }, [](Decoder& decoder)
     {
-        decoder >> beginArray();
+        decoder >> begin_array();
 
-        int arrayCount = 0;
-        while (decoder.hasMoreElements())
+        int array_count = 0;
+        while (decoder.has_more_elements())
         {
-            decoder >> beginArray();
+            decoder >> begin_array();
 
             std::vector<std::string> strings;
-            while (decoder.hasMoreElements())
+            while (decoder.has_more_elements())
             {
                 std::string string;
-                decoder >> decodeValue(string);
+                decoder >> decode_value(string);
                 strings.push_back(string);
             }
 
@@ -144,194 +144,194 @@ TEST_CASE("Encode array in array", "[Encoding]")
             REQUIRE(strings[1] == "One");
             REQUIRE(strings[2] == "Two");
 
-            ++arrayCount;
-            decoder >> endArray();
+            ++array_count;
+            decoder >> end_array();
         }
-        decoder >> endArray();
+        decoder >> end_array();
 
-        REQUIRE(arrayCount == 3);
+        REQUIRE(array_count == 3);
     });
 }
 
 TEST_CASE("Encode object in array", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginArray();
+        encoder << begin_array();
         for (int i = 0; i < 3; ++i)
         {
-            encoder << beginObject()
-                    << encodeValue("String", std::string("Testing"))
-                    << endObject();
+            encoder << begin_object()
+                    << encode_value("String", std::string("Testing"))
+                    << end_object();
         }
-        encoder << endArray();
+        encoder << end_array();
     }, [](Decoder& decoder)
     {
-        decoder >> beginArray();
+        decoder >> begin_array();
 
-        int objectCount = 0;
-        while (decoder.hasMoreElements())
+        int object_count = 0;
+        while (decoder.has_more_elements())
         {
             std::string string;
 
-            decoder >> beginObject()
-                    >> decodeValue("String", string)
-                    >> endObject();
+            decoder >> begin_object()
+                    >> decode_value("String", string)
+                    >> end_object();
 
             REQUIRE(string== "Testing");
 
-            ++objectCount;
+            ++object_count;
         }
 
-        decoder >> endArray();
+        decoder >> end_array();
 
-        REQUIRE(objectCount == 3);
+        REQUIRE(object_count == 3);
     });
 }
 
 TEST_CASE("Encode everything in array", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginArray()
-                << encodeValue(std::string("Test"))
-                << encodeValue(static_cast<int8_t>(12))
-                << encodeValue(static_cast<uint8_t>(12))
-                << encodeValue(static_cast<int16_t>(12))
-                << encodeValue(static_cast<uint16_t>(12))
-                << encodeValue(static_cast<int32_t>(12))
-                << encodeValue(static_cast<uint32_t>(12))
-                << encodeValue(static_cast<int64_t>(12))
-                << encodeValue(static_cast<uint64_t>(12))
-                << encodeValue(123.0f)
-                << encodeValue(123.0)
-                << encodeValue(true)
-                << endArray();
+        encoder << begin_array()
+                << encode_value(std::string("Test"))
+                << encode_value(static_cast<int8_t>(12))
+                << encode_value(static_cast<uint8_t>(12))
+                << encode_value(static_cast<int16_t>(12))
+                << encode_value(static_cast<uint16_t>(12))
+                << encode_value(static_cast<int32_t>(12))
+                << encode_value(static_cast<uint32_t>(12))
+                << encode_value(static_cast<int64_t>(12))
+                << encode_value(static_cast<uint64_t>(12))
+                << encode_value(123.0f)
+                << encode_value(123.0)
+                << encode_value(true)
+                << end_array();
     }, [](Decoder& decoder)
     {
-        decoder >> beginArray();
+        decoder >> begin_array();
 
-        REQUIRE(decoder.decodeString() == "Test");
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeInt8() == 12);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeUInt8() == 12u);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeInt16() == 12);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeUInt16() == 12u);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeInt32() == 12);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeUInt32() == 12u);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeInt64() == 12);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeUInt64() == 12u);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeFloat32() == 123.0f);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeFloat64() == 123.0);
-        REQUIRE(decoder.hasMoreElements());
-        REQUIRE(decoder.decodeBool() == true);
-        REQUIRE(!decoder.hasMoreElements());
+        REQUIRE(decoder.decode_string() == "Test");
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_int8() == 12);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_uint8() == 12u);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_int16() == 12);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_uint16() == 12u);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_int32() == 12);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_uint32() == 12u);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_int64() == 12);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_uint64() == 12u);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_float32() == 123.0f);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_float64() == 123.0);
+        REQUIRE(decoder.has_more_elements());
+        REQUIRE(decoder.decode_bool() == true);
+        REQUIRE(!decoder.has_more_elements());
     });
 }
 
 TEST_CASE("Encode everything in object", "[Encoding]")
 {
-    testEncodeAndDecode([](Encoder& encoder)
+    test_encode_and_decode([](Encoder& encoder)
     {
-        encoder << beginObject()
-                << encodeValue("String", std::string("Test"))
-                << encodeValue("Int8", static_cast<int8_t>(12))
-                << encodeValue("UInt8", static_cast<uint8_t>(12))
-                << encodeValue("Int16", static_cast<int16_t>(12))
-                << encodeValue("UInt16", static_cast<uint16_t>(12))
-                << encodeValue("Int32", static_cast<int32_t>(12))
-                << encodeValue("UInt32", static_cast<uint32_t>(12))
-                << encodeValue("Int64", static_cast<int64_t>(12))
-                << encodeValue("UInt64", static_cast<uint64_t>(12))
-                << encodeValue("Float32", 123.0f)
-                << encodeValue("Float64", 123.0)
-                << encodeValue("Bool", true)
-                << endObject();
+        encoder << begin_object()
+                << encode_value("String", std::string("Test"))
+                << encode_value("Int8", static_cast<int8_t>(12))
+                << encode_value("UInt8", static_cast<uint8_t>(12))
+                << encode_value("Int16", static_cast<int16_t>(12))
+                << encode_value("UInt16", static_cast<uint16_t>(12))
+                << encode_value("Int32", static_cast<int32_t>(12))
+                << encode_value("UInt32", static_cast<uint32_t>(12))
+                << encode_value("Int64", static_cast<int64_t>(12))
+                << encode_value("UInt64", static_cast<uint64_t>(12))
+                << encode_value("Float32", 123.0f)
+                << encode_value("Float64", 123.0)
+                << encode_value("Bool", true)
+                << end_object();
     }, [](Decoder& decoder)
     {
-        decoder >> beginObject();
+        decoder >> begin_object();
 
         {
             std::string value;
-            decoder >> decodeValue("String", value);
+            decoder >> decode_value("String", value);
             REQUIRE(value == "Test");
         }
 
         {
             int8_t value;
-            decoder >> decodeValue("Int8", value);
+            decoder >> decode_value("Int8", value);
             REQUIRE(value == 12);
         }
 
         {
             uint8_t value;
-            decoder >> decodeValue("UInt8", value);
+            decoder >> decode_value("UInt8", value);
             REQUIRE(value == 12u);
         }
 
         {
             int16_t value;
-            decoder >> decodeValue("Int16", value);
+            decoder >> decode_value("Int16", value);
             REQUIRE(value == 12);
         }
 
         {
             uint16_t value;
-            decoder >> decodeValue("UInt16", value);
+            decoder >> decode_value("UInt16", value);
             REQUIRE(value == 12u);
         }
 
         {
             int32_t value;
-            decoder >> decodeValue("Int32", value);
+            decoder >> decode_value("Int32", value);
             REQUIRE(value == 12);
         }
 
         {
             uint32_t value;
-            decoder >> decodeValue("UInt32", value);
+            decoder >> decode_value("UInt32", value);
             REQUIRE(value == 12u);
         }
 
         {
             int64_t value;
-            decoder >> decodeValue("Int64", value);
+            decoder >> decode_value("Int64", value);
             REQUIRE(value == 12);
         }
 
         {
             uint64_t value;
-            decoder >> decodeValue("UInt64", value);
+            decoder >> decode_value("UInt64", value);
             REQUIRE(value == 12u);
         }
 
         {
             float value;
-            decoder >> decodeValue("Float32", value);
+            decoder >> decode_value("Float32", value);
             REQUIRE(value == 123.0f);
         }
 
         {
             double value;
-            decoder >> decodeValue("Float64", value);
+            decoder >> decode_value("Float64", value);
             REQUIRE(value == 123.0);
         }
 
         {
             bool value;
-            decoder >> decodeValue("Bool", value);
+            decoder >> decode_value("Bool", value);
             REQUIRE(value == true);
         }
 
-        decoder >> endObject();
+        decoder >> end_object();
     });
 }

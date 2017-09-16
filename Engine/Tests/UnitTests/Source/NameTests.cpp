@@ -31,7 +31,7 @@ TEST_CASE("Construct empty name", "[Name]")
     Name name;
 
     REQUIRE(name.empty());
-    REQUIRE(name.asString() == "");
+    REQUIRE(name.as_string() == "");
 }
 
 TEST_CASE("Construct non-empty name", "[Name]")
@@ -39,23 +39,23 @@ TEST_CASE("Construct non-empty name", "[Name]")
     Name name("Test");
 
     REQUIRE(!name.empty());
-    REQUIRE(name.asString() == "Test");
+    REQUIRE(name.as_string() == "Test");
 }
 
 TEST_CASE("Compare two different names", "[Name]")
 {
-    Name nameA("TestA");
-    Name nameB("TestB");
+    Name name_a("TestA");
+    Name name_b("TestB");
 
-    REQUIRE(nameA != nameB);
-    REQUIRE(!(nameA == nameB));
+    REQUIRE(name_a != name_b);
+    REQUIRE(!(name_a == name_b));
 }
 
 TEST_CASE("Compare two equivalent names", "[Name]")
 {
-    Name nameA("Test");
-    Name nameB("Test");
+    Name name_a("Test");
+    Name name_b("Test");
 
-    REQUIRE(nameA == nameB);
-    REQUIRE(!(nameA != nameB));
+    REQUIRE(name_a == name_b);
+    REQUIRE(!(name_a != name_b));
 }

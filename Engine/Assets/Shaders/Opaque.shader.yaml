@@ -6,13 +6,13 @@ modules:
   - type: Fragment
     path: Opaque.Fragment.glsl
 uniforms:
-  - name: modelView
+  - name: model_view
     binding: ModelViewMatrix
-  - name: modelViewProjection
+  - name: model_view_projection
     binding: ModelViewProjectionMatrix
-  - name: diffuseTexture
+  - name: diffuse_texture
     type: Texture2
-  - name: materialTexture
+  - name: material_texture
     type: Texture2
-  - name: normalTexture
+  - name: normal_texture
     type: Texture2

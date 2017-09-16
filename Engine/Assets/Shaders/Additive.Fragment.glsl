@@ -1,13 +1,13 @@
 #version 440
 
-uniform sampler2D additiveTexture;
+uniform sampler2D additive_texture;
 uniform float intensity;
 
-in vec2 vertexTextureCoords;
+in vec2 vertex_texture_coords;
 
-bool renderStage(
-    out vec4    outColor)
+bool render_stage(
+    out vec4    out_color)
 {
-    outColor = texture(additiveTexture, vertexTextureCoords) * intensity;
+    out_color = texture(additive_texture, vertex_texture_coords) * intensity;
     return true;
 }

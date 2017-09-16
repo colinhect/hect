@@ -171,17 +171,17 @@ bool MeshReader::next_index()
     return _mesh.index_count() >= _index_count;
 }
 
-uint8_t MeshReader::read_index_u_int8() const
+uint8_t MeshReader::read_index_uint8() const
 {
-    return static_cast<uint8_t>(read_index_u_int32());
+    return static_cast<uint8_t>(read_index_uint32());
 }
 
-uint16_t MeshReader::read_index_u_int16() const
+uint16_t MeshReader::read_index_uint16() const
 {
-    return static_cast<uint16_t>(read_index_u_int32());
+    return static_cast<uint16_t>(read_index_uint32());
 }
 
-uint32_t MeshReader::read_index_u_int32() const
+uint32_t MeshReader::read_index_uint32() const
 {
     check_index_boundary();
     _index_stream.seek(_index_position);

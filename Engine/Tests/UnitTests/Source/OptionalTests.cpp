@@ -30,7 +30,7 @@ TEST_CASE("Construct an empty optional container", "[Optional]")
 {
     Optional<std::string> optional;
 
-    REQUIRE(!optional.hasValue());
+    REQUIRE(!optional.has_value());
     REQUIRE(!optional);
 }
 
@@ -38,7 +38,7 @@ TEST_CASE("Construct an non-empty optional container", "[Optional]")
 {
     Optional<std::string> optional("Value");
 
-    REQUIRE(optional.hasValue());
+    REQUIRE(optional.has_value());
     REQUIRE(optional);
 }
 
@@ -49,9 +49,9 @@ TEST_CASE("Retrieve the value in an optional container", "[Optional]")
     REQUIRE(*optional == "Value");
     REQUIRE(optional.value() == "Value");
 
-    const Optional<std::string>& constOptional = optional;
-    REQUIRE(*constOptional == "Value");
-    REQUIRE(constOptional.value() == "Value");
+    const Optional<std::string>& const_optional = optional;
+    REQUIRE(*const_optional == "Value");
+    REQUIRE(const_optional.value() == "Value");
 }
 
 TEST_CASE("Update the value in an optional container using assignment", "[Optional]")
@@ -71,8 +71,8 @@ TEST_CASE("Update the value in an optional container using movement", "[Optional
 
     REQUIRE(*optional == "Value");
 
-    std::string newValue("NewValue");
-    optional = std::move(newValue);
+    std::string new_value("NewValue");
+    optional = std::move(new_value);
 
     REQUIRE(*optional == "NewValue");
 }
@@ -90,30 +90,30 @@ TEST_CASE("Copy an optional container without a value", "[Optional]")
 {
     Optional<std::string> optional;
 
-    Optional<std::string> optionalCopy = optional;
-    REQUIRE(!optionalCopy.hasValue());
+    Optional<std::string> optional_copy = optional;
+    REQUIRE(!optional_copy.has_value());
 }
 
 TEST_CASE("Copy an optional container with a value", "[Optional]")
 {
     Optional<std::string> optional("Value");
 
-    Optional<std::string> optionalCopy = optional;
-    REQUIRE(*optionalCopy == "Value");
+    Optional<std::string> optional_copy = optional;
+    REQUIRE(*optional_copy == "Value");
 }
 
 TEST_CASE("Move an optional container without a value", "[Optional]")
 {
     Optional<std::string> optional;
 
-    Optional<std::string> optionalCopy = std::move(optional);
-    REQUIRE(!optionalCopy.hasValue());
+    Optional<std::string> optional_copy = std::move(optional);
+    REQUIRE(!optional_copy.has_value());
 }
 
 TEST_CASE("Move an optional container with a value", "[Optional]")
 {
     Optional<std::string> optional("Value");
 
-    Optional<std::string> optionalCopy = std::move(optional);
-    REQUIRE(*optionalCopy == "Value");
+    Optional<std::string> optional_copy = std::move(optional);
+    REQUIRE(*optional_copy == "Value");
 }

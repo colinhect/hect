@@ -1,10 +1,10 @@
 #version 440
 
-in vec4 vertexColor;
+in vec4 vertex_color;
 
-bool renderStage(
-    out vec4    outColor)
+bool render_stage(
+    out vec4    out_color)
 {
-    outColor = vertexColor;
+    out_color = vertex_color;
     return true;
 }

@@ -29,100 +29,100 @@ using namespace hect;
 TEST_CASE("Get and set the shader of a material", "[Material]")
 {
     Shader shader;
-    Shader::Handle shaderHandle = shader.createHandle();
+    Shader::Handle shader_handle = shader.create_handle();
 
     Material material;
     REQUIRE(!material.shader());
 
-    material.setShader(shaderHandle);
-    REQUIRE(material.shader() == shaderHandle);
+    material.set_shader(shader_handle);
+    REQUIRE(material.shader() == shader_handle);
 }
 
 TEST_CASE("Get and set the cull mode of a material", "[Material]")
 {
     Material material;
-    REQUIRE(material.cullMode() == CullMode::CounterClockwise);
+    REQUIRE(material.cull_mode() == CullMode::CounterClockwise);
 
-    material.setCullMode(CullMode::None);
-    REQUIRE(material.cullMode() == CullMode::None);
+    material.set_cull_mode(CullMode::None);
+    REQUIRE(material.cull_mode() == CullMode::None);
 }
 
 TEST_CASE("Set a uniform value in a material without a set shader", "[Material]")
 {
     Material material;
-    REQUIRE_THROWS_AS(material.setUniformValue("A", 0), InvalidOperation);
+    REQUIRE_THROWS_AS(material.set_uniform_value("A", 0), InvalidOperation);
 }
 
 TEST_CASE("Set a uniform value in a material for a non-existing uniform in the shader", "[Material]")
 {
     Shader shader;
     Material material;
-    material.setShader(shader.createHandle());
-    REQUIRE_THROWS_AS(material.setUniformValue("A", 0), InvalidOperation);
+    material.set_shader(shader.create_handle());
+    REQUIRE_THROWS_AS(material.set_uniform_value("A", 0), InvalidOperation);
 }
 
 TEST_CASE("Set and get a uniform value in a material for a uniform of the same type in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Int));
+    shader.add_uniform(Uniform("A", UniformType::Int));
 
     Material material;
-    material.setShader(shader.createHandle());
-    material.setUniformValue("A", 1);
+    material.set_shader(shader.create_handle());
+    material.set_uniform_value("A", 1);
 
-    const UniformValue& uniformValue = material.uniformValues()[0];
-    REQUIRE(uniformValue.type() == UniformType::Int);
-    REQUIRE(uniformValue.asInt() == 1);
+    const UniformValue& uniform_value = material.uniform_values()[0];
+    REQUIRE(uniform_value.type() == UniformType::Int);
+    REQUIRE(uniform_value.as_int() == 1);
 }
 
 TEST_CASE("Set and get a uniform value in a material for a uniform of a different type in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Texture2));
+    shader.add_uniform(Uniform("A", UniformType::Texture2));
 
     Material material;
-    material.setShader(shader.createHandle());
-    REQUIRE_THROWS_AS(material.setUniformValue("A", 1), InvalidOperation);
+    material.set_shader(shader.create_handle());
+    REQUIRE_THROWS_AS(material.set_uniform_value("A", 1), InvalidOperation);
 }
 
 TEST_CASE("Set and get a uniform value in a material for a bound uniform in the shader", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformBinding::CameraPosition));
+    shader.add_uniform(Uniform("A", UniformBinding::CameraPosition));
 
     Material material;
-    material.setShader(shader.createHandle());
-    REQUIRE_THROWS_AS(material.setUniformValue("A", 1), InvalidOperation);
+    material.set_shader(shader.create_handle());
+    REQUIRE_THROWS_AS(material.set_uniform_value("A", 1), InvalidOperation);
 }
 
 TEST_CASE("Clear the uniform values of a material", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Int));
+    shader.add_uniform(Uniform("A", UniformType::Int));
 
     Material material;
-    material.setShader(shader.createHandle());
-    material.setUniformValue("A", 1);
+    material.set_shader(shader.create_handle());
+    material.set_uniform_value("A", 1);
 
-    REQUIRE(!material.uniformValues().empty());
+    REQUIRE(!material.uniform_values().empty());
 
-    material.clearUniformValues();
+    material.clear_uniform_values();
 
-    REQUIRE(material.uniformValues().empty());
+    REQUIRE(material.uniform_values().empty());
 }
 
 TEST_CASE("Set the shader of a material with uniform values", "[Material]")
 {
     Shader shader;
-    shader.addUniform(Uniform("A", UniformType::Int));
+    shader.add_uniform(Uniform("A", UniformType::Int));
 
     Material material;
-    material.setShader(shader.createHandle());
-    material.setUniformValue("A", 1);
+    material.set_shader(shader.create_handle());
+    material.set_uniform_value("A", 1);
 
-    REQUIRE(!material.uniformValues().empty());
+    REQUIRE(!material.uniform_values().empty());
 
-    material.setShader(Shader::Handle());
+    material.set_shader(Shader::Handle());
 
-    REQUIRE(material.uniformValues().empty());
+    REQUIRE(material.uniform_values().empty());
 }

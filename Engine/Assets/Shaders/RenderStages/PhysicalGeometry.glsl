@@ -1,11 +1,11 @@
 #version 440
 
-out vec4 diffuseBuffer;
-out vec3 materialBuffer;
-out vec3 positionBuffer;
-out vec4 normalBuffer;
+out vec4 diffuse_buffer;
+out vec3 material_buffer;
+out vec3 position_buffer;
+out vec4 normal_buffer;
 
-bool renderStage(
+bool render_stage(
     out vec4    diffuse,
     out float   roughness,
     out float   metallic,
@@ -20,12 +20,12 @@ void main()
     vec3 position;
     vec3 normal;
 
-    if (renderStage(diffuse, roughness, metallic, position, normal))
+    if (render_stage(diffuse, roughness, metallic, position, normal))
     {
-        diffuseBuffer = diffuse;
-        materialBuffer = vec3(roughness, metallic, 1.0);
-        positionBuffer = position;
-        normalBuffer = vec4(normal, 0.0);
+        diffuse_buffer = diffuse;
+        material_buffer = vec3(roughness, metallic, 1.0);
+        position_buffer = position;
+        normal_buffer = vec4(normal, 0.0);
     }
     else
     {

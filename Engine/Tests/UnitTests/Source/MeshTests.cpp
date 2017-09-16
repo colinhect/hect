@@ -30,165 +30,165 @@ TEST_CASE("Construct empty mesh", "[Mesh]")
 {
     Mesh mesh;
 
-    const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
-    REQUIRE(PrimitiveType::Triangles == mesh.primitiveType());
-    REQUIRE(IndexType::UInt16 == mesh.indexType());
+    const VertexLayout& mesh_vertex_layout = mesh.vertex_layout();
+    REQUIRE(VertexAttributeSemantic::Position == mesh_vertex_layout.attributes().begin()->semantic());
+    REQUIRE(PrimitiveType::Triangles == mesh.primitive_type());
+    REQUIRE(IndexType::UInt16 == mesh.index_type());
 }
 
 TEST_CASE("Construct a mesh with a descriptor", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     Mesh::Descriptor descriptor;
     descriptor.name = "Test";
-    descriptor.vertexLayout = vertexLayout;
-    descriptor.primitiveType = PrimitiveType::TriangleStrip;
-    descriptor.indexType = IndexType::UInt8;
+    descriptor.vertex_layout = vertex_layout;
+    descriptor.primitive_type = PrimitiveType::TriangleStrip;
+    descriptor.index_type = IndexType::UInt8;
 
     Mesh mesh(descriptor);
 
-    const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(meshVertexLayout.attributeCount() == 2u);
-    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
-    REQUIRE(VertexAttributeType::Float32 == meshVertexLayout.attributes().begin()->type());
-    REQUIRE(meshVertexLayout.attributes().begin()->cardinality() == 3u);
+    const VertexLayout& mesh_vertex_layout = mesh.vertex_layout();
+    REQUIRE(mesh_vertex_layout.attribute_count() == 2u);
+    REQUIRE(VertexAttributeSemantic::Position == mesh_vertex_layout.attributes().begin()->semantic());
+    REQUIRE(VertexAttributeType::Float32 == mesh_vertex_layout.attributes().begin()->type());
+    REQUIRE(mesh_vertex_layout.attributes().begin()->cardinality() == 3u);
 
-    REQUIRE(PrimitiveType::TriangleStrip == mesh.primitiveType());
-    REQUIRE(IndexType::UInt8 == mesh.indexType());
+    REQUIRE(PrimitiveType::TriangleStrip == mesh.primitive_type());
+    REQUIRE(IndexType::UInt8 == mesh.index_type());
 }
 
 TEST_CASE("Construct mesh with name, then set the vertex layout, primitive type, and index type", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Int16, 3));
 
     Mesh mesh("Test");
-    mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(vertex_layout);
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    const VertexLayout& meshVertexLayout = mesh.vertexLayout();
-    REQUIRE(meshVertexLayout.attributeCount() == 2u);
-    REQUIRE(VertexAttributeSemantic::Position == meshVertexLayout.attributes().begin()->semantic());
-    REQUIRE(VertexAttributeType::Float32 == meshVertexLayout.attributes().begin()->type());
-    REQUIRE(meshVertexLayout.attributes().begin()->cardinality() == 3u);
+    const VertexLayout& mesh_vertex_layout = mesh.vertex_layout();
+    REQUIRE(mesh_vertex_layout.attribute_count() == 2u);
+    REQUIRE(VertexAttributeSemantic::Position == mesh_vertex_layout.attributes().begin()->semantic());
+    REQUIRE(VertexAttributeType::Float32 == mesh_vertex_layout.attributes().begin()->type());
+    REQUIRE(mesh_vertex_layout.attributes().begin()->cardinality() == 3u);
 
-    REQUIRE(PrimitiveType::Triangles == mesh.primitiveType());
-    REQUIRE(IndexType::UInt8 == mesh.indexType());
+    REQUIRE(PrimitiveType::Triangles == mesh.primitive_type());
+    REQUIRE(IndexType::UInt8 == mesh.index_type());
 }
 
 TEST_CASE("Set the vertex data of a mesh", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
-    mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(vertex_layout);
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    const float rawVertexData[9] =
+    const float raw_vertex_data[9] =
     {
         1.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 1.0f
     };
-    std::vector<uint8_t> vertexData(sizeof(float)* 9, 0);
-    std::memcpy(&vertexData[0], rawVertexData, sizeof(float)* 9);
+    std::vector<uint8_t> vertex_data(sizeof(float)* 9, 0);
+    std::memcpy(&vertex_data[0], raw_vertex_data, sizeof(float)* 9);
 
-    mesh.setVertexData(vertexData);
+    mesh.set_vertex_data(vertex_data);
 
-    REQUIRE(mesh.vertexCount() == 3u);
+    REQUIRE(mesh.vertex_count() == 3u);
 }
 
 TEST_CASE("Get the vertex data of a mesh", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
-    mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(vertex_layout);
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    const float rawOriginalVertexData[9] =
+    const float raw_original_vertex_data[9] =
     {
         1.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
         0.0f, 0.0f, 1.0f
     };
-    std::vector<uint8_t> originalVertexData(sizeof(float)* 9, 0);
-    std::memcpy(&originalVertexData[0], rawOriginalVertexData, sizeof(float)* 9);
+    std::vector<uint8_t> original_vertex_data(sizeof(float)* 9, 0);
+    std::memcpy(&original_vertex_data[0], raw_original_vertex_data, sizeof(float)* 9);
 
-    mesh.setVertexData(originalVertexData);
+    mesh.set_vertex_data(original_vertex_data);
 
-    const float* vertexData = (const float*)&mesh.vertexData()[0];
+    const float* vertex_data = (const float*)&mesh.vertex_data()[0];
 
-    REQUIRE(vertexData[0] == 1.0f);
-    REQUIRE(vertexData[1] == 0.0f);
-    REQUIRE(vertexData[2] == 0.0f);
-    REQUIRE(vertexData[3] == 0.0f);
-    REQUIRE(vertexData[4] == 1.0f);
-    REQUIRE(vertexData[5] == 0.0f);
-    REQUIRE(vertexData[6] == 0.0f);
-    REQUIRE(vertexData[7] == 0.0f);
-    REQUIRE(vertexData[8] == 1.0f);
+    REQUIRE(vertex_data[0] == 1.0f);
+    REQUIRE(vertex_data[1] == 0.0f);
+    REQUIRE(vertex_data[2] == 0.0f);
+    REQUIRE(vertex_data[3] == 0.0f);
+    REQUIRE(vertex_data[4] == 1.0f);
+    REQUIRE(vertex_data[5] == 0.0f);
+    REQUIRE(vertex_data[6] == 0.0f);
+    REQUIRE(vertex_data[7] == 0.0f);
+    REQUIRE(vertex_data[8] == 1.0f);
 }
 
 TEST_CASE("Set the index data of a mesh", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
-    mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(vertex_layout);
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    std::vector<uint8_t> indexData;
-    indexData.push_back(0);
-    indexData.push_back(1);
-    indexData.push_back(2);
-    indexData.push_back(2);
-    indexData.push_back(3);
-    indexData.push_back(0);
+    std::vector<uint8_t> index_data;
+    index_data.push_back(0);
+    index_data.push_back(1);
+    index_data.push_back(2);
+    index_data.push_back(2);
+    index_data.push_back(3);
+    index_data.push_back(0);
 
-    mesh.setIndexData(indexData);
+    mesh.set_index_data(index_data);
 
-    REQUIRE(mesh.indexCount() == 6u);
+    REQUIRE(mesh.index_count() == 6u);
 }
 
 TEST_CASE("Get the index data of a mesh", "[Mesh]")
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
 
     Mesh mesh("Test");
-    mesh.setVertexLayout(vertexLayout);
-    mesh.setPrimitiveType(PrimitiveType::Triangles);
-    mesh.setIndexType(IndexType::UInt8);
+    mesh.set_vertex_layout(vertex_layout);
+    mesh.set_primitive_type(PrimitiveType::Triangles);
+    mesh.set_index_type(IndexType::UInt8);
 
-    std::vector<uint8_t> originalIndexData;
-    originalIndexData.push_back(0);
-    originalIndexData.push_back(1);
-    originalIndexData.push_back(2);
-    originalIndexData.push_back(2);
-    originalIndexData.push_back(3);
-    originalIndexData.push_back(0);
+    std::vector<uint8_t> original_index_data;
+    original_index_data.push_back(0);
+    original_index_data.push_back(1);
+    original_index_data.push_back(2);
+    original_index_data.push_back(2);
+    original_index_data.push_back(3);
+    original_index_data.push_back(0);
 
-    mesh.setIndexData(originalIndexData);
-    REQUIRE(mesh.indexCount() == 6u);
+    mesh.set_index_data(original_index_data);
+    REQUIRE(mesh.index_count() == 6u);
 
-    const uint8_t* indexData = &mesh.indexData()[0];
+    const uint8_t* index_data = &mesh.index_data()[0];
 
-    REQUIRE(indexData[0] == 0);
-    REQUIRE(indexData[1] == 1);
-    REQUIRE(indexData[2] == 2);
-    REQUIRE(indexData[3] == 2);
-    REQUIRE(indexData[4] == 3);
-    REQUIRE(indexData[5] == 0);
+    REQUIRE(index_data[0] == 0);
+    REQUIRE(index_data[1] == 1);
+    REQUIRE(index_data[2] == 2);
+    REQUIRE(index_data[3] == 2);
+    REQUIRE(index_data[4] == 3);
+    REQUIRE(index_data[5] == 0);
 }

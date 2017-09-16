@@ -120,7 +120,7 @@ int8_t BinaryDecoder::decode_int8()
     return value;
 }
 
-uint8_t BinaryDecoder::decode_u_int8()
+uint8_t BinaryDecoder::decode_uint8()
 {
     increment_index();
 
@@ -138,7 +138,7 @@ int16_t BinaryDecoder::decode_int16()
     return value;
 }
 
-uint16_t BinaryDecoder::decode_u_int16()
+uint16_t BinaryDecoder::decode_uint16()
 {
     increment_index();
 
@@ -156,7 +156,7 @@ int32_t BinaryDecoder::decode_int32()
     return value;
 }
 
-uint32_t BinaryDecoder::decode_u_int32()
+uint32_t BinaryDecoder::decode_uint32()
 {
     increment_index();
 
@@ -174,7 +174,7 @@ int64_t BinaryDecoder::decode_int64()
     return value;
 }
 
-uint64_t BinaryDecoder::decode_u_int64()
+uint64_t BinaryDecoder::decode_uint64()
 {
     increment_index();
 
