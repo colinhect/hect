@@ -48,7 +48,7 @@ public:
     /// \param translation The translation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromTranslation(Vector3T<T> translation);
+    static Matrix4T from_translation(Vector3T<T> translation);
 
     ///
     /// Constructs a matrix from a scale.
@@ -56,7 +56,7 @@ public:
     /// \param scale The scale of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromScale(Vector3T<T> scale);
+    static Matrix4T from_scale(Vector3T<T> scale);
 
     ///
     /// Constructs a matrix from a rotation.
@@ -64,7 +64,7 @@ public:
     /// \param rotation The rotation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T fromRotation(QuaternionT<T> rotation);
+    static Matrix4T from_rotation(QuaternionT<T> rotation);
 
     ///
     /// Constructs a view matrix.
@@ -74,18 +74,18 @@ public:
     /// \param up The up direction of the view.
     ///
     /// \returns The view matrix.
-    static Matrix4T createView(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up);
+    static Matrix4T create_view(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up);
 
     ///
     /// Constructs a perspective projection matrix.
     ///
-    /// \param fieldOfView The field of view for the projection matrix.
-    /// \param aspectRatio The component ratio for the projection matrix.
-    /// \param nearClip The minimum distance from the origin to clip.
-    /// \param farClip The maximum distance from the origin to clip.
+    /// \param field_of_view The field of view for the projection matrix.
+    /// \param aspect_ratio The component ratio for the projection matrix.
+    /// \param near_clip The minimum distance from the origin to clip.
+    /// \param far_clip The maximum distance from the origin to clip.
     ///
     /// \returns The projection matrix.
-    static Matrix4T createPerspective(Radians fieldOfView, T aspectRatio, T nearClip, T farClip);
+    static Matrix4T create_perspective(Radians field_of_view, T aspect_ratio, T near_clip, T far_clip);
 
     ///
     /// Constructs an orthogonal projection matrix.
@@ -94,11 +94,11 @@ public:
     /// \param right The right bound of the matrix.
     /// \param bottom The bottom bound of the matrix.
     /// \param top The top bound of the matrix.
-    /// \param nearValue The near clip value.
-    /// \param farValue The far clip value.
+    /// \param near_value The near clip value.
+    /// \param far_value The far clip value.
     ///
     /// \returns The projection matrix.
-    static Matrix4T createOrthogonal(T left, T right, T bottom, T top, T nearValue, T farValue);
+    static Matrix4T create_orthogonal(T left, T right, T bottom, T top, T near_value, T far_value);
 
     ///
     /// Constructs an identity matrix.

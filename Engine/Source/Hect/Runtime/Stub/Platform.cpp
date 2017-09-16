@@ -41,17 +41,17 @@ Platform::~Platform()
 {
 }
 
-bool Platform::handleEvents()
+bool Platform::handle_events()
 {
     bool active = true;
 
-    _mouse.dispatchEvents();
-    _keyboard.dispatchEvents();
+    _mouse.dispatch_events();
+    _keyboard.dispatch_events();
 
     return active;
 }
 
-bool Platform::hasMouse()
+bool Platform::has_mouse()
 {
     return true;
 }
@@ -61,7 +61,7 @@ Mouse& Platform::mouse()
     return _mouse;
 }
 
-bool Platform::hasKeyboard()
+bool Platform::has_keyboard()
 {
     return true;
 }
@@ -71,7 +71,7 @@ Keyboard& Platform::keyboard()
     return _keyboard;
 }
 
-bool Platform::hasJoystick(JoystickIndex index)
+bool Platform::has_joystick(JoystickIndex index)
 {
     (void)index;
     return false;

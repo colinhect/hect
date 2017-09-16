@@ -27,17 +27,17 @@ namespace hect
 {
 
 template <typename T>
-T Enum::fromString(const std::string& string)
+T Enum::from_string(const std::string& string)
 {
-    const Enum& enumType = Type::get<T>().asEnum();
-    return static_cast<T>(enumType.fromString(string));
+    const Enum& enum_type = Type::get<T>().as_enum();
+    return static_cast<T>(enum_type.from_string(string));
 }
 
 template <typename T>
-const std::string& Enum::toString(T value)
+const std::string& Enum::to_string(T value)
 {
-    const Enum& enumType = Type::get<T>().asEnum();
-    return enumType.toString(static_cast<EnumValue::Type>(value));
+    const Enum& enum_type = Type::get<T>().as_enum();
+    return enum_type.to_string(static_cast<EnumValue::Type>(value));
 }
 
 }

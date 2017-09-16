@@ -39,23 +39,23 @@ const Shader::Handle& Material::shader() const
     return _shader;
 }
 
-void Material::setShader(const Shader::Handle& shader)
+void Material::set_shader(const Shader::Handle& shader)
 {
-    clearUniformValues();
+    clear_uniform_values();
     _shader = shader;
 }
 
-Material::UniformValueSequence Material::uniformValues()
+Material::UniformValueSequence Material::uniform_values()
 {
-    return _uniformValues;
+    return _uniform_values;
 }
 
-const Material::UniformValueSequence Material::uniformValues() const
+const Material::UniformValueSequence Material::uniform_values() const
 {
-    return _uniformValues;
+    return _uniform_values;
 }
 
-void Material::setUniformValue(Name name, const UniformValue& value)
+void Material::set_uniform_value(Name name, const UniformValue& value)
 {
     if (!_shader)
     {
@@ -66,44 +66,44 @@ void Material::setUniformValue(Name name, const UniformValue& value)
     const Uniform& uniform = _shader->uniform(name);
     if (uniform.type() != value.type())
     {
-        const char* uniformName = uniform.name().data();
-        const char* shaderName = _shader->name().data();
-        const char* expectedType = Enum::toString(uniform.type()).data();
-        const char* actualType = Enum::toString(value.type()).data();
-        throw InvalidOperation(format("Uniform '%s' in shader '%s' is of type '%s' and cannot be assigned a value of type '%s'", uniformName, shaderName, expectedType, actualType));
+        const char* uniform_name = uniform.name().data();
+        const char* shader_name = _shader->name().data();
+        const char* expected_type = Enum::to_string(uniform.type()).data();
+        const char* actual_type = Enum::to_string(value.type()).data();
+        throw InvalidOperation(format("Uniform '%s' in shader '%s' is of type '%s' and cannot be assigned a value of type '%s'", uniform_name, shader_name, expected_type, actual_type));
     }
     else if (uniform.binding() != UniformBinding::None)
     {
-        const char* uniformName = uniform.name().data();
-        const char* shaderName = _shader->name().data();
-        throw InvalidOperation(format("Uniform '%s' in shader '%s' is bound and cannot be assigned a value", uniformName, shaderName));
+        const char* uniform_name = uniform.name().data();
+        const char* shader_name = _shader->name().data();
+        throw InvalidOperation(format("Uniform '%s' in shader '%s' is bound and cannot be assigned a value", uniform_name, shader_name));
     }
 
     UniformIndex index = uniform.index();
 
     // Resize the uniform value vector if needed
-    if (index >= _uniformValues.size())
+    if (index >= _uniform_values.size())
     {
-        _uniformValues.resize(index + 1);
+        _uniform_values.resize(index + 1);
     }
 
     // Set the value
-    _uniformValues[index] = value;
+    _uniform_values[index] = value;
 }
 
-void Material::clearUniformValues()
+void Material::clear_uniform_values()
 {
-    _uniformValues.clear();
+    _uniform_values.clear();
 }
 
-CullMode Material::cullMode() const
+CullMode Material::cull_mode() const
 {
-    return _cullMode;
+    return _cull_mode;
 }
 
-void Material::setCullMode(CullMode cullMode)
+void Material::set_cull_mode(CullMode cull_mode)
 {
-    _cullMode = cullMode;
+    _cull_mode = cull_mode;
 }
 
 bool Material::operator==(const Material& material) const
@@ -115,15 +115,15 @@ bool Material::operator==(const Material& material) const
     }
 
     // Uniform value count
-    if (_uniformValues.size() != material._uniformValues.size())
+    if (_uniform_values.size() != material._uniform_values.size())
     {
         return false;
     }
 
     // Uniform values
-    for (size_t i = 0; i < _uniformValues.size(); ++i)
+    for (size_t i = 0; i < _uniform_values.size(); ++i)
     {
-        if (_uniformValues[i] != material._uniformValues[i])
+        if (_uniform_values[i] != material._uniform_values[i])
         {
             return false;
         }
@@ -141,108 +141,108 @@ bool Material::operator!=(const Material& material) const
 void Material::encode(Encoder& encoder) const
 {
     // Shader
-    encoder << encodeValue("shader", _shader);
-    encoder << encodeEnum("cullMode", _cullMode);
+    encoder << encode_value("shader", _shader);
+    encoder << encode_enum("cull_mode", _cull_mode);
 
     // Uniform values
-    encoder << beginArray("uniformValues");
-    for (UniformIndex index = 0; index < _uniformValues.size(); ++index)
+    encoder << begin_array("uniform_values");
+    for (UniformIndex index = 0; index < _uniform_values.size(); ++index)
     {
-        const UniformValue& value = _uniformValues[index];
+        const UniformValue& value = _uniform_values[index];
         if (value)
         {
-            if (encoder.isBinaryStream())
+            if (encoder.is_binary_stream())
             {
-                encoder << beginObject()
-                        << encodeValue(static_cast<uint8_t>(index));
+                encoder << begin_object()
+                        << encode_value(static_cast<uint8_t>(index));
 
                 value.encode(encoder);
 
-                encoder << endObject();
+                encoder << end_object();
             }
             else
             {
                 const Uniform& uniform = _shader->uniform(index);
-                encoder << beginObject()
-                        << encodeValue("name", uniform.name());
+                encoder << begin_object()
+                        << encode_value("name", uniform.name());
 
                 value.encode(encoder);
 
-                encoder << endObject();
+                encoder << end_object();
             }
         }
     }
-    encoder << endArray();
+    encoder << end_array();
 }
 
 void Material::decode(Decoder& decoder)
 {
     // Base
-    if (!decoder.isBinaryStream())
+    if (!decoder.is_binary_stream())
     {
-        if (decoder.selectMember("base"))
+        if (decoder.select_member("base"))
         {
-            Path basePath;
-            decoder >> decodeValue(basePath);
+            Path base_path;
+            decoder >> decode_value(base_path);
 
             try
             {
-                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> decodeValue(*this);
+                AssetDecoder base_decoder(decoder.asset_cache(), base_path);
+                base_decoder >> decode_value(*this);
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base material '%s': %s", basePath.asString().data(), exception.what()));
+                throw DecodeError(format("Failed to load base material '%s': %s", base_path.as_string().data(), exception.what()));
             }
         }
     }
 
     // Shader
-    decoder >> decodeValue("shader", _shader);
-    decoder >> decodeEnum("cullMode", _cullMode);
+    decoder >> decode_value("shader", _shader);
+    decoder >> decode_enum("cull_mode", _cull_mode);
 
     // Uniform values
-    if (decoder.selectMember("uniformValues"))
+    if (decoder.select_member("uniform_values"))
     {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
+        decoder >> begin_array();
+        while (decoder.has_more_elements())
         {
             try
             {
                 Name name;
                 UniformValue value;
 
-                if (decoder.isBinaryStream())
+                if (decoder.is_binary_stream())
                 {
                     uint8_t index = 0;
 
-                    decoder >> beginObject()
-                            >> decodeValue(index);
+                    decoder >> begin_object()
+                            >> decode_value(index);
 
                     value.decode(decoder);
 
-                    decoder>> endObject();
+                    decoder>> end_object();
 
                     const Uniform& uniform = _shader->uniform(index);
                     name = uniform.name();
                 }
                 else
                 {
-                    decoder >> beginObject()
-                            >> decodeValue("name", name, true);
+                    decoder >> begin_object()
+                            >> decode_value("name", name, true);
 
                     value.decode(decoder);
 
-                    decoder >> endObject();
+                    decoder >> end_object();
                 }
 
-                setUniformValue(name, value);
+                set_uniform_value(name, value);
             }
             catch (const InvalidOperation& exception)
             {
                 throw DecodeError(exception.what());
             }
         }
-        decoder >> endArray();
+        decoder >> end_array();
     }
 }

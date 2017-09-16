@@ -25,27 +25,27 @@
 
 using namespace hect;
 
-AssetCache::AssetCache(FileSystem& fileSystem, bool concurrent) :
-    _fileSystem(fileSystem),
-    _taskPool(0, concurrent)
+AssetCache::AssetCache(FileSystem& file_system, bool concurrent) :
+    _file_system(file_system),
+    _task_pool(0, concurrent)
 {
 }
 
 AssetCache::~AssetCache()
 {
-    _taskPool.wait();
+    _task_pool.wait();
 }
 
-FileSystem& AssetCache::fileSystem()
+FileSystem& AssetCache::file_system()
 {
-    return _fileSystem;
+    return _file_system;
 }
 
-void AssetCache::refresh(bool onlyModified)
+void AssetCache::refresh(bool only_modified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    bool force = !onlyModified;
+    bool force = !only_modified;
     for (auto& pair : _entries)
     {
         pair.second->refresh(force);
@@ -64,71 +64,71 @@ void AssetCache::clear()
     _entries.clear();
 }
 
-TaskPool& AssetCache::taskPool()
+TaskPool& AssetCache::task_pool()
 {
-    return _taskPool;
+    return _task_pool;
 }
 
-Path AssetCache::resolvePath(const Path& path, bool preferYamlFile)
+Path AssetCache::resolve_path(const Path& path, bool prefer_yaml_file)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    if (preferYamlFile)
+    if (prefer_yaml_file)
     {
-        Path resolvedPath;
+        Path resolved_path;
 
         // Check for a yaml source file
         if (path.extension() != "yaml")
         {
-            Path yamlPath = resolvePath(path.asString() + ".yaml", false);
-            if (_fileSystem.exists(yamlPath))
+            Path yaml_path = resolve_path(path.as_string() + ".yaml", false);
+            if (_file_system.exists(yaml_path))
             {
-                resolvedPath = yamlPath;
+                resolved_path = yaml_path;
             }
         }
 
         // If no yaml source file was found
-        if (resolvedPath.empty())
+        if (resolved_path.empty())
         {
             // Resolve the initial path
-            resolvedPath = resolvePath(path, false);
+            resolved_path = resolve_path(path, false);
         }
 
-        return resolvedPath;
+        return resolved_path;
     }
     else
     {
-        Path resolvedPath = path;
+        Path resolved_path = path;
 
-        const std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
+        const std::stack<Path>& path_stack = _directory_stack[std::this_thread::get_id()];
 
         // If there is a selected directory
-        if (!pathStack.empty())
+        if (!path_stack.empty())
         {
             // If there is an asset relative to the selected directory
-            if (_fileSystem.exists(pathStack.top() + path))
+            if (_file_system.exists(path_stack.top() + path))
             {
                 // Use that asset
-                resolvedPath = pathStack.top() + path;
+                resolved_path = path_stack.top() + path;
             }
         }
 
-        return resolvedPath;
+        return resolved_path;
     }
 }
 
-void AssetCache::pushDirectory(const Path& directoryPath)
+void AssetCache::push_directory(const Path& directory_path)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
-    pathStack.push(directoryPath);
+    std::stack<Path>& path_stack = _directory_stack[std::this_thread::get_id()];
+    path_stack.push(directory_path);
 }
 
-void AssetCache::popDirectory()
+void AssetCache::pop_directory()
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    std::stack<Path>& pathStack = _directoryStack[std::this_thread::get_id()];
-    pathStack.pop();
+    std::stack<Path>& path_stack = _directory_stack[std::this_thread::get_id()];
+    path_stack.pop();
 }

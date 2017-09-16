@@ -95,8 +95,8 @@ public:
 private:
     EntityHandle(Entity& entity);
 
-    bool isValid() const;
-    void ensureValid() const;
+    bool is_valid() const;
+    void ensure_valid() const;
     void invalidate();
 
     Entity* _entity { nullptr };

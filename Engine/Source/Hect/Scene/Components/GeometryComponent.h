@@ -82,13 +82,13 @@ public:
     ///
     /// \param mesh The mesh.
     /// \param material The material (optional).
-    void addSurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
+    void add_surface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
 
     ///
     /// Adds a mesh surface.
     ///
     /// \param surface The surface to add.
-    void addSurface(const GeometrySurface& surface);
+    void add_surface(const GeometrySurface& surface);
 
     ///
     /// The surfaces.

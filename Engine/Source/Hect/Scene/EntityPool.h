@@ -79,7 +79,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle findFirst(T&& predicate) const;
+    Entity::Handle find_first(T&& predicate) const;
 
     ///
     /// Returns handles to all \link Entity Entities \endlink matching the
@@ -98,7 +98,7 @@ public:
     ///
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Handle findFirstByName(Name name) const;
+    Entity::Handle find_first_by_name(Name name) const;
 
     ///
     /// Returns the Entity with the given id.
@@ -107,35 +107,35 @@ public:
     ///
     /// \throws InvalidOperation If no entity with the given id exists in
     /// the pool.
-    Entity& withId(EntityId id);
+    Entity& with_id(EntityId id);
 
     ///
-    /// \copydoc hect::EntityPool::withId()
-    const Entity& withId(EntityId id) const;
+    /// \copydoc hect::EntityPool::with_id()
+    const Entity& with_id(EntityId id) const;
 
 private:
     Entity& create(Name name);
     void destroy(EntityId id);
 
-    bool entityIsValid(EntityId id);
+    bool entity_is_valid(EntityId id);
 
-    Entity& entityWithId(EntityId id);
-    const Entity& entityWithId(EntityId id) const;
+    Entity& entity_with_id(EntityId id);
+    const Entity& entity_with_id(EntityId id) const;
 
-    Entity& lookUpEntity(EntityId id);
-    const Entity& lookUpEntity(EntityId id) const;
+    Entity& look_up_entity(EntityId id);
+    const Entity& look_up_entity(EntityId id) const;
 
-    EntityId maxId() const;
+    EntityId max_id() const;
 
-    void allocateChunk();
+    void allocate_chunk();
 
     Scene& _scene;
-    IdPool<EntityId> _idPool;
+    IdPool<EntityId> _id_pool;
 
     // Avoiding use of std::vector because we need to keep the Entity
     // constructors private
-    std::vector<std::unique_ptr<Entity[]>> _entityChunks;
-    size_t _entityChunkSize { 128 };
+    std::vector<std::unique_ptr<Entity[]>> _entity_chunks;
+    size_t _entity_chunk_size { 128 };
 };
 
 }

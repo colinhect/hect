@@ -45,22 +45,22 @@ class HECT_EXPORT DebugSystem :
     public System<DebugSystem>
 {
 public:
-    DebugSystem(Scene& scene, InterfaceSystem& interfaceSystem);
+    DebugSystem(Scene& scene, InterfaceSystem& interface_system);
 
     ///
     /// Clears all enqueued debug geometry.
-    void clearEnqueuedDebugGeometry();
+    void clear_enqueued_debug_geometry();
 
     ///
     /// Enqueues a line to be rendered for a duration of time.
     ///
     /// \param color The color of the line.
-    /// \param startPosition The world-space start position of the line.
-    /// \param endPosition The world-space end position of the line.
+    /// \param start_position The world-space start position of the line.
+    /// \param end_position The world-space end position of the line.
     /// \param duration The duration of time in seconds that the line will be
     /// rendered henceforth.  If zero, then it will be rendered only until the
     /// next frame.
-    void renderLine(Color color, Vector3 startPosition, Vector3 endPosition, double duration = 0.0);
+    void render_line(Color color, Vector3 start_position, Vector3 end_position, double duration = 0.0);
 
     ///
     /// Enqueues a wire-frame box to be rendered on the next frame.
@@ -72,29 +72,29 @@ public:
     /// \param duration The duration of time in seconds that the line will be
     /// rendered henceforth.  If zero, then it will be rendered only until the
     /// next frame.
-    void renderBox(Color color, Box box, Vector3 position, Quaternion rotation = Quaternion(), double duration = 0.0);
+    void render_box(Color color, Box box, Vector3 position, Quaternion rotation = Quaternion(), double duration = 0.0);
 
     ///
     /// Adds all enqueued debug geometery to the a scene renderer.
     ///
-    /// \param sceneRenderer The scene renderer to render the debug geometry
+    /// \param scene_renderer The scene renderer to render the debug geometry
     /// with.
-    void addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer);
+    void add_render_calls(PhysicallyBasedSceneRenderer& scene_renderer);
 
     ///
     /// Thee material used to render lines.
     ///
     /// \property
-    Material::Handle linesMaterial;
+    Material::Handle lines_material;
 
 private:
-    Mesh& meshForDuration(double duration);
+    Mesh& mesh_for_duration(double duration);
 
-    InterfaceSystem& _interfaceSystem;
+    InterfaceSystem& _interface_system;
 
     Interface::Handle _interface;
 
-    Mesh _linesMesh;
+    Mesh _lines_mesh;
 };
 
 }

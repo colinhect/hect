@@ -47,9 +47,9 @@ public:
     /// Updates the contributing value of the binding.
     ///
     /// \param platform The platform.
-    /// \param timeStep The duration of time elapsed in seconds since the last
+    /// \param time_step The duration of time elapsed in seconds since the last
     /// update.
-    void update(Platform& platform, Seconds timeStep);
+    void update(Platform& platform, Seconds time_step);
 
     ///
     /// Returns the contributing value.
@@ -64,14 +64,14 @@ public:
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::MouseButton.
-    MouseButton mouseButton { MouseButton::Button0 };
+    MouseButton mouse_button { MouseButton::Button0 };
 
     ///
     /// How sensitively mouse motion affects the input axis.
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::MouseMoveX or ::InputAxisBindingType::MouseMoveY.
-    double mouseSensitivity { 0.01 };
+    double mouse_sensitivity { 0.01 };
 
     ///
     /// The key controlling the axis.
@@ -85,28 +85,28 @@ public:
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::JoystickAxis or
     /// ::InputAxisBindingType::JoystickButton.
-    JoystickIndex joystickIndex { 0 };
+    JoystickIndex joystick_index { 0 };
 
     ///
     /// The joystick axis controlling the axis.
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::JoystickAxis.
-    JoystickAxis joystickAxis { JoystickAxis::Axis0 };
+    JoystickAxis joystick_axis { JoystickAxis::Axis0 };
 
     ///
     /// The dead zone of the joystick axis controlling the axis.
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::JoystickAxis.
-    Vector2 joystickAxisDeadZone;
+    Vector2 joystick_axis_dead_zone;
 
     ///
     /// The joystick button controlling the axis.
     ///
     /// \note Only relevant when the type is
     /// ::InputAxisBindingType::JoystickButton.
-    JoystickButton joystickButton { JoystickButton::Button0 };
+    JoystickButton joystick_button { JoystickButton::Button0 };
 
     ///
     /// How quickly the axis is affected by discrete input events.
@@ -134,14 +134,14 @@ public:
 
     ///
     /// The value the binding falls back to due to lack of source input.
-    double deadValue { 0 };
+    double dead_value { 0 };
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
-    void applyGravity(Seconds timeStep);
-    void modifyValue(double delta);
+    void apply_gravity(Seconds time_step);
+    void modify_value(double delta);
 
     double _value { 0 };
 };

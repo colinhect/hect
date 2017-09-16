@@ -28,122 +28,122 @@ using namespace hect;
 GeometryBuffer::GeometryBuffer(unsigned width, unsigned height)
 {
     // Depth buffer
-    _depthBuffer = Texture2("DepthBuffer", width, height);
-    _depthBuffer.setPixelFormat(PixelFormat::R32);
-    _depthBuffer.setMinFilter(TextureFilter::Nearest);
-    _depthBuffer.setMagFilter(TextureFilter::Nearest);
-    _depthBuffer.setMipmapped(false);
-    _depthBuffer.setWrapped(false);
+    _depth_buffer = Texture2("DepthBuffer", width, height);
+    _depth_buffer.set_pixel_format(PixelFormat::R32);
+    _depth_buffer.set_min_filter(TextureFilter::Nearest);
+    _depth_buffer.set_mag_filter(TextureFilter::Nearest);
+    _depth_buffer.set_mipmapped(false);
+    _depth_buffer.set_wrapped(false);
 
     // Diffuse buffer: Red Green Blue Lighting
-    _diffuseBuffer = Texture2("DiffuseBuffer", width, height);
-    _diffuseBuffer.setPixelFormat(PixelFormat::Rgba32);
-    _diffuseBuffer.setMinFilter(TextureFilter::Nearest);
-    _diffuseBuffer.setMagFilter(TextureFilter::Nearest);
-    _diffuseBuffer.setMipmapped(false);
-    _diffuseBuffer.setWrapped(false);
+    _diffuse_buffer = Texture2("DiffuseBuffer", width, height);
+    _diffuse_buffer.set_pixel_format(PixelFormat::Rgba32);
+    _diffuse_buffer.set_min_filter(TextureFilter::Nearest);
+    _diffuse_buffer.set_mag_filter(TextureFilter::Nearest);
+    _diffuse_buffer.set_mipmapped(false);
+    _diffuse_buffer.set_wrapped(false);
 
     // Material buffer: Roughness Metallic ?
-    _materialBuffer = Texture2("MaterialBuffer", width, height);
-    _materialBuffer.setPixelFormat(PixelFormat::Rgb32);
-    _materialBuffer.setMinFilter(TextureFilter::Nearest);
-    _materialBuffer.setMagFilter(TextureFilter::Nearest);
-    _materialBuffer.setMipmapped(false);
-    _materialBuffer.setWrapped(false);
+    _material_buffer = Texture2("MaterialBuffer", width, height);
+    _material_buffer.set_pixel_format(PixelFormat::Rgb32);
+    _material_buffer.set_min_filter(TextureFilter::Nearest);
+    _material_buffer.set_mag_filter(TextureFilter::Nearest);
+    _material_buffer.set_mipmapped(false);
+    _material_buffer.set_wrapped(false);
 
     // Position buffer: X Y Z
-    _positionBuffer = Texture2("PositionBuffer", width, height);
-    _positionBuffer.setPixelFormat(PixelFormat::Rgb32);
-    _positionBuffer.setMinFilter(TextureFilter::Nearest);
-    _positionBuffer.setMagFilter(TextureFilter::Nearest);
-    _positionBuffer.setMipmapped(false);
-    _positionBuffer.setWrapped(false);
+    _position_buffer = Texture2("PositionBuffer", width, height);
+    _position_buffer.set_pixel_format(PixelFormat::Rgb32);
+    _position_buffer.set_min_filter(TextureFilter::Nearest);
+    _position_buffer.set_mag_filter(TextureFilter::Nearest);
+    _position_buffer.set_mipmapped(false);
+    _position_buffer.set_wrapped(false);
 
     // Normal buffer: X Y Z Depth
-    _normalBuffer = Texture2("NormalBuffer", width, height);
-    _normalBuffer.setPixelFormat(PixelFormat::Rgba16);
-    _normalBuffer.setMinFilter(TextureFilter::Nearest);
-    _normalBuffer.setMagFilter(TextureFilter::Nearest);
-    _normalBuffer.setMipmapped(false);
-    _normalBuffer.setWrapped(false);
+    _normal_buffer = Texture2("NormalBuffer", width, height);
+    _normal_buffer.set_pixel_format(PixelFormat::Rgba16);
+    _normal_buffer.set_min_filter(TextureFilter::Nearest);
+    _normal_buffer.set_mag_filter(TextureFilter::Nearest);
+    _normal_buffer.set_mipmapped(false);
+    _normal_buffer.set_wrapped(false);
 
     // Back buffers
-    _backBuffers[0] = Texture2("BackBuffer0", width, height);
-    _backBuffers[0].setPixelFormat(PixelFormat::Rgb32);
-    _backBuffers[0].setMinFilter(TextureFilter::Nearest);
-    _backBuffers[0].setMagFilter(TextureFilter::Nearest);
-    _backBuffers[0].setMipmapped(false);
-    _backBuffers[0].setWrapped(false);
-    _backBuffers[1] = Texture2("BackBuffer1", width, height);
-    _backBuffers[1].setPixelFormat(PixelFormat::Rgb32);
-    _backBuffers[1].setMinFilter(TextureFilter::Nearest);
-    _backBuffers[1].setMagFilter(TextureFilter::Nearest);
-    _backBuffers[1].setMipmapped(false);
-    _backBuffers[1].setWrapped(false);
+    _back_buffers[0] = Texture2("BackBuffer0", width, height);
+    _back_buffers[0].set_pixel_format(PixelFormat::Rgb32);
+    _back_buffers[0].set_min_filter(TextureFilter::Nearest);
+    _back_buffers[0].set_mag_filter(TextureFilter::Nearest);
+    _back_buffers[0].set_mipmapped(false);
+    _back_buffers[0].set_wrapped(false);
+    _back_buffers[1] = Texture2("BackBuffer1", width, height);
+    _back_buffers[1].set_pixel_format(PixelFormat::Rgb32);
+    _back_buffers[1].set_min_filter(TextureFilter::Nearest);
+    _back_buffers[1].set_mag_filter(TextureFilter::Nearest);
+    _back_buffers[1].set_mipmapped(false);
+    _back_buffers[1].set_wrapped(false);
 
     // Geometry frame buffer
-    _frameBuffer = FrameBuffer(width, height);
-    _frameBuffer.attach(FrameBufferSlot::Depth, _depthBuffer);
-    _frameBuffer.attach(FrameBufferSlot::Color0, _diffuseBuffer);
-    _frameBuffer.attach(FrameBufferSlot::Color1, _materialBuffer);
-    _frameBuffer.attach(FrameBufferSlot::Color2, _positionBuffer);
-    _frameBuffer.attach(FrameBufferSlot::Color3, _normalBuffer);
+    _frame_buffer = FrameBuffer(width, height);
+    _frame_buffer.attach(FrameBufferSlot::Depth, _depth_buffer);
+    _frame_buffer.attach(FrameBufferSlot::Color0, _diffuse_buffer);
+    _frame_buffer.attach(FrameBufferSlot::Color1, _material_buffer);
+    _frame_buffer.attach(FrameBufferSlot::Color2, _position_buffer);
+    _frame_buffer.attach(FrameBufferSlot::Color3, _normal_buffer);
 
     // Back frame buffers
-    _backFrameBuffers[0] = FrameBuffer(width, height);
-    _backFrameBuffers[0].attach(FrameBufferSlot::Depth, _depthBuffer);
-    _backFrameBuffers[0].attach(FrameBufferSlot::Color0, _backBuffers[0]);
-    _backFrameBuffers[1] = FrameBuffer(width, height);
-    _backFrameBuffers[1].attach(FrameBufferSlot::Depth, _depthBuffer);
-    _backFrameBuffers[1].attach(FrameBufferSlot::Color0, _backBuffers[1]);
+    _back_frame_buffers[0] = FrameBuffer(width, height);
+    _back_frame_buffers[0].attach(FrameBufferSlot::Depth, _depth_buffer);
+    _back_frame_buffers[0].attach(FrameBufferSlot::Color0, _back_buffers[0]);
+    _back_frame_buffers[1] = FrameBuffer(width, height);
+    _back_frame_buffers[1].attach(FrameBufferSlot::Depth, _depth_buffer);
+    _back_frame_buffers[1].attach(FrameBufferSlot::Color0, _back_buffers[1]);
 }
 
-FrameBuffer& GeometryBuffer::frameBuffer()
+FrameBuffer& GeometryBuffer::frame_buffer()
 {
-    return _frameBuffer;
+    return _frame_buffer;
 }
 
-FrameBuffer& GeometryBuffer::backFrameBuffer()
+FrameBuffer& GeometryBuffer::back_frame_buffer()
 {
-    return _backFrameBuffers[_backBufferIndex];
+    return _back_frame_buffers[_back_buffer_index];
 }
 
-Texture2& GeometryBuffer::depthBuffer()
+Texture2& GeometryBuffer::depth_buffer()
 {
-    return _depthBuffer;
+    return _depth_buffer;
 }
 
-Texture2& GeometryBuffer::diffuseBuffer()
+Texture2& GeometryBuffer::diffuse_buffer()
 {
-    return _diffuseBuffer;
+    return _diffuse_buffer;
 }
 
-Texture2& GeometryBuffer::materialBuffer()
+Texture2& GeometryBuffer::material_buffer()
 {
-    return _materialBuffer;
+    return _material_buffer;
 }
 
-Texture2& GeometryBuffer::positionBuffer()
+Texture2& GeometryBuffer::position_buffer()
 {
-    return _positionBuffer;
+    return _position_buffer;
 }
 
-Texture2& GeometryBuffer::normalBuffer()
+Texture2& GeometryBuffer::normal_buffer()
 {
-    return _normalBuffer;
+    return _normal_buffer;
 }
 
-void GeometryBuffer::swapBackBuffers()
+void GeometryBuffer::swap_back_buffers()
 {
-    _backBufferIndex = (_backBufferIndex + 1) % 2;
+    _back_buffer_index = (_back_buffer_index + 1) % 2;
 }
 
-Texture2& GeometryBuffer::backBuffer()
+Texture2& GeometryBuffer::back_buffer()
 {
-    return _backBuffers[_backBufferIndex];
+    return _back_buffers[_back_buffer_index];
 }
 
-Texture2& GeometryBuffer::lastBackBuffer()
+Texture2& GeometryBuffer::last_back_buffer()
 {
-    return _backBuffers[(_backBufferIndex + 1) % 2];
+    return _back_buffers[(_back_buffer_index + 1) % 2];
 }

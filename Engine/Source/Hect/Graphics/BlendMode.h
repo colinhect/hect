@@ -47,9 +47,9 @@ public:
     /// Constructs a blend mode.
     ///
     /// \param function The blend function.
-    /// \param sourceFactor The source blend factor.
-    /// \param destinationFactor The source blend factor.
-    BlendMode(BlendFunction function, BlendFactor sourceFactor, BlendFactor destinationFactor);
+    /// \param source_factor The source blend factor.
+    /// \param destination_factor The source blend factor.
+    BlendMode(BlendFunction function, BlendFactor source_factor, BlendFactor destination_factor);
 
     ///
     /// Returns the blend function.
@@ -59,51 +59,51 @@ public:
     /// Sets the blend function.
     ///
     /// \param function The blend function.
-    void setFunction(BlendFunction function);
+    void set_function(BlendFunction function);
 
     ///
     /// Returns the blend factor specifying how rendered pixels contribute
     /// to the final color.
-    BlendFactor sourceFactor() const;
+    BlendFactor source_factor() const;
 
     ///
     /// Sets the blend factor specifying how rendered pixels contribute
     /// to the final color.
     ///
     /// \param factor The blend factor.
-    void setSourceFactor(BlendFactor factor);
+    void set_source_factor(BlendFactor factor);
 
     ///
     /// Returns the blend factor specifying how the pixels in the target
     /// contribute to the final color.
-    BlendFactor destinationFactor() const;
+    BlendFactor destination_factor() const;
 
     ///
     /// Sets the blend factor specifying how the pixels in the target
     /// contribute to the final color.
     ///
     /// \param factor The blend factor.
-    void setDestinationFactor(BlendFactor factor);
+    void set_destination_factor(BlendFactor factor);
 
     ///
     /// Returns whether the blend mode is equivalent to another.
     ///
-    /// \param blendMode The other blend mode.
-    bool operator==(const BlendMode& blendMode) const;
+    /// \param blend_mode The other blend mode.
+    bool operator==(const BlendMode& blend_mode) const;
 
     ///
     /// Returns whether the blend mode is different from another.
     ///
-    /// \param blendMode The other blend mode.
-    bool operator!=(const BlendMode& blendMode) const;
+    /// \param blend_mode The other blend mode.
+    bool operator!=(const BlendMode& blend_mode) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
     BlendFunction _function { BlendFunction::Add };
-    BlendFactor _sourceFactor { BlendFactor::One };
-    BlendFactor _destinationFactor { BlendFactor::Zero };
+    BlendFactor _source_factor { BlendFactor::One };
+    BlendFactor _destination_factor { BlendFactor::Zero };
 };
 
 }

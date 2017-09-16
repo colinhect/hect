@@ -53,16 +53,16 @@ public:
     /// type or a component is added to an activated entity.
     ///
     /// \param component The component that was added.
-    virtual void onComponentAdded(T& component);
+    virtual void on_component_added(T& component);
 
     ///
     /// Invoked when an entity is destroyed with a component of the specified
     /// type or a component is removed from an activated entity.
     ///
     /// \param component The component that was removed.
-    virtual void onComponentRemoved(T& component);
+    virtual void on_component_removed(T& component);
 
-    void receiveEvent(const ComponentEvent<T>& event) override;
+    void receive_event(const ComponentEvent<T>& event) override;
 };
 
 }

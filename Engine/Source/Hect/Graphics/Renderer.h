@@ -62,7 +62,7 @@ public:
     {
         ///
         /// The maximum number of textures that can be bound.
-        unsigned maxTextureUnits { 0 };
+        unsigned max_texture_units { 0 };
     };
 
     ///
@@ -71,7 +71,7 @@ public:
     {
         ///
         /// The number of bytes allocated on the GPU.
-        size_t memoryUsage { 0 };
+        size_t memory_usage { 0 };
     };
 
     ///
@@ -168,7 +168,7 @@ public:
 
         ///
         /// Returns whether the object is uploaded to a renderer.
-        bool isUploaded() const;
+        bool is_uploaded() const;
 
         ///
         /// Returns the renderer that the object is uploaded to.
@@ -179,18 +179,18 @@ public:
         ///
         /// Returns the underlying data cast to the specified type.
         template <typename U>
-        U* dataAs() const;
+        U* data_as() const;
 
         ///
         /// Sets the object as being uploaded to the renderer.
         ///
         /// \param renderer The renderer.
         /// \param data The renderer-specific data of the object.
-        void setAsUploaded(Renderer& renderer, Data<T>* data);
+        void set_as_uploaded(Renderer& renderer, Data<T>* data);
 
         ///
         /// Sets the object as being destroyed from the renderer.
-        void setAsDestroyed();
+        void set_as_destroyed();
 
     private:
         Renderer* _renderer { nullptr };
@@ -211,8 +211,8 @@ public:
         /// Sets the active cull mode to use for subsequent render calls within
         /// the frame.
         ///
-        /// \param cullMode The cull mode.
-        void setCullMode(CullMode cullMode);
+        /// \param cull_mode The cull mode.
+        void set_cull_mode(CullMode cull_mode);
 
         ///
         /// Sets the active shader affecting following render calls within the
@@ -221,7 +221,7 @@ public:
         /// \note The shader will be uploaded if it was not already uploaded.
         ///
         /// \param shader The shader to set.
-        void setShader(Shader& shader);
+        void set_shader(Shader& shader);
 
         ///
         /// Sets the value for a uniform of the active shader.
@@ -233,47 +233,47 @@ public:
         ///
         /// \throws InvalidOperation If the specified value type differs from
         /// the uniform type.
-        void setUniform(const Uniform& uniform, const UniformValue& value);
+        void set_uniform(const Uniform& uniform, const UniformValue& value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, int value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, int value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, double value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, double value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Vector2 value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Vector2 value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Vector3 value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Vector3 value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Vector4 value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Vector4 value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, const Matrix4& value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, const Matrix4& value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Color value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Color value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Texture2& value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Texture2& value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, Texture3& value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, Texture3& value);
 
         ///
-        /// \copydoc hect::Renderer::Frame::setUniform()
-        void setUniform(const Uniform& uniform, TextureCube& value);
+        /// \copydoc hect::Renderer::Frame::set_uniform()
+        void set_uniform(const Uniform& uniform, TextureCube& value);
 
         ///
         /// Render a mesh using the active state of the frame.
@@ -281,11 +281,11 @@ public:
         /// \note The mesh will be uploaded if it was not already uploaded.
         ///
         /// \param mesh The mesh to set.
-        void renderMesh(Mesh& mesh);
+        void render_mesh(Mesh& mesh);
 
         ///
         /// Render a viewport using the active state of the frame.
-        void renderViewport();
+        void render_viewport();
 
         ///
         /// Clears the render target.
@@ -308,21 +308,21 @@ public:
     /// \param target The target to render the frame to.
     ///
     /// \throws InvalidOperation If another frame is already active.
-    Frame beginFrame(RenderTarget& target);
+    Frame begin_frame(RenderTarget& target);
 
     ///
     /// Uploads a frame buffer.
     ///
     /// \note If the frame buffer is already uploaded then no action is taken.
     ///
-    /// \param frameBuffer The frame buffer to upload.
-    void uploadFrameBuffer(FrameBuffer& frameBuffer);
+    /// \param frame_buffer The frame buffer to upload.
+    void upload_frame_buffer(FrameBuffer& frame_buffer);
 
     ///
     /// Destroys a frame buffer.
     ///
-    /// \param frameBuffer The frame buffer to destroy.
-    void destroyFrameBuffer(FrameBuffer& frameBuffer);
+    /// \param frame_buffer The frame buffer to destroy.
+    void destroy_frame_buffer(FrameBuffer& frame_buffer);
 
     ///
     /// Uploads a shader.
@@ -332,13 +332,13 @@ public:
     /// \param shader The shader to upload.
     ///
     /// \throws InvalidOperation If the shader is invalid.
-    void uploadShader(Shader& shader);
+    void upload_shader(Shader& shader);
 
     ///
     /// Destroys a shader.
     ///
     /// \param shader The shader to destroy.
-    void destroyShader(Shader& shader);
+    void destroy_shader(Shader& shader);
 
     ///
     /// Uploads a 2-dimensional texture.
@@ -346,7 +346,7 @@ public:
     /// \note If the texture is already uploaded then no action is taken.
     ///
     /// \param texture The texture to upload.
-    void uploadTexture(Texture2& texture);
+    void upload_texture(Texture2& texture);
 
     ///
     /// Uploads a 3-dimensional texture.
@@ -354,7 +354,7 @@ public:
     /// \note If the texture is already uploaded then no action is taken.
     ///
     /// \param texture The texture to upload.
-    void uploadTexture(Texture3& texture);
+    void upload_texture(Texture3& texture);
 
     ///
     /// Uploads a cubic texture.
@@ -362,31 +362,31 @@ public:
     /// \note If the texture is already uploaded then no action is taken.
     ///
     /// \param texture The texture to upload.
-    void uploadTexture(TextureCube& texture);
+    void upload_texture(TextureCube& texture);
 
     ///
     /// Destroys a 2-dimensional texture.
     ///
     /// \param texture The texture to destroy.
-    /// \param downloadImage Whether to download the texture's image before it
+    /// \param download_image Whether to download the texture's image before it
     /// it is destroyed.
-    void destroyTexture(Texture2& texture, bool downloadImage = false);
+    void destroy_texture(Texture2& texture, bool download_image = false);
 
     ///
     /// Destroys a 3-dimensional texture.
     ///
     /// \param texture The texture to destroy.
-    /// \param downloadImage Whether to download the texture's image before it
+    /// \param download_image Whether to download the texture's image before it
     /// it is destroyed.
-    void destroyTexture(Texture3& texture, bool downloadImage = false);
+    void destroy_texture(Texture3& texture, bool download_image = false);
 
     ///
     /// Destroys a cubic texture.
     ///
     /// \param texture The texture to destroy.
-    /// \param downloadImage Whether to download the texture's image before it
+    /// \param download_image Whether to download the texture's image before it
     /// it is destroyed.
-    void destroyTexture(TextureCube& texture, bool downloadImage = false);
+    void destroy_texture(TextureCube& texture, bool download_image = false);
 
     ///
     /// Downloads the 2-dimensional image of the given uploaded texture.
@@ -394,7 +394,7 @@ public:
     /// \param texture The texture the download the image of.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    void downloadTextureImage(Texture2& texture);
+    void download_texture_image(Texture2& texture);
 
     ///
     /// Downloads the 2-dimensional images of the given uploaded texture.
@@ -402,7 +402,7 @@ public:
     /// \param texture The texture the download the image of.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    void downloadTextureImages(Texture3& texture);
+    void download_texture_images(Texture3& texture);
 
     ///
     /// Uploads a mesh.
@@ -410,13 +410,13 @@ public:
     /// \note If the mesh is already uploaded then no action is taken.
     ///
     /// \param mesh The mesh to upload.
-    void uploadMesh(Mesh& mesh);
+    void upload_mesh(Mesh& mesh);
 
     ///
     /// Destroys a mesh.
     ///
     /// \param mesh The mesh to destroy.
-    void destroyMesh(Mesh& mesh);
+    void destroy_mesh(Mesh& mesh);
 
     ///
     /// Returns the capabilities of the underlying hardware.
@@ -440,37 +440,37 @@ private:
     void initialize();
     void shutdown();
 
-    void onBeginFrame(RenderTarget& target);
-    void onEndFrame();
+    void on_begin_frame(RenderTarget& target);
+    void on_end_frame();
 
-    void setTarget(RenderTarget& target);
-    void setTarget(Window& window);
-    void setTarget(FrameBuffer& frameBuffer);
+    void set_target(RenderTarget& target);
+    void set_target(Window& window);
+    void set_target(FrameBuffer& frame_buffer);
 
-    void setCullMode(CullMode cullMode);
+    void set_cull_mode(CullMode cull_mode);
 
-    void setShader(Shader& shader);
+    void set_shader(Shader& shader);
 
-    void setUniform(const Uniform& uniform, int value);
-    void setUniform(const Uniform& uniform, double value);
-    void setUniform(const Uniform& uniform, Vector2 value);
-    void setUniform(const Uniform& uniform, Vector3 value);
-    void setUniform(const Uniform& uniform, Vector4 value);
-    void setUniform(const Uniform& uniform, const Matrix4& value);
-    void setUniform(const Uniform& uniform, Color value);
-    void setUniform(const Uniform& uniform, Texture2& value);
-    void setUniform(const Uniform& uniform, Texture3& value);
-    void setUniform(const Uniform& uniform, TextureCube& value);
+    void set_uniform(const Uniform& uniform, int value);
+    void set_uniform(const Uniform& uniform, double value);
+    void set_uniform(const Uniform& uniform, Vector2 value);
+    void set_uniform(const Uniform& uniform, Vector3 value);
+    void set_uniform(const Uniform& uniform, Vector4 value);
+    void set_uniform(const Uniform& uniform, const Matrix4& value);
+    void set_uniform(const Uniform& uniform, Color value);
+    void set_uniform(const Uniform& uniform, Texture2& value);
+    void set_uniform(const Uniform& uniform, Texture3& value);
+    void set_uniform(const Uniform& uniform, TextureCube& value);
 
-    void renderMesh(Mesh& mesh);
+    void render_mesh(Mesh& mesh);
 
-    void renderViewport();
+    void render_viewport();
 
     void clear(Color color, bool depth);
 
     Capabilities _capabilities;
     Statistics _statistics;
-    bool _inFrame { false };
+    bool _in_frame { false };
 };
 
 }

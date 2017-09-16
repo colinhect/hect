@@ -58,7 +58,7 @@ public:
 
     ///
     /// Returns whether fullscreen is enabled.
-    bool isFullscreen() const;
+    bool is_fullscreen() const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

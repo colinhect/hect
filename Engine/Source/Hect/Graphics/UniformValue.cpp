@@ -35,67 +35,67 @@ UniformValue::UniformValue()
 UniformValue::UniformValue(UniformType type) :
     _type(type)
 {
-    setDefaultValue();
+    set_default_value();
 }
 
 UniformValue::UniformValue(int value) :
     _type(UniformType::Int)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(double value) :
     _type(UniformType::Float)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(Vector2 value) :
     _type(UniformType::Vector2)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(Vector3 value) :
     _type(UniformType::Vector3)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(Vector4 value) :
     _type(UniformType::Vector4)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(const Matrix4& value) :
     _type(UniformType::Matrix4)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(Color value) :
     _type(UniformType::Color)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(const Texture2::Handle& value) :
     _type(UniformType::Texture2)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(const Texture3::Handle& value) :
     _type(UniformType::Texture3)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformValue::UniformValue(const TextureCube::Handle& value) :
     _type(UniformType::TextureCube)
 {
-    setValue(value);
+    set_value(value);
 }
 
 UniformType UniformValue::type() const
@@ -103,7 +103,7 @@ UniformType UniformValue::type() const
     return _type;
 }
 
-void UniformValue::setDefaultValue()
+void UniformValue::set_default_value()
 {
     switch (_type)
     {
@@ -140,7 +140,7 @@ void UniformValue::setDefaultValue()
     }
 }
 
-void UniformValue::setValue(int value)
+void UniformValue::set_value(int value)
 {
     if (_type != UniformType::Int)
     {
@@ -150,7 +150,7 @@ void UniformValue::setValue(int value)
     _value = value;
 }
 
-void UniformValue::setValue(double value)
+void UniformValue::set_value(double value)
 {
     if (_type != UniformType::Float)
     {
@@ -160,7 +160,7 @@ void UniformValue::setValue(double value)
     _value = value;
 }
 
-void UniformValue::setValue(Vector2 value)
+void UniformValue::set_value(Vector2 value)
 {
     if (_type != UniformType::Vector2)
     {
@@ -170,7 +170,7 @@ void UniformValue::setValue(Vector2 value)
     _value = value;
 }
 
-void UniformValue::setValue(Vector3 value)
+void UniformValue::set_value(Vector3 value)
 {
     if (_type != UniformType::Vector3)
     {
@@ -180,7 +180,7 @@ void UniformValue::setValue(Vector3 value)
     _value = value;
 }
 
-void UniformValue::setValue(Vector4 value)
+void UniformValue::set_value(Vector4 value)
 {
     if (_type != UniformType::Vector4)
     {
@@ -190,7 +190,7 @@ void UniformValue::setValue(Vector4 value)
     _value = value;
 }
 
-void UniformValue::setValue(const Matrix4& value)
+void UniformValue::set_value(const Matrix4& value)
 {
     if (_type != UniformType::Matrix4)
     {
@@ -200,7 +200,7 @@ void UniformValue::setValue(const Matrix4& value)
     _value = value;
 }
 
-void UniformValue::setValue(Color value)
+void UniformValue::set_value(Color value)
 {
     if (_type != UniformType::Color)
     {
@@ -210,7 +210,7 @@ void UniformValue::setValue(Color value)
     _value = value;
 }
 
-void UniformValue::setValue(const Texture2::Handle& value)
+void UniformValue::set_value(const Texture2::Handle& value)
 {
     if (_type != UniformType::Texture2)
     {
@@ -220,7 +220,7 @@ void UniformValue::setValue(const Texture2::Handle& value)
     _value = value;
 }
 
-void UniformValue::setValue(const Texture3::Handle& value)
+void UniformValue::set_value(const Texture3::Handle& value)
 {
     if (_type != UniformType::Texture3)
     {
@@ -230,7 +230,7 @@ void UniformValue::setValue(const Texture3::Handle& value)
     _value = value;
 }
 
-void UniformValue::setValue(const TextureCube::Handle& value)
+void UniformValue::set_value(const TextureCube::Handle& value)
 {
     if (_type != UniformType::TextureCube)
     {
@@ -240,7 +240,7 @@ void UniformValue::setValue(const TextureCube::Handle& value)
     _value = value;
 }
 
-int UniformValue::asInt() const
+int UniformValue::as_int() const
 {
     if (_type != UniformType::Int)
     {
@@ -250,7 +250,7 @@ int UniformValue::asInt() const
     return _value.as<int>();
 }
 
-double UniformValue::asDouble() const
+double UniformValue::as_double() const
 {
     if (_type != UniformType::Float)
     {
@@ -260,7 +260,7 @@ double UniformValue::asDouble() const
     return _value.as<double>();
 }
 
-Vector2 UniformValue::asVector2() const
+Vector2 UniformValue::as_vector2() const
 {
     if (_type != UniformType::Vector2)
     {
@@ -270,7 +270,7 @@ Vector2 UniformValue::asVector2() const
     return _value.as<Vector2>();
 }
 
-Vector3 UniformValue::asVector3() const
+Vector3 UniformValue::as_vector3() const
 {
     if (_type != UniformType::Vector3)
     {
@@ -280,7 +280,7 @@ Vector3 UniformValue::asVector3() const
     return _value.as<Vector3>();
 }
 
-Vector4 UniformValue::asVector4() const
+Vector4 UniformValue::as_vector4() const
 {
     if (_type != UniformType::Vector4)
     {
@@ -290,7 +290,7 @@ Vector4 UniformValue::asVector4() const
     return _value.as<Vector4>();
 }
 
-Matrix4 UniformValue::asMatrix4() const
+Matrix4 UniformValue::as_matrix4() const
 {
     if (_type != UniformType::Matrix4)
     {
@@ -300,7 +300,7 @@ Matrix4 UniformValue::asMatrix4() const
     return _value.as<Matrix4>();
 }
 
-Color UniformValue::asColor() const
+Color UniformValue::as_color() const
 {
     if (_type != UniformType::Color)
     {
@@ -310,7 +310,7 @@ Color UniformValue::asColor() const
     return _value.as<Color>();
 }
 
-Texture2::Handle UniformValue::asTexture2() const
+Texture2::Handle UniformValue::as_texture2() const
 {
     if (_type != UniformType::Texture2)
     {
@@ -320,7 +320,7 @@ Texture2::Handle UniformValue::asTexture2() const
     return _value.as<Texture2::Handle>();
 }
 
-Texture3::Handle UniformValue::asTexture3() const
+Texture3::Handle UniformValue::as_texture3() const
 {
     if (_type != UniformType::Texture3)
     {
@@ -330,7 +330,7 @@ Texture3::Handle UniformValue::asTexture3() const
     return _value.as<Texture3::Handle>();
 }
 
-TextureCube::Handle UniformValue::asTextureCube() const
+TextureCube::Handle UniformValue::as_texture_cube() const
 {
     if (_type != UniformType::TextureCube)
     {
@@ -342,13 +342,13 @@ TextureCube::Handle UniformValue::asTextureCube() const
 
 UniformValue::operator bool() const
 {
-    return _value.hasValue();
+    return _value.has_value();
 }
 
-bool UniformValue::operator==(const UniformValue& uniformValue) const
+bool UniformValue::operator==(const UniformValue& uniform_value) const
 {
     // Type
-    if (_type != uniformValue._type)
+    if (_type != uniform_value._type)
     {
         return false;
     }
@@ -357,72 +357,72 @@ bool UniformValue::operator==(const UniformValue& uniformValue) const
     switch (_type)
     {
     case UniformType::Int:
-        return asInt() == uniformValue.asInt();
+        return as_int() == uniform_value.as_int();
     case UniformType::Float:
-        return asDouble() == uniformValue.asDouble();
+        return as_double() == uniform_value.as_double();
     case UniformType::Vector2:
-        return asVector2() == uniformValue.asVector2();
+        return as_vector2() == uniform_value.as_vector2();
     case UniformType::Vector3:
-        return asVector3() == uniformValue.asVector3();
+        return as_vector3() == uniform_value.as_vector3();
     case UniformType::Vector4:
-        return asVector4() == uniformValue.asVector4();
+        return as_vector4() == uniform_value.as_vector4();
     case UniformType::Matrix4:
-        return asMatrix4() == uniformValue.asMatrix4();
+        return as_matrix4() == uniform_value.as_matrix4();
     case UniformType::Color:
-        return asColor() == uniformValue.asColor();
+        return as_color() == uniform_value.as_color();
     case UniformType::Texture2:
-        return asTexture2() == uniformValue.asTexture2();
+        return as_texture2() == uniform_value.as_texture2();
     case UniformType::Texture3:
-        return asTexture3() == uniformValue.asTexture3();
+        return as_texture3() == uniform_value.as_texture3();
     case UniformType::TextureCube:
-        return asTextureCube() == uniformValue.asTextureCube();
+        return as_texture_cube() == uniform_value.as_texture_cube();
     }
 
     return false;
 }
 
-bool UniformValue::operator!=(const UniformValue& uniformValue) const
+bool UniformValue::operator!=(const UniformValue& uniform_value) const
 {
-    return !(*this == uniformValue);
+    return !(*this == uniform_value);
 }
 
 void UniformValue::encode(Encoder& encoder) const
 {
     // Type
-    encoder << encodeEnum("type", _type);
+    encoder << encode_enum("type", _type);
 
     // Value
     switch (_type)
     {
     case UniformType::Int:
-        encoder << encodeValue("value", asInt());
+        encoder << encode_value("value", as_int());
         break;
     case UniformType::Float:
-        encoder << encodeValue("value", asDouble());
+        encoder << encode_value("value", as_double());
         break;
     case UniformType::Vector2:
-        encoder << encodeValue("value", asVector2());
+        encoder << encode_value("value", as_vector2());
         break;
     case UniformType::Vector3:
-        encoder << encodeValue("value", asVector3());
+        encoder << encode_value("value", as_vector3());
         break;
     case UniformType::Vector4:
-        encoder << encodeValue("value", asVector4());
+        encoder << encode_value("value", as_vector4());
         break;
     case UniformType::Matrix4:
-        encoder << encodeValue("value", asMatrix4());
+        encoder << encode_value("value", as_matrix4());
         break;
     case UniformType::Color:
-        encoder << encodeValue("value", asColor());
+        encoder << encode_value("value", as_color());
         break;
     case UniformType::Texture2:
-        encoder << encodeValue("value", asTexture2());
+        encoder << encode_value("value", as_texture2());
         break;
     case UniformType::Texture3:
-        encoder << encodeValue("value", asTexture3());
+        encoder << encode_value("value", as_texture3());
         break;
     case UniformType::TextureCube:
-        encoder << encodeValue("value", asTextureCube());
+        encoder << encode_value("value", as_texture_cube());
         break;
     }
 }
@@ -430,89 +430,89 @@ void UniformValue::encode(Encoder& encoder) const
 void UniformValue::decode(Decoder& decoder)
 {
     // Type
-    decoder >> decodeEnum("type", _type);
+    decoder >> decode_enum("type", _type);
 
     // Value
-    if (decoder.selectMember("value"))
+    if (decoder.select_member("value"))
     {
         switch (_type)
         {
         case UniformType::Int:
         {
             int value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Float:
         {
             double value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Vector2:
         {
             Vector2 value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Vector3:
         {
             Vector3 value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Vector4:
         {
             Vector4 value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Matrix4:
         {
             Matrix4 value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Color:
         {
             Color value;
-            decoder >> decodeValue(value);
-            setValue(value);
+            decoder >> decode_value(value);
+            set_value(value);
         }
         break;
         case UniformType::Texture2:
         {
             Texture2::Handle texture;
-            decoder >> decodeValue(texture);
-            setValue(texture);
+            decoder >> decode_value(texture);
+            set_value(texture);
         }
         break;
         case UniformType::Texture3:
         {
             Texture3::Handle texture;
-            decoder >> decodeValue(texture);
-            setValue(texture);
+            decoder >> decode_value(texture);
+            set_value(texture);
         }
         break;
         case UniformType::TextureCube:
         {
             TextureCube::Handle texture;
-            decoder >> decodeValue(texture);
-            setValue(texture);
+            decoder >> decode_value(texture);
+            set_value(texture);
         }
         break;
         default:
-            throw DecodeError(format("Unknown uniform type '%s'", Enum::toString(_type).data()));
+            throw DecodeError(format("Unknown uniform type '%s'", Enum::to_string(_type).data()));
         }
     }
     else
     {
-        setDefaultValue();
+        set_default_value();
     }
 }

@@ -34,255 +34,255 @@ Mesh::Descriptor::Descriptor()
 {
 }
 
-Mesh Mesh::createBox(Vector3 dimensions, const Descriptor& descriptor)
+Mesh Mesh::create_box(Vector3 dimensions, const Descriptor& descriptor)
 {
     Mesh mesh(descriptor);
-    MeshWriter meshWriter(mesh);
+    MeshWriter mesh_writer(mesh);
 
-    const double halfX = dimensions.x * 0.5;
-    const double halfY = dimensions.y * 0.5;
-    const double halfZ = dimensions.z * 0.5;
+    const double half_x = dimensions.x * 0.5;
+    const double half_y = dimensions.y * 0.5;
+    const double half_z = dimensions.z * 0.5;
 
     // Top
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
-    meshWriter.addIndex(0);
-    meshWriter.addIndex(1);
-    meshWriter.addIndex(2);
-    meshWriter.addIndex(2);
-    meshWriter.addIndex(3);
-    meshWriter.addIndex(0);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, half_z));
+    mesh_writer.add_index(0);
+    mesh_writer.add_index(1);
+    mesh_writer.add_index(2);
+    mesh_writer.add_index(2);
+    mesh_writer.add_index(3);
+    mesh_writer.add_index(0);
 
     // Bottom
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
-    meshWriter.addIndex(4);
-    meshWriter.addIndex(5);
-    meshWriter.addIndex(6);
-    meshWriter.addIndex(6);
-    meshWriter.addIndex(7);
-    meshWriter.addIndex(4);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, -half_z));
+    mesh_writer.add_index(4);
+    mesh_writer.add_index(5);
+    mesh_writer.add_index(6);
+    mesh_writer.add_index(6);
+    mesh_writer.add_index(7);
+    mesh_writer.add_index(4);
 
     // Left
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
-    meshWriter.addIndex(8);
-    meshWriter.addIndex(9);
-    meshWriter.addIndex(10);
-    meshWriter.addIndex(10);
-    meshWriter.addIndex(11);
-    meshWriter.addIndex(8);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, -half_z));
+    mesh_writer.add_index(8);
+    mesh_writer.add_index(9);
+    mesh_writer.add_index(10);
+    mesh_writer.add_index(10);
+    mesh_writer.add_index(11);
+    mesh_writer.add_index(8);
 
     // Right
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
-    meshWriter.addIndex(12);
-    meshWriter.addIndex(13);
-    meshWriter.addIndex(14);
-    meshWriter.addIndex(14);
-    meshWriter.addIndex(15);
-    meshWriter.addIndex(12);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, -half_z));
+    mesh_writer.add_index(12);
+    mesh_writer.add_index(13);
+    mesh_writer.add_index(14);
+    mesh_writer.add_index(14);
+    mesh_writer.add_index(15);
+    mesh_writer.add_index(12);
 
     // Back
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, -halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, -halfY, halfZ));
-    meshWriter.addIndex(15);
-    meshWriter.addIndex(16);
-    meshWriter.addIndex(17);
-    meshWriter.addIndex(17);
-    meshWriter.addIndex(18);
-    meshWriter.addIndex(15);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, -half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, -half_y, half_z));
+    mesh_writer.add_index(15);
+    mesh_writer.add_index(16);
+    mesh_writer.add_index(17);
+    mesh_writer.add_index(17);
+    mesh_writer.add_index(18);
+    mesh_writer.add_index(15);
 
     // Front
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, -halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(halfX, halfY, halfZ));
-    meshWriter.addVertex();
-    meshWriter.writeAttributeData(VertexAttributeSemantic::Position, Vector3(-halfX, halfY, halfZ));
-    meshWriter.addIndex(19);
-    meshWriter.addIndex(20);
-    meshWriter.addIndex(21);
-    meshWriter.addIndex(21);
-    meshWriter.addIndex(22);
-    meshWriter.addIndex(19);
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, -half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(half_x, half_y, half_z));
+    mesh_writer.add_vertex();
+    mesh_writer.write_attribute_data(VertexAttributeSemantic::Position, Vector3(-half_x, half_y, half_z));
+    mesh_writer.add_index(19);
+    mesh_writer.add_index(20);
+    mesh_writer.add_index(21);
+    mesh_writer.add_index(21);
+    mesh_writer.add_index(22);
+    mesh_writer.add_index(19);
 
     return mesh;
 }
 
 Mesh::Mesh() :
-    _vertexLayout(VertexLayout::createDefault())
+    _vertex_layout(VertexLayout::create_default())
 {
 }
 
 Mesh::Mesh(Name name) :
     Asset(name),
-    _vertexLayout(VertexLayout::createDefault())
+    _vertex_layout(VertexLayout::create_default())
 {
 }
 
 Mesh::Mesh(const Descriptor& descriptor) :
     Asset(descriptor.name),
-    _vertexLayout(descriptor.vertexLayout),
-    _primitiveType(descriptor.primitiveType),
-    _indexType(descriptor.indexType)
+    _vertex_layout(descriptor.vertex_layout),
+    _primitive_type(descriptor.primitive_type),
+    _index_type(descriptor.index_type)
 {
 }
 
-const VertexLayout& Mesh::vertexLayout() const
+const VertexLayout& Mesh::vertex_layout() const
 {
-    return _vertexLayout;
+    return _vertex_layout;
 }
 
-void Mesh::setVertexLayout(const VertexLayout& vertexLayout)
+void Mesh::set_vertex_layout(const VertexLayout& vertex_layout)
 {
-    if (_vertexData.size() != 0)
+    if (_vertex_data.size() != 0)
     {
         throw InvalidOperation("Cannot change the vertex layout of a mesh with vertex data");
     }
 
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _vertexLayout = vertexLayout;
+    _vertex_layout = vertex_layout;
 }
 
-PrimitiveType Mesh::primitiveType() const
+PrimitiveType Mesh::primitive_type() const
 {
-    return _primitiveType;
+    return _primitive_type;
 }
 
-void Mesh::setPrimitiveType(PrimitiveType primitiveType)
+void Mesh::set_primitive_type(PrimitiveType primitive_type)
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _primitiveType = primitiveType;
+    _primitive_type = primitive_type;
 }
 
-IndexType Mesh::indexType() const
+IndexType Mesh::index_type() const
 {
-    return _indexType;
+    return _index_type;
 }
 
-void Mesh::setIndexType(IndexType indexType)
+void Mesh::set_index_type(IndexType index_type)
 {
-    if (_indexData.size() != 0)
+    if (_index_data.size() != 0)
     {
         throw InvalidOperation("Cannot change the index type of a mesh with index data");
     }
 
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _indexType = indexType;
+    _index_type = index_type;
 }
 
-const Mesh::VertexData& Mesh::vertexData() const
+const Mesh::VertexData& Mesh::vertex_data() const
 {
-    return _vertexData;
+    return _vertex_data;
 }
 
-void Mesh::setVertexData(const VertexData& vertexData)
+void Mesh::set_vertex_data(const VertexData& vertex_data)
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _vertexData = vertexData;
-    _vertexCount = vertexData.size() / _vertexLayout.vertexSize();
+    _vertex_data = vertex_data;
+    _vertex_count = vertex_data.size() / _vertex_layout.vertex_size();
 }
 
-void Mesh::clearVertexData()
+void Mesh::clear_vertex_data()
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _vertexData.clear();
-    _vertexCount = 0;
+    _vertex_data.clear();
+    _vertex_count = 0;
 }
 
-size_t Mesh::vertexCount() const
+size_t Mesh::vertex_count() const
 {
-    return _vertexCount;
+    return _vertex_count;
 }
 
-const Mesh::IndexData& Mesh::indexData() const
+const Mesh::IndexData& Mesh::index_data() const
 {
-    return _indexData;
+    return _index_data;
 }
 
-void Mesh::setIndexData(const IndexData& indexData)
+void Mesh::set_index_data(const IndexData& index_data)
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _indexData = indexData;
-    _indexCount = indexData.size() / indexSize();
+    _index_data = index_data;
+    _index_count = index_data.size() / index_size();
 }
 
-void Mesh::clearIndexData()
+void Mesh::clear_index_data()
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyMesh(*this);
+        renderer().destroy_mesh(*this);
     }
 
-    _indexData.clear();
-    _indexCount = 0;
+    _index_data.clear();
+    _index_count = 0;
 }
 
-size_t Mesh::indexCount() const
+size_t Mesh::index_count() const
 {
-    return _indexCount;
+    return _index_count;
 }
 
-unsigned Mesh::indexSize() const
+unsigned Mesh::index_size() const
 {
-    switch (_indexType)
+    switch (_index_type)
     {
     case IndexType::UInt8:
         return 1;
@@ -294,49 +294,49 @@ unsigned Mesh::indexSize() const
     return 0;
 }
 
-AxisAlignedBox& Mesh::axisAlignedBox()
+AxisAlignedBox& Mesh::axis_aligned_box()
 {
-    return _axisAlignedBox;
+    return _axis_aligned_box;
 }
 
-const AxisAlignedBox& Mesh::axisAlignedBox() const
+const AxisAlignedBox& Mesh::axis_aligned_box() const
 {
-    return _axisAlignedBox;
+    return _axis_aligned_box;
 }
 
 bool Mesh::operator==(const Mesh& mesh) const
 {
     // Vertex layout
-    if (_vertexLayout != mesh._vertexLayout)
+    if (_vertex_layout != mesh._vertex_layout)
     {
         return false;
     }
 
     // Primitive/index types
-    if (_primitiveType != mesh._primitiveType || _indexType != mesh._indexType)
+    if (_primitive_type != mesh._primitive_type || _index_type != mesh._index_type)
     {
         return false;
     }
 
     // Vertex/index counts
-    if (_vertexCount != mesh._vertexCount || _indexCount != mesh._indexCount)
+    if (_vertex_count != mesh._vertex_count || _index_count != mesh._index_count)
     {
         return false;
     }
 
     // Vertex data
-    for (size_t i = 0; i < _vertexCount; ++i)
+    for (size_t i = 0; i < _vertex_count; ++i)
     {
-        if (_vertexData[i] != mesh._vertexData[i])
+        if (_vertex_data[i] != mesh._vertex_data[i])
         {
             return false;
         }
     }
 
     // Index data
-    for (size_t i = 0; i < _indexCount; ++i)
+    for (size_t i = 0; i < _index_count; ++i)
     {
-        if (_indexData[i] != mesh._indexData[i])
+        if (_index_data[i] != mesh._index_data[i])
         {
             return false;
         }
@@ -352,28 +352,28 @@ bool Mesh::operator!=(const Mesh& mesh) const
 
 void Mesh::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("vertexLayout", _vertexLayout)
-            << encodeEnum("indexType", _indexType)
-            << encodeEnum("primitiveType", _primitiveType);
+    encoder << encode_value("vertex_layout", _vertex_layout)
+            << encode_enum("index_type", _index_type)
+            << encode_enum("primitive_type", _primitive_type);
 
-    if (encoder.isBinaryStream())
+    if (encoder.is_binary_stream())
     {
-        WriteStream& stream = encoder.binaryStream();
+        WriteStream& stream = encoder.binary_stream();
 
         // Vertex data
-        uint32_t vertexDataSize = static_cast<uint32_t>(_vertexData.size());
-        stream << vertexDataSize;
-        if (vertexDataSize > 0)
+        uint32_t vertex_data_size = static_cast<uint32_t>(_vertex_data.size());
+        stream << vertex_data_size;
+        if (vertex_data_size > 0)
         {
-            stream.write(&_vertexData[0], vertexDataSize);
+            stream.write(&_vertex_data[0], vertex_data_size);
         }
 
         // Index data
-        uint32_t indexDataSize = static_cast<uint32_t>(_indexData.size());
-        stream << indexDataSize;
-        if (indexDataSize > 0)
+        uint32_t index_data_size = static_cast<uint32_t>(_index_data.size());
+        stream << index_data_size;
+        if (index_data_size > 0)
         {
-            stream.write(&_indexData[0], indexDataSize);
+            stream.write(&_index_data[0], index_data_size);
         }
     }
     else
@@ -381,56 +381,56 @@ void Mesh::encode(Encoder& encoder) const
         MeshReader reader(*this);
 
         // Vertex data
-        encoder << beginArray("vertices");
-        while (reader.nextVertex())
+        encoder << begin_array("vertices");
+        while (reader.next_vertex())
         {
-            encoder << beginObject()
-                    << beginArray("attributes");
+            encoder << begin_object()
+                    << begin_array("attributes");
 
-            for (const VertexAttribute& attribute : _vertexLayout.attributes())
+            for (const VertexAttribute& attribute : _vertex_layout.attributes())
             {
                 VertexAttributeSemantic semantic = attribute.semantic();
 
-                encoder << beginObject()
-                        << encodeEnum("semantic", semantic);
+                encoder << begin_object()
+                        << encode_enum("semantic", semantic);
 
                 unsigned cardinality = attribute.cardinality();
                 if (cardinality == 1)
                 {
-                    double value = reader.readAttributeDouble(semantic);
-                    encoder << encodeValue("data", value);
+                    double value = reader.read_attribute_double(semantic);
+                    encoder << encode_value("data", value);
                 }
                 else if (cardinality == 2)
                 {
-                    Vector2 value = reader.readAttributeVector2(semantic);
-                    encoder << encodeValue("data", value);
+                    Vector2 value = reader.read_attribute_vector2(semantic);
+                    encoder << encode_value("data", value);
                 }
                 else if (cardinality == 3)
                 {
-                    Vector3 value = reader.readAttributeVector3(semantic);
-                    encoder << encodeValue("data", value);
+                    Vector3 value = reader.read_attribute_vector3(semantic);
+                    encoder << encode_value("data", value);
                 }
                 else if (cardinality == 4)
                 {
-                    Vector4 value = reader.readAttributeVector4(semantic);
-                    encoder << encodeValue("data", value);
+                    Vector4 value = reader.read_attribute_vector4(semantic);
+                    encoder << encode_value("data", value);
                 }
 
-                encoder << endObject();
+                encoder << end_object();
             }
 
-            encoder << endArray()
-                    << endObject();
+            encoder << end_array()
+                    << end_object();
         }
-        encoder << endArray();
+        encoder << end_array();
 
         // Index data
-        encoder << beginArray("indices");
-        while (reader.nextIndex())
+        encoder << begin_array("indices");
+        while (reader.next_index())
         {
-            encoder << encodeValue(reader.readIndexUInt32());
+            encoder << encode_value(reader.read_index_u_int32());
         }
-        encoder << endArray();
+        encoder << end_array();
     }
 }
 
@@ -439,124 +439,124 @@ void Mesh::decode(Decoder& decoder)
     // Clear any data the mesh already had
     *this = Mesh(name());
 
-    decoder >> decodeValue("vertexLayout", _vertexLayout)
-            >> decodeEnum("indexType", _indexType)
-            >> decodeEnum("primitiveType", _primitiveType);
+    decoder >> decode_value("vertex_layout", _vertex_layout)
+            >> decode_enum("index_type", _index_type)
+            >> decode_enum("primitive_type", _primitive_type);
 
     // Vertex and index data
-    if (decoder.isBinaryStream())
+    if (decoder.is_binary_stream())
     {
-        ReadStream& stream = decoder.binaryStream();
+        ReadStream& stream = decoder.binary_stream();
 
         // Vertex data
-        uint32_t vertexDataSize;
-        stream >> vertexDataSize;
-        Mesh::VertexData vertexData(vertexDataSize);
-        if (vertexDataSize > 0)
+        uint32_t vertex_data_size;
+        stream >> vertex_data_size;
+        Mesh::VertexData vertex_data(vertex_data_size);
+        if (vertex_data_size > 0)
         {
-            stream.read(&vertexData[0], vertexDataSize);
+            stream.read(&vertex_data[0], vertex_data_size);
         }
 
         // Index data
-        uint32_t indexDataSize;
-        stream >> indexDataSize;
-        Mesh::IndexData indexData(indexDataSize);
-        if (indexDataSize > 0)
+        uint32_t index_data_size;
+        stream >> index_data_size;
+        Mesh::IndexData index_data(index_data_size);
+        if (index_data_size > 0)
         {
-            stream.read(&indexData[0], indexDataSize);
+            stream.read(&index_data[0], index_data_size);
         }
 
         // Set vertex/index data
-        setVertexData(vertexData);
-        setIndexData(indexData);
+        set_vertex_data(vertex_data);
+        set_index_data(index_data);
 
         // Compute the bounding box based on the vertex positions
-        MeshReader meshReader(*this);
-        while (meshReader.nextVertex())
+        MeshReader mesh_reader(*this);
+        while (mesh_reader.next_vertex())
         {
-            Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
-            _axisAlignedBox.expandToInclude(position);
+            Vector3 position = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Position);
+            _axis_aligned_box.expand_to_include(position);
         }
     }
     else
     {
-        const VertexLayout& vertexLayout = _vertexLayout;
+        const VertexLayout& vertex_layout = _vertex_layout;
 
         // Use a mesh writer to write vertex and index data
-        MeshWriter meshWriter(*this);
+        MeshWriter mesh_writer(*this);
 
         // Vertex data
-        if (decoder.selectMember("vertices"))
+        if (decoder.select_member("vertices"))
         {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
+            decoder >> begin_array();
+            while (decoder.has_more_elements())
             {
-                meshWriter.addVertex();
-                decoder >> beginObject();
+                mesh_writer.add_vertex();
+                decoder >> begin_object();
 
-                if (!decoder.selectMember("attributes"))
+                if (!decoder.select_member("attributes"))
                 {
-                    decoder >> endObject();
+                    decoder >> end_object();
                     continue;
                 }
 
                 // For each attribute
-                decoder >> beginArray();
-                while (decoder.hasMoreElements())
+                decoder >> begin_array();
+                while (decoder.has_more_elements())
                 {
-                    decoder.beginObject();
+                    decoder.begin_object();
 
                     VertexAttributeSemantic semantic;
-                    decoder >> decodeEnum("semantic", semantic, true);
+                    decoder >> decode_enum("semantic", semantic, true);
 
-                    if (vertexLayout.hasAttributeWithSemantic(semantic))
+                    if (vertex_layout.has_attribute_with_semantic(semantic))
                     {
-                        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+                        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
                         unsigned cardinality = attribute.cardinality();
 
                         if (cardinality == 1)
                         {
                             double value;
-                            decoder >> decodeValue("data", value, true);
-                            meshWriter.writeAttributeData(semantic, value);
+                            decoder >> decode_value("data", value, true);
+                            mesh_writer.write_attribute_data(semantic, value);
                         }
                         else if (cardinality == 2)
                         {
                             Vector2 value;
-                            decoder >> decodeValue("data", value, true);
-                            meshWriter.writeAttributeData(semantic, value);
+                            decoder >> decode_value("data", value, true);
+                            mesh_writer.write_attribute_data(semantic, value);
                         }
                         else if (cardinality == 3)
                         {
                             Vector3 value;
-                            decoder >> decodeValue("data", value, true);
-                            meshWriter.writeAttributeData(semantic, value);
+                            decoder >> decode_value("data", value, true);
+                            mesh_writer.write_attribute_data(semantic, value);
                         }
                         else if (cardinality == 4)
                         {
                             Vector4 value;
-                            decoder >> decodeValue("data", value, true);
-                            meshWriter.writeAttributeData(semantic, value);
+                            decoder >> decode_value("data", value, true);
+                            mesh_writer.write_attribute_data(semantic, value);
                         }
                     }
-                    decoder >> endObject();
+                    decoder >> end_object();
                 }
-                decoder >> endArray();
+                decoder >> end_array();
 
-                decoder >> endObject();
+                decoder >> end_object();
             }
-            decoder >> endArray();
+            decoder >> end_array();
         }
 
         // Index data
-        if (decoder.selectMember("indices"))
+        if (decoder.select_member("indices"))
         {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
+            decoder >> begin_array();
+            while (decoder.has_more_elements())
             {
-                meshWriter.addIndex(decoder.decodeUInt32());
+                mesh_writer.add_index(decoder.decode_u_int32());
             }
-            decoder >> endArray();
+            decoder >> end_array();
         }
     }
 }

@@ -42,8 +42,8 @@ public:
     ///
     /// Constructs an empty label widget.
     ///
-    /// \param interfaceSystem The interface system.
-    LabelWidget(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    LabelWidget(InterfaceSystem& interface_system);
 
     ///
     /// Returns the text of the label.
@@ -56,7 +56,7 @@ public:
     /// text with the set font and font size.
     ///
     /// \param text The new text of the label.
-    void setText(const std::string& text);
+    void set_text(const std::string& text);
 
     ///
     /// Returns the font of the label.
@@ -70,7 +70,7 @@ public:
     ///
     /// \param font The font.
     /// \param size The font size.
-    void setFont(Font::Handle font, double size);
+    void set_font(Font::Handle font, double size);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
@@ -78,14 +78,14 @@ public:
 private:
 
     // Widget overrides
-    void updateLayout() override;
+    void update_layout() override;
 
-    Font& effectiveFont();
-    double effectiveFontSize();
+    Font& effective_font();
+    double effective_font_size();
 
     std::string _text;
     Font::Handle _font;
-    double _fontSize { 0.0 };
+    double _font_size { 0.0 };
 };
 
 }

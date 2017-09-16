@@ -101,11 +101,11 @@ public:
     /// Returns the attached texture.
     ///
     /// \throws InvalidOperation If the attachment is not a cubic texture.
-    TextureCube& textureCube();
+    TextureCube& texture_cube();
 
     ///
-    /// \copydoc FrameBufferAttachment::textureCube()
-    const TextureCube& textureCube() const;
+    /// \copydoc FrameBufferAttachment::texture_cube()
+    const TextureCube& texture_cube() const;
 
 private:
     FrameBufferSlot _slot;

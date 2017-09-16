@@ -40,12 +40,12 @@ public:
 
     ///
     /// Returns the render target.
-    RenderTarget& renderTarget();
+    RenderTarget& render_target();
 
 private:
-    Interface(InterfaceSystem& interfaceSystem, RenderTarget& renderTarget);
+    Interface(InterfaceSystem& interface_system, RenderTarget& render_target);
 
-    RenderTarget& _renderTarget;
+    RenderTarget& _render_target;
 };
 
 }

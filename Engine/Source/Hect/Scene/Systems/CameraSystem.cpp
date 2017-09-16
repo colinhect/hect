@@ -33,58 +33,58 @@ CameraSystem::CameraSystem(Scene& scene) :
 {
 }
 
-CameraComponent::Iterator CameraSystem::activeCamera()
+CameraComponent::Iterator CameraSystem::active_camera()
 {
     CameraComponent::Iterator camera;
 
-    if (_activeCameraEntity && _activeCameraEntity->hasComponent<CameraComponent>())
+    if (_active_camera_entity && _active_camera_entity->has_component<CameraComponent>())
     {
-        camera = _activeCameraEntity->component<CameraComponent>().iterator();
+        camera = _active_camera_entity->component<CameraComponent>().iterator();
     }
 
     return camera;
 }
 
-void CameraSystem::setActiveCamera(CameraComponent& camera)
+void CameraSystem::set_active_camera(CameraComponent& camera)
 {
-    _activeCameraEntity = camera.entity().handle();
+    _active_camera_entity = camera.entity().handle();
 }
 
-void CameraSystem::updateCamera(CameraComponent& camera)
+void CameraSystem::update_camera(CameraComponent& camera)
 {
     // If the camera's entity has a transform then use it to compute the
     // camera's position, front, and up vectors
-    if (camera.entity().hasComponent<TransformComponent>())
+    if (camera.entity().has_component<TransformComponent>())
     {
         auto& transform = camera.entity().component<TransformComponent>();
 
-        camera.position = transform.globalPosition;
+        camera.position = transform.global_position;
 
-        Quaternion rotation = transform.globalRotation;
+        Quaternion rotation = transform.global_rotation;
         camera.front = (rotation * Vector3::UnitY).normalized();
         camera.up = (rotation * Vector3::UnitZ).normalized();
     }
 
     camera.right = camera.front.cross(camera.up).normalized();
 
-    camera.viewMatrix = Matrix4::createView(camera.position, camera.front, camera.up);
-    camera.projectionMatrix = Matrix4::createPerspective(camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
+    camera.view_matrix = Matrix4::create_view(camera.position, camera.front, camera.up);
+    camera.projection_matrix = Matrix4::create_perspective(camera.field_of_view, camera.aspect_ratio, camera.near_clip, camera.far_clip);
 
-    camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.fieldOfView, camera.aspectRatio, camera.nearClip, camera.farClip);
+    camera.frustum = Frustum(camera.position, camera.front, camera.up, camera.field_of_view, camera.aspect_ratio, camera.near_clip, camera.far_clip);
 }
 
-void CameraSystem::updateAllCameras()
+void CameraSystem::update_all_cameras()
 {
     for (CameraComponent& camera : scene().components<CameraComponent>())
     {
-        updateCamera(camera);
+        update_camera(camera);
     }
 }
 
-void CameraSystem::onComponentAdded(CameraComponent& camera)
+void CameraSystem::on_component_added(CameraComponent& camera)
 {
-    if (!_activeCameraEntity)
+    if (!_active_camera_entity)
     {
-        _activeCameraEntity = camera.entity().handle();
+        _active_camera_entity = camera.entity().handle();
     }
 }

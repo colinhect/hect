@@ -44,14 +44,14 @@ Image& TextureCube::image(CubeSide side)
     Image::Handle& image = _images[static_cast<int>(side)];
     if (!image)
     {
-        image = Image::Handle(new Image(_width, _height, _pixelFormat));
+        image = Image::Handle(new Image(_width, _height, _pixel_format));
     }
     return *image;
 }
 
-void TextureCube::setImage(CubeSide side, const Image::Handle& image)
+void TextureCube::set_image(CubeSide side, const Image::Handle& image)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
 
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -59,9 +59,9 @@ void TextureCube::setImage(CubeSide side, const Image::Handle& image)
         // Use the width/height/pixel format of the image
         _width = image->width();
         _height = image->height();
-        _pixelFormat = image->pixelFormat();
+        _pixel_format = image->pixel_format();
     }
-    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
+    else if (_width != image->width() || _height != image->height() || _pixel_format != image->pixel_format())
     {
         throw InvalidOperation("Image is incompatible with the texture");
     }
@@ -69,9 +69,9 @@ void TextureCube::setImage(CubeSide side, const Image::Handle& image)
     _images[static_cast<int>(side)] = image;
 }
 
-void TextureCube::invalidateLocalImages()
+void TextureCube::invalidate_local_images()
 {
-    if (!isUploaded())
+    if (!is_uploaded())
     {
         throw InvalidOperation("Texture is not uploaded");
     }
@@ -82,36 +82,36 @@ void TextureCube::invalidateLocalImages()
     }
 }
 
-TextureFilter TextureCube::minFilter() const
+TextureFilter TextureCube::min_filter() const
 {
-    return _minFilter;
+    return _min_filter;
 }
 
-void TextureCube::setMinFilter(TextureFilter filter)
+void TextureCube::set_min_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _minFilter = filter;
+    destroy_if_uploaded();
+    _min_filter = filter;
 }
 
-TextureFilter TextureCube::magFilter() const
+TextureFilter TextureCube::mag_filter() const
 {
-    return _magFilter;
+    return _mag_filter;
 }
 
-void TextureCube::setMagFilter(TextureFilter filter)
+void TextureCube::set_mag_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _magFilter = filter;
+    destroy_if_uploaded();
+    _mag_filter = filter;
 }
 
-bool TextureCube::isMipmapped() const
+bool TextureCube::is_mipmapped() const
 {
     return _mipmapped;
 }
 
-void TextureCube::setMipmapped(bool mipmapped)
+void TextureCube::set_mipmapped(bool mipmapped)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
     _mipmapped = mipmapped;
 }
 
@@ -125,15 +125,15 @@ unsigned TextureCube::height() const
     return _height;
 }
 
-PixelFormat TextureCube::pixelFormat() const
+PixelFormat TextureCube::pixel_format() const
 {
-    return _pixelFormat;
+    return _pixel_format;
 }
 
-void TextureCube::setPixelFormat(PixelFormat pixelFormat)
+void TextureCube::set_pixel_format(PixelFormat pixel_format)
 {
-    destroyIfUploaded();
-    _pixelFormat = pixelFormat;
+    destroy_if_uploaded();
+    _pixel_format = pixel_format;
 }
     
 bool TextureCube::operator==(const TextureCube& texture) const
@@ -154,13 +154,13 @@ bool TextureCube::operator==(const TextureCube& texture) const
     }
 
     // Pixel format
-    if (_pixelFormat != texture._pixelFormat)
+    if (_pixel_format != texture._pixel_format)
     {
         return false;
     }
 
     // Min/mag filters
-    if (_minFilter != texture._minFilter && _magFilter != texture._magFilter)
+    if (_min_filter != texture._min_filter && _mag_filter != texture._mag_filter)
     {
         return false;
     }
@@ -175,56 +175,56 @@ bool TextureCube::operator!=(const TextureCube& texture) const
 
 void TextureCube::encode(Encoder& encoder) const
 {
-    encoder << beginObject("images")
-            << encodeValue("positiveX", _images[0])
-            << encodeValue("negativeX", _images[1])
-            << encodeValue("positiveY", _images[2])
-            << encodeValue("negativeY", _images[3])
-            << encodeValue("positiveZ", _images[4])
-            << encodeValue("negativeZ", _images[5])
-            << endObject()
-            << encodeEnum("minFilter", _minFilter)
-            << encodeEnum("magFilter", _magFilter)
-            << encodeValue("mipmapped", _mipmapped);
+    encoder << begin_object("images")
+            << encode_value("positive_x", _images[0])
+            << encode_value("negative_x", _images[1])
+            << encode_value("positive_y", _images[2])
+            << encode_value("negative_y", _images[3])
+            << encode_value("positive_z", _images[4])
+            << encode_value("negative_z", _images[5])
+            << end_object()
+            << encode_enum("min_filter", _min_filter)
+            << encode_enum("mag_filter", _mag_filter)
+            << encode_value("mipmapped", _mipmapped);
 }
 
 void TextureCube::decode(Decoder& decoder)
 {
     // Color space
-    ColorSpace colorSpace = ColorSpace::NonLinear;
-    if (decoder.selectMember("colorSpace"))
+    ColorSpace color_space = ColorSpace::NonLinear;
+    if (decoder.select_member("color_space"))
     {
-        decoder >> decodeEnum(colorSpace);
+        decoder >> decode_enum(color_space);
     }
 
     // Images
-    decoder >> beginObject("images")
-            >> decodeValue("positiveX", _images[0], true)
-            >> decodeValue("negativeX", _images[1])
-            >> decodeValue("positiveY", _images[2])
-            >> decodeValue("negativeY", _images[3])
-            >> decodeValue("positiveZ", _images[4])
-            >> decodeValue("negativeZ", _images[5])
-            >> endObject();
+    decoder >> begin_object("images")
+            >> decode_value("positive_x", _images[0], true)
+            >> decode_value("negative_x", _images[1])
+            >> decode_value("positive_y", _images[2])
+            >> decode_value("negative_y", _images[3])
+            >> decode_value("positive_z", _images[4])
+            >> decode_value("negative_z", _images[5])
+            >> end_object();
 
     for (Image::Handle& image : _images)
     {
         // Remove the image from the asset cache because we don't want to
         // store uncompressed image data in main memory
-        decoder.assetCache().remove(image.path());
+        decoder.asset_cache().remove(image.path());
 
-        image->setColorSpace(colorSpace);
+        image->set_color_space(color_space);
     }
 
-    decoder >> decodeEnum("minFilter", _minFilter)
-            >> decodeEnum("magFilter", _magFilter)
-            >> decodeValue("mipmapped", _mipmapped);
+    decoder >> decode_enum("min_filter", _min_filter)
+            >> decode_enum("mag_filter", _mag_filter)
+            >> decode_value("mipmapped", _mipmapped);
 }
 
-void TextureCube::destroyIfUploaded()
+void TextureCube::destroy_if_uploaded()
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyTexture(*this);
+        renderer().destroy_texture(*this);
     }
 }

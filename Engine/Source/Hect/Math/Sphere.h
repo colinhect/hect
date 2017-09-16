@@ -52,7 +52,7 @@ public:
     /// Sets the radius.
     ///
     /// \param radius The new radius.
-    void setRadius(double radius);
+    void set_radius(double radius);
 
 private:
     double _radius { 1 };

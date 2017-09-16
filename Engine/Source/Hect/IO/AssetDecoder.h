@@ -49,45 +49,45 @@ public:
     /// \note The correct decoder implementation will be selected based on the
     /// data of the asset.
     ///
-    /// \param assetCache The asset cache to load the asset data from.
+    /// \param asset_cache The asset cache to load the asset data from.
     /// \param path The path to the asset data.
-    AssetDecoder(AssetCache& assetCache, const Path& path);
+    AssetDecoder(AssetCache& asset_cache, const Path& path);
 
     ~AssetDecoder();
 
-    bool isBinaryStream() const override;
-    ReadStream& binaryStream() override;
+    bool is_binary_stream() const override;
+    ReadStream& binary_stream() override;
 
-    void beginArray() override;
-    void endArray() override;
+    void begin_array() override;
+    void end_array() override;
 
-    bool hasMoreElements() const override;
+    bool has_more_elements() const override;
 
-    void beginObject() override;
-    void endObject() override;
+    void begin_object() override;
+    void end_object() override;
 
-    bool selectMember(const char* name) override;
-    std::vector<std::string> memberNames() const override;
+    bool select_member(const char* name) override;
+    std::vector<std::string> member_names() const override;
 
-    std::string decodeString() override;
-    int8_t decodeInt8() override;
-    uint8_t decodeUInt8() override;
-    int16_t decodeInt16() override;
-    uint16_t decodeUInt16() override;
-    int32_t decodeInt32() override;
-    uint32_t decodeUInt32() override;
-    int64_t decodeInt64() override;
-    uint64_t decodeUInt64() override;
-    float decodeFloat32() override;
-    double decodeFloat64() override;
-    bool decodeBool() override;
+    std::string decode_string() override;
+    int8_t decode_int8() override;
+    uint8_t decode_u_int8() override;
+    int16_t decode_int16() override;
+    uint16_t decode_u_int16() override;
+    int32_t decode_int32() override;
+    uint32_t decode_u_int32() override;
+    int64_t decode_int64() override;
+    uint64_t decode_u_int64() override;
+    float decode_float32() override;
+    double decode_float64() override;
+    bool decode_bool() override;
 
 private:
-    bool isYaml(ReadStream& stream);
+    bool is_yaml(ReadStream& stream);
 
     std::unique_ptr<Decoder> _implementation;
 
-    DataValue _dataValue;
+    DataValue _data_value;
     ByteVector _data;
     std::unique_ptr<MemoryReadStream> _stream;
 };

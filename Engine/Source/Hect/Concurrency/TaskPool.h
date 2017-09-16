@@ -57,9 +57,9 @@ public:
     ///
     /// Constructs a task pool with a specific number of worker threads.
     ///
-    /// \param threadCount The number of worker threads.
+    /// \param thread_count The number of worker threads.
     /// \param adaptive Whether to spawn additional worker threads as needed.
-    TaskPool(size_t threadCount, bool adaptive = false);
+    TaskPool(size_t thread_count, bool adaptive = false);
 
     ///
     /// Waits until all running tasks complete (ignores any enqueued tasks
@@ -75,9 +75,9 @@ public:
     ///
     /// \b Example
     /// \code{.cpp}
-    /// TaskPool taskPool;
-    /// Task::Handle taskA = taskPool.enqueue([] { doSomething(); });
-    /// Task::Handle taskB = taskPool.enqueue([] { doSomethingElse(); });
+    /// TaskPool task_pool;
+    /// Task::Handle task_a = task_pool.enqueue([] { do_something(); });
+    /// Task::Handle task_b = task_pool.enqueue([] { do_something_else(); });
     /// \endcode
     Task::Handle enqueue(Task::Action action);
 
@@ -86,21 +86,21 @@ public:
     void wait();
 
 private:
-    void initializeThreads(size_t threadCount);
-    void threadLoop();
+    void initialize_threads(size_t thread_count);
+    void thread_loop();
 
-    std::deque<Task::Handle> _taskQueue;
+    std::deque<Task::Handle> _task_queue;
 
-    std::mutex _threadsMutex;
+    std::mutex _threads_mutex;
     std::vector<std::thread> _threads;
 
-    std::mutex _queueMutex;
+    std::mutex _queue_mutex;
     std::condition_variable _condition;
 
     bool _stop { false };
     bool _adaptive { true };
 
-    std::atomic<size_t> _availableThreadCount { 0 };
+    std::atomic<size_t> _available_thread_count { 0 };
 };
 
 }

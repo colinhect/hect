@@ -38,9 +38,9 @@ using namespace hect;
 namespace
 {
 
-std::mutex _nameIndexLookUpMutex;
-std::unordered_map<std::string, Name::Index> _nameStringToIndex;
-std::deque<std::string> _nameStrings;
+std::mutex _name_index_look_up_mutex;
+std::unordered_map<std::string, Name::Index> _name_string_to_index;
+std::deque<std::string> _name_strings;
 
 }
 
@@ -55,7 +55,7 @@ Name::Name() :
 }
 
 Name::Name(const char* name) :
-    _index(lookUpIndex(name))
+    _index(look_up_index(name))
 #ifdef HECT_DEBUG_BUILD
     , _value(data())
 #endif
@@ -63,29 +63,29 @@ Name::Name(const char* name) :
 }
 
 Name::Name(const std::string& name) :
-    _index(lookUpIndex(name))
+    _index(look_up_index(name))
 #ifdef HECT_DEBUG_BUILD
     , _value(data())
 #endif
 {
 }
 
-const std::string& Name::asString() const
+const std::string& Name::as_string() const
 {
-    static const std::string emptyString = "";
+    static const std::string empty_string = "";
     if (empty())
     {
-        return emptyString;
+        return empty_string;
     }
     else
     {
-        return _nameStrings[_index];
+        return _name_strings[_index];
     }
 }
 
 const char* Name::data() const
 {
-    return asString().data();
+    return as_string().data();
 }
 
 Name::Index Name::index() const
@@ -113,22 +113,22 @@ bool Name::operator!=(Name name) const
     return _index != name._index;
 }
 
-Name::Index Name::lookUpIndex(const std::string& string)
+Name::Index Name::look_up_index(const std::string& string)
 {
-    std::lock_guard<std::mutex> lock(_nameIndexLookUpMutex);
+    std::lock_guard<std::mutex> lock(_name_index_look_up_mutex);
 
     Name::Index index;
 
     // If this is the first encounter of this name
-    auto it = _nameStringToIndex.find(string);
-    if (it == _nameStringToIndex.end())
+    auto it = _name_string_to_index.find(string);
+    if (it == _name_string_to_index.end())
     {
         // Add the string to the string look-up table
-        index = static_cast<Name::Index>(_nameStrings.size());
-        _nameStrings.emplace_back(string);
+        index = static_cast<Name::Index>(_name_strings.size());
+        _name_strings.emplace_back(string);
 
         // Add the index to the index look-up table
-        _nameStringToIndex[string] = index;
+        _name_string_to_index[string] = index;
 
         HECT_TRACE(format("Indexed '%s' to name table at index %i", string.data(), index))
     }
@@ -145,15 +145,15 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Name& name)
 {
-    encoder << encodeValue(name.asString());
+    encoder << encode_value(name.as_string());
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Name& name)
 {
-    std::string nameString;
-    decoder >> decodeValue(nameString);
-    name = Name(nameString);
+    std::string name_string;
+    decoder >> decode_value(name_string);
+    name = Name(name_string);
     return decoder;
 }
 

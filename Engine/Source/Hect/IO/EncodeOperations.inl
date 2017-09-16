@@ -106,73 +106,73 @@ DecodeEnum<T>::DecodeEnum(const char* name, T& value, bool required) :
 }
 
 template <typename T>
-EncodeValue<T> encodeValue(const T& value)
+EncodeValue<T> encode_value(const T& value)
 {
     return EncodeValue<T>(value);
 }
 
 template <typename T>
-EncodeValue<T> encodeValue(const char* name, const T& value)
+EncodeValue<T> encode_value(const char* name, const T& value)
 {
     return EncodeValue<T>(name, value);
 }
 
 template <typename T>
-EncodeVector<T> encodeVector(const std::vector<T>& values)
+EncodeVector<T> encode_vector(const std::vector<T>& values)
 {
     return EncodeVector<T>(values);
 }
 
 template <typename T>
-EncodeVector<T> encodeVector(const char* name, const std::vector<T>& values)
+EncodeVector<T> encode_vector(const char* name, const std::vector<T>& values)
 {
     return EncodeVector<T>(name, values);
 }
 
 template <typename T>
-EncodeEnum<T> encodeEnum(T value)
+EncodeEnum<T> encode_enum(T value)
 {
     return EncodeEnum<T>(value);
 }
 
 template <typename T>
-EncodeEnum<T> encodeEnum(const char* name, T value)
+EncodeEnum<T> encode_enum(const char* name, T value)
 {
     return EncodeEnum<T>(name, value);
 }
 
 template <typename T>
-DecodeValue<T> decodeValue(T& value)
+DecodeValue<T> decode_value(T& value)
 {
     return DecodeValue<T>(value);
 }
 
 template <typename T>
-DecodeValue<T> decodeValue(const char* name, T& value, bool required)
+DecodeValue<T> decode_value(const char* name, T& value, bool required)
 {
     return DecodeValue<T>(name, value, required);
 }
 
 template <typename T>
-DecodeVector<T> decodeVector(std::vector<T>& value)
+DecodeVector<T> decode_vector(std::vector<T>& value)
 {
     return DecodeVector<T>(value);
 }
 
 template <typename T>
-DecodeVector<T> decodeVector(const char* name, std::vector<T>& value, bool required)
+DecodeVector<T> decode_vector(const char* name, std::vector<T>& value, bool required)
 {
     return DecodeVector<T>(name, value, required);
 }
 
 template <typename T>
-DecodeEnum<T> decodeEnum(T& value)
+DecodeEnum<T> decode_enum(T& value)
 {
     return DecodeEnum<T>(value);
 }
 
 template <typename T>
-DecodeEnum<T> decodeEnum(const char* name, T& value, bool required)
+DecodeEnum<T> decode_enum(const char* name, T& value, bool required)
 {
     return DecodeEnum<T>(name, value, required);
 }

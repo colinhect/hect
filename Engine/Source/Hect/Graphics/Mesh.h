@@ -68,15 +68,15 @@ public:
 
         ///
         /// The vertex layout.
-        VertexLayout vertexLayout { VertexLayout::createDefault() };
+        VertexLayout vertex_layout { VertexLayout::create_default() };
 
         ///
         /// The primitive type.
-        PrimitiveType primitiveType { PrimitiveType::Triangles };
+        PrimitiveType primitive_type { PrimitiveType::Triangles };
 
         ///
         /// The index type.
-        IndexType indexType { IndexType::UInt16 };
+        IndexType index_type { IndexType::UInt16 };
     };
 
     ///
@@ -86,7 +86,7 @@ public:
     /// \param descriptor The descriptor of the mesh to construct.
     ///
     /// \returns The box mesh.
-    static Mesh createBox(Vector3 dimensions, const Descriptor& descriptor = Descriptor());
+    static Mesh create_box(Vector3 dimensions, const Descriptor& descriptor = Descriptor());
 
     ///
     /// Constructs a mesh with the default vertex layout, primitive type,
@@ -108,102 +108,102 @@ public:
 
     ///
     /// Returns the vertex layout.
-    const VertexLayout& vertexLayout() const;
+    const VertexLayout& vertex_layout() const;
 
     ///
     /// Sets the vertex layout.
     ///
-    /// \param vertexLayout The new vertex layout.
+    /// \param vertex_layout The new vertex layout.
     ///
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the primitive type is set.
     ///
     /// \throws InvalidOperation If the mesh already has vertex data.
-    void setVertexLayout(const VertexLayout& vertexLayout);
+    void set_vertex_layout(const VertexLayout& vertex_layout);
 
     ///
     /// Returns the primitive type.
-    PrimitiveType primitiveType() const;
+    PrimitiveType primitive_type() const;
 
     ///
     /// Sets the primitive type.
     ///
-    /// \param primitiveType The new primitive type.
+    /// \param primitive_type The new primitive type.
     ///
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the primitive type is set.
-    void setPrimitiveType(PrimitiveType primitiveType);
+    void set_primitive_type(PrimitiveType primitive_type);
 
     ///
     /// Returns the index type.
-    IndexType indexType() const;
+    IndexType index_type() const;
 
     ///
     /// Sets the index type.
     ///
-    /// \param indexType The new index type.
+    /// \param index_type The new index type.
     ///
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index type is set.
     ///
     /// \throws InvalidOperation If the mesh already has index data.
-    void setIndexType(IndexType indexType);
+    void set_index_type(IndexType index_type);
 
     ///
     /// Returns the raw vertex data.
-    const VertexData& vertexData() const;
+    const VertexData& vertex_data() const;
 
     ///
     /// Sets the raw vertex data.
     ///
-    /// \param vertexData The vertex data to set.  Assumed to conform to the
+    /// \param vertex_data The vertex data to set.  Assumed to conform to the
     /// vertex layout.
     ///
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the vertex data is set.
-    void setVertexData(const VertexData& vertexData);
+    void set_vertex_data(const VertexData& vertex_data);
 
     ///
     /// Clears all vertex data.
-    void clearVertexData();
+    void clear_vertex_data();
 
     ///
     /// Returns the number of vertices.
-    size_t vertexCount() const;
+    size_t vertex_count() const;
 
     ///
     /// Returns the raw index data.
-    const IndexData& indexData() const;
+    const IndexData& index_data() const;
 
     ///
     /// Sets the raw index data.
     ///
-    /// \param indexData The index data to set.  Assumed to conform to the
+    /// \param index_data The index data to set.  Assumed to conform to the
     /// index type.
     ///
     /// \note If the mesh is uploaded to a renderer then it will be
     /// destroyed before the index data is set.
-    void setIndexData(const IndexData& indexData);
+    void set_index_data(const IndexData& index_data);
 
     ///
     /// Clears all index data.
-    void clearIndexData();
+    void clear_index_data();
 
     ///
     /// Returns the number of indices.
-    size_t indexCount() const;
+    size_t index_count() const;
 
     ///
     /// Returns the size of an index in bytes.
-    unsigned indexSize() const;
+    unsigned index_size() const;
 
     ///
     /// Returns an axis aligned box bounding the mesh.
-    AxisAlignedBox& axisAlignedBox();
+    AxisAlignedBox& axis_aligned_box();
 
     ///
     /// Returns an axis aligned box bounding the mesh.
-    const AxisAlignedBox& axisAlignedBox() const;
+    const AxisAlignedBox& axis_aligned_box() const;
 
     ///
     /// Returns whether the mesh is equivalent to another.
@@ -225,17 +225,17 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    VertexLayout _vertexLayout;
-    PrimitiveType _primitiveType { PrimitiveType::Triangles };
-    IndexType _indexType { IndexType::UInt16 };
+    VertexLayout _vertex_layout;
+    PrimitiveType _primitive_type { PrimitiveType::Triangles };
+    IndexType _index_type { IndexType::UInt16 };
 
-    VertexData _vertexData;
-    size_t _vertexCount { 0 };
+    VertexData _vertex_data;
+    size_t _vertex_count { 0 };
 
-    IndexData _indexData;
-    size_t _indexCount { 0 };
+    IndexData _index_data;
+    size_t _index_count { 0 };
 
-    AxisAlignedBox _axisAlignedBox;
+    AxisAlignedBox _axis_aligned_box;
 };
 
 }

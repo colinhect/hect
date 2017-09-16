@@ -68,19 +68,19 @@ public:
     /// \param position The position.
     /// \param front The front direction.
     /// \param up The up direction.
-    /// \param fieldOfView The horizontal angle.
-    /// \param aspectRatio The ratio of width and height.
-    /// \param nearClip The distance from the position to begin the
+    /// \param field_of_view The horizontal angle.
+    /// \param aspect_ratio The ratio of width and height.
+    /// \param near_clip The distance from the position to begin the
     /// frustum.
-    /// \param farClip The distance from the position to end the frustum.
+    /// \param far_clip The distance from the position to end the frustum.
     Frustum(
         Vector3 position,
         Vector3 front,
         Vector3 up,
-        Radians fieldOfView,
-        double aspectRatio,
-        double nearClip,
-        double farClip);
+        Radians field_of_view,
+        double aspect_ratio,
+        double near_clip,
+        double far_clip);
 
     ///
     /// Tests an axis aligned box against the frustum.
@@ -88,14 +88,14 @@ public:
     /// \param box The box.
     ///
     /// \returns The test result.
-    FrustumTestResult testAxisAlignedBox(const AxisAlignedBox& box) const;
+    FrustumTestResult test_axis_aligned_box(const AxisAlignedBox& box) const;
 
     ///
     /// Returns whether a sphere at a certain positin is within the frustum.
     ///
     /// \param sphere The sphere.
     /// \param position The position of the sphere.
-    bool containsSphere(Sphere sphere, Vector3 position) const;
+    bool contains_sphere(Sphere sphere, Vector3 position) const;
 
 private:
     Plane _planes[6];

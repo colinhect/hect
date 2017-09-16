@@ -45,7 +45,7 @@ Name Type::name() const
     return _name;
 }
 
-Enum& Type::asEnum()
+Enum& Type::as_enum()
 {
     if (!_enum)
     {
@@ -54,7 +54,7 @@ Enum& Type::asEnum()
     return *_enum;
 }
 
-const Enum& Type::asEnum() const
+const Enum& Type::as_enum() const
 {
     if (!_enum)
     {
@@ -63,41 +63,41 @@ const Enum& Type::asEnum() const
     return *_enum;
 }
 
-void Type::setEncodeFunction(EncodeFunction function)
+void Type::set_encode_function(EncodeFunction function)
 {
-    _encodeFunction = function;
+    _encode_function = function;
 }
 
 void Type::encode(const void* value, Encoder& encoder) const
 {
-    _encodeFunction(value, encoder);
+    _encode_function(value, encoder);
 }
 
-void Type::setDecodeFunction(DecodeFunction function)
+void Type::set_decode_function(DecodeFunction function)
 {
-    _decodeFunction = function;
+    _decode_function = function;
 }
 
 void Type::decode(void* value, Decoder& decoder) const
 {
-    _decodeFunction(value, decoder);
+    _decode_function(value, decoder);
 }
 
 Type::Type(Kind kind, Name name) :
     _kind(kind),
     _name(name),
     _enum(new Enum(name)),
-    _encodeFunction([](const void*, Encoder&) { }),
-    _decodeFunction([](void*, Decoder&) { })
+    _encode_function([](const void*, Encoder&) { }),
+    _decode_function([](void*, Decoder&) { })
 {
 }
 
-const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
+const Type& Type::from_type_info(const std::type_info& type_info)
 {
-    std::type_index typeIndex(typeInfo);
+    std::type_index type_index(type_info);
 
-    auto it = _registeredTypes.find(typeIndex);
-    if (it != _registeredTypes.end())
+    auto it = _registered_types.find(type_index);
+    if (it != _registered_types.end())
     {
         return it->second;
     }
@@ -107,4 +107,4 @@ const Type& Type::fromTypeInfo(const std::type_info& typeInfo)
     }
 }
 
-std::map<std::type_index, Type> Type::_registeredTypes;
+std::map<std::type_index, Type> Type::_registered_types;

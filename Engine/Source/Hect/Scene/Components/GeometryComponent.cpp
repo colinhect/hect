@@ -35,12 +35,12 @@ GeometrySurface::GeometrySurface(const Mesh::Handle& mesh, const Material::Handl
 {
 }
 
-void GeometryComponent::addSurface(const Mesh::Handle& mesh, const Material::Handle& material)
+void GeometryComponent::add_surface(const Mesh::Handle& mesh, const Material::Handle& material)
 {
     surfaces.push_back(GeometrySurface(mesh, material));
 }
 
-void GeometryComponent::addSurface(const GeometrySurface& surface)
+void GeometryComponent::add_surface(const GeometrySurface& surface)
 {
     surfaces.push_back(surface);
 }

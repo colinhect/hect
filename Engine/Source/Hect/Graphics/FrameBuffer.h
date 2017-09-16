@@ -108,7 +108,7 @@ public:
     AttachmentSequence attachments();
 
 private:
-    void ensureSlotEmpty(FrameBufferSlot slot);
+    void ensure_slot_empty(FrameBufferSlot slot);
 
     AttachmentContainer _attachments;
 };

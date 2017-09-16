@@ -50,11 +50,11 @@ public:
     /// Notifies the listener of an event.
     ///
     /// \param event The event.
-    virtual void receiveEvent(const T& event) = 0;
+    virtual void receive_event(const T& event) = 0;
 
 private:
-    void addDispatcher(EventDispatcher<T>& dispatcher);
-    void removeDispatcher(EventDispatcher<T>& dispatcher);
+    void add_dispatcher(EventDispatcher<T>& dispatcher);
+    void remove_dispatcher(EventDispatcher<T>& dispatcher);
 
     std::vector<EventDispatcher<T>*> _dispatchers;
 };

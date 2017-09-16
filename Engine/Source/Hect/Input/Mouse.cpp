@@ -29,29 +29,29 @@ using namespace hect;
 
 Mouse::Mouse() :
     _mode(MouseMode::Cursor),
-    _buttonStates(16, false)
+    _button_states(16, false)
 {
 }
 
-bool Mouse::isButtonDown(MouseButton button) const
+bool Mouse::is_button_down(MouseButton button) const
 {
-    assert(static_cast<size_t>(button) >= _buttonStates.size());
-    return _buttonStates[static_cast<size_t>(button)];
+    assert(static_cast<size_t>(button) >= _button_states.size());
+    return _button_states[static_cast<size_t>(button)];
 }
 
-const IntVector2& Mouse::cursorPosition() const
+const IntVector2& Mouse::cursor_position() const
 {
-    return _cursorPosition;
+    return _cursor_position;
 }
 
-const IntVector2& Mouse::cursorMovement() const
+const IntVector2& Mouse::cursor_movement() const
 {
-    return _cursorMovement;
+    return _cursor_movement;
 }
 
-void Mouse::clearMovement()
+void Mouse::clear_movement()
 {
-    _cursorMovement = IntVector2();
+    _cursor_movement = IntVector2();
 }
 
 MouseMode Mouse::mode() const
@@ -59,42 +59,42 @@ MouseMode Mouse::mode() const
     return _mode;
 }
 
-void Mouse::setMode(MouseMode mode)
+void Mouse::set_mode(MouseMode mode)
 {
     _mode = mode;
 }
 
-void Mouse::enqueueEvent(const MouseEvent& event)
+void Mouse::enqueue_event(const MouseEvent& event)
 {
     // Update the state of the buttons
     if (event.type == MouseEventType::ButtonDown)
     {
-        _buttonStates[static_cast<size_t>(event.button)] = true;
+        _button_states[static_cast<size_t>(event.button)] = true;
     }
     else if (event.type == MouseEventType::ButtonUp)
     {
-        _buttonStates[static_cast<size_t>(event.button)] = false;
+        _button_states[static_cast<size_t>(event.button)] = false;
     }
 
     // Update the relative cursor movement
     if (event.type == MouseEventType::Movement)
     {
-        _cursorMovement += event.cursorMovement;
+        _cursor_movement += event.cursor_movement;
     }
 
     // Update the absolute cursor position
-    _cursorPosition = event.cursorPosition;
+    _cursor_position = event.cursor_position;
 
     // Queue the event for dispatch
     _events.push_back(event);
 }
 
-void Mouse::dispatchEvents()
+void Mouse::dispatch_events()
 {
     // Dispatch all queued events to the listeners
     for (const MouseEvent& event : _events)
     {
-        dispatchEvent(event);
+        dispatch_event(event);
     }
     _events.clear();
 }

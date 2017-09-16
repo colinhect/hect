@@ -30,24 +30,24 @@ using namespace hect;
 TaskPool::TaskPool(bool adaptive) :
     _adaptive(adaptive)
 {
-    const unsigned hardwareThreadCount = std::max(std::thread::hardware_concurrency(), 1u);
-    if (hardwareThreadCount > 1)
+    const unsigned hardware_thread_count = std::max(std::thread::hardware_concurrency(), 1u);
+    if (hardware_thread_count > 1)
     {
-        initializeThreads(hardwareThreadCount - 1);
+        initialize_threads(hardware_thread_count - 1);
     }
 }
 
-TaskPool::TaskPool(size_t threadCount, bool adaptive) :
+TaskPool::TaskPool(size_t thread_count, bool adaptive) :
     _adaptive(adaptive)
 {
-    initializeThreads(threadCount);
+    initialize_threads(thread_count);
 }
 
 TaskPool::~TaskPool()
 {
     // Notify all threads that the pool is stopping
     {
-        std::unique_lock<std::mutex> lock(_queueMutex);
+        std::unique_lock<std::mutex> lock(_queue_mutex);
         _stop = true;
         _condition.notify_all();
     }
@@ -76,16 +76,16 @@ Task::Handle TaskPool::enqueue(Task::Action action)
     {
         // Add this task to the queue
         {
-            std::unique_lock<std::mutex> lock(_queueMutex);
+            std::unique_lock<std::mutex> lock(_queue_mutex);
 
             // If this task pool is adaptive and there are no threads
             // available then initialize another thread
-            if (_adaptive && _availableThreadCount.load() == 0)
+            if (_adaptive && _available_thread_count.load() == 0)
             {
-                initializeThreads(1);
+                initialize_threads(1);
             }
 
-            _taskQueue.push_back(handle);
+            _task_queue.push_back(handle);
         }
 
         // Notify one of the threads that a new task is available
@@ -97,53 +97,53 @@ Task::Handle TaskPool::enqueue(Task::Action action)
 
 void TaskPool::wait()
 {
-    while (_availableThreadCount < _threads.size())
+    while (_available_thread_count < _threads.size())
     {
         std::this_thread::yield();
     }
 }
 
-void TaskPool::initializeThreads(size_t threadCount)
+void TaskPool::initialize_threads(size_t thread_count)
 {
-    for (unsigned i = 0; i < threadCount; ++i)
+    for (unsigned i = 0; i < thread_count; ++i)
     {
-        _threads.push_back(std::thread([this] { threadLoop(); }));
+        _threads.push_back(std::thread([this] { thread_loop(); }));
     }
 }
 
-void TaskPool::threadLoop()
+void TaskPool::thread_loop()
 {
-    ++_availableThreadCount;
+    ++_available_thread_count;
     for (;;)
     {
-        Task::Handle taskHandle;
+        Task::Handle task_handle;
 
         {
-            std::unique_lock<std::mutex> lock(_queueMutex);
+            std::unique_lock<std::mutex> lock(_queue_mutex);
 
-            while (!_stop && _taskQueue.empty())
+            while (!_stop && _task_queue.empty())
             {
                 _condition.wait(lock);
             }
 
             if (_stop)
             {
-                --_availableThreadCount;
+                --_available_thread_count;
                 return;
             }
 
             // Get the next tasks
-            taskHandle = _taskQueue.front();
-            _taskQueue.pop_front();
+            task_handle = _task_queue.front();
+            _task_queue.pop_front();
         }
 
         // Execute the task
-        --_availableThreadCount;
-        Task* task = taskHandle._task.get();
+        --_available_thread_count;
+        Task* task = task_handle._task.get();
         if (task)
         {
             task->execute();
         }
-        ++_availableThreadCount;
+        ++_available_thread_count;
     }
 }

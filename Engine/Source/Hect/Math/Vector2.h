@@ -88,7 +88,7 @@ public:
     /// Returns the angle from the vector to another vector.
     ///
     /// \param v The vector to compute the angle from.
-    Radians angleFrom(Vector2T v) const;
+    Radians angle_from(Vector2T v) const;
 
     ///
     /// Returns the length of the vector.
@@ -99,7 +99,7 @@ public:
     ///
     /// \note Useful for comparing vector lengths while avoiding
     /// computation of a square root.
-    T lengthSquared() const;
+    T length_squared() const;
 
     ///
     /// Returns a copy of the vector of the floor of each component.

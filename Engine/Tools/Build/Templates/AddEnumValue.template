@@ -1,1 +1,1 @@
-        enumType.addValue(static_cast<hect::EnumValue::Type>($(type_name)::$(value)), "$(value)");
+        enum_type.add_value(static_cast<hect::EnumValue::Type>($(type_name)::$(value)), "$(value)");

@@ -34,19 +34,19 @@ Frustum::Frustum(
     Vector3 position,
     Vector3 front,
     Vector3 up,
-    Radians fieldOfView,
-    double aspectRatio,
-    double nearClip,
-    double farClip) :
+    Radians field_of_view,
+    double aspect_ratio,
+    double near_clip,
+    double far_clip) :
     _position(position)
 {
-    double tangent = static_cast<double>(std::tan(fieldOfView.value * 0.5));
+    double tangent = static_cast<double>(std::tan(field_of_view.value * 0.5));
 
-    double nearHeight = nearClip * tangent;
-    double nearWidth = nearHeight * aspectRatio;
+    double near_height = near_clip * tangent;
+    double near_width = near_height * aspect_ratio;
 
-    double farHeight = farClip * tangent;
-    double farWidth = farHeight * aspectRatio;
+    double far_height = far_clip * tangent;
+    double far_width = far_height * aspect_ratio;
 
     Vector3 z = -front;
     z.normalize();
@@ -57,35 +57,35 @@ Frustum::Frustum(
     Vector3 y = z.cross(x);
 
     // Compute center of near/far planes
-    Vector3 nearCenter = position - z * nearClip;
-    Vector3 farCenter = position - z * farClip;
+    Vector3 near_center = position - z * near_clip;
+    Vector3 far_center = position - z * far_clip;
 
     // Compute corners of near plane
-    Vector3 nearTopLeft = nearCenter + y * nearHeight - x * nearWidth;
-    Vector3 nearTopRight = nearCenter + y * nearHeight + x * nearWidth;
-    Vector3 nearBottomLeft = nearCenter - y * nearHeight - x * nearWidth;
-    Vector3 nearBottomRight = nearCenter - y * nearHeight + x * nearWidth;
+    Vector3 near_top_left = near_center + y * near_height - x * near_width;
+    Vector3 near_top_right = near_center + y * near_height + x * near_width;
+    Vector3 near_bottom_left = near_center - y * near_height - x * near_width;
+    Vector3 near_bottom_right = near_center - y * near_height + x * near_width;
 
     // Compute corners of far plane
-    Vector3 farTopLeft = farCenter + y * farHeight - x * farWidth;
-    Vector3 farTopRight = farCenter + y * farHeight + x * farWidth;
-    Vector3 farBottomLeft = farCenter - y * farHeight - x * farWidth;
-    Vector3 farBottomRight = farCenter - y * farHeight + x * farWidth;
+    Vector3 far_top_left = far_center + y * far_height - x * far_width;
+    Vector3 far_top_right = far_center + y * far_height + x * far_width;
+    Vector3 far_bottom_left = far_center - y * far_height - x * far_width;
+    Vector3 far_bottom_right = far_center - y * far_height + x * far_width;
 
     // Build planes from points
-    _planes[0] = Plane::fromPoints(nearTopRight, nearTopLeft, farTopLeft); // Top
-    _planes[1] = Plane::fromPoints(nearBottomLeft, nearBottomRight, farBottomRight); // Bottom
-    _planes[2] = Plane::fromPoints(nearTopLeft, nearBottomLeft, farBottomLeft); // Left
-    _planes[3] = Plane::fromPoints(nearBottomRight, nearTopRight, farBottomRight); // Right
-    _planes[4] = Plane::fromPoints(nearTopLeft, nearTopRight, nearBottomRight); // Near
-    _planes[5] = Plane::fromPoints(farTopRight, farTopLeft, farBottomLeft); // Far
+    _planes[0] = Plane::from_points(near_top_right, near_top_left, far_top_left); // Top
+    _planes[1] = Plane::from_points(near_bottom_left, near_bottom_right, far_bottom_right); // Bottom
+    _planes[2] = Plane::from_points(near_top_left, near_bottom_left, far_bottom_left); // Left
+    _planes[3] = Plane::from_points(near_bottom_right, near_top_right, far_bottom_right); // Right
+    _planes[4] = Plane::from_points(near_top_left, near_top_right, near_bottom_right); // Near
+    _planes[5] = Plane::from_points(far_top_right, far_top_left, far_bottom_left); // Far
 }
 
-FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
+FrustumTestResult Frustum::test_axis_aligned_box(const AxisAlignedBox& box) const
 {
     FrustumTestResult result = FrustumTestResult::Inside;
 
-    if (!box.hasSize())
+    if (!box.has_size())
     {
         return result;
     }
@@ -118,14 +118,14 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
             n.z = minimum.z;
         }
 
-        double distanceP = _planes[i].distance() + normal.dot(p);
-        double distanceN = _planes[i].distance() + normal.dot(n);
+        double distance_p = _planes[i].distance() + normal.dot(p);
+        double distance_n = _planes[i].distance() + normal.dot(n);
 
-        if (distanceP < 0)
+        if (distance_p < 0)
         {
             return FrustumTestResult::Outside;
         }
-        else if (distanceN < 0)
+        else if (distance_n < 0)
         {
             result = FrustumTestResult::Intersect;
         }
@@ -134,7 +134,7 @@ FrustumTestResult Frustum::testAxisAlignedBox(const AxisAlignedBox& box) const
     return result;
 }
 
-bool Frustum::containsSphere(Sphere sphere, Vector3 position) const
+bool Frustum::contains_sphere(Sphere sphere, Vector3 position) const
 {
     double radius = sphere.radius();
 

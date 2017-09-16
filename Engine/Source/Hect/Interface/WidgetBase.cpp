@@ -27,26 +27,26 @@
 
 using namespace hect;
 
-WidgetBase::WidgetBase(InterfaceSystem& interfaceSystem) :
-    _interfaceSystem(interfaceSystem)
+WidgetBase::WidgetBase(InterfaceSystem& interface_system) :
+    _interface_system(interface_system)
 {
 }
 
-void WidgetBase::tick(Seconds timeStep)
+void WidgetBase::tick(Seconds time_step)
 {
-    for (const WidgetBase::Handle& child : _childrenToDestroy)
+    for (const WidgetBase::Handle& child : _children_to_destroy)
     {
         _children.erase(std::remove(_children.begin(), _children.end(), child), _children.end());
     }
 
-    if (isLayoutDirty())
+    if (is_layout_dirty())
     {
-        updateLayout();
+        update_layout();
     }
 
     for (const WidgetBase::Handle& child : _children)
     {
-        child->tick(timeStep);
+        child->tick(time_step);
     }
 }
 
@@ -54,47 +54,47 @@ void WidgetBase::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     for (const WidgetBase::Handle& child : _children)
     {
-        if (child->isVisible())
+        if (child->is_visible())
         {
-            const Rectangle childBounds = child->globalBounds();
-            const Rectangle childClipping = childBounds.intersect(clipping);
-            if (childClipping.size() != Vector2::Zero)
+            const Rectangle child_bounds = child->global_bounds();
+            const Rectangle child_clipping = child_bounds.intersect(clipping);
+            if (child_clipping.size() != Vector2::Zero)
             {
-                child->render(frame, childClipping);
+                child->render(frame, child_clipping);
             }
         }
     }
 }
 
-void WidgetBase::onMouseEnter()
+void WidgetBase::on_mouse_enter()
 {
 }
 
-void WidgetBase::onMouseExit()
+void WidgetBase::on_mouse_exit()
 {
     _pressed = false;
 }
 
-void WidgetBase::onPressed()
+void WidgetBase::on_pressed()
 {
 }
 
-void WidgetBase::receiveEvent(const MouseEvent& event)
+void WidgetBase::receive_event(const MouseEvent& event)
 {
     if (event.type == MouseEventType::Movement)
     {
-        if (globalBounds().contains(event.cursorPosition))
+        if (global_bounds().contains(event.cursor_position))
         {
-            if (!isMouseOver())
+            if (!is_mouse_over())
             {
-                onMouseEnter();
-                setMouseOver(true);
+                on_mouse_enter();
+                set_mouse_over(true);
             }
         }
-        else if (isMouseOver())
+        else if (is_mouse_over())
         {
-            onMouseExit();
-            setMouseOver(false);
+            on_mouse_exit();
+            set_mouse_over(false);
         }
     }
 
@@ -106,11 +106,11 @@ void WidgetBase::receiveEvent(const MouseEvent& event)
         }
         else if (_pressed && event.type == MouseEventType::ButtonUp)
         {
-            onPressed();
+            on_pressed();
 
-            if (_pressAction)
+            if (_press_action)
             {
-                _pressAction();
+                _press_action();
                 _pressed = false;
             }
         }
@@ -118,38 +118,38 @@ void WidgetBase::receiveEvent(const MouseEvent& event)
 
     for (const WidgetBase::Handle& child : _children)
     {
-        if (child->globalBounds().contains(event.cursorPosition))
+        if (child->global_bounds().contains(event.cursor_position))
         {
-            child->receiveEvent(event);
+            child->receive_event(event);
         }
     }
 }
 
-void WidgetBase::setPressAction(const WidgetBase::Action& action)
+void WidgetBase::set_press_action(const WidgetBase::Action& action)
 {
-    _pressAction = action;
+    _press_action = action;
 }
 
 Vector2 WidgetBase::position() const
 {
-    return _actualPosition;
+    return _actual_position;
 }
 
-void WidgetBase::setPosition(Vector2 position)
+void WidgetBase::set_position(Vector2 position)
 {
-    _assignedPosition = position.floor();
-    markLayoutDirty();
+    _assigned_position = position.floor();
+    mark_layout_dirty();
 }
 
-Vector2 WidgetBase::globalPosition() const
+Vector2 WidgetBase::global_position() const
 {
-    Vector2 globalPosition = _actualPosition;
-    if (hasParent())
+    Vector2 global_position = _actual_position;
+    if (has_parent())
     {
-        globalPosition += parent().globalPosition();
+        global_position += parent().global_position();
     }
 
-    return globalPosition;
+    return global_position;
 }
 
 Vector2 WidgetBase::dimensions() const
@@ -157,10 +157,10 @@ Vector2 WidgetBase::dimensions() const
     return _dimensions;
 }
 
-void WidgetBase::setDimensions(Vector2 dimensions)
+void WidgetBase::set_dimensions(Vector2 dimensions)
 {
     _dimensions = dimensions;
-    markLayoutDirty();
+    mark_layout_dirty();
 }
 
 Rectangle WidgetBase::bounds() const
@@ -169,32 +169,32 @@ Rectangle WidgetBase::bounds() const
     return Rectangle(origin, origin + dimensions());
 }
 
-Rectangle WidgetBase::globalBounds() const
+Rectangle WidgetBase::global_bounds() const
 {
-    Vector2 origin = globalPosition();
+    Vector2 origin = global_position();
     return Rectangle(origin, origin + dimensions());
 }
 
-HorizontalAlign WidgetBase::horizontalAlign() const
+HorizontalAlign WidgetBase::horizontal_align() const
 {
-    return _horizontalAlign;
+    return _horizontal_align;
 }
 
-void WidgetBase::setHorizontalAlign(HorizontalAlign align)
+void WidgetBase::set_horizontal_align(HorizontalAlign align)
 {
-    _horizontalAlign = align;
-    markLayoutDirty();
+    _horizontal_align = align;
+    mark_layout_dirty();
 }
 
-VerticalAlign WidgetBase::verticalAlign() const
+VerticalAlign WidgetBase::vertical_align() const
 {
-    return _verticalAlign;
+    return _vertical_align;
 }
 
-void WidgetBase::setVerticalAlign(VerticalAlign align)
+void WidgetBase::set_vertical_align(VerticalAlign align)
 {
-    _verticalAlign = align;
-    markLayoutDirty();
+    _vertical_align = align;
+    mark_layout_dirty();
 }
 
 const std::string& WidgetBase::tooltip() const
@@ -202,31 +202,31 @@ const std::string& WidgetBase::tooltip() const
     return _tooltip;
 }
 
-void WidgetBase::setTooltip(const std::string& tooltip)
+void WidgetBase::set_tooltip(const std::string& tooltip)
 {
     _tooltip = tooltip;
 }
 
-bool WidgetBase::isVisible() const
+bool WidgetBase::is_visible() const
 {
     return _visible;
 }
 
-void WidgetBase::setVisible(bool visible)
+void WidgetBase::set_visible(bool visible)
 {
     _visible = visible;
 }
 
-Color WidgetBase::styleColor(StyleColor styleColor) const
+Color WidgetBase::style_color(StyleColor style_color) const
 {
-    auto it = _styleColors.find(styleColor);
-    if (it != _styleColors.end())
+    auto it = _style_colors.find(style_color);
+    if (it != _style_colors.end())
     {
         return it->second;
     }
     else if (_parent)
     {
-        return _parent->styleColor(styleColor);
+        return _parent->style_color(style_color);
     }
     else
     {
@@ -234,22 +234,22 @@ Color WidgetBase::styleColor(StyleColor styleColor) const
     }
 }
 
-void WidgetBase::setStyleColor(StyleColor styleColor, Color color)
+void WidgetBase::set_style_color(StyleColor style_color, Color color)
 {
-    _styleColors[styleColor] = color;
+    _style_colors[style_color] = color;
 }
 
-bool WidgetBase::isMouseOver() const
+bool WidgetBase::is_mouse_over() const
 {
-    return _mouseOver;
+    return _mouse_over;
 }
 
-bool WidgetBase::isPressed() const
+bool WidgetBase::is_pressed() const
 {
     return _pressed;
 }
 
-void WidgetBase::destroyChild(const WidgetBase::Handle& child)
+void WidgetBase::destroy_child(const WidgetBase::Handle& child)
 {
     auto it = std::find(_children.begin(), _children.end(), child);
     if (it == _children.end())
@@ -257,10 +257,10 @@ void WidgetBase::destroyChild(const WidgetBase::Handle& child)
         throw InvalidOperation("Widget is not a child of the widget");
     }
 
-    _childrenToDestroy.push_back(child);
+    _children_to_destroy.push_back(child);
 }
 
-bool WidgetBase::hasParent() const
+bool WidgetBase::has_parent() const
 {
     return _parent != nullptr;
 }
@@ -285,80 +285,80 @@ const WidgetBase& WidgetBase::parent() const
     return *_parent;
 }
 
-InterfaceSystem& WidgetBase::interfaceSystem()
+InterfaceSystem& WidgetBase::interface_system()
 {
-    return _interfaceSystem;
+    return _interface_system;
 }
 
-const InterfaceSystem& WidgetBase::interfaceSystem() const
+const InterfaceSystem& WidgetBase::interface_system() const
 {
-    return _interfaceSystem;
+    return _interface_system;
 }
 
-void WidgetBase::updateLayout()
+void WidgetBase::update_layout()
 {
-    _layoutDirty = false;
+    _layout_dirty = false;
 
     // Update the global position
-    _actualPosition = _assignedPosition;
+    _actual_position = _assigned_position;
     if (_parent)
     {
         // Align horizontally
-        switch (_horizontalAlign)
+        switch (_horizontal_align)
         {
         case HorizontalAlign::None:
             break;
         case HorizontalAlign::Left:
             break;
         case HorizontalAlign::Center:
-            _actualPosition.x = (_parent->_dimensions.x - _dimensions.x) * 0.5;
+            _actual_position.x = (_parent->_dimensions.x - _dimensions.x) * 0.5;
             break;
         case HorizontalAlign::Right:
-            _actualPosition.x = (_parent->_dimensions.x - _dimensions.x);
+            _actual_position.x = (_parent->_dimensions.x - _dimensions.x);
             break;
         }
 
         // Align vertically
-        switch (_verticalAlign)
+        switch (_vertical_align)
         {
         case VerticalAlign::None:
             break;
         case VerticalAlign::Bottom:
-            _actualPosition.y = (_parent->_dimensions.y - _dimensions.y);
+            _actual_position.y = (_parent->_dimensions.y - _dimensions.y);
             break;
         case VerticalAlign::Center:
-            _actualPosition.y = (_parent->_dimensions.y - _dimensions.y) * 0.5;
+            _actual_position.y = (_parent->_dimensions.y - _dimensions.y) * 0.5;
             break;
         case VerticalAlign::Top:
             break;
         }
     }
 
-    _actualPosition = _actualPosition.floor();
+    _actual_position = _actual_position.floor();
 
     // Recursively update the bounds for each child
     for (const WidgetBase::Handle& child : _children)
     {
-        child->updateLayout();
+        child->update_layout();
     }
 }
 
-bool WidgetBase::isLayoutDirty() const
+bool WidgetBase::is_layout_dirty() const
 {
-    return _layoutDirty;
+    return _layout_dirty;
 }
 
-void WidgetBase::markLayoutDirty()
+void WidgetBase::mark_layout_dirty()
 {
-    _layoutDirty = true;
+    _layout_dirty = true;
 
     for (const WidgetBase::Handle& child : _children)
     {
-        child->markLayoutDirty();
+        child->mark_layout_dirty();
     }
 }
 
-void WidgetBase::setMouseOver(bool value)
+void WidgetBase::set_mouse_over(bool value)
 {
-    _mouseOver = value;
+    _mouse_over = value;
 }

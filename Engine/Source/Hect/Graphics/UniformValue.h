@@ -127,7 +127,7 @@ public:
 
     ///
     /// Sets the value to the default value for the uniform value's type.
-    void setDefaultValue();
+    void set_default_value();
 
     ///
     /// Sets the value of the uniform value as an integer.
@@ -135,7 +135,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not an integer.
-    void setValue(int value);
+    void set_value(int value);
 
     ///
     /// Sets the value of the uniform value as a double.
@@ -143,7 +143,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a floating point.
-    void setValue(double value);
+    void set_value(double value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional vector.
@@ -152,7 +152,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 2-dimensional
     /// vector.
-    void setValue(Vector2 value);
+    void set_value(Vector2 value);
 
     ///
     /// Sets the value of the uniform value as a 3-dimensional vector.
@@ -161,7 +161,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 3-dimensional
     /// vector.
-    void setValue(Vector3 value);
+    void set_value(Vector3 value);
 
     ///
     /// Sets the value of the uniform value as a 4-dimensional vector.
@@ -170,7 +170,7 @@ public:
     ///
     /// \throws InvalidOperation If the uniform value is not a 4-dimensional
     /// vector.
-    void setValue(Vector4 value);
+    void set_value(Vector4 value);
 
     ///
     /// Sets the value of the uniform value as a 4 by 4 matrix.
@@ -178,7 +178,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a 4 by 4 matrix.
-    void setValue(const Matrix4& value);
+    void set_value(const Matrix4& value);
 
     ///
     /// Sets the value of the uniform value as a color.
@@ -186,7 +186,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a color.
-    void setValue(Color value);
+    void set_value(Color value);
 
     ///
     /// Sets the value of the uniform value as a 2-dimensional texture.
@@ -194,7 +194,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void setValue(const Texture2::Handle& value);
+    void set_value(const Texture2::Handle& value);
 
     ///
     /// Sets the value of the uniform value as a 3-dimensional texture.
@@ -202,7 +202,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void setValue(const Texture3::Handle& value);
+    void set_value(const Texture3::Handle& value);
 
     ///
     /// Sets the value of the uniform value as a cubic texture.
@@ -210,47 +210,47 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void setValue(const TextureCube::Handle& value);
+    void set_value(const TextureCube::Handle& value);
 
     ///
     /// Returns the value as an integer.
-    int asInt() const;
+    int as_int() const;
 
     ///
     /// Returns the value as a double.
-    double asDouble() const;
+    double as_double() const;
 
     ///
     /// Returns the value as a 2-dimensional vector.
-    Vector2 asVector2() const;
+    Vector2 as_vector2() const;
 
     ///
     /// Returns the value as a 3-dimensional vector.
-    Vector3 asVector3() const;
+    Vector3 as_vector3() const;
 
     ///
     /// Returns the value as a 4-dimensional vector.
-    Vector4 asVector4() const;
+    Vector4 as_vector4() const;
 
     ///
     /// Returns the value as a 4 by 4 matrix.
-    Matrix4 asMatrix4() const;
+    Matrix4 as_matrix4() const;
 
     ///
     /// Returns the value as a color.
-    Color asColor() const;
+    Color as_color() const;
 
     ///
     /// Returns the value as a 2-dimensional texture.
-    Texture2::Handle asTexture2() const;
+    Texture2::Handle as_texture2() const;
 
     ///
     /// Returns the value as a 3-dimensional texture.
-    Texture3::Handle asTexture3() const;
+    Texture3::Handle as_texture3() const;
 
     ///
     /// Returns the value as a cubic texture.
-    TextureCube::Handle asTextureCube() const;
+    TextureCube::Handle as_texture_cube() const;
 
     ///
     /// Returns whether the value is not null.
@@ -259,14 +259,14 @@ public:
     ///
     /// Returns whether the uniform value is equivalent to another.
     ///
-    /// \param uniformValue The other uniform value.
-    bool operator==(const UniformValue& uniformValue) const;
+    /// \param uniform_value The other uniform value.
+    bool operator==(const UniformValue& uniform_value) const;
 
     ///
     /// Returns whether the uniform value is different from another.
     ///
-    /// \param uniformValue The other uniform value.
-    bool operator!=(const UniformValue& uniformValue) const;
+    /// \param uniform_value The other uniform value.
+    bool operator!=(const UniformValue& uniform_value) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

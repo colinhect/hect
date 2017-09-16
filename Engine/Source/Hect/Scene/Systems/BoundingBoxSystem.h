@@ -41,25 +41,25 @@ class HECT_EXPORT BoundingBoxSystem :
     friend class TransformSystem;
 public:
     BoundingBoxSystem(Scene& scene);
-    BoundingBoxSystem(Scene& scene, DebugSystem& debugSystem);
+    BoundingBoxSystem(Scene& scene, DebugSystem& debug_system);
 
     ///
     /// Updates the extents of a bounding box and all bounding boxes affected.
     ///
-    /// \param boundingBox The bounding box to update.
-    void updateBoundingBox(BoundingBoxComponent& boundingBox);
+    /// \param bounding_box The bounding box to update.
+    void update_bounding_box(BoundingBoxComponent& bounding_box);
 
     ///
     /// Renders geometry providing debug information for bounding boxes.
-    void renderDebugGeometry();
+    void render_debug_geometry();
 
 private:
-    void updateRecursively(Entity& entity);
+    void update_recursively(Entity& entity);
 
     // System overrides
-    void onComponentAdded(BoundingBoxComponent& boundingBox) override;
+    void on_component_added(BoundingBoxComponent& bounding_box) override;
 
-    DebugSystem* _debugSystem { nullptr };
+    DebugSystem* _debug_system { nullptr };
 };
 
 }

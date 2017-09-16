@@ -44,17 +44,17 @@ EntityChildren::ConstIterator EntityChildren::begin() const
 EntityChildren::Iterator EntityChildren::end()
 {
     Entity* entity = reinterpret_cast<Entity*>(this);
-    return EntityChildren::Iterator(*entity->_pool, entity->_id, entity->_childIds.size());
+    return EntityChildren::Iterator(*entity->_pool, entity->_id, entity->_child_ids.size());
 }
 
 EntityChildren::ConstIterator EntityChildren::end() const
 {
     const Entity* entity = reinterpret_cast<const Entity*>(this);
-    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, entity->_childIds.size());
+    return EntityChildren::ConstIterator(*entity->_pool, entity->_id, entity->_child_ids.size());
 }
 
 size_t EntityChildren::count() const
 {
     const Entity* entity = reinterpret_cast<const Entity*>(this);
-    return entity->_childIds.size();
+    return entity->_child_ids.size();
 }

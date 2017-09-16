@@ -31,62 +31,62 @@
 
 using namespace hect;
 
-Joystick::Joystick(Name name, size_t buttonCount, size_t axisCount) :
+Joystick::Joystick(Name name, size_t button_count, size_t axis_count) :
     _name(name),
-    _buttonStates(buttonCount, false),
-    _axisStates(axisCount, 0)
+    _button_states(button_count, false),
+    _axis_states(axis_count, 0)
 {
 }
 
-bool Joystick::isButtonDown(JoystickButton button) const
+bool Joystick::is_button_down(JoystickButton button) const
 {
-    if (static_cast<size_t>(button) < _buttonStates.size())
+    if (static_cast<size_t>(button) < _button_states.size())
     {
-        return _buttonStates[static_cast<size_t>(button)];
+        return _button_states[static_cast<size_t>(button)];
     }
     else
     {
-        throw InvalidOperation(format("Joystick does not have button '%s'", Enum::toString(button).data()));
+        throw InvalidOperation(format("Joystick does not have button '%s'", Enum::to_string(button).data()));
     }
 }
 
-double Joystick::axisValue(JoystickAxis axis) const
+double Joystick::axis_value(JoystickAxis axis) const
 {
-    if (static_cast<size_t>(axis) < _axisStates.size())
+    if (static_cast<size_t>(axis) < _axis_states.size())
     {
-        return _axisStates[static_cast<size_t>(axis)];
+        return _axis_states[static_cast<size_t>(axis)];
     }
     else
     {
-        throw InvalidOperation(format("Joystick does not have axis '%s'", Enum::toString(axis).data()));
+        throw InvalidOperation(format("Joystick does not have axis '%s'", Enum::to_string(axis).data()));
     }
 }
 
-void Joystick::enqueueEvent(const JoystickEvent& event)
+void Joystick::enqueue_event(const JoystickEvent& event)
 {
     if (event.type == JoystickEventType::ButtonDown)
     {
-        assert(static_cast<size_t>(event.button) <= _buttonStates.size());
-        _buttonStates[static_cast<size_t>(event.button)] = true;
+        assert(static_cast<size_t>(event.button) <= _button_states.size());
+        _button_states[static_cast<size_t>(event.button)] = true;
     }
     else if (event.type == JoystickEventType::ButtonUp)
     {
-        assert(static_cast<size_t>(event.button) <= _buttonStates.size());
-        _buttonStates[static_cast<size_t>(event.button)] = false;
+        assert(static_cast<size_t>(event.button) <= _button_states.size());
+        _button_states[static_cast<size_t>(event.button)] = false;
     }
     else if (event.type == JoystickEventType::AxisMotion)
     {
-        assert(static_cast<size_t>(event.axis) <= _axisStates.size());
-        _axisStates[static_cast<size_t>(event.axis)] = event.axisValue;
+        assert(static_cast<size_t>(event.axis) <= _axis_states.size());
+        _axis_states[static_cast<size_t>(event.axis)] = event.axis_value;
     }
     _events.push_back(event);
 }
 
-void Joystick::dispatchEvents()
+void Joystick::dispatch_events()
 {
     for (const JoystickEvent& event : _events)
     {
-        dispatchEvent(event);
+        dispatch_event(event);
     }
     _events.clear();
 }

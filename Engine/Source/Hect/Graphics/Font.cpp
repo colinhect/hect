@@ -61,7 +61,7 @@ bool Font::operator!=(const Font& font) const
 
 void Font::encode(Encoder& encoder) const
 {
-    WriteStream& stream = encoder.binaryStream();
+    WriteStream& stream = encoder.binary_stream();
 
     // Write the raw font data to the stream
     stream.write(&_data[0], _data.size());
@@ -69,7 +69,7 @@ void Font::encode(Encoder& encoder) const
 
 void Font::decode(Decoder& decoder)
 {
-    ReadStream& stream = decoder.binaryStream();
+    ReadStream& stream = decoder.binary_stream();
 
     // See how long the data is
     size_t length = stream.length();

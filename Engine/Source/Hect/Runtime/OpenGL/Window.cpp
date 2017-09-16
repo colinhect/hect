@@ -53,25 +53,25 @@ Window::~Window()
     }
 }
 
-void Window::swapBuffers()
+void Window::swap_buffers()
 {
     SDL_GL_SwapWindow(_window);
 }
 
-Window::Window(const std::string& title, const VideoMode& videoMode) :
-    RenderTarget(videoMode.width(), videoMode.height())
+Window::Window(const std::string& title, const VideoMode& video_mode) :
+    RenderTarget(video_mode.width(), video_mode.height())
 {
     assert(!_window);
 
     // Create the window flags
     uint32_t flags = SDL_WINDOW_OPENGL;
-    if (videoMode.isFullscreen())
+    if (video_mode.is_fullscreen())
     {
         flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     // Create the window
-    _window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, videoMode.width(), videoMode.height(), flags);
+    _window = SDL_CreateWindow(title.data(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, video_mode.width(), video_mode.height(), flags);
     if (!_window)
     {
         throw FatalError(format("Failed to create SDL window: %s", SDL_GetError()));

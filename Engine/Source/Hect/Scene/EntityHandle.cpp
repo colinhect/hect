@@ -33,25 +33,25 @@ EntityHandle::EntityHandle()
 
 Entity& EntityHandle::operator*()
 {
-    ensureValid();
+    ensure_valid();
     return *_entity;
 }
 
 const Entity& EntityHandle::operator*() const
 {
-    ensureValid();
+    ensure_valid();
     return *_entity;
 }
 
 Entity* EntityHandle::operator->()
 {
-    ensureValid();
+    ensure_valid();
     return _entity;
 }
 
 const Entity* EntityHandle::operator->() const
 {
-    ensureValid();
+    ensure_valid();
     return _entity;
 }
 
@@ -67,7 +67,7 @@ bool EntityHandle::operator!=(const EntityHandle& other) const
 
 EntityHandle::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }
 
 EntityHandle::EntityHandle(Entity& entity) :
@@ -76,14 +76,14 @@ EntityHandle::EntityHandle(Entity& entity) :
 {
 }
 
-bool EntityHandle::isValid() const
+bool EntityHandle::is_valid() const
 {
     return _entity && _valid && *_valid;
 }
 
-void EntityHandle::ensureValid() const
+void EntityHandle::ensure_valid() const
 {
-    if (!isValid())
+    if (!is_valid())
     {
         throw InvalidOperation("Invalid entity handle");
     }
@@ -91,6 +91,6 @@ void EntityHandle::ensureValid() const
 
 void EntityHandle::invalidate()
 {
-    ensureValid();
+    ensure_valid();
     _valid->store(false);
 }

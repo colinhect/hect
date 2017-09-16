@@ -25,57 +25,57 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-T& Entity::addComponent(Args&&... args)
+T& Entity::add_component(Args&&... args)
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.add(*this, T(args...));
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    return component_pool.add(*this, T(args...));
 }
 
 template <typename T, typename... Args>
-T& Entity::replaceComponent(Args&&... args)
+T& Entity::replace_component(Args&&... args)
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.replace(*this, T(args...));
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    return component_pool.replace(*this, T(args...));
 }
 
 template <typename T>
-void Entity::removeComponent()
+void Entity::remove_component()
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    componentPool.remove(*this);
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    component_pool.remove(*this);
 }
 
 template <typename T>
-bool Entity::hasComponent() const
+bool Entity::has_component() const
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.has(*this);
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    return component_pool.has(*this);
 }
 
 template <typename T>
 T& Entity::component()
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.get(*this);
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    return component_pool.get(*this);
 }
 
 template <typename T>
 const T& Entity::component() const
 {
-    ensureInPool();
-    ComponentPool<T>& componentPool = _pool->_scene.components<T>();
-    return componentPool.get(*this);
+    ensure_in_pool();
+    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    return component_pool.get(*this);
 }
 
 template <typename T>
-Entity::Handle Entity::findFirstChild(T&& predicate) const
+Entity::Handle Entity::find_first_child(T&& predicate) const
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (const Entity& child : children())
         {
@@ -90,9 +90,9 @@ Entity::Handle Entity::findFirstChild(T&& predicate) const
 }
 
 template <typename T>
-Entity::Handle Entity::findFirstDescendant(T&& predicate) const
+Entity::Handle Entity::find_first_descendant(T&& predicate) const
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (const Entity& child : children())
         {
@@ -100,12 +100,12 @@ Entity::Handle Entity::findFirstDescendant(T&& predicate) const
             {
                 return child.handle();
             }
-            else if (child.hasChildren())
+            else if (child.has_children())
             {
-                Entity::Handle nextGeneration = child.findFirstDescendant(predicate);
-                if (nextGeneration)
+                Entity::Handle next_generation = child.find_first_descendant(predicate);
+                if (next_generation)
                 {
-                    return nextGeneration;
+                    return next_generation;
                 }
             }
         }
@@ -115,7 +115,7 @@ Entity::Handle Entity::findFirstDescendant(T&& predicate) const
 }
 
 template <typename T>
-Entity::Handle Entity::findFirstAncestor(T&& predicate) const
+Entity::Handle Entity::find_first_ancestor(T&& predicate) const
 {
     Entity::Handle handle = parent();
     if (handle)
@@ -126,7 +126,7 @@ Entity::Handle Entity::findFirstAncestor(T&& predicate) const
         }
         else
         {
-            return handle->findFirstAncestor(predicate);
+            return handle->find_first_ancestor(predicate);
         }
     }
 
@@ -134,11 +134,11 @@ Entity::Handle Entity::findFirstAncestor(T&& predicate) const
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::findChildren(T&& predicate) const
+std::vector<Entity::Handle> Entity::find_children(T&& predicate) const
 {
     std::vector<Entity::Handle> results;
 
-    if (hasChildren())
+    if (has_children())
     {
         for (const Entity& child : children())
         {
@@ -153,13 +153,13 @@ std::vector<Entity::Handle> Entity::findChildren(T&& predicate) const
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::findDescendants(T&& predicate) const
+std::vector<Entity::Handle> Entity::find_descendants(T&& predicate) const
 {
     std::vector<Entity::Handle> results;
 
-    if (hasChildren())
+    if (has_children())
     {
-        forDescendants([&](const Entity& entity)
+        for_descendants([&](const Entity& entity)
         {
             if (predicate(entity))
             {
@@ -172,7 +172,7 @@ std::vector<Entity::Handle> Entity::findDescendants(T&& predicate) const
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::findAncestors(T&& predicate) const
+std::vector<Entity::Handle> Entity::find_ancestors(T&& predicate) const
 {
     std::vector<Entity::Handle> results;
 
@@ -191,9 +191,9 @@ std::vector<Entity::Handle> Entity::findAncestors(T&& predicate) const
 }
 
 template <typename T>
-void Entity::forChildren(T&& action)
+void Entity::for_children(T&& action)
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (Entity& child : children())
         {
@@ -203,9 +203,9 @@ void Entity::forChildren(T&& action)
 }
 
 template <typename T>
-void Entity::forChildren(T&& action) const
+void Entity::for_children(T&& action) const
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (const Entity& child : children())
         {
@@ -215,41 +215,41 @@ void Entity::forChildren(T&& action) const
 }
 
 template <typename T>
-void Entity::forDescendants(T&& action)
+void Entity::for_descendants(T&& action)
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (Entity& child : children())
         {
             action(child);
 
-            if (child.hasChildren())
+            if (child.has_children())
             {
-                child.forDescendants(action);
+                child.for_descendants(action);
             }
         }
     }
 }
 
 template <typename T>
-void Entity::forDescendants(T&& action) const
+void Entity::for_descendants(T&& action) const
 {
-    if (hasChildren())
+    if (has_children())
     {
         for (const Entity& child : children())
         {
             action(child);
 
-            if (child.hasChildren())
+            if (child.has_children())
             {
-                child.forDescendants(action);
+                child.for_descendants(action);
             }
         }
     }
 }
 
 template <typename T>
-void Entity::forAncestors(T&& action)
+void Entity::for_ancestors(T&& action)
 {
     Entity::Handle handle = parent();
     while (handle)
@@ -260,7 +260,7 @@ void Entity::forAncestors(T&& action)
 }
 
 template <typename T>
-void Entity::forAncestors(T&& action) const
+void Entity::for_ancestors(T&& action) const
 {
     Entity::Handle handle = parent();
     while (handle)

@@ -101,7 +101,7 @@ public:
     /// Setting the value can potentially change the uniform's type.
     ///
     /// \param value The new value.
-    void setValue(const UniformValue& value);
+    void set_value(const UniformValue& value);
 
     ///
     /// Returns the index of the uniform within its shader.
@@ -109,7 +109,7 @@ public:
 
     ///
     /// Returns the associated texture index.
-    TextureIndex textureIndex() const;
+    TextureIndex texture_index() const;
 
     ///
     /// Returns the compiled location.
@@ -119,7 +119,7 @@ public:
     /// Sets the compiled location.
     ///
     /// \param location The compiled location.
-    void setLocation(UniformLocation location);
+    void set_location(UniformLocation location);
 
     ///
     /// Returns whether the uniform is equivalent to another.
@@ -137,7 +137,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    void resolveType();
+    void resolve_type();
 
     Name _name;
 
@@ -146,7 +146,7 @@ private:
     UniformValue _value;
 
     UniformIndex _index { UniformIndex(-1) };
-    TextureIndex _textureIndex { TextureIndex(-1) };
+    TextureIndex _texture_index { TextureIndex(-1) };
     UniformLocation _location { -1 };
 };
 

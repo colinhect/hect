@@ -29,10 +29,10 @@ BlendMode::BlendMode()
 {
 }
 
-BlendMode::BlendMode(BlendFunction function, BlendFactor sourceFactor, BlendFactor destinationFactor) :
+BlendMode::BlendMode(BlendFunction function, BlendFactor source_factor, BlendFactor destination_factor) :
     _function(function),
-    _sourceFactor(sourceFactor),
-    _destinationFactor(destinationFactor)
+    _source_factor(source_factor),
+    _destination_factor(destination_factor)
 {
 }
 
@@ -41,53 +41,53 @@ BlendFunction BlendMode::function() const
     return _function;
 }
 
-void BlendMode::setFunction(BlendFunction function)
+void BlendMode::set_function(BlendFunction function)
 {
     _function = function;
 }
 
-BlendFactor BlendMode::sourceFactor() const
+BlendFactor BlendMode::source_factor() const
 {
-    return _sourceFactor;
+    return _source_factor;
 }
 
-void BlendMode::setSourceFactor(BlendFactor factor)
+void BlendMode::set_source_factor(BlendFactor factor)
 {
-    _sourceFactor = factor;
+    _source_factor = factor;
 }
 
-BlendFactor BlendMode::destinationFactor() const
+BlendFactor BlendMode::destination_factor() const
 {
-    return _destinationFactor;
+    return _destination_factor;
 }
 
-void BlendMode::setDestinationFactor(BlendFactor factor)
+void BlendMode::set_destination_factor(BlendFactor factor)
 {
-    _destinationFactor = factor;
+    _destination_factor = factor;
 }
 
-bool BlendMode::operator==(const BlendMode& blendMode) const
+bool BlendMode::operator==(const BlendMode& blend_mode) const
 {
-    return _function == blendMode._function
-           && _sourceFactor == blendMode._sourceFactor
-           && _destinationFactor == blendMode._destinationFactor;
+    return _function == blend_mode._function
+           && _source_factor == blend_mode._source_factor
+           && _destination_factor == blend_mode._destination_factor;
 }
 
-bool BlendMode::operator!=(const BlendMode& blendMode) const
+bool BlendMode::operator!=(const BlendMode& blend_mode) const
 {
-    return !(*this == blendMode);
+    return !(*this == blend_mode);
 }
 
 void BlendMode::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("function", _function)
-            << encodeEnum("sourceFactor", _sourceFactor)
-            << encodeEnum("destinationFactor", _destinationFactor);
+    encoder << encode_enum("function", _function)
+            << encode_enum("source_factor", _source_factor)
+            << encode_enum("destination_factor", _destination_factor);
 }
 
 void BlendMode::decode(Decoder& decoder)
 {
-    decoder >> decodeEnum("function", _function)
-            >> decodeEnum("sourceFactor", _sourceFactor)
-            >> decodeEnum("destinationFactor", _destinationFactor);
+    decoder >> decode_enum("function", _function)
+            >> decode_enum("source_factor", _source_factor)
+            >> decode_enum("destination_factor", _destination_factor);
 }

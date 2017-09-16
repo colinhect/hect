@@ -253,40 +253,40 @@ struct DecodeEnum
 
 ///
 /// Creates an operation for beginning an array.
-HECT_EXPORT BeginArray beginArray();
+HECT_EXPORT BeginArray begin_array();
 
 ///
 /// Creates an operation for beginning an array as a member of the current
 /// object.
 ///
 /// \param name The name of the member to begin the array for.
-HECT_EXPORT BeginArray beginArray(const char* name);
+HECT_EXPORT BeginArray begin_array(const char* name);
 
 ///
 /// Creates an operation for ending the current array.
-HECT_EXPORT EndArray endArray();
+HECT_EXPORT EndArray end_array();
 
 ///
 /// Creates an operation for beginning an object.
-HECT_EXPORT BeginObject beginObject();
+HECT_EXPORT BeginObject begin_object();
 
 ///
 /// Creates an operation for beginning an object as a member of the current
 /// object.
 ///
 /// \param name The name of the member to begin the object for.
-HECT_EXPORT BeginObject beginObject(const char* name);
+HECT_EXPORT BeginObject begin_object(const char* name);
 
 ///
 /// Creates an operation for ending the current object.
-HECT_EXPORT EndObject endObject();
+HECT_EXPORT EndObject end_object();
 
 ///
 /// Creates an operation for encoding an arbitrary value.
 ///
 /// \param value The value to encode.
 template <typename T>
-EncodeValue<T> encodeValue(const T& value);
+EncodeValue<T> encode_value(const T& value);
 
 ///
 /// Creates an operation for encoding an arbitrary value as a member of the
@@ -295,14 +295,14 @@ EncodeValue<T> encodeValue(const T& value);
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
 template <typename T>
-EncodeValue<T> encodeValue(const char* name, const T& value);
+EncodeValue<T> encode_value(const char* name, const T& value);
 
 ///
 /// Creates an operation for encoding a vector of values.
 ///
 /// \param values The values to encode.
 template <typename T>
-EncodeVector<T> encodeVector(const std::vector<T>& values);
+EncodeVector<T> encode_vector(const std::vector<T>& values);
 
 ///
 /// Creates an operation for encoding a vector of values as a member of the
@@ -311,14 +311,14 @@ EncodeVector<T> encodeVector(const std::vector<T>& values);
 /// \param name The name of the member to encode the vector for.
 /// \param values The values to encode.
 template <typename T>
-EncodeVector<T> encodeVector(const char* name, const std::vector<T>& values);
+EncodeVector<T> encode_vector(const char* name, const std::vector<T>& values);
 
 ///
 /// Creates an operation for encoding an enum value.
 ///
 /// \param value The value to encode.
 template <typename T>
-EncodeEnum<T> encodeEnum(T value);
+EncodeEnum<T> encode_enum(T value);
 
 ///
 /// Creates an operation for encoding an enum value as a member of the current
@@ -327,14 +327,14 @@ EncodeEnum<T> encodeEnum(T value);
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
 template <typename T>
-EncodeEnum<T> encodeEnum(const char* name, T value);
+EncodeEnum<T> encode_enum(const char* name, T value);
 
 ///
 /// Creates an operation for decoding an arbitrary value.
 ///
 /// \param value The value to decode.
 template <typename T>
-DecodeValue<T> decodeValue(T& value);
+DecodeValue<T> decode_value(T& value);
 
 ///
 /// Creates an operation for decoding an arbitrary value as a member of the
@@ -345,14 +345,14 @@ DecodeValue<T> decodeValue(T& value);
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
 template <typename T>
-DecodeValue<T> decodeValue(const char* name, T& value, bool required = false);
+DecodeValue<T> decode_value(const char* name, T& value, bool required = false);
 
 ///
 /// Creates an operation for decoding a vector of values.
 ///
 /// \param values The values to decode.
 template <typename T>
-DecodeVector<T> decodeVector(std::vector<T>& values);
+DecodeVector<T> decode_vector(std::vector<T>& values);
 
 ///
 /// Creates an operation for decoding a vector of values as a member of the
@@ -363,14 +363,14 @@ DecodeVector<T> decodeVector(std::vector<T>& values);
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
 template <typename T>
-DecodeVector<T> decodeVector(const char* name, std::vector<T>& values, bool required = false);
+DecodeVector<T> decode_vector(const char* name, std::vector<T>& values, bool required = false);
 
 ///
 /// Creates an operation for decoding an enum value.
 ///
 /// \param value The value to decode.
 template <typename T>
-DecodeEnum<T> decodeEnum(T& value);
+DecodeEnum<T> decode_enum(T& value);
 
 ///
 /// Creates an operation for decoding an enum value as a member of the current
@@ -381,7 +381,7 @@ DecodeEnum<T> decodeEnum(T& value);
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
 template <typename T>
-DecodeEnum<T> decodeEnum(const char* name, T& value, bool required = false);
+DecodeEnum<T> decode_enum(const char* name, T& value, bool required = false);
 
 }
 

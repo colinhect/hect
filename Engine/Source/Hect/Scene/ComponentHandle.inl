@@ -34,28 +34,28 @@ ComponentHandle<T>::ComponentHandle()
 template <typename T>
 T& ComponentHandle<T>::operator*()
 {
-    ensureValid();
+    ensure_valid();
     return *_component;
 }
 
 template <typename T>
 const T& ComponentHandle<T>::operator*() const
 {
-    ensureValid();
+    ensure_valid();
     return *_component;
 }
 
 template <typename T>
 T* ComponentHandle<T>::operator->()
 {
-    ensureValid();
+    ensure_valid();
     return _component;
 }
 
 template <typename T>
 const T* ComponentHandle<T>::operator->() const
 {
-    ensureValid();
+    ensure_valid();
     return _component;
 }
 
@@ -74,7 +74,7 @@ bool ComponentHandle<T>::operator!=(const ComponentHandle& other) const
 template <typename T>
 ComponentHandle<T>::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }
 
 template <typename T>
@@ -85,15 +85,15 @@ ComponentHandle<T>::ComponentHandle(T& component) :
 }
 
 template <typename T>
-bool ComponentHandle<T>::isValid() const
+bool ComponentHandle<T>::is_valid() const
 {
     return _component && _valid && *_valid;
 }
 
 template <typename T>
-void ComponentHandle<T>::ensureValid() const
+void ComponentHandle<T>::ensure_valid() const
 {
-    if (!isValid())
+    if (!is_valid())
     {
         throw InvalidOperation("Invalid component handle");
     }
@@ -102,7 +102,7 @@ void ComponentHandle<T>::ensureValid() const
 template <typename T>
 void ComponentHandle<T>::invalidate()
 {
-    ensureValid();
+    ensure_valid();
     _valid->store(false);
 }
 

@@ -74,14 +74,14 @@ public:
     ///
     /// \throws InvalidOperation If the image is not compatible with the
     /// texture.
-    void setImage(unsigned depth, const Image::Handle& image);
+    void set_image(unsigned depth, const Image::Handle& image);
 
     ///
     /// Invalidate the local images of the texture, forcing the images to be
     /// downloaded from the renderer the next time the images are accessed.
     ///
     /// \throws InvalidOperation If the texture is not uploaded.
-    void invalidateLocalImages();
+    void invalidate_local_images();
 
     ///
     /// Reads a color value of a pixel.
@@ -89,17 +89,17 @@ public:
     /// \param x The x coordinate.
     /// \param y The y coordinate.
     /// \param z The z coordinate.
-    Color readPixel(unsigned x, unsigned y, unsigned z);
+    Color read_pixel(unsigned x, unsigned y, unsigned z);
 
     ///
     /// Reads a color value of a pixel.
     ///
     /// \param coords The UVW coordinates.
-    Color readPixel(Vector3 coords);
+    Color read_pixel(Vector3 coords);
 
     ///
     /// Returns the minification filter.
-    TextureFilter minFilter() const;
+    TextureFilter min_filter() const;
 
     ///
     /// Sets the minification filter.
@@ -108,11 +108,11 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new minification filter.
-    void setMinFilter(TextureFilter filter);
+    void set_min_filter(TextureFilter filter);
 
     ///
     /// Returns the magnification filter.
-    TextureFilter magFilter() const;
+    TextureFilter mag_filter() const;
 
     ///
     /// Sets the magnification filter.
@@ -121,11 +121,11 @@ public:
     /// destroyed before the filter is set.
     ///
     /// \param filter The new magnification filter.
-    void setMagFilter(TextureFilter filter);
+    void set_mag_filter(TextureFilter filter);
 
     ///
     /// Returns whether the texture is mipmapped.
-    bool isMipmapped() const;
+    bool is_mipmapped() const;
 
     ///
     /// Sets whether the texture is mipmapped.
@@ -134,11 +134,11 @@ public:
     /// destroyed before the mipmap value is set.
     ///
     /// \param mipmapped True if the texture is mipmapped; false otherwise.
-    void setMipmapped(bool mipmapped);
+    void set_mipmapped(bool mipmapped);
 
     ///
     /// Returns whether the texture is wrapped.
-    bool isWrapped() const;
+    bool is_wrapped() const;
 
     ///
     /// Sets whether the texture is wrapped.
@@ -147,7 +147,7 @@ public:
     /// destroyed before the wrap value is set.
     ///
     /// \param wrapped True if the texture is wrapped; false otherwise.
-    void setWrapped(bool wrapped);
+    void set_wrapped(bool wrapped);
 
     ///
     /// Returns the width.
@@ -163,7 +163,7 @@ public:
 
     ///
     /// Returns the pixel format.
-    PixelFormat pixelFormat() const;
+    PixelFormat pixel_format() const;
 
     ///
     /// Sets the pixel format.
@@ -171,8 +171,8 @@ public:
     /// \note If the texture is uploaded to a renderer then it will be
     /// destroyed before the pixel format is set.
     ///
-    /// \param pixelFormat The new pixel format.
-    void setPixelFormat(PixelFormat pixelFormat);
+    /// \param pixel_format The new pixel format.
+    void set_pixel_format(PixelFormat pixel_format);
 
     ///
     /// Returns whether the texture is equivalent to another.
@@ -194,7 +194,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    void destroyIfUploaded();
+    void destroy_if_uploaded();
 
     std::vector<Image::Handle> _images;
 
@@ -202,10 +202,10 @@ private:
     unsigned _height { 0 };
     unsigned _depth { 0 };
 
-    PixelFormat _pixelFormat { PixelFormat::Rgb8 };
+    PixelFormat _pixel_format { PixelFormat::Rgb8 };
 
-    TextureFilter _minFilter { TextureFilter::Linear };
-    TextureFilter _magFilter { TextureFilter::Linear };
+    TextureFilter _min_filter { TextureFilter::Linear };
+    TextureFilter _mag_filter { TextureFilter::Linear };
 
     bool _mipmapped { false };
     bool _wrapped { false };

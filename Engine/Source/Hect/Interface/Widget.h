@@ -43,8 +43,8 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param interfaceSystem The interface system.
-    Widget(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    Widget(InterfaceSystem& interface_system);
 
     virtual ~Widget() { }
 };

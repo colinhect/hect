@@ -42,46 +42,46 @@ public:
     ///
     /// Constructs a DataValue decoder.
     ///
-    /// \param dataValue The data value to decode.
-    DataValueDecoder(const DataValue& dataValue);
+    /// \param data_value The data value to decode.
+    DataValueDecoder(const DataValue& data_value);
 
     ///
     /// Constructs a DataValue decoder.
     ///
-    /// \param dataValue The data value to decode.
-    /// \param assetCache The asset cache to load further assets from.
-    DataValueDecoder(const DataValue& dataValue, AssetCache& assetCache);
+    /// \param data_value The data value to decode.
+    /// \param asset_cache The asset cache to load further assets from.
+    DataValueDecoder(const DataValue& data_value, AssetCache& asset_cache);
 
-    bool isBinaryStream() const override;
-    ReadStream& binaryStream() override;
-    void beginArray() override;
-    void endArray() override;
-    bool hasMoreElements() const override;
-    void beginObject() override;
-    void endObject() override;
-    bool selectMember(const char* name) override;
-    std::vector<std::string> memberNames() const override;
-    std::string decodeString() override;
-    int8_t decodeInt8() override;
-    uint8_t decodeUInt8() override;
-    int16_t decodeInt16() override;
-    uint16_t decodeUInt16() override;
-    int32_t decodeInt32() override;
-    uint32_t decodeUInt32() override;
-    int64_t decodeInt64() override;
-    uint64_t decodeUInt64() override;
-    float decodeFloat32() override;
-    double decodeFloat64() override;
-    bool decodeBool() override;
+    bool is_binary_stream() const override;
+    ReadStream& binary_stream() override;
+    void begin_array() override;
+    void end_array() override;
+    bool has_more_elements() const override;
+    void begin_object() override;
+    void end_object() override;
+    bool select_member(const char* name) override;
+    std::vector<std::string> member_names() const override;
+    std::string decode_string() override;
+    int8_t decode_int8() override;
+    uint8_t decode_u_int8() override;
+    int16_t decode_int16() override;
+    uint16_t decode_u_int16() override;
+    int32_t decode_int32() override;
+    uint32_t decode_u_int32() override;
+    int64_t decode_int64() override;
+    uint64_t decode_u_int64() override;
+    float decode_float32() override;
+    double decode_float64() override;
+    bool decode_bool() override;
 
 private:
     const DataValue& decode();
 
-    std::stack<std::string> _nameStack;
-    std::stack<size_t> _indexStack;
-    std::stack<DataValue> _valueStack;
+    std::stack<std::string> _name_stack;
+    std::stack<size_t> _index_stack;
+    std::stack<DataValue> _value_stack;
 
-    std::string _selectedMemberName;
+    std::string _selected_member_name;
 };
 
 }

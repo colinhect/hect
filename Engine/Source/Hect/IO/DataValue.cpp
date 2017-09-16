@@ -34,7 +34,7 @@
 using namespace hect;
 
 const DataValue DataValue::_null;
-const DataValue::Array DataValue::_emptyArray;
+const DataValue::Array DataValue::_empty_array;
 
 DataValue::DataValue() :
     _type(DataValueType::Null)
@@ -156,21 +156,21 @@ DataValue::DataValue(const std::string& value) :
 
 DataValue::DataValue(Name value) :
     _type(DataValueType::String),
-    _any(value.asString())
+    _any(value.as_string())
 {
 }
 
-DataValue::DataValue(const DataValue& dataValue) :
-    _type(dataValue._type),
-    _any(dataValue._any)
+DataValue::DataValue(const DataValue& data_value) :
+    _type(data_value._type),
+    _any(data_value._any)
 {
 }
 
-DataValue::DataValue(DataValue&& dataValue) :
-    _type(dataValue._type),
-    _any(std::move(dataValue._any))
+DataValue::DataValue(DataValue&& data_value) :
+    _type(data_value._type),
+    _any(std::move(data_value._any))
 {
-    dataValue._type = DataValueType::Null;
+    data_value._type = DataValueType::Null;
 }
 
 DataValueType DataValue::type() const
@@ -178,11 +178,11 @@ DataValueType DataValue::type() const
     return _type;
 }
 
-const DataValue& DataValue::orDefault(const DataValue& dataValue) const
+const DataValue& DataValue::or_default(const DataValue& data_value) const
 {
-    if (isNull())
+    if (is_null())
     {
-        return dataValue;
+        return data_value;
     }
     else
     {
@@ -190,39 +190,39 @@ const DataValue& DataValue::orDefault(const DataValue& dataValue) const
     }
 }
 
-bool DataValue::isNull() const
+bool DataValue::is_null() const
 {
     return _type == DataValueType::Null;
 }
 
-bool DataValue::isBool() const
+bool DataValue::is_bool() const
 {
     return _type == DataValueType::Bool;
 }
 
-bool DataValue::isNumber() const
+bool DataValue::is_number() const
 {
     return _type == DataValueType::Number;
 }
 
-bool DataValue::isString() const
+bool DataValue::is_string() const
 {
     return _type == DataValueType::String;
 }
 
-bool DataValue::isArray() const
+bool DataValue::is_array() const
 {
     return _type == DataValueType::Array;
 }
 
-bool DataValue::isObject() const
+bool DataValue::is_object() const
 {
     return _type == DataValueType::Object;
 }
 
-bool DataValue::asBool() const
+bool DataValue::as_bool() const
 {
-    if (isBool())
+    if (is_bool())
     {
         return _any.as<bool>();
     }
@@ -232,9 +232,9 @@ bool DataValue::asBool() const
     }
 }
 
-int DataValue::asInt() const
+int DataValue::as_int() const
 {
-    if (isNumber())
+    if (is_number())
     {
         return static_cast<int>(_any.as<double>());
     }
@@ -244,9 +244,9 @@ int DataValue::asInt() const
     }
 }
 
-unsigned DataValue::asUnsigned() const
+unsigned DataValue::as_unsigned() const
 {
-    if (isNumber())
+    if (is_number())
     {
         return static_cast<unsigned>(_any.as<double>());
     }
@@ -256,9 +256,9 @@ unsigned DataValue::asUnsigned() const
     }
 }
 
-double DataValue::asDouble() const
+double DataValue::as_double() const
 {
-    if (isNumber())
+    if (is_number())
     {
         return _any.as<double>();
     }
@@ -268,7 +268,7 @@ double DataValue::asDouble() const
     }
 }
 
-Vector2 DataValue::asVector2() const
+Vector2 DataValue::as_vector2() const
 {
     Vector2 result;
 
@@ -277,7 +277,7 @@ Vector2 DataValue::asVector2() const
     {
         if (i < 2)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.as_double();
         }
         else
         {
@@ -288,7 +288,7 @@ Vector2 DataValue::asVector2() const
     return result;
 }
 
-Vector3 DataValue::asVector3() const
+Vector3 DataValue::as_vector3() const
 {
     Vector3 result;
 
@@ -297,7 +297,7 @@ Vector3 DataValue::asVector3() const
     {
         if (i < 3)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.as_double();
         }
         else
         {
@@ -308,7 +308,7 @@ Vector3 DataValue::asVector3() const
     return result;
 }
 
-Vector4 DataValue::asVector4() const
+Vector4 DataValue::as_vector4() const
 {
     Vector4 result;
 
@@ -317,7 +317,7 @@ Vector4 DataValue::asVector4() const
     {
         if (i < 4)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.as_double();
         }
         else
         {
@@ -328,7 +328,7 @@ Vector4 DataValue::asVector4() const
     return result;
 }
 
-Matrix4 DataValue::asMatrix4() const
+Matrix4 DataValue::as_matrix4() const
 {
     Matrix4 result;
 
@@ -337,7 +337,7 @@ Matrix4 DataValue::asMatrix4() const
     {
         if (i < 16)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.as_double();
         }
         else
         {
@@ -348,7 +348,7 @@ Matrix4 DataValue::asMatrix4() const
     return result;
 }
 
-Quaternion DataValue::asQuaternion() const
+Quaternion DataValue::as_quaternion() const
 {
     Quaternion result;
 
@@ -357,7 +357,7 @@ Quaternion DataValue::asQuaternion() const
     {
         if (i < 4)
         {
-            result[i++] = component.asDouble();
+            result[i++] = component.as_double();
         }
         else
         {
@@ -368,11 +368,11 @@ Quaternion DataValue::asQuaternion() const
     return result;
 }
 
-const std::string& DataValue::asString() const
+const std::string& DataValue::as_string() const
 {
     static std::string empty;
 
-    if (isString())
+    if (is_string())
     {
         return _any.as<std::string>();
     }
@@ -382,11 +382,11 @@ const std::string& DataValue::asString() const
     }
 }
 
-Name DataValue::asName() const
+Name DataValue::as_name() const
 {
     Name name;
 
-    if (isString())
+    if (is_string())
     {
         name = _any.as<std::string>();
     }
@@ -396,11 +396,11 @@ Name DataValue::asName() const
 
 size_t DataValue::size() const
 {
-    if (isArray())
+    if (is_array())
     {
         return _any.as<DataValue::Array>().size();
     }
-    else if (isObject())
+    else if (is_object())
     {
         return _any.as<DataValue::Object>().size();
     }
@@ -408,9 +408,9 @@ size_t DataValue::size() const
     return 0;
 }
 
-std::vector<std::string> DataValue::memberNames() const
+std::vector<std::string> DataValue::member_names() const
 {
-    if (isObject())
+    if (is_object())
     {
         std::vector<std::string> result;
         for (auto& pair : _any.as<DataValue::Object>())
@@ -425,11 +425,11 @@ std::vector<std::string> DataValue::memberNames() const
     }
 }
 
-void DataValue::addMember(const std::string& name, const DataValue& dataValue)
+void DataValue::add_member(const std::string& name, const DataValue& data_value)
 {
-    if (isObject())
+    if (is_object())
     {
-        _any.as<DataValue::Object>()[name] = dataValue;
+        _any.as<DataValue::Object>()[name] = data_value;
     }
     else
     {
@@ -437,11 +437,11 @@ void DataValue::addMember(const std::string& name, const DataValue& dataValue)
     }
 }
 
-void DataValue::addElement(const DataValue& dataValue)
+void DataValue::add_element(const DataValue& data_value)
 {
-    if (isArray())
+    if (is_array())
     {
-        _any.as<DataValue::Array>().push_back(dataValue);
+        _any.as<DataValue::Array>().push_back(data_value);
     }
     else
     {
@@ -451,7 +451,7 @@ void DataValue::addElement(const DataValue& dataValue)
 
 const DataValue& DataValue::operator[](size_t index) const
 {
-    if (isArray())
+    if (is_array())
     {
         const Array& array = _any.as<DataValue::Array>();
         if (index < array.size())
@@ -471,7 +471,7 @@ const DataValue& DataValue::operator[](size_t index) const
 
 const DataValue& DataValue::operator[](const std::string& name) const
 {
-    if (isObject())
+    if (is_object())
     {
         const DataValue::Object& members = _any.as<DataValue::Object>();
         auto it = members.find(name);
@@ -487,51 +487,51 @@ const DataValue& DataValue::operator[](const std::string& name) const
     }
 }
 
-DataValue& DataValue::operator=(const DataValue& dataValue)
+DataValue& DataValue::operator=(const DataValue& data_value)
 {
-    _type = dataValue._type;
-    _any = dataValue._any;
+    _type = data_value._type;
+    _any = data_value._any;
     return *this;
 }
 
-DataValue& DataValue::operator=(DataValue&& dataValue)
+DataValue& DataValue::operator=(DataValue&& data_value)
 {
-    _type = dataValue._type;
-    _any = std::move(dataValue._any);
+    _type = data_value._type;
+    _any = std::move(data_value._any);
     return *this;
 }
 
 DataValue::Array::const_iterator DataValue::begin() const
 {
-    if (isArray())
+    if (is_array())
     {
         return _any.as<DataValue::Array>().begin();
     }
     else
     {
-        return _emptyArray.begin();
+        return _empty_array.begin();
     }
 }
 
 DataValue::Array::const_iterator DataValue::end() const
 {
-    if (isArray())
+    if (is_array())
     {
         return _any.as<DataValue::Array>().end();
     }
     else
     {
-        return _emptyArray.end();
+        return _empty_array.end();
     }
 }
 
 namespace hect
 {
 
-static std::regex numberRegex("[-+]?[0-9]*\\.?[0-9]+");
+static std::regex number_regex("[-+]?[0-9]*\\.?[0-9]+");
 
 // Converts a YAML node to a DataValue
-DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
+DataValue from_yaml(yaml_document_t* document, yaml_node_t* node)
 {
     assert(document);
     assert(node);
@@ -546,19 +546,19 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
         // Check if it is a bool
         if (string == "true" || string == "false")
         {
-            bool boolValue = string == "true";
-            return DataValue(boolValue);
+            bool bool_value = string == "true";
+            return DataValue(bool_value);
         }
 
         // Check if it is a number
-        else if (std::regex_match(string, numberRegex))
+        else if (std::regex_match(string, number_regex))
         {
             // Parse the number
-            double numberValue = 0.0;
+            double number_value = 0.0;
             std::istringstream ss(string);
-            ss >> numberValue;
+            ss >> number_value;
 
-            return DataValue(numberValue);
+            return DataValue(number_value);
         }
 
         // Otherwise it is just a string
@@ -569,43 +569,43 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
     }
     case YAML_SEQUENCE_NODE:
     {
-        DataValue dataValue(DataValueType::Array);
+        DataValue data_value(DataValueType::Array);
 
         // For each item in the sequence
         for (yaml_node_item_t* item = node->data.sequence.items.start;
                 item < node->data.sequence.items.top; item++)
         {
             // Convert the item to a DataValue
-            yaml_node_t* itemNode = yaml_document_get_node(document, *item);
-            DataValue element = fromYaml(document, itemNode);
+            yaml_node_t* item_node = yaml_document_get_node(document, *item);
+            DataValue element = from_yaml(document, item_node);
 
             // Add the element
-            dataValue.addElement(element);
+            data_value.add_element(element);
         }
 
-        return dataValue;
+        return data_value;
     }
     case YAML_MAPPING_NODE:
     {
-        DataValue dataValue(DataValueType::Object);
+        DataValue data_value(DataValueType::Object);
 
         // For each pair in the mapping
         for (yaml_node_pair_t* pair = node->data.mapping.pairs.start;
                 pair < node->data.mapping.pairs.top; pair++)
         {
             // Get the name from the pair
-            yaml_node_t* keyNode = yaml_document_get_node(document, pair->key);
-            const char* name = reinterpret_cast<const char*>(keyNode->data.scalar.value);
+            yaml_node_t* key_node = yaml_document_get_node(document, pair->key);
+            const char* name = reinterpret_cast<const char*>(key_node->data.scalar.value);
 
             // Convert the value node to a DataValue
-            yaml_node_t* valueNode = yaml_document_get_node(document, pair->value);
-            DataValue value = fromYaml(document, valueNode);
+            yaml_node_t* value_node = yaml_document_get_node(document, pair->value);
+            DataValue value = from_yaml(document, value_node);
 
             // Add the member
-            dataValue.addMember(name, value);
+            data_value.add_member(name, value);
         }
 
-        return dataValue;
+        return data_value;
     }
     default:
         return DataValue();
@@ -614,7 +614,7 @@ DataValue fromYaml(yaml_document_t* document, yaml_node_t* node)
 
 }
 
-void DataValue::decodeFromYaml(const std::string& yaml)
+void DataValue::decode_from_yaml(const std::string& yaml)
 {
     // Initialize the parser
     yaml_parser_t parser;
@@ -623,20 +623,20 @@ void DataValue::decodeFromYaml(const std::string& yaml)
 
     // Attempt to parse the document
     yaml_document_t document;
-    std::string errorMessage;
+    std::string error_message;
     if (!yaml_parser_load(&parser, &document))
     {
         // Remember the error message
-        errorMessage = format("Invalid YAML: %s on line %i column %i", parser.problem, parser.problem_mark.line, parser.problem_mark.column);
+        error_message = format("Invalid YAML: %s on line %i column %i", parser.problem, parser.problem_mark.line, parser.problem_mark.column);
     }
 
-    if (errorMessage.empty())
+    if (error_message.empty())
     {
         yaml_node_t* node = yaml_document_get_root_node(&document);
         if (node)
         {
             // Convert all nodes recursively
-            *this = fromYaml(&document, node);
+            *this = from_yaml(&document, node);
         }
     }
 
@@ -645,13 +645,13 @@ void DataValue::decodeFromYaml(const std::string& yaml)
     yaml_parser_delete(&parser);
 
     // Throw the error if there was one
-    if (!errorMessage.empty())
+    if (!error_message.empty())
     {
-        throw DecodeError(errorMessage);
+        throw DecodeError(error_message);
     }
 }
 
-void DataValue::decodeFromYaml(ReadStream& stream)
+void DataValue::decode_from_yaml(ReadStream& stream)
 {
-    decodeFromYaml(stream.readAllToString());
+    decode_from_yaml(stream.read_all_to_string());
 }

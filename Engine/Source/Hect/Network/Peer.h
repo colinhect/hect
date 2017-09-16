@@ -117,9 +117,9 @@ public:
     bool operator!=(const Peer& peer) const;
 
 private:
-    Peer(ENetPeer* enetPeer);
+    Peer(ENetPeer* enet_peer);
 
-    ENetPeer* _enetPeer { nullptr };
+    ENetPeer* _enet_peer { nullptr };
 };
 
 }

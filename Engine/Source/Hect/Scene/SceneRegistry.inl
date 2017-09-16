@@ -31,37 +31,37 @@ namespace hect
 {
 
 template <typename T>
-void SceneRegistry::registerType()
+void SceneRegistry::register_type()
 {
-    std::type_index typeIndex(typeid(T));
+    std::type_index type_index(typeid(T));
 
-    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
+    if (_type_index_to_id.find(type_index) == _type_index_to_id.end())
     {
-        Name typeName = Type::get<T>().name();
+        Name type_name = Type::get<T>().name();
 
-        SceneTypeId typeId = static_cast<SceneTypeId>(_sceneConstructors.size());
+        SceneTypeId type_id = static_cast<SceneTypeId>(_scene_constructors.size());
 
-        _sceneConstructors.push_back([]()
+        _scene_constructors.push_back([]()
         {
             return std::shared_ptr<Scene>(new T(Engine::instance()));
         });
 
-        _typeIndexToId[typeIndex] = typeId;
-        _typeNameToId[typeName] = typeId;
-        _typeIdToName[typeId] = typeName;
+        _type_index_to_id[type_index] = type_id;
+        _type_name_to_id[type_name] = type_id;
+        _type_id_to_name[type_id] = type_name;
 
-        HECT_DEBUG(format("Registered scene type '%s' (type id: %d)", typeName.data(), typeId));
+        HECT_DEBUG(format("Registered scene type '%s' (type id: %d)", type_name.data(), type_id));
     }
 }
 
 template <typename T>
-SceneTypeId SceneRegistry::typeIdOf()
+SceneTypeId SceneRegistry::type_id_of()
 {
     static SceneTypeId id = SceneTypeId(-1);
     if (id == SceneTypeId(-1))
     {
-        std::type_index typeIndex(typeid(T));
-        id = typeIdOf(typeIndex);
+        std::type_index type_index(typeid(T));
+        id = type_id_of(type_index);
     }
     return id;
 }

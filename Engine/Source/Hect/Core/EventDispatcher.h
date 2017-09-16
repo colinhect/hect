@@ -51,7 +51,7 @@ public:
     ///
     /// \throws InvalidOperation If the listener is already registered to the
     /// dispatcher.
-    void registerListener(EventListener<T>& listener);
+    void register_listener(EventListener<T>& listener);
 
     ///
     /// Un-registers a EventListener from receiving events from the dispatcher.
@@ -60,13 +60,13 @@ public:
     ///
     /// \throws InvalidOperation If the listener is not registered to the
     /// dispatcher.
-    void unregisterListener(EventListener<T>& listener);
+    void unregister_listener(EventListener<T>& listener);
 
     ///
     /// Dispatches an event to all registered EventListener%s.
     ///
     /// \param event The event.
-    void dispatchEvent(const T& event);
+    void dispatch_event(const T& event);
 
 private:
     std::vector<EventListener<T>*> _listeners;

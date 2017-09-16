@@ -1,1 +1,1 @@
-            decoder >> decodeVector("$(property_name)", typedValue.$(property_name), $(is_required));
+            decoder >> decode_vector("$(property_name)", typed_value.$(property_name), $(is_required));

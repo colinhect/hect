@@ -31,41 +31,41 @@ EntityChildIteratorBase::EntityChildIteratorBase()
 {
 }
 
-EntityChildIteratorBase::EntityChildIteratorBase(EntityPool& pool, EntityId parentId, size_t index) :
+EntityChildIteratorBase::EntityChildIteratorBase(EntityPool& pool, EntityId parent_id, size_t index) :
     _pool(&pool),
-    _parentId(parentId),
+    _parent_id(parent_id),
     _index(index)
 {
 }
 
 Entity& EntityChildIteratorBase::dereference() const
 {
-    if (!isValid())
+    if (!is_valid())
     {
         throw InvalidOperation("Invalid entity iterator");
     }
 
-    Entity& entity = _pool->entityWithId(_parentId);
-    EntityId id = entity._childIds[_index];
-    return _pool->entityWithId(id);
+    Entity& entity = _pool->entity_with_id(_parent_id);
+    EntityId id = entity._child_ids[_index];
+    return _pool->entity_with_id(id);
 }
 
 void EntityChildIteratorBase::increment()
 {
-    if (isValid())
+    if (is_valid())
     {
         ++_index;
     }
 }
 
-bool EntityChildIteratorBase::isValid() const
+bool EntityChildIteratorBase::is_valid() const
 {
-    return _pool && _index < _pool->entityWithId(_parentId)._childIds.size();
+    return _pool && _index < _pool->entity_with_id(_parent_id)._child_ids.size();
 }
 
 bool EntityChildIteratorBase::equals(const EntityChildIteratorBase& other) const
 {
-    return _pool == other._pool && _parentId == other._parentId && _index == other._index;
+    return _pool == other._pool && _parent_id == other._parent_id && _index == other._index;
 }
 
 EntityChildIterator::EntityChildIterator() :
@@ -73,8 +73,8 @@ EntityChildIterator::EntityChildIterator() :
 {
 }
 
-EntityChildIterator::EntityChildIterator(EntityPool& pool, EntityId parentId, size_t index) :
-    EntityChildIteratorBase(pool, parentId, index)
+EntityChildIterator::EntityChildIterator(EntityPool& pool, EntityId parent_id, size_t index) :
+    EntityChildIteratorBase(pool, parent_id, index)
 {
 }
 
@@ -106,7 +106,7 @@ bool EntityChildIterator::operator!=(const EntityChildIterator& other) const
 
 EntityChildIterator::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }
 
 EntityChildConstIterator::EntityChildConstIterator() :
@@ -114,8 +114,8 @@ EntityChildConstIterator::EntityChildConstIterator() :
 {
 }
 
-EntityChildConstIterator::EntityChildConstIterator(const EntityPool& pool, EntityId parentId, size_t index) :
-    EntityChildIteratorBase(*const_cast<EntityPool*>(&pool), parentId, index)
+EntityChildConstIterator::EntityChildConstIterator(const EntityPool& pool, EntityId parent_id, size_t index) :
+    EntityChildIteratorBase(*const_cast<EntityPool*>(&pool), parent_id, index)
 {
 }
 
@@ -147,5 +147,5 @@ bool EntityChildConstIterator::operator!=(const EntityChildConstIterator& other)
 
 EntityChildConstIterator::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }

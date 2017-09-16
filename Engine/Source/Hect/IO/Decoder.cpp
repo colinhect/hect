@@ -30,121 +30,121 @@ Decoder::Decoder()
 {
 }
 
-Decoder::Decoder(AssetCache& assetCache) :
-    _assetCache(&assetCache)
+Decoder::Decoder(AssetCache& asset_cache) :
+    _asset_cache(&asset_cache)
 {
 }
 
-AssetCache& Decoder::assetCache()
+AssetCache& Decoder::asset_cache()
 {
-    if (!_assetCache)
+    if (!_asset_cache)
     {
         throw InvalidOperation("Decoder does not have an asset cache");
     }
-    return *_assetCache;
+    return *_asset_cache;
 }
 
-Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray)
+Decoder& operator>>(Decoder& decoder, const BeginArray& begin_array)
 {
-    if (beginArray.name)
+    if (begin_array.name)
     {
-        decoder.selectMember(beginArray.name);
+        decoder.select_member(begin_array.name);
     }
-    decoder.beginArray();
+    decoder.begin_array();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, const EndArray&)
 {
-    decoder.endArray();
+    decoder.end_array();
     return decoder;
 }
 
-Decoder& operator>>(Decoder& decoder, const BeginObject& beginObject)
+Decoder& operator>>(Decoder& decoder, const BeginObject& begin_object)
 {
-    if (beginObject.name)
+    if (begin_object.name)
     {
-        decoder.selectMember(beginObject.name);
+        decoder.select_member(begin_object.name);
     }
-    decoder.beginObject();
+    decoder.begin_object();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, const EndObject&)
 {
-    decoder.endObject();
+    decoder.end_object();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, std::string& value)
 {
-    value = decoder.decodeString();
+    value = decoder.decode_string();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, int8_t& value)
 {
-    value = decoder.decodeInt8();
+    value = decoder.decode_int8();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, uint8_t& value)
 {
-    value = decoder.decodeUInt8();
+    value = decoder.decode_u_int8();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, int16_t& value)
 {
-    value = decoder.decodeInt16();
+    value = decoder.decode_int16();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, uint16_t& value)
 {
-    value = decoder.decodeUInt16();
+    value = decoder.decode_u_int16();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, int32_t& value)
 {
-    value = decoder.decodeInt32();
+    value = decoder.decode_int32();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, uint32_t& value)
 {
-    value = decoder.decodeUInt32();
+    value = decoder.decode_u_int32();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, int64_t& value)
 {
-    value = decoder.decodeInt64();
+    value = decoder.decode_int64();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, uint64_t& value)
 {
-    value = decoder.decodeUInt64();
+    value = decoder.decode_u_int64();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, float& value)
 {
-    value = decoder.decodeFloat32();
+    value = decoder.decode_float32();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, double& value)
 {
-    value = decoder.decodeFloat64();
+    value = decoder.decode_float64();
     return decoder;
 }
 
 Decoder& operator>>(Decoder& decoder, bool& value)
 {
-    value = decoder.decodeBool();
+    value = decoder.decode_bool();
     return decoder;
 }
 

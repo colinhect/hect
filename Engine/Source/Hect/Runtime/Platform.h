@@ -46,11 +46,11 @@ public:
 
     ///
     /// Handles and dispatches all platform events.
-    bool handleEvents();
+    bool handle_events();
 
     ///
     /// Returns whether the platform has a mouse connected.
-    bool hasMouse();
+    bool has_mouse();
 
     ///
     /// Returns the mouse.
@@ -61,7 +61,7 @@ public:
 
     ///
     /// Returns whether the platform has a keyboard connected.
-    bool hasKeyboard();
+    bool has_keyboard();
 
     ///
     /// Returns the keyboard.
@@ -75,7 +75,7 @@ public:
     /// index.
     ///
     /// \param index The index of the joystick.
-    bool hasJoystick(JoystickIndex index);
+    bool has_joystick(JoystickIndex index);
 
     ///
     /// Returns the joystick connected at the specified index.

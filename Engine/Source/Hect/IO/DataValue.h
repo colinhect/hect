@@ -144,14 +144,14 @@ public:
     ///
     /// Constructs a data value copied from another.
     ///
-    /// \param dataValue The data value to copy.
-    DataValue(const DataValue& dataValue);
+    /// \param data_value The data value to copy.
+    DataValue(const DataValue& data_value);
 
     ///
     /// Constructs a data value moved from another.
     ///
-    /// \param dataValue The data value to move.
-    DataValue(DataValue&& dataValue);
+    /// \param data_value The data value to move.
+    DataValue(DataValue&& data_value);
 
     ///
     /// Returns the type.
@@ -160,83 +160,83 @@ public:
     ///
     /// Returns this data value or another one if this data value is null.
     ///
-    /// \param dataValue The data value to return if this one is null.
-    const DataValue& orDefault(const DataValue& dataValue) const;
+    /// \param data_value The data value to return if this one is null.
+    const DataValue& or_default(const DataValue& data_value) const;
 
     ///
     /// Returns whether the value is null.
-    bool isNull() const;
+    bool is_null() const;
 
     ///
     /// Returns whether the value is a bool.
-    bool isBool() const;
+    bool is_bool() const;
 
     ///
     /// Returns whether the value is a number.
-    bool isNumber() const;
+    bool is_number() const;
 
     ///
     /// Returns whether the value is a string.
-    bool isString() const;
+    bool is_string() const;
 
     ///
     /// Returns whether the value is an array.
-    bool isArray() const;
+    bool is_array() const;
 
     ///
     /// Returns whether the value is an object.
-    bool isObject() const;
+    bool is_object() const;
 
     ///
     /// Returns the value as a bool (false if the data value is not a bool).
-    bool asBool() const;
+    bool as_bool() const;
 
     ///
     /// Returns the value as an int (zero if the data value is not a number).
-    int asInt() const;
+    int as_int() const;
 
     ///
     /// Returns the value as an unsigned int (zero if the data value is not a number).
-    unsigned asUnsigned() const;
+    unsigned as_unsigned() const;
 
     ///
     /// Returns the value as a double (zero if the data value is not a number).
-    double asDouble() const;
+    double as_double() const;
 
     ///
     /// Returns the value as a 2-dimensional vector (assumes the value is an
     /// array of numbers).
-    Vector2 asVector2() const;
+    Vector2 as_vector2() const;
 
     ///
     /// Returns the value as a 3-dimensional vector (assumes the value is an
     /// array of numbers).
-    Vector3 asVector3() const;
+    Vector3 as_vector3() const;
 
     ///
     /// Returns the value as a 4-dimensional vector (assumes the value is an
     /// array of numbers).
-    Vector4 asVector4() const;
+    Vector4 as_vector4() const;
 
     ///
     /// Returns the value as a 4 by 4 matrix (assumes the value is an
     /// array of numbers).
-    Matrix4 asMatrix4() const;
+    Matrix4 as_matrix4() const;
 
     ///
     /// Returns the value as a quaternion (assumes the value is an array of
     /// numbers).
-    Quaternion asQuaternion() const;
+    Quaternion as_quaternion() const;
 
     ///
     /// Returns the value as a string (empty string if the data value is not a
     /// string).
-    const std::string& asString() const;
+    const std::string& as_string() const;
 
     ///
     /// Returns the value as a name (empty string if the data value is not a
     /// string).
-    Name asName() const;
+    Name as_name() const;
 
     ///
     /// Returns the number of elements or members.
@@ -244,7 +244,7 @@ public:
 
     ///
     /// Returns the member names (empty if the data value is not an object).
-    std::vector<std::string> memberNames() const;
+    std::vector<std::string> member_names() const;
 
     ///
     /// Adds a new member to the data value.
@@ -253,18 +253,18 @@ public:
     /// is overwritten with the new value.
     ///
     /// \param name The member name.
-    /// \param dataValue The member value.
+    /// \param data_value The member value.
     ///
     /// \throws InvalidOperation If the data value is not an object.
-    void addMember(const std::string& name, const DataValue& dataValue);
+    void add_member(const std::string& name, const DataValue& data_value);
 
     ///
     /// Adds a new element to the data value.
     ///
-    /// \param dataValue The element value.
+    /// \param data_value The element value.
     ///
     /// \throws InvalidOperation If the data value is not an array.
-    void addElement(const DataValue& dataValue);
+    void add_element(const DataValue& data_value);
 
     ///
     /// Returns the element at the given index.
@@ -285,14 +285,14 @@ public:
     ///
     /// Sets the data value as a copy of another.
     ///
-    /// \param dataValue The handle to copy.
-    DataValue& operator=(const DataValue& dataValue);
+    /// \param data_value The handle to copy.
+    DataValue& operator=(const DataValue& data_value);
 
     ///
     /// Sets the data value as being moved from another.
     ///
-    /// \param dataValue The handle to move.
-    DataValue& operator=(DataValue&& dataValue);
+    /// \param data_value The handle to move.
+    DataValue& operator=(DataValue&& data_value);
 
     ///
     /// Returns an iterator at the beginning of the elements.
@@ -312,7 +312,7 @@ public:
     /// \param yaml The YAML string.
     ///
     /// \throw DecodeError If invalid YAML is encountered.
-    void decodeFromYaml(const std::string& yaml);
+    void decode_from_yaml(const std::string& yaml);
 
     ///
     /// Decodes the data value from YAML.
@@ -320,14 +320,14 @@ public:
     /// \param stream The stream to read the YAML from.
     ///
     /// \throw DecodeError If invalid YAML is encountered.
-    void decodeFromYaml(ReadStream& stream);
+    void decode_from_yaml(ReadStream& stream);
 
 private:
     DataValueType _type;
     Any _any;
 
     static const DataValue _null;
-    static const Array _emptyArray;
+    static const Array _empty_array;
 };
 
 }

@@ -81,7 +81,7 @@ T Vector2T<T>::dot(Vector2T v) const
 }
 
 template <typename T>
-Radians Vector2T<T>::angleFrom(Vector2T v) const
+Radians Vector2T<T>::angle_from(Vector2T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
@@ -90,11 +90,11 @@ Radians Vector2T<T>::angleFrom(Vector2T v) const
 template <typename T>
 T Vector2T<T>::length() const
 {
-    return static_cast<T>(std::sqrt(lengthSquared()));
+    return static_cast<T>(std::sqrt(length_squared()));
 }
 
 template <typename T>
-T Vector2T<T>::lengthSquared() const
+T Vector2T<T>::length_squared() const
 {
     return dot(*this);
 }
@@ -285,14 +285,14 @@ Vector2T<T>::operator Vector2T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, Vector2T<T> v)
 {
-    encoder << beginArray() << v.x << v.y << endArray();
+    encoder << begin_array() << v.x << v.y << end_array();
     return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector2T<T>& v)
 {
-    decoder >> beginArray() >> v.x >> v.y >> endArray();
+    decoder >> begin_array() >> v.x >> v.y >> end_array();
     return decoder;
 }
 

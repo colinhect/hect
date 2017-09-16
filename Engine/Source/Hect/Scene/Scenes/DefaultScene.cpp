@@ -36,102 +36,102 @@ using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
     Scene(engine),
-    _interfaceSystem(*this, engine.platform(), engine.renderer(), engine.vectorRenderer()),
-    _debugSystem(*this, _interfaceSystem),
-    _inputSystem(*this, engine.platform(), engine.settings()),
-    _cameraSystem(*this),
-    _boundingBoxSystem(*this, _debugSystem),
-    _transformSystem(*this, _boundingBoxSystem),
-    _physicsSystem(*this, _transformSystem),
-    _sceneRenderer(engine.assetCache(), engine.taskPool())
+    _interface_system(*this, engine.platform(), engine.renderer(), engine.vector_renderer()),
+    _debug_system(*this, _interface_system),
+    _input_system(*this, engine.platform(), engine.settings()),
+    _camera_system(*this),
+    _bounding_box_system(*this, _debug_system),
+    _transform_system(*this, _bounding_box_system),
+    _physics_system(*this, _transform_system),
+    _scene_renderer(engine.asset_cache(), engine.task_pool())
 {
     Platform& platform = engine.platform();
-    if (platform.hasKeyboard())
+    if (platform.has_keyboard())
     {
         Keyboard& keyboard = platform.keyboard();
-        keyboard.registerListener(*this);
+        keyboard.register_listener(*this);
     }
 }
 
-void DefaultScene::preTick(Seconds timeStep)
+void DefaultScene::pre_tick(Seconds time_step)
 {
     Scene::refresh();
 
-    _inputSystem.updateAxes(timeStep);
-    _debugSystem.clearEnqueuedDebugGeometry();
+    _input_system.update_axes(time_step);
+    _debug_system.clear_enqueued_debug_geometry();
 }
 
-void DefaultScene::postTick(Seconds timeStep)
+void DefaultScene::post_tick(Seconds time_step)
 {
-    _physicsSystem.waitForSimulationTask();
-    _physicsSystem.syncWithSimulation();
-    _physicsSystem.beginSimulationTask(engine().taskPool(), timeStep);
+    _physics_system.wait_for_simulation_task();
+    _physics_system.sync_with_simulation();
+    _physics_system.begin_simulation_task(engine().task_pool(), time_step);
 
-    _transformSystem.updateCommittedTransforms();
-    _cameraSystem.updateAllCameras();
+    _transform_system.update_committed_transforms();
+    _camera_system.update_all_cameras();
 
-    _interfaceSystem.tickAllInterfaces(timeStep);
+    _interface_system.tick_all_interfaces(time_step);
 
-    if (_debugRenderingEnabled)
+    if (_debug_rendering_enabled)
     {
-        _boundingBoxSystem.renderDebugGeometry();
+        _bounding_box_system.render_debug_geometry();
     }
 
     Scene::refresh();
 }
 
-void DefaultScene::tick(Seconds timeStep)
+void DefaultScene::tick(Seconds time_step)
 {
-    preTick(timeStep);
-    postTick(timeStep);
+    pre_tick(time_step);
+    post_tick(time_step);
 }
 
 void DefaultScene::render(RenderTarget& target)
 {
     Renderer& renderer = engine().renderer();
-    _sceneRenderer.render(*this, _cameraSystem, renderer, target);
-    _interfaceSystem.renderAllInterfaces();
+    _scene_renderer.render(*this, _camera_system, renderer, target);
+    _interface_system.render_all_interfaces();
 }
 
-void DefaultScene::receiveEvent(const KeyboardEvent& event)
+void DefaultScene::receive_event(const KeyboardEvent& event)
 {
-    if (event.isKeyDown(Key::F5))
+    if (event.is_key_down(Key::F5))
     {
-        _debugRenderingEnabled = !_debugRenderingEnabled;
+        _debug_rendering_enabled = !_debug_rendering_enabled;
     }
 }
 
-InterfaceSystem& DefaultScene::interfaceSystem()
+InterfaceSystem& DefaultScene::interface_system()
 {
-    return _interfaceSystem;
+    return _interface_system;
 }
 
-DebugSystem& DefaultScene::debugSystem()
+DebugSystem& DefaultScene::debug_system()
 {
-    return _debugSystem;
+    return _debug_system;
 }
 
-InputSystem& DefaultScene::inputSystem()
+InputSystem& DefaultScene::input_system()
 {
-    return _inputSystem;
+    return _input_system;
 }
 
-CameraSystem& DefaultScene::cameraSystem()
+CameraSystem& DefaultScene::camera_system()
 {
-    return _cameraSystem;
+    return _camera_system;
 }
 
-BoundingBoxSystem& DefaultScene::boundingBoxSystem()
+BoundingBoxSystem& DefaultScene::bounding_box_system()
 {
-    return _boundingBoxSystem;
+    return _bounding_box_system;
 }
 
-TransformSystem& DefaultScene::transformSystem()
+TransformSystem& DefaultScene::transform_system()
 {
-    return _transformSystem;
+    return _transform_system;
 }
 
-PhysicsSystem& DefaultScene::physicsSystem()
+PhysicsSystem& DefaultScene::physics_system()
 {
-    return _physicsSystem;
+    return _physics_system;
 }

@@ -44,25 +44,25 @@ HECT_EXPORT void log(LogLevel level, const std::string& message);
 /// Registers a listener of log message events.
 ///
 /// \param listener The listener.
-HECT_EXPORT void registerLogListener(EventListener<LogMessageEvent>& listener);
+HECT_EXPORT void register_log_listener(EventListener<LogMessageEvent>& listener);
 
 ///
 /// Sets whether messages at the specified level are logged.
 ///
 /// \param level The level.
 /// \param enabled Whether messages at the specified level are logged.
-HECT_EXPORT void setLogLevelEnabled(LogLevel level, bool enabled);
+HECT_EXPORT void set_log_level_enabled(LogLevel level, bool enabled);
 
 ///
 /// Returns whether messages at the specified level are logged.
 ///
 /// \param level The level in question.
-HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
+HECT_EXPORT bool is_log_level_enabled(LogLevel level);
 
 // Info
 #if defined(HECT_ENABLE_LOG_INFO)
 #define HECT_INFO(message) \
-    if (hect::isLogLevelEnabled(hect::LogLevel::Info)) \
+    if (hect::is_log_level_enabled(hect::LogLevel::Info)) \
     { \
         hect::log(hect::LogLevel::Info, message); \
     }
@@ -73,7 +73,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
 // Debug
 #if defined(HECT_ENABLE_LOG_DEBUG)
 #define HECT_DEBUG(message) \
-    if (hect::isLogLevelEnabled(hect::LogLevel::Debug)) \
+    if (hect::is_log_level_enabled(hect::LogLevel::Debug)) \
     { \
         hect::log(hect::LogLevel::Debug, message); \
     }
@@ -84,7 +84,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
 // Warning
 #if defined(HECT_ENABLE_LOG_WARNING)
 #define HECT_WARNING(message) \
-    if (hect::isLogLevelEnabled(hect::LogLevel::Warning)) \
+    if (hect::is_log_level_enabled(hect::LogLevel::Warning)) \
     { \
         hect::log(hect::LogLevel::Warning, message); \
     }
@@ -95,7 +95,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
 // Error
 #if defined(HECT_ENABLE_LOG_ERROR)
 #define HECT_ERROR(message) \
-    if (hect::isLogLevelEnabled(hect::LogLevel::Error)) \
+    if (hect::is_log_level_enabled(hect::LogLevel::Error)) \
     { \
         hect::log(hect::LogLevel::Error, message); \
     }
@@ -106,7 +106,7 @@ HECT_EXPORT bool isLogLevelEnabled(LogLevel level);
 // Trace
 #if defined(HECT_ENABLE_LOG_TRACE)
 #define HECT_TRACE(message) \
-    if (hect::isLogLevelEnabled(hect::LogLevel::Trace)) \
+    if (hect::is_log_level_enabled(hect::LogLevel::Trace)) \
     { \
         hect::log(hect::LogLevel::Trace, message); \
     }

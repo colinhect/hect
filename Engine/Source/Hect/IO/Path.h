@@ -72,7 +72,7 @@ public:
 
     ///
     /// Returns the path to the parent directory of the current path.
-    Path parentDirectory() const;
+    Path parent_directory() const;
 
     ///
     /// Returns whether the path is empty.
@@ -92,11 +92,11 @@ public:
 
     ///
     /// Returns the raw path.
-    const std::string& asString() const;
+    const std::string& as_string() const;
 
     ///
     /// Returns the raw path.
-    Name asName() const;
+    Name as_name() const;
 
     ///
     /// Returns true if the path is less than another.
@@ -117,9 +117,9 @@ public:
     bool operator!=(const Path& path) const;
 
 private:
-    void setRawPath(const char* rawPath);
+    void set_raw_path(const char* raw_path);
 
-    std::string _rawPath;
+    std::string _raw_path;
 };
 
 class Encoder;

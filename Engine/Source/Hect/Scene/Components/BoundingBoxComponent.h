@@ -50,7 +50,7 @@ public:
     /// The local extents of the bounding box.
     ///
     /// \property
-    AxisAlignedBox localExtents;
+    AxisAlignedBox local_extents;
 
     ///
     /// The global extents of the bounding box.

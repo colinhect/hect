@@ -95,8 +95,8 @@ public:
 private:
     ComponentHandle(T& component);
 
-    bool isValid() const;
-    void ensureValid() const;
+    bool is_valid() const;
+    void ensure_valid() const;
     void invalidate();
 
     T* _component { nullptr };

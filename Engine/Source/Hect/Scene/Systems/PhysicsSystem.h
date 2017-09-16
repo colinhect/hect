@@ -52,39 +52,39 @@ class HECT_EXPORT PhysicsSystem :
     public System<PhysicsSystem, Components<RigidBodyComponent>>
 {
 public:
-    PhysicsSystem(Scene& scene, TransformSystem& transformSystem);
+    PhysicsSystem(Scene& scene, TransformSystem& transform_system);
     ~PhysicsSystem();
 
     ///
     /// Applies a force to a rigid body.
     ///
-    /// \param rigidBody The rigid body to apply the force to.
+    /// \param rigid_body The rigid body to apply the force to.
     /// \param force The force to apply.
-    /// \param relativePosition The position relative to the rigid body to
+    /// \param relative_position The position relative to the rigid body to
     /// apply the force from.
-    void applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition);
+    void apply_force_to_rigid_body(RigidBodyComponent& rigid_body, Vector3 force, Vector3 relative_position);
 
     ///
     /// Commits any changes made to a RigidBodyComponent to take effect.
     ///
-    /// \param rigidBody The rigid body to commit.
-    void commitRigidBody(RigidBodyComponent& rigidBody);
+    /// \param rigid_body The rigid body to commit.
+    void commit_rigid_body(RigidBodyComponent& rigid_body);
 
     ///
     /// Begins the physics simulation task.
     ///
-    /// \param taskPool The task pool.
-    /// \param timeStep The duration of time to simulate.
-    void beginSimulationTask(TaskPool& taskPool, Seconds timeStep);
+    /// \param task_pool The task pool.
+    /// \param time_step The duration of time to simulate.
+    void begin_simulation_task(TaskPool& task_pool, Seconds time_step);
 
     ///
     /// Waits for the physics simulation task to complete if it has begin.
-    void waitForSimulationTask();
+    void wait_for_simulation_task();
 
     ///
     /// Syncs the transforms of all entities with physical body components with
     /// the physics simulation.
-    void syncWithSimulation();
+    void sync_with_simulation();
 
     ///
     /// The gravitational force to apply to all rigid bodies.
@@ -97,28 +97,28 @@ private:
     class ForceApplication
     {
     public:
-        ForceApplication(btRigidBody* rigidBody, Vector3 force, Vector3 relativePosition);
+        ForceApplication(btRigidBody* rigid_body, Vector3 force, Vector3 relative_position);
 
-        btRigidBody* rigidBody;
+        btRigidBody* rigid_body;
         Vector3 force;
-        Vector3 relativePosition;
+        Vector3 relative_position;
     };
 
     // System overrides
-    void onComponentAdded(RigidBodyComponent& rigidBody) override;
-    void onComponentRemoved(RigidBodyComponent& rigidBody) override;
+    void on_component_added(RigidBodyComponent& rigid_body) override;
+    void on_component_removed(RigidBodyComponent& rigid_body) override;
 
-    TransformSystem& _transformSystem;
+    TransformSystem& _transform_system;
 
-    std::vector<ComponentId> _committedRigidBodyIds;
-    std::vector<btRigidBody*> _addedRigidBodies;
-    std::vector<btRigidBody*> _removedRigidBodies;
-    std::vector<ForceApplication> _forceApplications;
+    std::vector<ComponentId> _committed_rigid_body_ids;
+    std::vector<btRigidBody*> _added_rigid_bodies;
+    std::vector<btRigidBody*> _removed_rigid_bodies;
+    std::vector<ForceApplication> _force_applications;
 
-    Task::Handle _physicsSimulationTask;
+    Task::Handle _physics_simulation_task;
 
     // Convert a mesh to a Bullet mesh object
-    btTriangleMesh* toBulletMesh(Mesh* mesh);
+    btTriangleMesh* to_bullet_mesh(Mesh* mesh);
 
     // Bullet related
     std::shared_ptr<btCollisionConfiguration> _configuration;
@@ -126,7 +126,7 @@ private:
     std::shared_ptr<btBroadphaseInterface> _broadphase;
     std::shared_ptr<btConstraintSolver> _solver;
     std::shared_ptr<btDynamicsWorld> _world;
-    std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bulletMeshes;
+    std::map<Mesh*, std::shared_ptr<btTriangleMesh>> _bullet_meshes;
 };
 
 }

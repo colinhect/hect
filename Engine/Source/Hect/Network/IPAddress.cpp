@@ -31,17 +31,17 @@ IPAddress::IPAddress()
 {
 }
 
-IPAddress::IPAddress(const char* hostName)
+IPAddress::IPAddress(const char* host_name)
 {
     ENetAddress address = { 0, 0 };
-    if (enet_address_set_host(&address, hostName) == 0)
+    if (enet_address_set_host(&address, host_name) == 0)
     {
         _address = address.host;
     }
 }
 
-IPAddress::IPAddress(const std::string& hostName) :
-    IPAddress(hostName.data())
+IPAddress::IPAddress(const std::string& host_name) :
+    IPAddress(host_name.data())
 {
 }
 
@@ -50,20 +50,20 @@ IPAddress::IPAddress(uint32_t address) :
 {
 }
 
-bool IPAddress::isValid() const
+bool IPAddress::is_valid() const
 {
     return _address != 0;
 }
 
-std::string IPAddress::asString() const
+std::string IPAddress::as_string() const
 {
     ENetAddress address = { 0, 0 };
     address.host = _address;
 
-    char hostName[128];
-    if (enet_address_get_host_ip(&address, hostName, sizeof(hostName)) == 0)
+    char host_name[128];
+    if (enet_address_get_host_ip(&address, host_name, sizeof(host_name)) == 0)
     {
-        return hostName;
+        return host_name;
     }
     else
     {

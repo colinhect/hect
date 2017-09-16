@@ -29,11 +29,11 @@
 
 using namespace hect;
 
-void VectorRenderer::Frame::pushState()
+void VectorRenderer::Frame::push_state()
 {
 }
 
-void VectorRenderer::Frame::popState()
+void VectorRenderer::Frame::pop_state()
 {
 }
 
@@ -42,28 +42,28 @@ void VectorRenderer::Frame::translate(Vector2 translation)
     (void)translation;
 }
 
-void VectorRenderer::Frame::beginPath()
+void VectorRenderer::Frame::begin_path()
 {
 }
 
-void VectorRenderer::Frame::setFillColor(Color color)
+void VectorRenderer::Frame::set_fill_color(Color color)
 {
     (void)color;
 }
 
-void VectorRenderer::Frame::setFillGradient(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor)
+void VectorRenderer::Frame::set_fill_gradient(Vector2 start_position, Vector2 end_position, Color start_color, Color end_color)
 {
-    (void)startPosition;
-    (void)endPosition;
-    (void)startColor;
-    (void)endColor;
+    (void)start_position;
+    (void)end_position;
+    (void)start_color;
+    (void)end_color;
 }
 
 void VectorRenderer::Frame::fill()
 {
 }
 
-void VectorRenderer::Frame::setStrokeColor(Color color)
+void VectorRenderer::Frame::set_stroke_color(Color color)
 {
     (void)color;
 }
@@ -77,23 +77,23 @@ void VectorRenderer::Frame::rectangle(Rectangle rectangle)
     (void)rectangle;
 }
 
-void VectorRenderer::Frame::setClipping(Rectangle clipping)
+void VectorRenderer::Frame::set_clipping(Rectangle clipping)
 {
     (void)clipping;
 }
 
-void VectorRenderer::Frame::setFont(const Font& font, double size)
+void VectorRenderer::Frame::set_font(const Font& font, double size)
 {
     (void)font;
     (void)size;
 }
 
-void VectorRenderer::Frame::renderText(const std::string& text)
+void VectorRenderer::Frame::render_text(const std::string& text)
 {
     (void)text;
 }
 
-Vector2 VectorRenderer::measureTextDimensions(const std::string& text, const Font& font, double size)
+Vector2 VectorRenderer::measure_text_dimensions(const std::string& text, const Font& font, double size)
 {
     (void)text;
     (void)font;
@@ -110,12 +110,12 @@ void VectorRenderer::shutdown()
 {
 }
 
-void VectorRenderer::onBeginFrame(RenderTarget& target)
+void VectorRenderer::on_begin_frame(RenderTarget& target)
 {
     (void)target;
 }
 
-void VectorRenderer::onEndFrame()
+void VectorRenderer::on_end_frame()
 {
 }
 

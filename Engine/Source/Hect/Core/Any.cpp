@@ -73,12 +73,12 @@ Any& Any::operator=(Any&& any)
     return *this;
 }
 
-bool Any::hasValue() const
+bool Any::has_value() const
 {
     return _container != nullptr;
 }
 
 Any::operator bool() const
 {
-    return hasValue();
+    return has_value();
 }

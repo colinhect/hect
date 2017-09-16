@@ -53,47 +53,47 @@ public:
     ///
     /// Returns the type id for the specified System type index.
     ///
-    /// \param typeIndex The type index of the system type to get the id of.
+    /// \param type_index The type index of the system type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type index does not
     /// correspond to a registered system type.
-    static SystemTypeId typeIdOf(std::type_index typeIndex);
+    static SystemTypeId type_id_of(std::type_index type_index);
 
     ///
     /// Returns the type id with the specified System type name.
     ///
-    /// \param typeName The type name of the system type to get the id of.
+    /// \param type_name The type name of the system type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type name does not
     /// correspond to a registered system type.
-    static SystemTypeId typeIdOf(Name typeName);
+    static SystemTypeId type_id_of(Name type_name);
 
     ///
     /// Returns the System type name with the specified SystemTypeId.
     ///
-    /// \param typeId The type id of the system type to get the type name of.
-    static Name typeNameOf(SystemTypeId typeId);
+    /// \param type_id The type id of the system type to get the type name of.
+    static Name type_name_of(SystemTypeId type_id);
 
     ///
     /// Returns whether the specified type id is registered with a
     /// System type.
     ///
-    /// \param typeId The type id to check.
+    /// \param type_id The type id to check.
     ///
     /// \returns True if the type id is a registered system type id; false
     /// otherwise.
-    static bool isRegisteredTypeId(SystemTypeId typeId);
+    static bool is_registered_type_id(SystemTypeId type_id);
 
     ///
     /// Returns a sequence of all of the registered type ids.
-    static SystemTypeIdSequence typeIds();
+    static SystemTypeIdSequence type_ids();
 
     ///
     /// Registers a System type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
-    static void registerType();
+    static void register_type();
 
     ///
     /// Returns the type id for the specified System type.
@@ -101,15 +101,15 @@ public:
     /// \throws InvalidOperation If the specified type is not a registered
     /// system type.
     template <typename T>
-    static SystemTypeId typeIdOf();
+    static SystemTypeId type_id_of();
 
 private:
     SystemRegistry() = delete;
 
-    static std::map<SystemTypeId, Name> _typeIdToName;
-    static std::map<Name, SystemTypeId> _typeNameToId;
-    static std::map<std::type_index, SystemTypeId> _typeIndexToId;
-    static SystemTypeIdContainer _typeIds;
+    static std::map<SystemTypeId, Name> _type_id_to_name;
+    static std::map<Name, SystemTypeId> _type_name_to_id;
+    static std::map<std::type_index, SystemTypeId> _type_index_to_id;
+    static SystemTypeIdContainer _type_ids;
 
     typedef std::function<std::shared_ptr<SystemBase>(Engine&, Scene&)> SystemConstructor;
 };

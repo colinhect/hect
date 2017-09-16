@@ -26,113 +26,113 @@
 namespace hect
 {
 
-Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray)
+Encoder& operator<<(Encoder& encoder, const BeginArray& begin_array)
 {
-    if (beginArray.name)
+    if (begin_array.name)
     {
-        encoder.selectMember(beginArray.name);
+        encoder.select_member(begin_array.name);
     }
-    encoder.beginArray();
+    encoder.begin_array();
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, const EndArray&)
 {
-    encoder.endArray();
+    encoder.end_array();
     return encoder;
 }
 
-Encoder& operator<<(Encoder& encoder, const BeginObject& beginObject)
+Encoder& operator<<(Encoder& encoder, const BeginObject& begin_object)
 {
-    if (beginObject.name)
+    if (begin_object.name)
     {
-        encoder.selectMember(beginObject.name);
+        encoder.select_member(begin_object.name);
     }
-    encoder.beginObject();
+    encoder.begin_object();
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, const EndObject&)
 {
-    encoder.endObject();
+    encoder.end_object();
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, const char* value)
 {
-    encoder.encodeString(value);
+    encoder.encode_string(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, const std::string& value)
 {
-    encoder.encodeString(value);
+    encoder.encode_string(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, int8_t value)
 {
-    encoder.encodeInt8(value);
+    encoder.encode_int8(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, uint8_t value)
 {
-    encoder.encodeUInt8(value);
+    encoder.encode_u_int8(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, int16_t value)
 {
-    encoder.encodeInt16(value);
+    encoder.encode_int16(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, uint16_t value)
 {
-    encoder.encodeUInt16(value);
+    encoder.encode_u_int16(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, int32_t value)
 {
-    encoder.encodeInt32(value);
+    encoder.encode_int32(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, uint32_t value)
 {
-    encoder.encodeUInt32(value);
+    encoder.encode_u_int32(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, int64_t value)
 {
-    encoder.encodeInt64(value);
+    encoder.encode_int64(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, uint64_t value)
 {
-    encoder.encodeUInt64(value);
+    encoder.encode_u_int64(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, float value)
 {
-    encoder.encodeFloat32(value);
+    encoder.encode_float32(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, double value)
 {
-    encoder.encodeFloat64(value);
+    encoder.encode_float64(value);
     return encoder;
 }
 
 Encoder& operator<<(Encoder& encoder, bool value)
 {
-    encoder.encodeBool(value);
+    encoder.encode_bool(value);
     return encoder;
 }
 

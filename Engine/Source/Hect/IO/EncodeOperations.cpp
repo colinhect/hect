@@ -46,32 +46,32 @@ BeginObject::BeginObject(const char* name) :
 namespace hect
 {
 
-BeginArray beginArray()
+BeginArray begin_array()
 {
     return BeginArray();
 }
 
-BeginArray beginArray(const char* name)
+BeginArray begin_array(const char* name)
 {
     return BeginArray(name);
 }
 
-EndArray endArray()
+EndArray end_array()
 {
     return EndArray();
 }
 
-BeginObject beginObject()
+BeginObject begin_object()
 {
     return BeginObject();
 }
 
-BeginObject beginObject(const char* name)
+BeginObject begin_object(const char* name)
 {
     return BeginObject(name);
 }
 
-EndObject endObject()
+EndObject end_object()
 {
     return EndObject();
 }

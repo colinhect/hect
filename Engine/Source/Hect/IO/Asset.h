@@ -60,13 +60,13 @@ public:
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(Name name);
+    void set_name(Name name);
 
     ///
     /// Returns an unowned handle to the asset.
     ///
     /// \warning The lifetime of the asset must out-live the handle.
-    AssetHandle<T> createHandle();
+    AssetHandle<T> create_handle();
 
 private:
     Name _name;

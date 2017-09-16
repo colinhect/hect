@@ -43,18 +43,18 @@ public:
     /// Reads raw bytes from the stream.
     ///
     /// \param bytes A pointer to the bytes to read to.
-    /// \param byteCount The number of bytes to read.
+    /// \param byte_count The number of bytes to read.
     ///
     /// \throws IOError If an error occurs during the read.
-    virtual void read(uint8_t* bytes, size_t byteCount) = 0;
+    virtual void read(uint8_t* bytes, size_t byte_count) = 0;
 
     ///
     /// Reads entire contents of the remainder of the stream to a string.
-    std::string readAllToString();
+    std::string read_all_to_string();
 
     ///
     /// Returns whether the end of the stream has been reached.
-    virtual bool endOfStream() const = 0;
+    virtual bool end_of_stream() const = 0;
 
     ///
     /// Returns the length of the stream in bytes.

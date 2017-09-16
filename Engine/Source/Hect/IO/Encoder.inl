@@ -25,49 +25,49 @@ namespace hect
 {
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue)
+Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encode_value)
 {
-    if (encodeValue.name)
+    if (encode_value.name)
     {
-        encoder.selectMember(encodeValue.name);
+        encoder.select_member(encode_value.name);
     }
-    encoder << encodeValue.value;
+    encoder << encode_value.value;
     return encoder;
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector)
+Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector)
 {
-    if (encodeVector.name)
+    if (encode_vector.name)
     {
-        encoder.selectMember(encodeVector.name);
+        encoder.select_member(encode_vector.name);
     }
-    encoder << beginArray();
+    encoder << begin_array();
 
-    for (const T& value : encodeVector.values)
+    for (const T& value : encode_vector.values)
     {
-        encoder << encodeValue(value);
+        encoder << encode_value(value);
     }
 
-    encoder << endArray();
+    encoder << end_array();
     return encoder;
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum)
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encode_enum)
 {
-    if (encodeEnum.name)
+    if (encode_enum.name)
     {
-        encoder.selectMember(encodeEnum.name);
+        encoder.select_member(encode_enum.name);
     }
 
-    if (encoder.isBinaryStream())
+    if (encoder.is_binary_stream())
     {
-        encoder << encodeValue(static_cast<uint8_t>(encodeEnum.value));
+        encoder << encode_value(static_cast<uint8_t>(encode_enum.value));
     }
     else
     {
-        encoder << encodeValue(Enum::toString<T>(encodeEnum.value));
+        encoder << encode_value(Enum::to_string<T>(encode_enum.value));
     }
     return encoder;
 }

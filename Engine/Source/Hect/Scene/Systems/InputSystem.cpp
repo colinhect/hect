@@ -32,16 +32,16 @@ InputSystem::InputSystem(Scene& scene, Platform& platform, const DataValue& sett
     System(scene),
     _platform(platform)
 {
-    for (const DataValue& axisValue : settings["inputAxes"])
+    for (const DataValue& axis_value : settings["input_axes"])
     {
         try
         {
             InputAxis axis;
 
-            DataValueDecoder decoder(axisValue);
-            decoder >> decodeValue(axis);
+            DataValueDecoder decoder(axis_value);
+            decoder >> decode_value(axis);
 
-            addAxis(axis);
+            add_axis(axis);
         }
         catch (const DecodeError& error)
         {
@@ -50,7 +50,7 @@ InputSystem::InputSystem(Scene& scene, Platform& platform, const DataValue& sett
     }
 }
 
-void InputSystem::addAxis(const InputAxis& axis)
+void InputSystem::add_axis(const InputAxis& axis)
 {
     auto it = _axes.find(axis.name());
     if (it != _axes.end())
@@ -68,7 +68,7 @@ void InputSystem::addAxis(const InputAxis& axis)
     HECT_INFO(format("Added input axis '%s'", axis.name().data()));
 }
 
-double InputSystem::axisValue(Name name) const
+double InputSystem::axis_value(Name name) const
 {
     auto it = _axes.find(name);
     if (it != _axes.end())
@@ -79,12 +79,12 @@ double InputSystem::axisValue(Name name) const
     return 0.0;
 }
 
-void InputSystem::updateAxes(Seconds timeStep)
+void InputSystem::update_axes(Seconds time_step)
 {
     // Update each axis
     for (auto& pair : _axes)
     {
         InputAxis& axis = pair.second;
-        axis.update(_platform, timeStep);
+        axis.update(_platform, time_step);
     }
 }

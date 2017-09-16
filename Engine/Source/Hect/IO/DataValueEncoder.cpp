@@ -29,145 +29,145 @@ DataValueEncoder::DataValueEncoder()
 {
 }
 
-DataValueEncoder::ValueSequence DataValueEncoder::dataValues()
+DataValueEncoder::ValueSequence DataValueEncoder::data_values()
 {
     return _completed;
 }
 
-bool DataValueEncoder::isBinaryStream() const
+bool DataValueEncoder::is_binary_stream() const
 {
     return false;
 }
 
-WriteStream& DataValueEncoder::binaryStream()
+WriteStream& DataValueEncoder::binary_stream()
 {
     throw InvalidOperation("The encoder is not writing to a binary stream");
 }
 
-void DataValueEncoder::beginArray()
+void DataValueEncoder::begin_array()
 {
-    _memberSelected = false;
-    _valueStack.push(DataValue(DataValueType::Array));
+    _member_selected = false;
+    _value_stack.push(DataValue(DataValueType::Array));
 }
 
-void DataValueEncoder::endArray()
+void DataValueEncoder::end_array()
 {
-    endObject();
+    end_object();
 }
 
-void DataValueEncoder::beginObject()
+void DataValueEncoder::begin_object()
 {
-    _memberSelected = false;
-    _valueStack.push(DataValue(DataValueType::Object));
+    _member_selected = false;
+    _value_stack.push(DataValue(DataValueType::Object));
 }
 
-void DataValueEncoder::endObject()
+void DataValueEncoder::end_object()
 {
-    DataValue value = _valueStack.top();
-    _valueStack.pop();
+    DataValue value = _value_stack.top();
+    _value_stack.pop();
 
-    if (_valueStack.empty())
+    if (_value_stack.empty())
     {
         _completed.push_back(value);
     }
-    else if (_valueStack.top().isArray())
+    else if (_value_stack.top().is_array())
     {
-        _valueStack.top().addElement(value);
+        _value_stack.top().add_element(value);
     }
-    else if (_valueStack.top().isObject())
+    else if (_value_stack.top().is_object())
     {
-        _valueStack.top().addMember(_nameStack.top(), value);
-        _nameStack.pop();
+        _value_stack.top().add_member(_name_stack.top(), value);
+        _name_stack.pop();
     }
 }
 
-void DataValueEncoder::selectMember(const char* name)
+void DataValueEncoder::select_member(const char* name)
 {
-    if (_valueStack.empty() || !_valueStack.top().isObject())
+    if (_value_stack.empty() || !_value_stack.top().is_object())
     {
         throw InvalidOperation("Current encoding object cannot have named members");
     }
-    _nameStack.push(name);
-    _memberSelected = true;
+    _name_stack.push(name);
+    _member_selected = true;
 }
 
-void DataValueEncoder::encodeString(const std::string& value)
+void DataValueEncoder::encode_string(const std::string& value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeInt8(int8_t value)
+void DataValueEncoder::encode_int8(int8_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeUInt8(uint8_t value)
+void DataValueEncoder::encode_u_int8(uint8_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeInt16(int16_t value)
+void DataValueEncoder::encode_int16(int16_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeUInt16(uint16_t value)
+void DataValueEncoder::encode_u_int16(uint16_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeInt32(int32_t value)
+void DataValueEncoder::encode_int32(int32_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeUInt32(uint32_t value)
+void DataValueEncoder::encode_u_int32(uint32_t value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeInt64(int64_t value)
+void DataValueEncoder::encode_int64(int64_t value)
 {
     encode(static_cast<double>(value));
 }
 
-void DataValueEncoder::encodeUInt64(uint64_t value)
+void DataValueEncoder::encode_u_int64(uint64_t value)
 {
     encode(static_cast<double>(value));
 }
 
-void DataValueEncoder::encodeFloat32(float value)
+void DataValueEncoder::encode_float32(float value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeFloat64(double value)
+void DataValueEncoder::encode_float64(double value)
 {
     encode(value);
 }
 
-void DataValueEncoder::encodeBool(bool value)
+void DataValueEncoder::encode_bool(bool value)
 {
     encode(value);
 }
 
 void DataValueEncoder::encode(const DataValue& value)
 {
-    DataValue& top = _valueStack.top();
-    if (top.isArray())
+    DataValue& top = _value_stack.top();
+    if (top.is_array())
     {
-        top.addElement(value);
+        top.add_element(value);
     }
-    else if (top.isObject())
+    else if (top.is_object())
     {
-        if (!_memberSelected)
+        if (!_member_selected)
         {
             throw InvalidOperation("Cannot encode a value to an object without first selecting a member");
         }
 
-        top.addMember(_nameStack.top(), value);
+        top.add_member(_name_stack.top(), value);
 
-        _memberSelected = false;
-        _nameStack.pop();
+        _member_selected = false;
+        _name_stack.pop();
     }
 }

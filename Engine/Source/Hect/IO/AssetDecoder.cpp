@@ -30,16 +30,16 @@
 namespace hect
 {
 
-AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
-    Decoder(assetCache)
+AssetDecoder::AssetDecoder(AssetCache& asset_cache, const Path& path) :
+    Decoder(asset_cache)
 {
-    Path resolvedPath = assetCache.resolvePath(path);
+    Path resolved_path = asset_cache.resolve_path(path);
 
-    auto stream = assetCache.fileSystem().openFileForRead(resolvedPath);
-    if (isYaml(*stream))
+    auto stream = asset_cache.file_system().open_file_for_read(resolved_path);
+    if (is_yaml(*stream))
     {
-        _dataValue.decodeFromYaml(*stream);
-        _implementation.reset(new DataValueDecoder(_dataValue, assetCache));
+        _data_value.decode_from_yaml(*stream);
+        _implementation.reset(new DataValueDecoder(_data_value, asset_cache));
     }
     else
     {
@@ -48,144 +48,144 @@ AssetDecoder::AssetDecoder(AssetCache& assetCache, const Path& path) :
         stream->read(&_data[0], length);
 
         _stream.reset(new MemoryReadStream(_data));
-        _implementation.reset(new BinaryDecoder(*_stream, assetCache));
+        _implementation.reset(new BinaryDecoder(*_stream, asset_cache));
     }
 
-    assetCache.pushDirectory(resolvedPath.parentDirectory());
+    asset_cache.push_directory(resolved_path.parent_directory());
 }
 
 AssetDecoder::~AssetDecoder()
 {
-    assetCache().popDirectory();
+    asset_cache().pop_directory();
 }
 
-bool AssetDecoder::isBinaryStream() const
+bool AssetDecoder::is_binary_stream() const
 {
     assert(_implementation);
-    return _implementation->isBinaryStream();
+    return _implementation->is_binary_stream();
 }
 
-ReadStream& AssetDecoder::binaryStream()
+ReadStream& AssetDecoder::binary_stream()
 {
     assert(_implementation);
-    return _implementation->binaryStream();
+    return _implementation->binary_stream();
 }
 
-void AssetDecoder::beginArray()
+void AssetDecoder::begin_array()
 {
     assert(_implementation);
-    _implementation->beginArray();
+    _implementation->begin_array();
 }
 
-void AssetDecoder::endArray()
+void AssetDecoder::end_array()
 {
     assert(_implementation);
-    _implementation->endArray();
+    _implementation->end_array();
 }
 
-bool AssetDecoder::hasMoreElements() const
+bool AssetDecoder::has_more_elements() const
 {
     assert(_implementation);
-    return _implementation->hasMoreElements();
+    return _implementation->has_more_elements();
 }
 
-void AssetDecoder::beginObject()
+void AssetDecoder::begin_object()
 {
     assert(_implementation);
-    return _implementation->beginObject();
+    return _implementation->begin_object();
 }
 
-void AssetDecoder::endObject()
+void AssetDecoder::end_object()
 {
     assert(_implementation);
-    return _implementation->endObject();
+    return _implementation->end_object();
 }
 
-bool AssetDecoder::selectMember(const char* name)
+bool AssetDecoder::select_member(const char* name)
 {
     assert(_implementation);
-    return _implementation->selectMember(name);
+    return _implementation->select_member(name);
 }
 
-std::vector<std::string> AssetDecoder::memberNames() const
+std::vector<std::string> AssetDecoder::member_names() const
 {
     assert(_implementation);
-    return _implementation->memberNames();
+    return _implementation->member_names();
 }
 
-std::string AssetDecoder::decodeString()
+std::string AssetDecoder::decode_string()
 {
     assert(_implementation);
-    return _implementation->decodeString();
+    return _implementation->decode_string();
 }
 
-int8_t AssetDecoder::decodeInt8()
+int8_t AssetDecoder::decode_int8()
 {
     assert(_implementation);
-    return _implementation->decodeInt8();
+    return _implementation->decode_int8();
 }
 
-uint8_t AssetDecoder::decodeUInt8()
+uint8_t AssetDecoder::decode_u_int8()
 {
     assert(_implementation);
-    return _implementation->decodeUInt8();
+    return _implementation->decode_u_int8();
 }
 
-int16_t AssetDecoder::decodeInt16()
+int16_t AssetDecoder::decode_int16()
 {
     assert(_implementation);
-    return _implementation->decodeInt16();
+    return _implementation->decode_int16();
 }
 
-uint16_t AssetDecoder::decodeUInt16()
+uint16_t AssetDecoder::decode_u_int16()
 {
     assert(_implementation);
-    return _implementation->decodeUInt16();
+    return _implementation->decode_u_int16();
 }
 
-int32_t AssetDecoder::decodeInt32()
+int32_t AssetDecoder::decode_int32()
 {
     assert(_implementation);
-    return _implementation->decodeInt32();
+    return _implementation->decode_int32();
 }
 
-uint32_t AssetDecoder::decodeUInt32()
+uint32_t AssetDecoder::decode_u_int32()
 {
     assert(_implementation);
-    return _implementation->decodeUInt32();
+    return _implementation->decode_u_int32();
 }
 
-int64_t AssetDecoder::decodeInt64()
+int64_t AssetDecoder::decode_int64()
 {
     assert(_implementation);
-    return _implementation->decodeInt64();
+    return _implementation->decode_int64();
 }
 
-uint64_t AssetDecoder::decodeUInt64()
+uint64_t AssetDecoder::decode_u_int64()
 {
     assert(_implementation);
-    return _implementation->decodeUInt64();
+    return _implementation->decode_u_int64();
 }
 
-float AssetDecoder::decodeFloat32()
+float AssetDecoder::decode_float32()
 {
     assert(_implementation);
-    return _implementation->decodeFloat32();
+    return _implementation->decode_float32();
 }
 
-double AssetDecoder::decodeFloat64()
+double AssetDecoder::decode_float64()
 {
     assert(_implementation);
-    return _implementation->decodeFloat64();
+    return _implementation->decode_float64();
 }
 
-bool AssetDecoder::decodeBool()
+bool AssetDecoder::decode_bool()
 {
     assert(_implementation);
-    return _implementation->decodeBool();
+    return _implementation->decode_bool();
 }
 
-bool AssetDecoder::isYaml(ReadStream& stream)
+bool AssetDecoder::is_yaml(ReadStream& stream)
 {
     if (stream.length() >= 3)
     {

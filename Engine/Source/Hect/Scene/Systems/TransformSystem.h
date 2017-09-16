@@ -36,10 +36,10 @@ namespace hect
 ///
 /// A transform component contains the position, rotation, and scale of the
 /// entity.  Changes made to the local position, rotation, or scale of a
-/// transform component must be updated (see TransformSystem::updateTransform())
+/// transform component must be updated (see TransformSystem::update_transform())
 /// for the effective transformation to apply to the entity and its
 /// descendants.  Alternatively, a transform component can be committed (see
-/// TransformSystem::commitTransform()) to mark the transform to be updated at
+/// TransformSystem::commit_transform()) to mark the transform to be updated at
 /// some point in the current frame.
 ///
 /// \system
@@ -47,7 +47,7 @@ class HECT_EXPORT TransformSystem :
     public System<TransformSystem, Components<TransformComponent>>
 {
 public:
-    TransformSystem(Scene& scene, BoundingBoxSystem& boundingBoxSystem);
+    TransformSystem(Scene& scene, BoundingBoxSystem& bounding_box_system);
 
     ///
     /// Commits any changes made to a TransformComponent to take effect.
@@ -55,7 +55,7 @@ public:
     /// \param transform The transform to commit.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void commitTransform(TransformComponent& transform);
+    void commit_transform(TransformComponent& transform);
 
     ///
     /// Updates the global components of a TransformComponent based on the transform
@@ -64,23 +64,23 @@ public:
     /// \param transform The transform to update.
     ///
     /// \throws InvalidOperation If the transform is not dynamic.
-    void updateTransform(TransformComponent& transform);
+    void update_transform(TransformComponent& transform);
 
     ///
     /// Updates the global components of all committed TransformComponent%s
     /// based on the transform hierarchy.
-    void updateCommittedTransforms();
+    void update_committed_transforms();
 
 private:
-    void updateRecursively(Entity& parent, Entity& child);
+    void update_recursively(Entity& parent, Entity& child);
 
     // System overrides
-    void onComponentAdded(TransformComponent& transform) override;
-    void onComponentRemoved(TransformComponent& transform) override;
+    void on_component_added(TransformComponent& transform) override;
+    void on_component_removed(TransformComponent& transform) override;
 
-    BoundingBoxSystem& _boundingBoxSystem;
+    BoundingBoxSystem& _bounding_box_system;
 
-    std::vector<ComponentId> _committedTransformIds;
+    std::vector<ComponentId> _committed_transform_ids;
 };
 
 }

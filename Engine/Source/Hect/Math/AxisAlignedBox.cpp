@@ -37,26 +37,26 @@ AxisAlignedBox::AxisAlignedBox(Vector3 minimum, Vector3 maximum) :
 {
 }
 
-void AxisAlignedBox::expandToInclude(Vector3 point)
+void AxisAlignedBox::expand_to_include(Vector3 point)
 {
-    mergeMinimum(point);
-    mergeMaximum(point);
+    merge_minimum(point);
+    merge_maximum(point);
 }
 
-void AxisAlignedBox::expandToInclude(const AxisAlignedBox& box)
+void AxisAlignedBox::expand_to_include(const AxisAlignedBox& box)
 {
-    if (!box.hasSize())
+    if (!box.has_size())
     {
         return;
     }
-    else if (!hasSize())
+    else if (!has_size())
     {
         *this = box;
         return;
     }
 
-    mergeMinimum(box._minimum);
-    mergeMaximum(box._maximum);
+    merge_minimum(box._minimum);
+    merge_maximum(box._maximum);
 }
 
 void AxisAlignedBox::translate(Vector3 translation)
@@ -94,7 +94,7 @@ void AxisAlignedBox::rotate(Quaternion rotation)
 
     for (size_t i = 0; i < 8; ++i)
     {
-        expandToInclude(points[i]);
+        expand_to_include(points[i]);
     }
 }
 
@@ -118,12 +118,12 @@ Vector3 AxisAlignedBox::center() const
     return _minimum + size() * 0.5;
 }
 
-bool AxisAlignedBox::hasSize() const
+bool AxisAlignedBox::has_size() const
 {
     return _flags != 0;
 }
 
-void AxisAlignedBox::mergeMinimum(Vector3 point)
+void AxisAlignedBox::merge_minimum(Vector3 point)
 {
     if (!(_flags & MinX) || point.x < _minimum.x)
     {
@@ -144,7 +144,7 @@ void AxisAlignedBox::mergeMinimum(Vector3 point)
     }
 }
 
-void AxisAlignedBox::mergeMaximum(Vector3 point)
+void AxisAlignedBox::merge_maximum(Vector3 point)
 {
     if (!(_flags & MaxX) || point.x > _maximum.x)
     {
@@ -167,12 +167,12 @@ void AxisAlignedBox::mergeMaximum(Vector3 point)
 
 void AxisAlignedBox::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("minimum", _minimum)
-            << encodeValue("maximum", _maximum);
+    encoder << encode_value("minimum", _minimum)
+            << encode_value("maximum", _maximum);
 }
 
 void AxisAlignedBox::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("minimum", _minimum, true)
-            >> decodeValue("maximum", _maximum, true);
+    decoder >> decode_value("minimum", _minimum, true)
+            >> decode_value("maximum", _maximum, true);
 }

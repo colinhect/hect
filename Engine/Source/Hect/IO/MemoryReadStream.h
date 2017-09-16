@@ -46,8 +46,8 @@ public:
     /// \param data The data to read from.
     MemoryReadStream(const ByteVector& data);
 
-    void read(uint8_t* bytes, size_t byteCount) override;
-    bool endOfStream() const override;
+    void read(uint8_t* bytes, size_t byte_count) override;
+    bool end_of_stream() const override;
     size_t length() const override;
     size_t position() const override;
     void seek(size_t position) override;

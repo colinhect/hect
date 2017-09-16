@@ -39,8 +39,8 @@ public:
     ///
     /// Constructs an empty panel widget.
     ///
-    /// \param interfaceSystem The interface system.
-    PanelWidget(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    PanelWidget(InterfaceSystem& interface_system);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, Rectangle clipping) override;

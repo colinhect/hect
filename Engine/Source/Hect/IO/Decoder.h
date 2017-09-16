@@ -47,8 +47,8 @@ public:
     ///
     /// Constructs a decoder.
     ///
-    /// \param assetCache The asset cache to load further assets from.
-    Decoder(AssetCache& assetCache);
+    /// \param asset_cache The asset cache to load further assets from.
+    Decoder(AssetCache& asset_cache);
 
     virtual ~Decoder() { }
 
@@ -57,18 +57,18 @@ public:
     /// decoding.
     ///
     /// \throws InvalidOperation If the decoder has no asset cache.
-    AssetCache& assetCache();
+    AssetCache& asset_cache();
 
     ///
     /// Returns whether the decoder is reading from a binary stream.
-    virtual bool isBinaryStream() const = 0;
+    virtual bool is_binary_stream() const = 0;
 
     ///
     /// Returns the raw binary stream.
     ///
     /// \throws InvalidOperation If the decoder is not reading from a binary
     /// stream.
-    virtual ReadStream& binaryStream() = 0;
+    virtual ReadStream& binary_stream() = 0;
 
     ///
     /// Begins an array.
@@ -76,10 +76,10 @@ public:
     /// \note Values decoded following this call will be decoded as elements
     /// from the array.  Attempting to decode values past the end of the array
     /// will result in an error being thrown.  Whether there are any more
-    /// elements left in the array can be queried using hasMoreElements().
+    /// elements left in the array can be queried using has_more_elements().
     ///
     /// \throws InvalidOperation If the next value to decode is not an array.
-    virtual void beginArray() = 0;
+    virtual void begin_array() = 0;
 
     ///
     /// Ends an array.
@@ -87,32 +87,32 @@ public:
     /// \note An array cannot be ended before all elements are decoded from it.
     ///
     /// \throws InvalidOperation If an array was not started using
-    /// beginArray().
-    virtual void endArray() = 0;
+    /// begin_array().
+    virtual void end_array() = 0;
 
     ///
     /// Returns whether there are more elements available to be decoded in the
     /// current array.
     ///
     /// \throws InvalidOperation If an array was not started using
-    /// beginArray().
-    virtual bool hasMoreElements() const = 0;
+    /// begin_array().
+    virtual bool has_more_elements() const = 0;
 
     ///
     /// Begins an object.
     ///
     /// \note The specific members of an object can be targeted using
-    /// selectMember().
+    /// select_member().
     ///
     /// \throws InvalidOperation If the next value to decode is not an object.
-    virtual void beginObject() = 0;
+    virtual void begin_object() = 0;
 
     ///
     /// Ends an object.
     ///
     /// \throws InvalidOperation If an object was not started using
-    /// beginObject().
-    virtual void endObject() = 0;
+    /// begin_object().
+    virtual void end_object() = 0;
 
     ///
     /// Selects a specific member of the object.
@@ -125,103 +125,103 @@ public:
     /// \returns True if the member exists and was selected; false otherwise.
     ///
     /// \throws InvalidOperation If an object was not started using
-    /// beginObject().
-    virtual bool selectMember(const char* name) = 0;
+    /// begin_object().
+    virtual bool select_member(const char* name) = 0;
 
     ///
     /// Returns the names of the members of the object.
     ///
     /// \throws InvalidOperation If an object was not started using
-    /// beginObject().
-    virtual std::vector<std::string> memberNames() const = 0;
+    /// begin_object().
+    virtual std::vector<std::string> member_names() const = 0;
 
     ///
     /// Decodes a string.
     ///
     /// \returns The decoded value.
-    virtual std::string decodeString() = 0;
+    virtual std::string decode_string() = 0;
 
     ///
     /// Decodes an 8-bit signed integer.
     ///
     /// \returns The decoded value.
-    virtual int8_t decodeInt8() = 0;
+    virtual int8_t decode_int8() = 0;
 
     ///
     /// Decodes an 8-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint8_t decodeUInt8() = 0;
+    virtual uint8_t decode_u_int8() = 0;
 
     ///
     /// Decodes a 16-bit signed integer.
     ///
     /// \returns The decoded value.
-    virtual int16_t decodeInt16() = 0;
+    virtual int16_t decode_int16() = 0;
 
     ///
     /// Decodes a 16-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint16_t decodeUInt16() = 0;
+    virtual uint16_t decode_u_int16() = 0;
 
     ///
     /// Decodes a 32-bit signed integer.
     ///
     /// \returns The decoded value.
-    virtual int32_t decodeInt32() = 0;
+    virtual int32_t decode_int32() = 0;
 
     ///
     /// Decodes a 32-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint32_t decodeUInt32() = 0;
+    virtual uint32_t decode_u_int32() = 0;
 
     ///
     /// Decodes a 64-bit signed integer.
     ///
     /// \returns The decoded value.
-    virtual int64_t decodeInt64() = 0;
+    virtual int64_t decode_int64() = 0;
 
     ///
     /// Decodes a 64-bit unsigned integer.
     ///
     /// \returns The decoded value.
-    virtual uint64_t decodeUInt64() = 0;
+    virtual uint64_t decode_u_int64() = 0;
 
     ///
     /// Decodes a 32-bit floating point number.
     ///
     /// \returns The decoded value.
-    virtual float decodeFloat32() = 0;
+    virtual float decode_float32() = 0;
 
     ///
     /// Decodes a 64-bit floating point number.
     ///
     /// \returns The decoded value.
-    virtual double decodeFloat64() = 0;
+    virtual double decode_float64() = 0;
 
     ///
     /// Decodes a boolean.
     ///
     /// \returns The decoded value.
-    virtual bool decodeBool() = 0;
+    virtual bool decode_bool() = 0;
 
 private:
-    AssetCache* _assetCache { nullptr };
+    AssetCache* _asset_cache { nullptr };
 };
 
-HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginArray& beginArray);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginArray& begin_array);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndArray&);
 
-HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginObject& beginObject);
+HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginObject& begin_object);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndObject&);
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue);
+Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decode_value);
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum);
+Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decode_enum);
 
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, std::string& value);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, int8_t& value);

@@ -49,10 +49,10 @@ public:
 
     ///
     /// Swaps the back buffer of the window.
-    void swapBuffers();
+    void swap_buffers();
 
 private:
-    Window(const std::string& title, const VideoMode& videoMode);
+    Window(const std::string& title, const VideoMode& video_mode);
 };
 
 }

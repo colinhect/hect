@@ -45,39 +45,39 @@ using namespace hect;
 namespace
 {
 
-btVector3 convertToBullet(Vector3 v)
+btVector3 convert_to_bullet(Vector3 v)
 {
     return btVector3(v.x, v.y, v.z);
 }
 
-btQuaternion convertToBullet(Quaternion q)
+btQuaternion convert_to_bullet(Quaternion q)
 {
     return btQuaternion(q.x, q.y, q.z, -q.w);
 }
 
-btTransform convertToBullet(const TransformComponent& t)
+btTransform convert_to_bullet(const TransformComponent& t)
 {
     btTransform transform;
-    transform.setOrigin(convertToBullet(t.globalPosition));
-    transform.setRotation(convertToBullet(t.globalRotation));
+    transform.setOrigin(convert_to_bullet(t.global_position));
+    transform.setRotation(convert_to_bullet(t.global_rotation));
     return transform;
 }
 
-btTriangleMesh* convertToBullet(const Mesh& m)
+btTriangleMesh* convert_to_bullet(const Mesh& m)
 {
-    MeshReader meshReader(m);
+    MeshReader mesh_reader(m);
 
     std::vector<btVector3> vertices;
-    while (meshReader.nextVertex())
+    while (mesh_reader.next_vertex())
     {
-        Vector3 position = meshReader.readAttributeVector3(VertexAttributeSemantic::Position);
-        vertices.push_back(convertToBullet(position));
+        Vector3 position = mesh_reader.read_attribute_vector3(VertexAttributeSemantic::Position);
+        vertices.push_back(convert_to_bullet(position));
     }
 
     std::vector<size_t> indices;
-    while (meshReader.nextIndex())
+    while (mesh_reader.next_index())
     {
-        indices.push_back(meshReader.readIndexUInt32());
+        indices.push_back(mesh_reader.read_index_u_int32());
     }
 
     btTriangleMesh* mesh = new btTriangleMesh();
@@ -89,30 +89,30 @@ btTriangleMesh* convertToBullet(const Mesh& m)
     return mesh;
 }
 
-Vector3 convertFromBullet(const btVector3& v)
+Vector3 convert_from_bullet(const btVector3& v)
 {
     return Vector3(v.x(), v.y(), v.z());
 }
 
-Quaternion convertFromBullet(const btQuaternion& q)
+Quaternion convert_from_bullet(const btQuaternion& q)
 {
     return Quaternion(q.x(), q.y(), q.z(), -q.w());
 }
 
-TransformComponent convertFromBullet(const btTransform& t)
+TransformComponent convert_from_bullet(const btTransform& t)
 {
     TransformComponent transform;
-    transform.localPosition = convertFromBullet(t.getOrigin());
-    transform.localRotation = convertFromBullet(t.getRotation());
+    transform.local_position = convert_from_bullet(t.getOrigin());
+    transform.local_rotation = convert_from_bullet(t.getRotation());
     return transform;
 }
 
 }
 
-PhysicsSystem::PhysicsSystem(Scene& scene, TransformSystem& transformSystem) :
+PhysicsSystem::PhysicsSystem(Scene& scene, TransformSystem& transform_system) :
     System(scene),
     gravity(Vector3(0, 0, -9.8)),
-    _transformSystem(transformSystem),
+    _transform_system(transform_system),
     _configuration(new btDefaultCollisionConfiguration()),
     _dispatcher(new btCollisionDispatcher(_configuration.get())),
     _broadphase(new btDbvtBroadphase()),
@@ -123,152 +123,152 @@ PhysicsSystem::PhysicsSystem(Scene& scene, TransformSystem& transformSystem) :
 
 PhysicsSystem::~PhysicsSystem()
 {
-    waitForSimulationTask();
+    wait_for_simulation_task();
 }
 
-void PhysicsSystem::applyForceToRigidBody(RigidBodyComponent& rigidBody, Vector3 force, Vector3 relativePosition)
+void PhysicsSystem::apply_force_to_rigid_body(RigidBodyComponent& rigid_body, Vector3 force, Vector3 relative_position)
 {
-    btRigidBody* bulletRigidBody = rigidBody._rigidBody.get();
-    _forceApplications.emplace_back(bulletRigidBody, force, relativePosition);
+    btRigidBody* bullet_rigid_body = rigid_body._rigid_body.get();
+    _force_applications.emplace_back(bullet_rigid_body, force, relative_position);
 }
 
-void PhysicsSystem::commitRigidBody(RigidBodyComponent& rigidBody)
+void PhysicsSystem::commit_rigid_body(RigidBodyComponent& rigid_body)
 {
-    const ComponentId id = rigidBody.id();
-    _committedRigidBodyIds.push_back(id);
+    const ComponentId id = rigid_body.id();
+    _committed_rigid_body_ids.push_back(id);
 }
 
-void PhysicsSystem::beginSimulationTask(TaskPool& taskPool, Seconds timeStep)
+void PhysicsSystem::begin_simulation_task(TaskPool& task_pool, Seconds time_step)
 {
-    _physicsSimulationTask = taskPool.enqueue([this, timeStep]
+    _physics_simulation_task = task_pool.enqueue([this, time_step]
     {
-        _world->stepSimulation(timeStep.value, 4);
+        _world->stepSimulation(time_step.value, 4);
     });
 }
 
-void PhysicsSystem::waitForSimulationTask()
+void PhysicsSystem::wait_for_simulation_task()
 {
-    if (_physicsSimulationTask)
+    if (_physics_simulation_task)
     {
-        _physicsSimulationTask->wait();
+        _physics_simulation_task->wait();
     }
 }
 
-void PhysicsSystem::syncWithSimulation()
+void PhysicsSystem::sync_with_simulation()
 {
-    ComponentPool<RigidBodyComponent>& rigidBodyComponents = scene().components<RigidBodyComponent>();
-    for (ComponentId id : _committedRigidBodyIds)
+    ComponentPool<RigidBodyComponent>& rigid_body_components = scene().components<RigidBodyComponent>();
+    for (ComponentId id : _committed_rigid_body_ids)
     {
-        RigidBodyComponent& rigidBody = rigidBodyComponents.withId(id);
-        rigidBody._rigidBody->setLinearVelocity(convertToBullet(rigidBody.linearVelocity));
-        rigidBody._rigidBody->setAngularVelocity(convertToBullet(rigidBody.angularVelocity));
+        RigidBodyComponent& rigid_body = rigid_body_components.with_id(id);
+        rigid_body._rigid_body->setLinearVelocity(convert_to_bullet(rigid_body.linear_velocity));
+        rigid_body._rigid_body->setAngularVelocity(convert_to_bullet(rigid_body.angular_velocity));
     }
-    _committedRigidBodyIds.clear();
+    _committed_rigid_body_ids.clear();
 
     // Add new rigid bodies to the Bullet world
-    for (btRigidBody* rigidBody : _addedRigidBodies)
+    for (btRigidBody* rigid_body : _added_rigid_bodies)
     {
-        _world->addRigidBody(rigidBody);
+        _world->addRigidBody(rigid_body);
     }
-    _addedRigidBodies.clear();
+    _added_rigid_bodies.clear();
 
     // Apply forces to rigid bodies
-    for (ForceApplication& forceApplication : _forceApplications)
+    for (ForceApplication& force_application : _force_applications)
     {
-        btRigidBody* rigidBody = forceApplication.rigidBody;
-        if (rigidBody)
+        btRigidBody* rigid_body = force_application.rigid_body;
+        if (rigid_body)
         {
-            const btVector3 force = convertToBullet(forceApplication.force);
-            const btVector3 relativePosition = convertToBullet(forceApplication.relativePosition);
-            rigidBody->applyForce(force, relativePosition);
+            const btVector3 force = convert_to_bullet(force_application.force);
+            const btVector3 relative_position = convert_to_bullet(force_application.relative_position);
+            rigid_body->applyForce(force, relative_position);
         }
     }
-    _forceApplications.clear();
+    _force_applications.clear();
 
     // Remove old rigid bodies from the Bullet world
-    for (btRigidBody* rigidBody : _removedRigidBodies)
+    for (btRigidBody* rigid_body : _removed_rigid_bodies)
     {
-        _world->removeRigidBody(rigidBody);
+        _world->removeRigidBody(rigid_body);
     }
-    _removedRigidBodies.clear();
+    _removed_rigid_bodies.clear();
 
     // Update gravity if needed
-    Vector3 bulletGravity = convertFromBullet(_world->getGravity());
-    if (gravity != bulletGravity)
+    Vector3 bullet_gravity = convert_from_bullet(_world->getGravity());
+    if (gravity != bullet_gravity)
     {
-        _world->setGravity(convertToBullet(gravity));
+        _world->setGravity(convert_to_bullet(gravity));
     }
 
     // For each rigid body component
-    for (RigidBodyComponent& rigidBody : scene().components<RigidBodyComponent>())
+    for (RigidBodyComponent& rigid_body : scene().components<RigidBodyComponent>())
     {
-        Entity& entity = rigidBody.entity();
-        if (!entity.parent() && entity.hasComponent<TransformComponent>())
+        Entity& entity = rigid_body.entity();
+        if (!entity.parent() && entity.has_component<TransformComponent>())
         {
             auto& transform = entity.component<TransformComponent>();
 
             // Update the transform to what Bullet says it should be
-            btTransform bulletTransform;
-            static_cast<btDefaultMotionState*>(rigidBody._rigidBody->getMotionState())->getWorldTransform(bulletTransform);
+            btTransform bullet_transform;
+            static_cast<btDefaultMotionState*>(rigid_body._rigid_body->getMotionState())->getWorldTransform(bullet_transform);
 
-            TransformComponent newTransform = convertFromBullet(bulletTransform);
-            transform.localPosition = newTransform.localPosition;
-            transform.localScale = newTransform.localScale;
-            transform.localRotation = newTransform.localRotation;
-            _transformSystem.commitTransform(transform);
+            TransformComponent new_transform = convert_from_bullet(bullet_transform);
+            transform.local_position = new_transform.local_position;
+            transform.local_scale = new_transform.local_scale;
+            transform.local_rotation = new_transform.local_rotation;
+            _transform_system.commit_transform(transform);
 
             // Update rigid body properties to what Bullet says it should be
-            rigidBody.linearVelocity = convertFromBullet(rigidBody._rigidBody->getLinearVelocity());
-            rigidBody.angularVelocity = convertFromBullet(rigidBody._rigidBody->getAngularVelocity());
+            rigid_body.linear_velocity = convert_from_bullet(rigid_body._rigid_body->getLinearVelocity());
+            rigid_body.angular_velocity = convert_from_bullet(rigid_body._rigid_body->getAngularVelocity());
         }
     }
 }
 
-void PhysicsSystem::onComponentAdded(RigidBodyComponent& rigidBody)
+void PhysicsSystem::on_component_added(RigidBodyComponent& rigid_body)
 {
-    Entity& entity = rigidBody.entity();
+    Entity& entity = rigid_body.entity();
 
     auto& transform = entity.component<TransformComponent>();
 
-    Mesh& mesh = *rigidBody.mesh;
-    rigidBody._collisionShape.reset(new btConvexTriangleMeshShape(toBulletMesh(&mesh)));
+    Mesh& mesh = *rigid_body.mesh;
+    rigid_body._collision_shape.reset(new btConvexTriangleMeshShape(to_bullet_mesh(&mesh)));
 
-    btScalar mass = rigidBody.mass;
-    btVector3 localInertia(0, 0, 0);
+    btScalar mass = rigid_body.mass;
+    btVector3 local_inertia(0, 0, 0);
     if (mass != 0.0)
     {
-        rigidBody._collisionShape->calculateLocalInertia(mass, localInertia);
+        rigid_body._collision_shape->calculateLocalInertia(mass, local_inertia);
     }
 
-    btVector3 linearVelocity = convertToBullet(rigidBody.linearVelocity);
-    btVector3 angularVelocity = convertToBullet(rigidBody.angularVelocity);
+    btVector3 linear_velocity = convert_to_bullet(rigid_body.linear_velocity);
+    btVector3 angular_velocity = convert_to_bullet(rigid_body.angular_velocity);
 
-    _transformSystem.updateTransform(transform);
+    _transform_system.update_transform(transform);
 
-    rigidBody._motionState.reset(new btDefaultMotionState(convertToBullet(transform)));
-    btRigidBody::btRigidBodyConstructionInfo info(mass, rigidBody._motionState.get(), rigidBody._collisionShape.get(), localInertia);
-    rigidBody._rigidBody.reset(new btRigidBody(info));
-    rigidBody._rigidBody->setSleepingThresholds(0, 0);
-    rigidBody._rigidBody->setLinearVelocity(linearVelocity);
-    rigidBody._rigidBody->setAngularVelocity(angularVelocity);
-    rigidBody._rigidBody->setAngularFactor(0.5);
+    rigid_body._motion_state.reset(new btDefaultMotionState(convert_to_bullet(transform)));
+    btRigidBody::btRigidBodyConstructionInfo info(mass, rigid_body._motion_state.get(), rigid_body._collision_shape.get(), local_inertia);
+    rigid_body._rigid_body.reset(new btRigidBody(info));
+    rigid_body._rigid_body->setSleepingThresholds(0, 0);
+    rigid_body._rigid_body->setLinearVelocity(linear_velocity);
+    rigid_body._rigid_body->setAngularVelocity(angular_velocity);
+    rigid_body._rigid_body->setAngularFactor(0.5);
 
-    _addedRigidBodies.push_back(rigidBody._rigidBody.get());
+    _added_rigid_bodies.push_back(rigid_body._rigid_body.get());
 }
 
-void PhysicsSystem::onComponentRemoved(RigidBodyComponent& rigidBody)
+void PhysicsSystem::on_component_removed(RigidBodyComponent& rigid_body)
 {
     // Remove the transform from the committed transform vector
-    const ComponentId id = rigidBody.id();
-    _committedRigidBodyIds.erase(std::remove(_committedRigidBodyIds.begin(), _committedRigidBodyIds.end(), id), _committedRigidBodyIds.end());
+    const ComponentId id = rigid_body.id();
+    _committed_rigid_body_ids.erase(std::remove(_committed_rigid_body_ids.begin(), _committed_rigid_body_ids.end(), id), _committed_rigid_body_ids.end());
 
-    _removedRigidBodies.push_back(rigidBody._rigidBody.get());
+    _removed_rigid_bodies.push_back(rigid_body._rigid_body.get());
 }
 
-btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
+btTriangleMesh* PhysicsSystem::to_bullet_mesh(Mesh* mesh)
 {
-    auto it = _bulletMeshes.find(mesh);
-    if (it != _bulletMeshes.end())
+    auto it = _bullet_meshes.find(mesh);
+    if (it != _bullet_meshes.end())
     {
         // The Bullet mesh was already created
         return (*it).second.get();
@@ -276,15 +276,15 @@ btTriangleMesh* PhysicsSystem::toBulletMesh(Mesh* mesh)
     else
     {
         // Create a Bullet mesh from the mesh and keep it to be looked up later
-        btTriangleMesh* bulletMesh = convertToBullet(*mesh);
-        _bulletMeshes[mesh] = std::unique_ptr<btTriangleMesh>(bulletMesh);
-        return bulletMesh;
+        btTriangleMesh* bullet_mesh = convert_to_bullet(*mesh);
+        _bullet_meshes[mesh] = std::unique_ptr<btTriangleMesh>(bullet_mesh);
+        return bullet_mesh;
     }
 }
 
-PhysicsSystem::ForceApplication::ForceApplication(btRigidBody* rigidBody, Vector3 force, Vector3 relativePosition) :
-    rigidBody(rigidBody),
+PhysicsSystem::ForceApplication::ForceApplication(btRigidBody* rigid_body, Vector3 force, Vector3 relative_position) :
+    rigid_body(rigid_body),
     force(force),
-    relativePosition(relativePosition)
+    relative_position(relative_position)
 {
 }

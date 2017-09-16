@@ -62,7 +62,7 @@ public:
 
     ///
     /// Returns the name as a string.
-    const std::string& asString() const;
+    const std::string& as_string() const;
 
     ///
     /// Returns a pointer to the raw data of the name's string.
@@ -95,7 +95,7 @@ public:
     bool operator!=(Name name) const;
 
 private:
-    static Index lookUpIndex(const std::string& string);
+    static Index look_up_index(const std::string& string);
 
     Index _index;
 

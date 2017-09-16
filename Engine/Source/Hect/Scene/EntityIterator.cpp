@@ -46,21 +46,21 @@ void EntityIteratorBase::invalidate()
 
 Entity& EntityIteratorBase::dereference() const
 {
-    if (!isValid())
+    if (!is_valid())
     {
         throw InvalidOperation("Invalid entity iterator");
     }
 
-    return _pool->entityWithId(_id);
+    return _pool->entity_with_id(_id);
 }
 
 void EntityIteratorBase::increment()
 {
     ++_id;
-    size_t maxEntityId = _pool->maxId();
-    while (_id < maxEntityId)
+    size_t max_entity_id = _pool->max_id();
+    while (_id < max_entity_id)
     {
-        if (isValid() && _pool->entityWithId(_id).isActivated())
+        if (is_valid() && _pool->entity_with_id(_id).is_activated())
         {
             break;
         }
@@ -69,9 +69,9 @@ void EntityIteratorBase::increment()
     }
 }
 
-bool EntityIteratorBase::isValid() const
+bool EntityIteratorBase::is_valid() const
 {
-    return _pool && _pool->entityIsValid(_id);
+    return _pool && _pool->entity_is_valid(_id);
 }
 
 bool EntityIteratorBase::equals(const EntityIteratorBase& other) const
@@ -117,7 +117,7 @@ bool EntityIterator::operator!=(const EntityIterator& other) const
 
 EntityIterator::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }
 
 EntityConstIterator::EntityConstIterator() :
@@ -158,5 +158,5 @@ bool EntityConstIterator::operator!=(const EntityConstIterator& other) const
 
 EntityConstIterator::operator bool() const
 {
-    return isValid();
+    return is_valid();
 }

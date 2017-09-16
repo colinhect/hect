@@ -50,11 +50,11 @@ public:
 
     ///
     /// The coordinates of the cursor.
-    IntVector2 cursorPosition;
+    IntVector2 cursor_position;
 
     ///
     /// The movement of the cursor.
-    IntVector2 cursorMovement;
+    IntVector2 cursor_movement;
 };
 
 }

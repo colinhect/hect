@@ -50,7 +50,7 @@ public:
     /// Adds a new vertex to the mesh.
     ///
     /// \returns The index of the added vertex.
-    size_t addVertex();
+    size_t add_vertex();
 
     ///
     /// Writes attribute data of the most recently added vertex for a given
@@ -58,35 +58,35 @@ public:
     ///
     /// \param semantic The semantic of the attribute to set the data for.
     /// \param value The value.
-    void writeAttributeData(VertexAttributeSemantic semantic, double value);
+    void write_attribute_data(VertexAttributeSemantic semantic, double value);
 
     ///
-    /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, Vector2 value);
+    /// \copydoc hect::MeshWriter::write_attribute_data()
+    void write_attribute_data(VertexAttributeSemantic semantic, Vector2 value);
 
     ///
-    /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, Vector3 value);
+    /// \copydoc hect::MeshWriter::write_attribute_data()
+    void write_attribute_data(VertexAttributeSemantic semantic, Vector3 value);
 
     ///
-    /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, Vector4 value);
+    /// \copydoc hect::MeshWriter::write_attribute_data()
+    void write_attribute_data(VertexAttributeSemantic semantic, Vector4 value);
 
     ///
-    /// \copydoc hect::MeshWriter::writeAttributeData()
-    void writeAttributeData(VertexAttributeSemantic semantic, Color value);
+    /// \copydoc hect::MeshWriter::write_attribute_data()
+    void write_attribute_data(VertexAttributeSemantic semantic, Color value);
 
     ///
     /// Adds an index to the mesh.
-    void addIndex(uint64_t value);
+    void add_index(uint64_t value);
 
 private:
-    void setComponentValue(const VertexAttribute& attribute, unsigned index, float value);
+    void set_component_value(const VertexAttribute& attribute, unsigned index, float value);
 
     Mesh& _mesh;
-    size_t _vertexPosition { 0 };
-    MemoryWriteStream _vertexStream;
-    MemoryWriteStream _indexStream;
+    size_t _vertex_position { 0 };
+    MemoryWriteStream _vertex_stream;
+    MemoryWriteStream _index_stream;
 };
 
 }

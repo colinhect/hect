@@ -63,7 +63,7 @@ public:
     ///
     /// \throws InvalidOperation If the render target does not have a back
     /// buffer.
-    virtual void swapBuffers();
+    virtual void swap_buffers();
 
     ///
     /// Returns the width.
@@ -79,7 +79,7 @@ public:
 
     ///
     /// Returns the aspect ratio.
-    float aspectRatio() const;
+    float aspect_ratio() const;
 
 protected:
 
@@ -87,13 +87,13 @@ protected:
     /// Sets the width.
     ///
     /// \param width The new width.
-    void setWidth(unsigned width);
+    void set_width(unsigned width);
 
     ///
     /// Sets the height.
     ///
     /// \param height The new height.
-    void setHeight(unsigned height);
+    void set_height(unsigned height);
 
 private:
     unsigned _width { 0 };

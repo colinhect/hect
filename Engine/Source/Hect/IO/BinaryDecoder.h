@@ -50,8 +50,8 @@ public:
     /// Constructs a binary decoder given a stream to decode from.
     ///
     /// \param stream The stream to decode from.
-    /// \param assetCache The asset cache to load further assets from.
-    BinaryDecoder(ReadStream& stream, AssetCache& assetCache);
+    /// \param asset_cache The asset cache to load further assets from.
+    BinaryDecoder(ReadStream& stream, AssetCache& asset_cache);
 
     ///
     /// Constructs a binary decoder given data decode from.
@@ -59,30 +59,30 @@ public:
     /// \param data The data to decode from.
     BinaryDecoder(const ByteVector& data);
 
-    bool isBinaryStream() const override;
-    ReadStream& binaryStream() override;
-    void beginArray() override;
-    void endArray() override;
-    bool hasMoreElements() const override;
-    void beginObject() override;
-    void endObject() override;
-    bool selectMember(const char* name) override;
-    std::vector<std::string> memberNames() const override;
-    std::string decodeString() override;
-    int8_t decodeInt8() override;
-    uint8_t decodeUInt8() override;
-    int16_t decodeInt16() override;
-    uint16_t decodeUInt16() override;
-    int32_t decodeInt32() override;
-    uint32_t decodeUInt32() override;
-    int64_t decodeInt64() override;
-    uint64_t decodeUInt64() override;
-    float decodeFloat32() override;
-    double decodeFloat64() override;
-    bool decodeBool() override;
+    bool is_binary_stream() const override;
+    ReadStream& binary_stream() override;
+    void begin_array() override;
+    void end_array() override;
+    bool has_more_elements() const override;
+    void begin_object() override;
+    void end_object() override;
+    bool select_member(const char* name) override;
+    std::vector<std::string> member_names() const override;
+    std::string decode_string() override;
+    int8_t decode_int8() override;
+    uint8_t decode_u_int8() override;
+    int16_t decode_int16() override;
+    uint16_t decode_u_int16() override;
+    int32_t decode_int32() override;
+    uint32_t decode_u_int32() override;
+    int64_t decode_int64() override;
+    uint64_t decode_u_int64() override;
+    float decode_float32() override;
+    double decode_float64() override;
+    bool decode_bool() override;
 
 private:
-    void incrementIndex();
+    void increment_index();
 
     enum ValueType
     {
@@ -90,11 +90,11 @@ private:
         ValueType_Object
     };
 
-    std::stack<uint32_t> _indexStack;
-    std::stack<uint32_t> _countStack;
-    std::stack<ValueType> _valueTypeStack;
+    std::stack<uint32_t> _index_stack;
+    std::stack<uint32_t> _count_stack;
+    std::stack<ValueType> _value_type_stack;
 
-    std::unique_ptr<ReadStream> _ownedStream;
+    std::unique_ptr<ReadStream> _owned_stream;
     ReadStream& _stream;
 };
 

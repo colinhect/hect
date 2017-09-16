@@ -25,13 +25,13 @@
 
 using namespace hect;
 
-std::string ReadStream::readAllToString()
+std::string ReadStream::read_all_to_string()
 {
-    size_t byteCount = length();
-    std::string string(byteCount, ' ');
-    if (byteCount > 0)
+    size_t byte_count = length();
+    std::string string(byte_count, ' ');
+    if (byte_count > 0)
     {
-        read(reinterpret_cast<uint8_t*>(&string[0]), byteCount);
+        read(reinterpret_cast<uint8_t*>(&string[0]), byte_count);
     }
     return string;
 }
@@ -41,12 +41,12 @@ namespace hect
 
 ReadStream& operator>>(ReadStream& stream, std::string& value)
 {
-    uint32_t byteCount;
-    stream >> byteCount;
-    value = std::string(byteCount, ' ');
-    if (byteCount > 0)
+    uint32_t byte_count;
+    stream >> byte_count;
+    value = std::string(byte_count, ' ');
+    if (byte_count > 0)
     {
-        stream.read(reinterpret_cast<uint8_t*>(&value[0]), byteCount);
+        stream.read(reinterpret_cast<uint8_t*>(&value[0]), byte_count);
     }
     return stream;
 }

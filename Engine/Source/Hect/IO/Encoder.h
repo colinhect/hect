@@ -41,21 +41,21 @@ public:
 
     ///
     /// Returns whether the encoder is writing to a binary stream.
-    virtual bool isBinaryStream() const = 0;
+    virtual bool is_binary_stream() const = 0;
 
     ///
     /// Returns the raw binary stream.
     ///
     /// \throws InvalidOperation If the encoder is not writing to a binary
     /// stream.
-    virtual WriteStream& binaryStream() = 0;
+    virtual WriteStream& binary_stream() = 0;
 
     ///
     /// Begins an array.
     ///
     /// \note Values encoded following this call will be encoded as elements
     /// in the array.
-    virtual void beginArray() = 0;
+    virtual void begin_array() = 0;
 
     ///
     /// Ends an array.
@@ -64,22 +64,22 @@ public:
     /// ended.
     ///
     /// \throws InvalidOperation If an array was not started using
-    /// beginArray().
-    virtual void endArray() = 0;
+    /// begin_array().
+    virtual void end_array() = 0;
 
     ///
     /// Begins an object.
     ///
     /// \note The specific members of an object can be targeted using
-    /// selectMember().
-    virtual void beginObject() = 0;
+    /// select_member().
+    virtual void begin_object() = 0;
 
     ///
     /// Ends an object.
     ///
     /// \throws InvalidOperation If an object was not started using
-    /// beginObject().
-    virtual void endObject() = 0;
+    /// begin_object().
+    virtual void end_object() = 0;
 
     ///
     /// Selects a specific member of the object.
@@ -90,96 +90,96 @@ public:
     /// \param name The name of the member to select.
     ///
     /// \throws InvalidOperation If an object was not started using
-    /// beginObject().
-    virtual void selectMember(const char* name) = 0;
+    /// begin_object().
+    virtual void select_member(const char* name) = 0;
 
     ///
     /// Encodes a string.
     ///
     /// \param value The value to encode.
-    virtual void encodeString(const std::string& value) = 0;
+    virtual void encode_string(const std::string& value) = 0;
 
     ///
     /// Encodes an 8-bit signed integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeInt8(int8_t value) = 0;
+    virtual void encode_int8(int8_t value) = 0;
 
     ///
     /// Encodes an 8-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeUInt8(uint8_t value) = 0;
+    virtual void encode_u_int8(uint8_t value) = 0;
 
     ///
     /// Encodes a 16-bit signed integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeInt16(int16_t value) = 0;
+    virtual void encode_int16(int16_t value) = 0;
 
     ///
     /// Encodes a 16-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeUInt16(uint16_t value) = 0;
+    virtual void encode_u_int16(uint16_t value) = 0;
 
     ///
     /// Encodes a 32-bit signed integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeInt32(int32_t value) = 0;
+    virtual void encode_int32(int32_t value) = 0;
 
     ///
     /// Encodes a 32-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeUInt32(uint32_t value) = 0;
+    virtual void encode_u_int32(uint32_t value) = 0;
 
     ///
     /// Encodes a 64-bit signed integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeInt64(int64_t value) = 0;
+    virtual void encode_int64(int64_t value) = 0;
 
     ///
     /// Encodes a 64-bit unsigned integer.
     ///
     /// \param value The value to encode.
-    virtual void encodeUInt64(uint64_t value) = 0;
+    virtual void encode_u_int64(uint64_t value) = 0;
 
     ///
     /// Encodes a 32-bit float.
     ///
     /// \param value The value to encode.
-    virtual void encodeFloat32(float value) = 0;
+    virtual void encode_float32(float value) = 0;
 
     ///
     /// Encodes a 64-bit float.
     ///
     /// \param value The value to encode.
-    virtual void encodeFloat64(double value) = 0;
+    virtual void encode_float64(double value) = 0;
 
     ///
     /// Encodes a boolean.
     ///
     /// \param value The value to encode.
-    virtual void encodeBool(bool value) = 0;
+    virtual void encode_bool(bool value) = 0;
 };
 
-HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginArray& beginArray);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginArray& begin_array);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndArray&);
 
-HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginObject& beginObject);
+HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginObject& begin_object);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndObject&);
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encodeValue);
+Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encode_value);
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encodeVector);
+Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector);
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encodeEnum);
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encode_enum);
 
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const char* value);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const std::string& value);

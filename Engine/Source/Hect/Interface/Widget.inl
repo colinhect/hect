@@ -27,8 +27,8 @@ namespace hect
 {
 
 template <typename T>
-Widget<T>::Widget(InterfaceSystem& interfaceSystem) :
-    WidgetBase(interfaceSystem)
+Widget<T>::Widget(InterfaceSystem& interface_system) :
+    WidgetBase(interface_system)
 {
 }
 

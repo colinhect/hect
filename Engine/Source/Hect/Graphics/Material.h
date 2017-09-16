@@ -63,15 +63,15 @@ public:
     /// changes.
     ///
     /// \param shader The shader.
-    void setShader(const Shader::Handle& shader);
+    void set_shader(const Shader::Handle& shader);
 
     ///
     /// Returns the values for the shader's uniforms.
-    UniformValueSequence uniformValues();
+    UniformValueSequence uniform_values();
 
     ///
-    /// \copydoc hect::Material::uniformValues()
-    const UniformValueSequence uniformValues() const;
+    /// \copydoc hect::Material::uniform_values()
+    const UniformValueSequence uniform_values() const;
 
     ///
     /// Sets the value for the uniform of the shader of the specified name.
@@ -82,21 +82,21 @@ public:
     /// \throws InvalidOperation If no shader is set, the shader does not
     /// have a uniform of the specified name, the value is of the wrong
     /// type, or the uniform is bound.
-    void setUniformValue(Name name, const UniformValue& value);
+    void set_uniform_value(Name name, const UniformValue& value);
 
     ///
     /// Clears all set uniform values.
-    void clearUniformValues();
+    void clear_uniform_values();
 
     ///
     /// Returns the cull mode used for surfaces using this material.
-    CullMode cullMode() const;
+    CullMode cull_mode() const;
 
     ///
     /// Sets the cull mode used for surfaces using this material.
     ///
-    /// \param cullMode The cull mode.
-    void setCullMode(CullMode cullMode);
+    /// \param cull_mode The cull mode.
+    void set_cull_mode(CullMode cull_mode);
 
     ///
     /// Returns whether the material is equivalent to another.
@@ -119,8 +119,8 @@ public:
 
 private:
     Shader::Handle _shader;
-    UniformValueContainer _uniformValues;
-    CullMode _cullMode { CullMode::CounterClockwise };
+    UniformValueContainer _uniform_values;
+    CullMode _cull_mode { CullMode::CounterClockwise };
 };
 
 }

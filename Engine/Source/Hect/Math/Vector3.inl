@@ -99,7 +99,7 @@ Vector3T<T> Vector3T<T>::cross(Vector3T v) const
 }
 
 template <typename T>
-Radians Vector3T<T>::angleFrom(Vector3T v) const
+Radians Vector3T<T>::angle_from(Vector3T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
@@ -108,11 +108,11 @@ Radians Vector3T<T>::angleFrom(Vector3T v) const
 template <typename T>
 T Vector3T<T>::length() const
 {
-    return static_cast<T>(std::sqrt(lengthSquared()));
+    return static_cast<T>(std::sqrt(length_squared()));
 }
 
 template <typename T>
-T Vector3T<T>::lengthSquared() const
+T Vector3T<T>::length_squared() const
 {
     return dot(*this);
 }
@@ -315,14 +315,14 @@ Vector3T<T>::operator Vector3T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, Vector3T<T> v)
 {
-    encoder << beginArray() << v.x << v.y << v.z << endArray();
+    encoder << begin_array() << v.x << v.y << v.z << end_array();
     return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector3T<T>& v)
 {
-    decoder >> beginArray() >> v.x >> v.y >> v.z >> endArray();
+    decoder >> begin_array() >> v.x >> v.y >> v.z >> end_array();
     return decoder;
 }
 

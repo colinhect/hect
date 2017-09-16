@@ -40,7 +40,7 @@ class HECT_EXPORT Joystick :
     public EventDispatcher<JoystickEvent>
 {
 public:
-    Joystick(Name name, size_t buttonCount, size_t axisCount);
+    Joystick(Name name, size_t button_count, size_t axis_count);
 
     ///
     /// Returns whether the given button is down.
@@ -49,7 +49,7 @@ public:
     ///
     /// \throws InvalidOperation If the joystick does not have the given
     /// button.
-    bool isButtonDown(JoystickButton button) const;
+    bool is_button_down(JoystickButton button) const;
 
     ///
     /// Returns the value of an axis of the joystick.
@@ -57,18 +57,18 @@ public:
     /// \param axis The axis to get the value of.
     ///
     /// \throws InvalidOperation If the joystick does not have the given axis.
-    double axisValue(JoystickAxis axis) const;
+    double axis_value(JoystickAxis axis) const;
 
-    void enqueueEvent(const JoystickEvent& event);
-    void dispatchEvents();
+    void enqueue_event(const JoystickEvent& event);
+    void dispatch_events();
 
 private:
     std::vector<JoystickEvent> _events;
 
     Name _name;
 
-    std::vector<bool> _buttonStates;
-    std::vector<double> _axisStates;
+    std::vector<bool> _button_states;
+    std::vector<double> _axis_states;
 };
 
 }

@@ -52,8 +52,8 @@ public:
     void destroy(T id);
 
 private:
-    T _nextId;
-    std::deque<T> _nextIds;
+    T _next_id;
+    std::deque<T> _next_ids;
 };
 
 }

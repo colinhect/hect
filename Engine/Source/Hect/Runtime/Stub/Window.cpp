@@ -33,12 +33,12 @@ Window::~Window()
 {
 }
 
-void Window::swapBuffers()
+void Window::swap_buffers()
 {
 }
 
-Window::Window(const std::string& title, const VideoMode& videoMode) :
-    RenderTarget(videoMode.width(), videoMode.height())
+Window::Window(const std::string& title, const VideoMode& video_mode) :
+    RenderTarget(video_mode.width(), video_mode.height())
 {
     (void)title;
 }

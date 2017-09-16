@@ -55,12 +55,12 @@ public:
 
         ///
         /// Pushes the current state of the frame onto the stack.
-        void pushState();
+        void push_state();
 
         ///
         /// Pops the previously pushed state as the new current state of the
         /// frame.
-        void popState();
+        void pop_state();
 
         ///
         /// Translates the origin.
@@ -70,22 +70,22 @@ public:
 
         ///
         /// Begins a new path.
-        void beginPath();
+        void begin_path();
 
         ///
         /// Sets the active fill style to a solid color.
         ///
         /// \param color The color to set.
-        void setFillColor(Color color);
+        void set_fill_color(Color color);
 
         ///
         /// Sets the active fill style to a linear gradient.
         ///
-        /// \param startPosition The start position.
-        /// \param endPosition The end position.
-        /// \param startColor The start color.
-        /// \param endColor The end color.
-        void setFillGradient(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor);
+        /// \param start_position The start position.
+        /// \param end_position The end position.
+        /// \param start_color The start color.
+        /// \param end_color The end color.
+        void set_fill_gradient(Vector2 start_position, Vector2 end_position, Color start_color, Color end_color);
 
         ///
         /// Draws the current path with the current fill style.
@@ -95,7 +95,7 @@ public:
         /// Sets the active stroke style to a solid color.
         ///
         /// \param color The color to set.
-        void setStrokeColor(Color color);
+        void set_stroke_color(Color color);
 
         ///
         /// Draws the current path with the current stroke style.
@@ -112,20 +112,20 @@ public:
         /// frame.
         ///
         /// \param clipping The clipping bounds.
-        void setClipping(Rectangle clipping);
+        void set_clipping(Rectangle clipping);
 
         ///
         /// Sets the font used for subsequent render calls within the frame.
         ///
         /// \param font The font to set.
         /// \param size The font size.
-        void setFont(const Font& font, double size);
+        void set_font(const Font& font, double size);
 
         ///
         /// Renders a text string.
         ///
         /// \param text The text string to render.
-        void renderText(const std::string& text);
+        void render_text(const std::string& text);
 
     private:
         Frame(VectorRenderer& renderer, RenderTarget& target);
@@ -161,7 +161,7 @@ public:
     /// \param target The target to render the frame to.
     ///
     /// \throws InvalidOperation If another frame is already active.
-    Frame beginFrame(RenderTarget& target);
+    Frame begin_frame(RenderTarget& target);
 
     ///
     /// Returns the effective dimensions of the specified text using the given
@@ -170,20 +170,20 @@ public:
     /// \param text The text to measure.
     /// \param font The font.
     /// \param size The font size.
-    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size);
+    Vector2 measure_text_dimensions(const std::string& text, const Font& font, double size);
 
 private:
     VectorRenderer(Renderer& renderer);
 
     void initialize();
     void shutdown();
-    void onBeginFrame(RenderTarget& target);
-    void onEndFrame();
+    void on_begin_frame(RenderTarget& target);
+    void on_end_frame();
 
-    void setFont(const Font& font, double size);
+    void set_font(const Font& font, double size);
 
     Renderer& _renderer;
-    bool _inFrame { false };
+    bool _in_frame { false };
 };
 
 }

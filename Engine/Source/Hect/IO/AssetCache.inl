@@ -29,28 +29,28 @@ namespace hect
 template <typename T, typename... Args>
 T& AssetCache::get(const Path& path, Args&&... args)
 {
-    return *getHandle<T>(path, args...);
+    return *get_handle<T>(path, args...);
 }
 
 template <typename T, typename... Args>
-AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
+AssetHandle<T> AssetCache::get_handle(const Path& path, Args&&... args)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
     std::shared_ptr<AssetEntry<T>> entry;
 
-    const Path resolvedPath = resolvePath(path);
-    auto it = _entries.find(resolvedPath);
+    const Path resolved_path = resolve_path(path);
+    auto it = _entries.find(resolved_path);
     if (it == _entries.end())
     {
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, resolvedPath, [&]()
+        entry.reset(new AssetEntry<T>(*this, resolved_path, [&]()
         {
             return new T(args...);
         }));
 
         // Add the new entry to the entry map
-        _entries[resolvedPath] = entry;
+        _entries[resolved_path] = entry;
     }
     else
     {
@@ -61,7 +61,7 @@ AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
         // type
         if (!entry)
         {
-            throw InvalidOperation(format("Asset '%s' is not of the expected type", resolvedPath.asString().data()));
+            throw InvalidOperation(format("Asset '%s' is not of the expected type", resolved_path.as_string().data()));
         }
     }
 
@@ -69,11 +69,11 @@ AssetHandle<T> AssetCache::getHandle(const Path& path, Args&&... args)
 }
 
 template <typename T>
-void AssetCache::refresh(bool onlyModified)
+void AssetCache::refresh(bool only_modified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    bool force = !onlyModified;
+    bool force = !only_modified;
     for (auto& pair : _entries)
     {
         AssetEntry<T>* entry = std::dynamic_pointer_cast<AssetEntry<T>>(pair.second).get();

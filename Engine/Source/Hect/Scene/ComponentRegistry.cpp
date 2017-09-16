@@ -28,67 +28,67 @@
 
 using namespace hect;
 
-std::shared_ptr<ComponentBase> ComponentRegistry::create(ComponentTypeId typeId)
+std::shared_ptr<ComponentBase> ComponentRegistry::create(ComponentTypeId type_id)
 {
-    if (!isRegisteredTypeId(typeId))
+    if (!is_registered_type_id(type_id))
     {
         throw InvalidOperation("Unknown component type id");
     }
-    return _componentConstructors[typeId]();
+    return _component_constructors[type_id]();
 }
 
-std::shared_ptr<ComponentPoolBase> ComponentRegistry::createPool(ComponentTypeId typeId, Scene& scene)
+std::shared_ptr<ComponentPoolBase> ComponentRegistry::create_pool(ComponentTypeId type_id, Scene& scene)
 {
-    if (!isRegisteredTypeId(typeId))
+    if (!is_registered_type_id(type_id))
     {
         throw InvalidOperation("Unknown component type id");
     }
-    return _componentPoolConstructors[typeId](scene);
+    return _component_pool_constructors[type_id](scene);
 }
 
-ComponentTypeId ComponentRegistry::typeIdOf(std::type_index typeIndex)
+ComponentTypeId ComponentRegistry::type_id_of(std::type_index type_index)
 {
-    auto it = _typeIndexToId.find(typeIndex);
-    if (it == _typeIndexToId.end())
+    auto it = _type_index_to_id.find(type_index);
+    if (it == _type_index_to_id.end())
     {
         throw InvalidOperation("Unknown component type");
     }
     return it->second;
 }
 
-ComponentTypeId ComponentRegistry::typeIdOf(Name typeName)
+ComponentTypeId ComponentRegistry::type_id_of(Name type_name)
 {
-    auto it = _typeNameToId.find(typeName);
-    if (it == _typeNameToId.end())
+    auto it = _type_name_to_id.find(type_name);
+    if (it == _type_name_to_id.end())
     {
-        throw InvalidOperation(format("Unknown component type '%s'", typeName.data()));
+        throw InvalidOperation(format("Unknown component type '%s'", type_name.data()));
     }
     return it->second;
 }
 
-Name ComponentRegistry::typeNameOf(ComponentTypeId typeId)
+Name ComponentRegistry::type_name_of(ComponentTypeId type_id)
 {
-    auto it = _typeIdToName.find(typeId);
-    if (it == _typeIdToName.end())
+    auto it = _type_id_to_name.find(type_id);
+    if (it == _type_id_to_name.end())
     {
         throw InvalidOperation("Unknown component type id");
     }
-    return _typeIdToName[typeId];
+    return _type_id_to_name[type_id];
 }
 
-bool ComponentRegistry::isRegisteredTypeId(ComponentTypeId typeId)
+bool ComponentRegistry::is_registered_type_id(ComponentTypeId type_id)
 {
-    return typeId < _componentConstructors.size();
+    return type_id < _component_constructors.size();
 }
 
-ComponentRegistry::ComponentTypeIdSequence ComponentRegistry::typeIds()
+ComponentRegistry::ComponentTypeIdSequence ComponentRegistry::type_ids()
 {
-    return ComponentTypeIdSequence(_typeIds);
+    return ComponentTypeIdSequence(_type_ids);
 }
 
-std::map<ComponentTypeId, Name> ComponentRegistry::_typeIdToName;
-std::map<Name, ComponentTypeId> ComponentRegistry::_typeNameToId;
-std::map<std::type_index, ComponentTypeId> ComponentRegistry::_typeIndexToId;
-std::vector<ComponentRegistry::ComponentConstructor> ComponentRegistry::_componentConstructors;
-std::vector<ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_componentPoolConstructors;
-ComponentRegistry::ComponentTypeIdContainer ComponentRegistry::_typeIds;
+std::map<ComponentTypeId, Name> ComponentRegistry::_type_id_to_name;
+std::map<Name, ComponentTypeId> ComponentRegistry::_type_name_to_id;
+std::map<std::type_index, ComponentTypeId> ComponentRegistry::_type_index_to_id;
+std::vector<ComponentRegistry::ComponentConstructor> ComponentRegistry::_component_constructors;
+std::vector<ComponentRegistry::ComponentPoolConstructor> ComponentRegistry::_component_pool_constructors;
+ComponentRegistry::ComponentTypeIdContainer ComponentRegistry::_type_ids;

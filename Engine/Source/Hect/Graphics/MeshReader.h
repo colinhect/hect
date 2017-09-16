@@ -50,14 +50,14 @@ public:
     /// Moves to the next vertex in the mesh.
     ///
     /// \returns Whether there is a vertex left to read.
-    bool nextVertex();
+    bool next_vertex();
 
     ///
     /// Reads an the attribute with the given semantic as a double.
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    double readAttributeDouble(VertexAttributeSemantic semantic) const;
+    double read_attribute_double(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 2-dimensional
@@ -65,7 +65,7 @@ public:
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    Vector2 readAttributeVector2(VertexAttributeSemantic semantic) const;
+    Vector2 read_attribute_vector2(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 3-dimensional
@@ -73,7 +73,7 @@ public:
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    Vector3 readAttributeVector3(VertexAttributeSemantic semantic) const;
+    Vector3 read_attribute_vector3(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a 4-dimensional
@@ -81,57 +81,57 @@ public:
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    Vector4 readAttributeVector4(VertexAttributeSemantic semantic) const;
+    Vector4 read_attribute_vector4(VertexAttributeSemantic semantic) const;
 
     ///
     /// Reads an the attribute with the given semantic as a color.
     ///
     /// \throws InvalidOperation If the first vertex has not been moved to or
     /// attempting to read past the last vertex.
-    Color readAttributeColor(VertexAttributeSemantic semantic) const;
+    Color read_attribute_color(VertexAttributeSemantic semantic) const;
 
     ///
     /// Moves to the next index in the mesh.
     ///
     /// \returns Whether there is an index left to read.
-    bool nextIndex();
+    bool next_index();
 
     ///
     /// Reads the current index as an unsigned byte.
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint8_t readIndexUInt8() const;
+    uint8_t read_index_u_int8() const;
 
     ///
     /// Reads the current index as an unsigned short.
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint16_t readIndexUInt16() const;
+    uint16_t read_index_u_int16() const;
 
     ///
     /// Reads the current index as an unsigned int.
     ///
     /// \throws InvalidOperation If the first index has not been moved to or
     /// attempting to read past the last index.
-    uint32_t readIndexUInt32() const;
+    uint32_t read_index_u_int32() const;
 
 private:
-    void checkVertexBoundary() const;
-    void checkIndexBoundary() const;
+    void check_vertex_boundary() const;
+    void check_index_boundary() const;
 
-    float readComponentValue(const VertexAttribute& attribute, unsigned index) const;
+    float read_component_value(const VertexAttribute& attribute, unsigned index) const;
 
     const Mesh& _mesh;
 
-    size_t _vertexCount { 0 };
-    size_t _vertexPosition { 0 };
-    mutable MemoryReadStream _vertexStream;
+    size_t _vertex_count { 0 };
+    size_t _vertex_position { 0 };
+    mutable MemoryReadStream _vertex_stream;
 
-    size_t _indexCount { 0 };
-    size_t _indexPosition { 0 };
-    mutable MemoryReadStream _indexStream;
+    size_t _index_count { 0 };
+    size_t _index_position { 0 };
+    mutable MemoryReadStream _index_stream;
 };
 
 }

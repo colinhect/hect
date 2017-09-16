@@ -106,7 +106,7 @@ T Vector4T<T>::dot(Vector4T v) const
 }
 
 template <typename T>
-Radians Vector4T<T>::angleFrom(Vector4T v) const
+Radians Vector4T<T>::angle_from(Vector4T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
@@ -115,11 +115,11 @@ Radians Vector4T<T>::angleFrom(Vector4T v) const
 template <typename T>
 T Vector4T<T>::length() const
 {
-    return static_cast<T>(std::sqrt(lengthSquared()));
+    return static_cast<T>(std::sqrt(length_squared()));
 }
 
 template <typename T>
-T Vector4T<T>::lengthSquared() const
+T Vector4T<T>::length_squared() const
 {
     return dot(*this);
 }
@@ -334,14 +334,14 @@ Vector4T<T>::operator Vector4T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, Vector4T<T> v)
 {
-    encoder << beginArray() << v.x << v.y << v.z << v.w << endArray();
+    encoder << begin_array() << v.x << v.y << v.z << v.w << end_array();
     return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Vector4T<T>& v)
 {
-    decoder >> beginArray() >> v.x >> v.y >> v.z >> v.w >> endArray();
+    decoder >> begin_array() >> v.x >> v.y >> v.z >> v.w >> end_array();
     return decoder;
 }
 

@@ -80,14 +80,14 @@ public:
     ///
     /// Returns whether the attribute is equivalent to another.
     ///
-    /// \param vertexAttribute The other attribute.
-    bool operator==(const VertexAttribute& vertexAttribute) const;
+    /// \param vertex_attribute The other attribute.
+    bool operator==(const VertexAttribute& vertex_attribute) const;
 
     ///
     /// Returns whether the attribute is different from another.
     ///
-    /// \param vertexAttribute The other attribute.
-    bool operator!=(const VertexAttribute& vertexAttribute) const;
+    /// \param vertex_attribute The other attribute.
+    bool operator!=(const VertexAttribute& vertex_attribute) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

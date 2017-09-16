@@ -11,7 +11,7 @@ $(includes)
 namespace $(namespace)
 {
 
-void registerTypes()
+void register_types()
 {
     // Enums
 $(register_enums)

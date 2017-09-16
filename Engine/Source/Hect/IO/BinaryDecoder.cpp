@@ -33,187 +33,187 @@ BinaryDecoder::BinaryDecoder(ReadStream& stream) :
 {
 }
 
-BinaryDecoder::BinaryDecoder(ReadStream& stream, AssetCache& assetCache) :
-    Decoder(assetCache),
+BinaryDecoder::BinaryDecoder(ReadStream& stream, AssetCache& asset_cache) :
+    Decoder(asset_cache),
     _stream(stream)
 {
 }
 
 BinaryDecoder::BinaryDecoder(const ByteVector& data) :
-    _ownedStream(new MemoryReadStream(data)),
-    _stream(*_ownedStream)
+    _owned_stream(new MemoryReadStream(data)),
+    _stream(*_owned_stream)
 {
 }
 
-bool BinaryDecoder::isBinaryStream() const
+bool BinaryDecoder::is_binary_stream() const
 {
     return true;
 }
 
-ReadStream& BinaryDecoder::binaryStream()
+ReadStream& BinaryDecoder::binary_stream()
 {
     return _stream;
 }
 
-void BinaryDecoder::beginArray()
+void BinaryDecoder::begin_array()
 {
-    incrementIndex();
+    increment_index();
 
     uint32_t count;
     _stream >> count;
 
-    _valueTypeStack.push(ValueType_Array);
-    _countStack.push(count);
-    _indexStack.push(0);
+    _value_type_stack.push(ValueType_Array);
+    _count_stack.push(count);
+    _index_stack.push(0);
 }
 
-void BinaryDecoder::endArray()
+void BinaryDecoder::end_array()
 {
-    _indexStack.pop();
-    _countStack.pop();
-    _valueTypeStack.pop();
+    _index_stack.pop();
+    _count_stack.pop();
+    _value_type_stack.pop();
 }
 
-bool BinaryDecoder::hasMoreElements() const
+bool BinaryDecoder::has_more_elements() const
 {
-    return _indexStack.top() < _countStack.top();
+    return _index_stack.top() < _count_stack.top();
 }
 
-void BinaryDecoder::beginObject()
+void BinaryDecoder::begin_object()
 {
-    incrementIndex();
+    increment_index();
 
-    _valueTypeStack.push(ValueType_Object);
+    _value_type_stack.push(ValueType_Object);
 }
 
-void BinaryDecoder::endObject()
+void BinaryDecoder::end_object()
 {
-    _valueTypeStack.pop();
+    _value_type_stack.pop();
 }
 
-bool BinaryDecoder::selectMember(const char* name)
+bool BinaryDecoder::select_member(const char* name)
 {
     (void)name;
     return true;
 }
 
-std::vector<std::string> BinaryDecoder::memberNames() const
+std::vector<std::string> BinaryDecoder::member_names() const
 {
     throw InvalidOperation("Cannot enumerate member names from a binary data source");
 }
 
-std::string BinaryDecoder::decodeString()
+std::string BinaryDecoder::decode_string()
 {
-    incrementIndex();
+    increment_index();
 
     std::string value;
     _stream >> value;
     return value;
 }
 
-int8_t BinaryDecoder::decodeInt8()
+int8_t BinaryDecoder::decode_int8()
 {
-    incrementIndex();
+    increment_index();
 
     int8_t value;
     _stream >> value;
     return value;
 }
 
-uint8_t BinaryDecoder::decodeUInt8()
+uint8_t BinaryDecoder::decode_u_int8()
 {
-    incrementIndex();
+    increment_index();
 
     uint8_t value;
     _stream >> value;
     return value;
 }
 
-int16_t BinaryDecoder::decodeInt16()
+int16_t BinaryDecoder::decode_int16()
 {
-    incrementIndex();
+    increment_index();
 
     int16_t value;
     _stream >> value;
     return value;
 }
 
-uint16_t BinaryDecoder::decodeUInt16()
+uint16_t BinaryDecoder::decode_u_int16()
 {
-    incrementIndex();
+    increment_index();
 
     uint16_t value;
     _stream >> value;
     return value;
 }
 
-int32_t BinaryDecoder::decodeInt32()
+int32_t BinaryDecoder::decode_int32()
 {
-    incrementIndex();
+    increment_index();
 
     int32_t value;
     _stream >> value;
     return value;
 }
 
-uint32_t BinaryDecoder::decodeUInt32()
+uint32_t BinaryDecoder::decode_u_int32()
 {
-    incrementIndex();
+    increment_index();
 
     uint32_t value;
     _stream >> value;
     return value;
 }
 
-int64_t BinaryDecoder::decodeInt64()
+int64_t BinaryDecoder::decode_int64()
 {
-    incrementIndex();
+    increment_index();
 
     int64_t value;
     _stream >> value;
     return value;
 }
 
-uint64_t BinaryDecoder::decodeUInt64()
+uint64_t BinaryDecoder::decode_u_int64()
 {
-    incrementIndex();
+    increment_index();
 
     uint64_t value;
     _stream >> value;
     return value;
 }
 
-float BinaryDecoder::decodeFloat32()
+float BinaryDecoder::decode_float32()
 {
-    incrementIndex();
+    increment_index();
 
     float value;
     _stream >> value;
     return value;
 }
 
-double BinaryDecoder::decodeFloat64()
+double BinaryDecoder::decode_float64()
 {
-    incrementIndex();
+    increment_index();
 
     double value;
     _stream >> value;
     return value;
 }
 
-bool BinaryDecoder::decodeBool()
+bool BinaryDecoder::decode_bool()
 {
-    incrementIndex();
+    increment_index();
 
     bool value;
     _stream >> value;
     return value;
 }
 
-void BinaryDecoder::incrementIndex()
+void BinaryDecoder::increment_index()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    if (!_value_type_stack.empty() && _value_type_stack.top() == ValueType_Array)
     {
-        ++_indexStack.top();
+        ++_index_stack.top();
     }
 }

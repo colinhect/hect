@@ -27,42 +27,42 @@
 
 using namespace hect;
 
-void InputAxisBinding::update(Platform& platform, Seconds timeStep)
+void InputAxisBinding::update(Platform& platform, Seconds time_step)
 {
     switch (type)
     {
     case InputAxisBindingType::MouseMoveX:
     {
-        _value = deadValue;
-        if (platform.hasMouse())
+        _value = dead_value;
+        if (platform.has_mouse())
         {
             Mouse& mouse = platform.mouse();
-            modifyValue(mouse.cursorMovement().x * mouseSensitivity);
+            modify_value(mouse.cursor_movement().x * mouse_sensitivity);
         }
     }
     break;
     case InputAxisBindingType::MouseMoveY:
     {
-        _value = deadValue;
-        if (platform.hasMouse())
+        _value = dead_value;
+        if (platform.has_mouse())
         {
             Mouse& mouse = platform.mouse();
-            modifyValue(mouse.cursorMovement().y * mouseSensitivity);
+            modify_value(mouse.cursor_movement().y * mouse_sensitivity);
         }
     }
     break;
     case InputAxisBindingType::MouseButton:
     {
-        if (platform.hasMouse())
+        if (platform.has_mouse())
         {
             Mouse& mouse = platform.mouse();
-            if (mouse.isButtonDown(mouseButton))
+            if (mouse.is_button_down(mouse_button))
             {
-                modifyValue(acceleration * timeStep.value);
+                modify_value(acceleration * time_step.value);
             }
             else
             {
-                applyGravity(timeStep);
+                apply_gravity(time_step);
             }
         }
     }
@@ -73,30 +73,30 @@ void InputAxisBinding::update(Platform& platform, Seconds timeStep)
     break;
     case InputAxisBindingType::Key:
     {
-        if (platform.hasKeyboard())
+        if (platform.has_keyboard())
         {
             Keyboard& keyboard = platform.keyboard();
-            if (keyboard.isKeyDown(key))
+            if (keyboard.is_key_down(key))
             {
-                modifyValue(acceleration * timeStep.value);
+                modify_value(acceleration * time_step.value);
             }
             else
             {
-                applyGravity(timeStep);
+                apply_gravity(time_step);
             }
         }
     }
     break;
     case InputAxisBindingType::JoystickAxis:
     {
-        _value = deadValue;
-        if (platform.hasJoystick(joystickIndex))
+        _value = dead_value;
+        if (platform.has_joystick(joystick_index))
         {
-            Joystick& joystick = platform.joystick(joystickIndex);
-            double value = joystick.axisValue(joystickAxis);
+            Joystick& joystick = platform.joystick(joystick_index);
+            double value = joystick.axis_value(joystick_axis);
 
             // If the value is outside of the dead zone
-            if (value < joystickAxisDeadZone.x || value > joystickAxisDeadZone.y)
+            if (value < joystick_axis_dead_zone.x || value > joystick_axis_dead_zone.y)
             {
                 // Scale the value to be a delta for the range
                 double delta = value * 0.5 + 0.5;
@@ -113,16 +113,16 @@ void InputAxisBinding::update(Platform& platform, Seconds timeStep)
     break;
     case InputAxisBindingType::JoystickButton:
     {
-        if (platform.hasJoystick(joystickIndex))
+        if (platform.has_joystick(joystick_index))
         {
-            Joystick& joystick = platform.joystick(joystickIndex);
-            if (joystick.isButtonDown(joystickButton))
+            Joystick& joystick = platform.joystick(joystick_index);
+            if (joystick.is_button_down(joystick_button))
             {
-                modifyValue(acceleration * timeStep.value);
+                modify_value(acceleration * time_step.value);
             }
             else
             {
-                applyGravity(timeStep);
+                apply_gravity(time_step);
             }
         }
     }
@@ -140,41 +140,41 @@ double InputAxisBinding::value() const
 
 void InputAxisBinding::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum<InputAxisBindingType>("type", type)
-            << encodeEnum<MouseButton>("mouseButton", mouseButton)
-            << encodeValue("mouseSensitivity", mouseSensitivity)
-            << encodeEnum<Key>("key", key)
-            << encodeValue("joystickIndex", joystickIndex)
-            << encodeEnum<JoystickAxis>("joystickAxis", joystickAxis)
-            << encodeValue("joystickAxisDeadZone", joystickAxisDeadZone)
-            << encodeEnum<JoystickButton>("joystickButton", joystickButton)
-            << encodeValue("acceleration", acceleration)
-            << encodeValue("gravity", gravity)
-            << encodeValue("range", range)
-            << encodeValue("invert", invert)
-            << encodeValue("deadValue", deadValue);
+    encoder << encode_enum<InputAxisBindingType>("type", type)
+            << encode_enum<MouseButton>("mouse_button", mouse_button)
+            << encode_value("mouse_sensitivity", mouse_sensitivity)
+            << encode_enum<Key>("key", key)
+            << encode_value("joystick_index", joystick_index)
+            << encode_enum<JoystickAxis>("joystick_axis", joystick_axis)
+            << encode_value("joystick_axis_dead_zone", joystick_axis_dead_zone)
+            << encode_enum<JoystickButton>("joystick_button", joystick_button)
+            << encode_value("acceleration", acceleration)
+            << encode_value("gravity", gravity)
+            << encode_value("range", range)
+            << encode_value("invert", invert)
+            << encode_value("dead_value", dead_value);
 }
 
 void InputAxisBinding::decode(Decoder& decoder)
 {
-    decoder >> decodeEnum<InputAxisBindingType>("type", type)
-            >> decodeEnum<MouseButton>("mouseButton", mouseButton)
-            >> decodeValue("mouseSensitivity", mouseSensitivity)
-            >> decodeEnum<Key>("key", key)
-            >> decodeValue("joystickIndex", joystickIndex)
-            >> decodeEnum<JoystickAxis>("joystickAxis", joystickAxis)
-            >> decodeValue("joystickAxisDeadZone", joystickAxisDeadZone)
-            >> decodeEnum<JoystickButton>("joystickButton", joystickButton)
-            >> decodeValue("acceleration", acceleration)
-            >> decodeValue("gravity", gravity)
-            >> decodeValue("range", range)
-            >> decodeValue("invert", invert)
-            >> decodeValue("deadValue", deadValue);
+    decoder >> decode_enum<InputAxisBindingType>("type", type)
+            >> decode_enum<MouseButton>("mouse_button", mouse_button)
+            >> decode_value("mouse_sensitivity", mouse_sensitivity)
+            >> decode_enum<Key>("key", key)
+            >> decode_value("joystick_index", joystick_index)
+            >> decode_enum<JoystickAxis>("joystick_axis", joystick_axis)
+            >> decode_value("joystick_axis_dead_zone", joystick_axis_dead_zone)
+            >> decode_enum<JoystickButton>("joystick_button", joystick_button)
+            >> decode_value("acceleration", acceleration)
+            >> decode_value("gravity", gravity)
+            >> decode_value("range", range)
+            >> decode_value("invert", invert)
+            >> decode_value("dead_value", dead_value);
 
     // Make sure joystick dead zone is defined in the correct order
-    if (joystickAxisDeadZone.x > joystickAxisDeadZone.y)
+    if (joystick_axis_dead_zone.x > joystick_axis_dead_zone.y)
     {
-        std::swap(joystickAxisDeadZone.x, joystickAxisDeadZone.y);
+        std::swap(joystick_axis_dead_zone.x, joystick_axis_dead_zone.y);
     }
 
     // Make sure range is defined in the correct order
@@ -184,11 +184,11 @@ void InputAxisBinding::decode(Decoder& decoder)
     }
 }
 
-void InputAxisBinding::applyGravity(Seconds timeStep)
+void InputAxisBinding::apply_gravity(Seconds time_step)
 {
     if (_value != 0)
     {
-        double delta = gravity * timeStep.value;
+        double delta = gravity * time_step.value;
         if (_value > 0)
         {
             _value -= delta;
@@ -205,7 +205,7 @@ void InputAxisBinding::applyGravity(Seconds timeStep)
     }
 }
 
-void InputAxisBinding::modifyValue(double delta)
+void InputAxisBinding::modify_value(double delta)
 {
     if (invert)
     {

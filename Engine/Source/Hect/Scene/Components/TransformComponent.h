@@ -48,8 +48,8 @@ enum class Mobility
 /// A combination of a position, scale, and rotation.
 ///
 /// If any changes are manually made to a transform, then the changes must be
-/// committed using TransformSystem::commitTransform() or immediately updated
-/// using TransformSystem::updateTransform().
+/// committed using TransformSystem::commit_transform() or immediately updated
+/// using TransformSystem::update_transform().
 ///
 /// \component
 class HECT_EXPORT TransformComponent :
@@ -72,19 +72,19 @@ public:
     /// The local position.
     ///
     /// \property
-    Vector3 localPosition;
+    Vector3 local_position;
 
     ///
     /// The local scale.
     ///
     /// \property
-    Vector3 localScale { Vector3::One };
+    Vector3 local_scale { Vector3::One };
 
     ///
     /// The local rotation.
     ///
     /// \property
-    Quaternion localRotation;
+    Quaternion local_rotation;
 
     ///
     /// The global position.
@@ -93,7 +93,7 @@ public:
     /// position and the transform hierarchy.  This should not be directly
     /// modified unless the local position and parent transforms are known
     /// to be static.
-    Vector3 globalPosition;
+    Vector3 global_position;
 
     ///
     /// The global scale.
@@ -102,7 +102,7 @@ public:
     /// scale and the transform hierarchy.  This should not be directly
     /// modified unless the local scale and parent transforms are known
     /// to be static.
-    Vector3 globalScale { Vector3::One };
+    Vector3 global_scale { Vector3::One };
 
     ///
     /// The global rotation.
@@ -111,7 +111,7 @@ public:
     /// rotation and the transform hierarchy.  This should not be directly
     /// modified unless the local rotation and parent transforms are known
     /// to be static.
-    Quaternion globalRotation;
+    Quaternion global_rotation;
 };
 
 }

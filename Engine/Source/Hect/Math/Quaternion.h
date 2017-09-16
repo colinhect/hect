@@ -46,7 +46,7 @@ public:
     ///
     /// \param axis The axis that the angle is relative to.
     /// \param angle The angle relative to the axis.
-    static QuaternionT fromAxisAngle(Vector3T<T> axis, Radians angle);
+    static QuaternionT from_axis_angle(Vector3T<T> axis, Radians angle);
 
     ///
     /// Constructs an identity quaternion.
@@ -98,7 +98,7 @@ public:
     ///
     /// \note Useful for comparing quaternion lengths while avoiding
     /// computation of a square root.
-    T lengthSquared() const;
+    T length_squared() const;
 
     ///
     /// Returns the conjugate of the quaternion.
@@ -113,7 +113,7 @@ public:
     ///
     /// \param axis The resulting axis.
     /// \param angle The resulting angle.
-    void toAxisAngle(Vector3T<T>& axis, Radians& angle) const;
+    void to_axis_angle(Vector3T<T>& axis, Radians& angle) const;
 
     ///
     /// Returns the product of the quaternion and a scalar.

@@ -46,12 +46,12 @@ void ComponentIteratorBase<T>::invalidate()
 template <typename T>
 T& ComponentIteratorBase<T>::dereference() const
 {
-    if (!this->isValid())
+    if (!this->is_valid())
     {
         throw InvalidOperation("Invalid component iterator");
     }
 
-    return this->_pool->withId(this->_id);
+    return this->_pool->with_id(this->_id);
 }
 
 template <typename T>
@@ -59,13 +59,13 @@ void ComponentIteratorBase<T>::increment()
 {
     ++this->_id;
 
-    size_t maxId = this->_pool->maxId();
-    while (this->_id < maxId)
+    size_t max_id = this->_pool->max_id();
+    while (this->_id < max_id)
     {
-        if (this->isValid())
+        if (this->is_valid())
         {
-            const Entity& entity = this->_pool->entityForComponent(this->_id);
-            if (entity.isActivated())
+            const Entity& entity = this->_pool->entity_for_component(this->_id);
+            if (entity.is_activated())
             {
                 break;
             }
@@ -76,9 +76,9 @@ void ComponentIteratorBase<T>::increment()
 }
 
 template <typename T>
-bool ComponentIteratorBase<T>::isValid() const
+bool ComponentIteratorBase<T>::is_valid() const
 {
-    if (this->_pool && this->_pool->componentHasEntity(this->_id))
+    if (this->_pool && this->_pool->component_has_entity(this->_id))
     {
         return true;
     }
@@ -137,7 +137,7 @@ bool ComponentIterator<T>::operator!=(const ComponentIterator<T>& other) const
 template <typename T>
 ComponentIterator<T>::operator bool() const
 {
-    return this->isValid();
+    return this->is_valid();
 }
 
 template <typename T>
@@ -192,7 +192,7 @@ bool ComponentConstIterator<T>::operator!=(const ComponentConstIterator<T>& othe
 template <typename T>
 ComponentConstIterator<T>::operator bool() const
 {
-    return this->isValid();
+    return this->is_valid();
 }
 
 }

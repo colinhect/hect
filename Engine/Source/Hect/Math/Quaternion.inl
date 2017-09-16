@@ -30,19 +30,19 @@ template <typename T>
 const QuaternionT<T> QuaternionT<T>::Identity = QuaternionT<T>();
 
 template <typename T>
-QuaternionT<T> QuaternionT<T>::fromAxisAngle(Vector3T<T> axis, Radians angle)
+QuaternionT<T> QuaternionT<T>::from_axis_angle(Vector3T<T> axis, Radians angle)
 {
     // Special case for identity quaternion
-    if (angle.value == 0 || axis.lengthSquared() == T(0))
+    if (angle.value == 0 || axis.length_squared() == T(0))
     {
         return QuaternionT();
     }
     else
     {
-        T halfRadians = static_cast<T>(angle.value / T(2));
+        T half_radians = static_cast<T>(angle.value / T(2));
 
-        Vector3T<T> v = axis.normalized() * static_cast<T>(std::sin(halfRadians));
-        T w = static_cast<T>(std::cos(halfRadians));
+        Vector3T<T> v = axis.normalized() * static_cast<T>(std::sin(half_radians));
+        T w = static_cast<T>(std::cos(half_radians));
 
         return QuaternionT(v, w).normalized();
     }
@@ -107,11 +107,11 @@ T QuaternionT<T>::dot(const QuaternionT& q) const
 template <typename T>
 T QuaternionT<T>::length() const
 {
-    return (T)std::sqrt(lengthSquared());
+    return (T)std::sqrt(length_squared());
 }
 
 template <typename T>
-T QuaternionT<T>::lengthSquared() const
+T QuaternionT<T>::length_squared() const
 {
     return dot(*this);
 }
@@ -130,7 +130,7 @@ QuaternionT<T> QuaternionT<T>::inverse() const
 }
 
 template <typename T>
-void QuaternionT<T>::toAxisAngle(Vector3T<T>& axis, Radians& angle) const
+void QuaternionT<T>::to_axis_angle(Vector3T<T>& axis, Radians& angle) const
 {
     // Special case for identity quaternion
     if (w == T(0) || (x + y + z) == T(0))
@@ -157,7 +157,7 @@ QuaternionT<T> QuaternionT<T>::operator*(T value) const
 template <typename T>
 Vector3T<T> QuaternionT<T>::operator*(Vector3T<T> v) const
 {
-    return Matrix4T<T>::fromRotation(*this) * v;
+    return Matrix4T<T>::from_rotation(*this) * v;
 }
 
 template <typename T>
@@ -166,10 +166,10 @@ QuaternionT<T> QuaternionT<T>::operator*(const QuaternionT& q) const
     Vector3T<T> av(x, y, z);
     Vector3T<T> bv(q.x, q.y, q.z);
 
-    Vector3T<T> newV = (bv * w) + (av * q.w) + av.cross(bv);
-    T newW = w * q.w - av.dot(bv);
+    Vector3T<T> new_v = (bv * w) + (av * q.w) + av.cross(bv);
+    T new_w = w * q.w - av.dot(bv);
 
-    return QuaternionT<T>(newV, newW);
+    return QuaternionT<T>(new_v, new_w);
 }
 
 template <typename T>
@@ -238,11 +238,11 @@ Encoder& operator<<(Encoder& encoder, QuaternionT<T> q)
 {
     Vector3T<T> axis;
     Radians angle;
-    q.toAxisAngle(axis, angle);
-    encoder << beginObject()
-            << encodeValue("axis", axis)
-            << encodeValue("angle", angle)
-            << endObject();
+    q.to_axis_angle(axis, angle);
+    encoder << begin_object()
+            << encode_value("axis", axis)
+            << encode_value("angle", angle)
+            << end_object();
     return encoder;
 }
 
@@ -251,11 +251,11 @@ Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q)
 {
     Vector3T<T> axis;
     Radians angle;
-    decoder >> beginObject()
-            >> decodeValue("axis", axis, true)
-            >> decodeValue("angle", angle, true)
-            >> endObject();
-    q = QuaternionT<T>::fromAxisAngle(axis, angle);
+    decoder >> begin_object()
+            >> decode_value("axis", axis, true)
+            >> decode_value("angle", angle, true)
+            >> end_object();
+    q = QuaternionT<T>::from_axis_angle(axis, angle);
     return decoder;
 }
 

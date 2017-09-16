@@ -81,7 +81,7 @@ public:
     ///
     /// \throws InvalidOperation If the a system of the same type is already
     /// registered with the scene.
-    void addSystem(SystemBase& system);
+    void add_system(SystemBase& system);
 
     ///
     /// Returns the pool of Component%s of a specific type.
@@ -105,7 +105,7 @@ public:
     /// Sets whether the scene is active.
     ///
     /// \param active True if the scene is active; false otherwise.
-    void setActive(bool active);
+    void set_active(bool active);
 
     ///
     /// Dispatches pending entity events, activates entities pending
@@ -116,7 +116,7 @@ public:
 
     ///
     /// Returns whether the scene is initialized.
-    bool isInitialized() const;
+    bool is_initialized() const;
 
     ///
     /// Perform initialization.
@@ -128,8 +128,8 @@ public:
     ///
     /// Ticks all of the Systems in the scene.
     ///
-    /// \param timeStep The duration of time for the tick to simulate.
-    virtual void tick(Seconds timeStep) = 0;
+    /// \param time_step The duration of time for the tick to simulate.
+    virtual void tick(Seconds time_step) = 0;
 
     ///
     /// Renders all of the Systems in the scene.
@@ -145,7 +145,7 @@ public:
     /// \param name The name of the entity.
     ///
     /// \returns A reference to the new entity.
-    Entity& createEntity(Name name = Name::Unnamed);
+    Entity& create_entity(Name name = Name::Unnamed);
 
     ///
     /// Creates a new Entity with the specified Component%s.
@@ -156,7 +156,7 @@ public:
     ///
     /// \returns A reference to the new entity.
     template <typename ...ComponentTypes>
-    Entity& createEntityWith(Name name = Name::Unnamed);
+    Entity& create_entity_with(Name name = Name::Unnamed);
 
     ///
     /// Loads an Entity from an asset.
@@ -168,11 +168,11 @@ public:
     /// \returns An iterator to the new entity.
     ///
     /// \throws DecodeError If the entity failed to decode.
-    Entity& loadEntity(const Path& path);
+    Entity& load_entity(const Path& path);
 
     ///
     /// Clears all entities and components from the scene.
-    void destroyAllEntities();
+    void destroy_all_entities();
 
     ///
     /// Returns the pool of \link Entity Entities \endlink.
@@ -185,7 +185,7 @@ public:
     ///
     /// Returns the number of active \link Entity Entities \endlink in the
     /// scene.
-    size_t entityCount() const;
+    size_t entity_count() const;
 
     ///
     /// Clears the state of the scene and loads a scene from an asset.
@@ -208,46 +208,46 @@ protected:
     Engine& engine() const;
 
 private:
-    void addComponentType(ComponentTypeId typeId);
-    ComponentPoolBase& componentPoolOfTypeId(ComponentTypeId typeId);
+    void add_component_type(ComponentTypeId type_id);
+    ComponentPoolBase& component_pool_of_type_id(ComponentTypeId type_id);
 
-    Entity& cloneEntity(const Entity& entity);
+    Entity& clone_entity(const Entity& entity);
 
-    void destroyEntity(Entity& entity);
-    void activateEntity(Entity& entity);
+    void destroy_entity(Entity& entity);
+    void activate_entity(Entity& entity);
 
-    void pendEntityDestruction(Entity& entity);
-    void pendEntityActivation(Entity& entity);
+    void pend_entity_destruction(Entity& entity);
+    void pend_entity_activation(Entity& entity);
 
     // Returns whether the scene has any entities pending creation, activation,
     // or destruction
-    bool hasPendingEntities() const;
+    bool has_pending_entities() const;
 
-    void dispatchEntityCreationEvents();
-    void activatePendingEntities();
-    void destroyPendingEntities();
+    void dispatch_entity_creation_events();
+    void activate_pending_entities();
+    void destroy_pending_entities();
 
-    void addEntityComponentBase(Entity& entity, const ComponentBase& component);
+    void add_entity_component_base(Entity& entity, const ComponentBase& component);
 
-    void encodeComponents(const Entity& entity, Encoder& encoder);
-    void decodeComponents(Entity& entity, Decoder& decoder);
+    void encode_components(const Entity& entity, Encoder& encoder);
+    void decode_components(Entity& entity, Decoder& decoder);
 
-    void receiveEvent(const EntityEvent& event) override;
+    void receive_event(const EntityEvent& event) override;
 
     mutable Engine* _engine { nullptr };
 
-    size_t _entityCount { 0 };
-    EntityPool _entityPool;
+    size_t _entity_count { 0 };
+    EntityPool _entity_pool;
 
     bool _initialized { false };
     bool _active { true };
 
-    std::deque<EntityId> _entitiesPendingCreation;
-    std::deque<EntityId> _entitiesPendingActivation;
-    std::deque<EntityId> _entitiesPendingDestruction;
+    std::deque<EntityId> _entities_pending_creation;
+    std::deque<EntityId> _entities_pending_activation;
+    std::deque<EntityId> _entities_pending_destruction;
 
-    std::vector<ComponentTypeId> _componentTypeIds;
-    std::vector<std::shared_ptr<ComponentPoolBase>> _componentPools;
+    std::vector<ComponentTypeId> _component_type_ids;
+    std::vector<std::shared_ptr<ComponentPoolBase>> _component_pools;
 
     std::vector<SystemBase*> _systems;
 };

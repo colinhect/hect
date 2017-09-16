@@ -27,30 +27,30 @@
 
 using namespace hect;
 
-VertexLayout VertexLayout::createDefault()
+VertexLayout VertexLayout::create_default()
 {
-    VertexLayout vertexLayout;
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float32, 3));
-    vertexLayout.addAttribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float32, 2));
+    VertexLayout vertex_layout;
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Normal, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::Tangent, VertexAttributeType::Float32, 3));
+    vertex_layout.add_attribute(VertexAttribute(VertexAttributeSemantic::TextureCoords0, VertexAttributeType::Float32, 2));
 
-    return vertexLayout;
+    return vertex_layout;
 }
 
-void VertexLayout::addAttribute(const VertexAttribute& attribute)
+void VertexLayout::add_attribute(const VertexAttribute& attribute)
 {
     _attributes.push_back(attribute);
-    computeAttributeOffsets();
+    compute_attribute_offsets();
 }
 
-void VertexLayout::clearAttributes()
+void VertexLayout::clear_attributes()
 {
     _attributes.clear();
-    computeAttributeOffsets();
+    compute_attribute_offsets();
 }
 
-bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) const
+bool VertexLayout::has_attribute_with_semantic(VertexAttributeSemantic semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {
@@ -62,7 +62,7 @@ bool VertexLayout::hasAttributeWithSemantic(VertexAttributeSemantic semantic) co
     return false;
 }
 
-const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemantic semantic) const
+const VertexAttribute& VertexLayout::attribute_with_semantic(VertexAttributeSemantic semantic) const
 {
     for (const VertexAttribute& attribute : _attributes)
     {
@@ -71,7 +71,7 @@ const VertexAttribute& VertexLayout::attributeWithSemantic(VertexAttributeSemant
             return attribute;
         }
     }
-    throw InvalidOperation(format("Vertex layout does not have an attribute with semantic '%s'", Enum::toString(semantic).data()));
+    throw InvalidOperation(format("Vertex layout does not have an attribute with semantic '%s'", Enum::to_string(semantic).data()));
 }
 
 const VertexLayout::AttributeSequence VertexLayout::attributes() const
@@ -79,36 +79,36 @@ const VertexLayout::AttributeSequence VertexLayout::attributes() const
     return AttributeSequence(_attributes);
 }
 
-size_t VertexLayout::attributeCount() const
+size_t VertexLayout::attribute_count() const
 {
     return _attributes.size();
 }
 
-unsigned VertexLayout::vertexSize() const
+unsigned VertexLayout::vertex_size() const
 {
-    return _vertexSize;
+    return _vertex_size;
 }
 
-bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
+bool VertexLayout::operator==(const VertexLayout& vertex_layout) const
 {
     // Attribute count
-    if (_attributes.size() != vertexLayout._attributes.size())
+    if (_attributes.size() != vertex_layout._attributes.size())
     {
         return false;
     }
 
     // Attributes
-    size_t attributeCount = _attributes.size();
-    for (size_t i = 0; i < attributeCount; ++i)
+    size_t attribute_count = _attributes.size();
+    for (size_t i = 0; i < attribute_count; ++i)
     {
-        if (_attributes[i] != vertexLayout._attributes[i])
+        if (_attributes[i] != vertex_layout._attributes[i])
         {
             return false;
         }
     }
 
     // Vertex size
-    if (_vertexSize != vertexLayout._vertexSize)
+    if (_vertex_size != vertex_layout._vertex_size)
     {
         return false;
     }
@@ -116,31 +116,31 @@ bool VertexLayout::operator==(const VertexLayout& vertexLayout) const
     return true;
 }
 
-bool VertexLayout::operator!=(const VertexLayout& vertexLayout) const
+bool VertexLayout::operator!=(const VertexLayout& vertex_layout) const
 {
-    return !(*this == vertexLayout);
+    return !(*this == vertex_layout);
 }
 
 void VertexLayout::encode(Encoder& encoder) const
 {
-    encoder << encodeVector("attributes", _attributes);
+    encoder << encode_vector("attributes", _attributes);
 }
 
 void VertexLayout::decode(Decoder& decoder)
 {
-    clearAttributes();
+    clear_attributes();
 
-    decoder >> decodeVector("attributes", _attributes);
+    decoder >> decode_vector("attributes", _attributes);
 
-    computeAttributeOffsets();
+    compute_attribute_offsets();
 }
 
-void VertexLayout::computeAttributeOffsets()
+void VertexLayout::compute_attribute_offsets()
 {
-    _vertexSize = 0;
+    _vertex_size = 0;
     for (VertexAttribute& attribute : _attributes)
     {
-        attribute._offset = _vertexSize;
-        _vertexSize += attribute.size();
+        attribute._offset = _vertex_size;
+        _vertex_size += attribute.size();
     }
 }

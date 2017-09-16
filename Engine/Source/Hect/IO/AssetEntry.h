@@ -60,10 +60,10 @@ public:
     ///
     /// Constructs an asset entry.
     ///
-    /// \param assetCache The asset cache.
+    /// \param asset_cache The asset cache.
     /// \param path The path to the asset.
     /// \param constructor A function constructing a new instance of the asset.
-    AssetEntry(AssetCache& assetCache, const Path& path, std::function<T*()> constructor);
+    AssetEntry(AssetCache& asset_cache, const Path& path, std::function<T*()> constructor);
 
     void refresh(bool force) override;
 
@@ -76,22 +76,22 @@ public:
     const Path& path() const;
 
 private:
-    void initiateLoad();
+    void initiate_load();
     void load();
 
-    AssetCache& _assetCache;
+    AssetCache& _asset_cache;
     Path _path;
 
     std::function<T*()> _constructor;
 
-    Task::Handle _taskHandle;
+    Task::Handle _task_handle;
 
     std::unique_ptr<T> _asset;
 
-    bool _exceptionOccurred { false };
-    std::string _exceptionMessage;
+    bool _exception_occurred { false };
+    std::string _exception_message;
 
-    TimeStamp _lastModified { -1 };
+    TimeStamp _last_modified { -1 };
 };
 
 }

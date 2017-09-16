@@ -73,13 +73,13 @@ public:
 
     ///
     /// Returns the render stage.
-    RenderStage renderStage() const;
+    RenderStage render_stage() const;
 
     ///
     /// Sets the render stage.
     ///
-    /// \param renderStage The new render stage.
-    void setRenderStage(RenderStage renderStage);
+    /// \param render_stage The new render stage.
+    void set_render_stage(RenderStage render_stage);
 
     ///
     /// Adds a module to the shader.
@@ -88,7 +88,7 @@ public:
     /// the module is added.
     ///
     /// \param module The module to add.
-    void addModule(const ShaderModule& module);
+    void add_module(const ShaderModule& module);
 
     ///
     /// Returns the shader sources.
@@ -103,7 +103,7 @@ public:
     /// \param uniform The uniform to add.
     ///
     /// \returns The index of the added uniform.
-    UniformIndex addUniform(const Uniform& uniform);
+    UniformIndex add_uniform(const Uniform& uniform);
 
     ///
     /// Returns the uniforms.
@@ -156,27 +156,27 @@ public:
     ///
     /// \returns True if the shader has a uniform of the specified name; false
     /// otherwise.
-    bool hasUniform(Name name) const;
+    bool has_uniform(Name name) const;
 
     ///
     /// Returns the blend mode that the shader uses.
-    const BlendMode& blendMode() const;
+    const BlendMode& blend_mode() const;
 
     ///
     /// Sets the blend mode that the shader uses.
     ///
-    /// \param blendMode The blend mode.
-    void setBlendMode(const BlendMode& blendMode);
+    /// \param blend_mode The blend mode.
+    void set_blend_mode(const BlendMode& blend_mode);
 
     ///
     /// Returns whether the shader uses depth testing.
-    bool isDepthTested() const;
+    bool is_depth_tested() const;
 
     ///
     /// Sets whether the shader uses depth testing.
     ///
-    /// \param depthTested True if depth testing is used; false otherwise.
-    void setDepthTested(bool depthTested);
+    /// \param depth_tested True if depth testing is used; false otherwise.
+    void set_depth_tested(bool depth_tested);
 
     ///
     /// Returns the render priority affecting the order in which the shader is
@@ -188,7 +188,7 @@ public:
     /// rendered within a render flow.
     ///
     /// \param priority The priority.
-    void setPriority(int priority);
+    void set_priority(int priority);
 
     ///
     /// Returns whether the shader is equivalent to another.
@@ -210,16 +210,16 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    void resolveUniforms();
+    void resolve_uniforms();
 
-    RenderStage _renderStage { RenderStage::None };
+    RenderStage _render_stage { RenderStage::None };
 
     ModuleContainer _modules;
     UniformContainer _uniforms;
-    std::unordered_map<Name, UniformIndex> _uniformIndices;
+    std::unordered_map<Name, UniformIndex> _uniform_indices;
 
-    BlendMode _blendMode;
-    bool _depthTested { true };
+    BlendMode _blend_mode;
+    bool _depth_tested { true };
 
     int _priority { 0 };
 };

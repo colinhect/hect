@@ -100,11 +100,11 @@ public:
     ///
     /// Returns whether the container holds a value of a certain type.
     template <typename T>
-    bool isType() const;
+    bool is_type() const;
 
     ///
     /// Returns whether the container holds any value at all.
-    bool hasValue() const;
+    bool has_value() const;
 
     ///
     /// Returns the value the container holds as a specific type.

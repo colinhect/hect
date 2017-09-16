@@ -26,13 +26,13 @@ namespace hect
 {
 
 template <typename T, typename... Args>
-typename T::Handle WidgetBase::createChild(Args&&... args)
+typename T::Handle WidgetBase::create_child(Args&&... args)
 {
-    typename T::Handle widget(new T(_interfaceSystem, args...));
+    typename T::Handle widget(new T(_interface_system, args...));
     widget->_parent = this;
 
     _children.push_back(widget);
-    markLayoutDirty();
+    mark_layout_dirty();
 
     return widget;
 }

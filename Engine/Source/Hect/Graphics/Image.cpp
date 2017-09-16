@@ -34,96 +34,96 @@ Image::Image()
 {
 }
 
-Image::Image(unsigned width, unsigned height, const PixelFormat& pixelFormat) :
+Image::Image(unsigned width, unsigned height, const PixelFormat& pixel_format) :
     _width(width),
     _height(height),
-    _pixelFormat(pixelFormat)
+    _pixel_format(pixel_format)
 {
 }
 
-void Image::flipVertical()
+void Image::flip_vertical()
 {
-    size_t bytesPerRow = _pixelFormat.size() * _width;
-    ByteVector newPixelData(_pixelData.size(), 0);
+    size_t bytes_per_row = _pixel_format.size() * _width;
+    ByteVector new_pixel_data(_pixel_data.size(), 0);
     for (unsigned i = 0; i < _height; ++i)
     {
-        size_t sourceRowOffset = bytesPerRow * i;
-        size_t destRowOffset = bytesPerRow * (_height - i - 1);
-        std::memcpy(&newPixelData[sourceRowOffset], &_pixelData[destRowOffset], bytesPerRow);
+        size_t source_row_offset = bytes_per_row * i;
+        size_t dest_row_offset = bytes_per_row * (_height - i - 1);
+        std::memcpy(&new_pixel_data[source_row_offset], &_pixel_data[dest_row_offset], bytes_per_row);
     }
-    _pixelData = std::move(newPixelData);
+    _pixel_data = std::move(new_pixel_data);
 }
 
-bool Image::hasPixelData() const
+bool Image::has_pixel_data() const
 {
-    return !_pixelData.empty();
+    return !_pixel_data.empty();
 }
 
-ByteVector& Image::pixelData()
+ByteVector& Image::pixel_data()
 {
-    return _pixelData;
+    return _pixel_data;
 }
 
-const ByteVector& Image::pixelData() const
+const ByteVector& Image::pixel_data() const
 {
-    return _pixelData;
+    return _pixel_data;
 }
 
-void Image::setPixelData(ByteVector&& pixelData)
+void Image::set_pixel_data(ByteVector&& pixel_data)
 {
-    _pixelData = pixelData;
+    _pixel_data = pixel_data;
 }
 
-void Image::writePixel(unsigned x, unsigned y, Color color)
+void Image::write_pixel(unsigned x, unsigned y, Color color)
 {
-    ensurePixelData();
+    ensure_pixel_data();
 
-    size_t offset = computePixelOffset(x, y);
+    size_t offset = compute_pixel_offset(x, y);
 
-    for (unsigned componentIndex = 0; componentIndex < _pixelFormat.cardinality(); ++componentIndex)
+    for (unsigned component_index = 0; component_index < _pixel_format.cardinality(); ++component_index)
     {
-        double value = color[componentIndex];
+        double value = color[component_index];
 
-        switch (_pixelFormat.type())
+        switch (_pixel_format.type())
         {
         case PixelType::Byte:
-            _pixelData[offset + componentIndex] = static_cast<uint8_t>(color[componentIndex] * 255);
+            _pixel_data[offset + component_index] = static_cast<uint8_t>(color[component_index] * 255);
             break;
         case PixelType::Float16:
             throw InvalidOperation("16-bit floats are not implemented");
         case PixelType::Float32:
-            *reinterpret_cast<float*>(&_pixelData[offset + (componentIndex * 4)]) = static_cast<float>(value);
+            *reinterpret_cast<float*>(&_pixel_data[offset + (component_index * 4)]) = static_cast<float>(value);
             break;
         }
     }
 }
 
-void Image::writePixel(Vector2 coords, Color color)
+void Image::write_pixel(Vector2 coords, Color color)
 {
     unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
     unsigned y = static_cast<unsigned>(coords.y * _height) % _height;
-    writePixel(x, y, color);
+    write_pixel(x, y, color);
 }
 
-Color Image::readPixel(unsigned x, unsigned y) const
+Color Image::read_pixel(unsigned x, unsigned y) const
 {
     Color color;
 
-    if (hasPixelData())
+    if (has_pixel_data())
     {
-        size_t offset = computePixelOffset(x, y);
+        size_t offset = compute_pixel_offset(x, y);
 
-        for (unsigned componentIndex = 0; componentIndex < _pixelFormat.cardinality(); ++componentIndex)
+        for (unsigned component_index = 0; component_index < _pixel_format.cardinality(); ++component_index)
         {
-            switch (_pixelFormat.type())
+            switch (_pixel_format.type())
             {
             case PixelType::Byte:
-                color[componentIndex] = static_cast<double>(_pixelData[offset + componentIndex]) / 255.0;
+                color[component_index] = static_cast<double>(_pixel_data[offset + component_index]) / 255.0;
                 break;
             case PixelType::Float16:
                 throw InvalidOperation("16-bit floats are not implemented");
             case PixelType::Float32:
-                color[componentIndex] = *reinterpret_cast<const float*>(&_pixelData[offset + (componentIndex * 4)]);
+                color[component_index] = *reinterpret_cast<const float*>(&_pixel_data[offset + (component_index * 4)]);
                 break;
             }
         }
@@ -132,11 +132,11 @@ Color Image::readPixel(unsigned x, unsigned y) const
     return color;
 }
 
-Color Image::readPixel(Vector2 coords) const
+Color Image::read_pixel(Vector2 coords) const
 {
     unsigned x = static_cast<unsigned>(coords.x * _width) % _width;
     unsigned y = static_cast<unsigned>(coords.y * _height) % _height;
-    return readPixel(x, y);
+    return read_pixel(x, y);
 }
 
 unsigned Image::width() const
@@ -144,7 +144,7 @@ unsigned Image::width() const
     return _width;
 }
 
-void Image::setWidth(unsigned width)
+void Image::set_width(unsigned width)
 {
     _width = width;
 }
@@ -154,55 +154,55 @@ unsigned Image::height() const
     return _height;
 }
 
-void Image::setHeight(unsigned height)
+void Image::set_height(unsigned height)
 {
     _height = height;
 }
 
-const PixelFormat& Image::pixelFormat() const
+const PixelFormat& Image::pixel_format() const
 {
-    return _pixelFormat;
+    return _pixel_format;
 }
 
-void Image::setPixelFormat(PixelFormat pixelFormat)
+void Image::set_pixel_format(PixelFormat pixel_format)
 {
-    ensureCompatible(pixelFormat, _colorSpace);
-    _pixelFormat = pixelFormat;
+    ensure_compatible(pixel_format, _color_space);
+    _pixel_format = pixel_format;
 }
 
-ColorSpace Image::colorSpace() const
+ColorSpace Image::color_space() const
 {
-    return _colorSpace;
+    return _color_space;
 }
 
-void Image::setColorSpace(ColorSpace colorSpace)
+void Image::set_color_space(ColorSpace color_space)
 {
-    ensureCompatible(_pixelFormat, colorSpace);
-    _colorSpace = colorSpace;
+    ensure_compatible(_pixel_format, color_space);
+    _color_space = color_space;
 }
 
-void Image::ensurePixelData()
+void Image::ensure_pixel_data()
 {
-    if (_pixelData.empty())
+    if (_pixel_data.empty())
     {
-        _pixelData = ByteVector(_width * _height * _pixelFormat.size());
+        _pixel_data = ByteVector(_width * _height * _pixel_format.size());
     }
 }
 
-size_t Image::computePixelOffset(unsigned x, unsigned y) const
+size_t Image::compute_pixel_offset(unsigned x, unsigned y) const
 {
-    unsigned pixelSize = _pixelFormat.size();
-    size_t offset = _width * y * pixelSize + x * pixelSize;
+    unsigned pixel_size = _pixel_format.size();
+    size_t offset = _width * y * pixel_size + x * pixel_size;
     return offset;
 }
 
-void Image::ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpace)
+void Image::ensure_compatible(const PixelFormat& pixel_format, ColorSpace color_space)
 {
-    if (colorSpace == ColorSpace::NonLinear)
+    if (color_space == ColorSpace::NonLinear)
     {
-        if (pixelFormat.type() != PixelType::Byte ||
-                (pixelFormat.cardinality() != 3 &&
-                 pixelFormat.cardinality() != 4))
+        if (pixel_format.type() != PixelType::Byte ||
+                (pixel_format.cardinality() != 3 &&
+                 pixel_format.cardinality() != 4))
         {
             throw InvalidOperation("Color space is incompatible with pixel format");
         }
@@ -211,56 +211,56 @@ void Image::ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpa
 
 void Image::encode(Encoder& encoder) const
 {
-    WriteStream& stream = encoder.binaryStream();
+    WriteStream& stream = encoder.binary_stream();
 
     // Verify pixel format and type.
-    if (_pixelFormat.type() != PixelType::Byte || _pixelFormat.cardinality() != 4)
+    if (_pixel_format.type() != PixelType::Byte || _pixel_format.cardinality() != 4)
     {
         throw InvalidOperation("Cannot encode an image to PNG which does not conform to the 32-bit RGBA format");
     }
 
     // Flip the image from OpenGL ordering
-    Image flippedImage = *this;
-    flippedImage.flipVertical();
+    Image flipped_image = *this;
+    flipped_image.flip_vertical();
 
     // Encode to PNG data
-    ByteVector encodedPixelData;
-    unsigned error = lodepng::encode(encodedPixelData, flippedImage.pixelData(), _width, _height);
+    ByteVector encoded_pixel_data;
+    unsigned error = lodepng::encode(encoded_pixel_data, flipped_image.pixel_data(), _width, _height);
     if (error)
     {
         throw EncodeError(format("Failed to encode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Write the encoded data to the stream
-    stream.write(&encodedPixelData[0], encodedPixelData.size());
+    stream.write(&encoded_pixel_data[0], encoded_pixel_data.size());
 }
 
 void Image::decode(Decoder& decoder)
 {
-    ReadStream& stream = decoder.binaryStream();
+    ReadStream& stream = decoder.binary_stream();
 
     // Read all of the encoded data from the stream
     size_t length = stream.length();
-    ByteVector encodedPixelData(length, 0);
-    stream.read(&encodedPixelData[0], length);
+    ByteVector encoded_pixel_data(length, 0);
+    stream.read(&encoded_pixel_data[0], length);
 
-    ByteVector decodedPixelData;
+    ByteVector decoded_pixel_data;
 
     // Decode the PNG pixel data
     unsigned width = 0;
     unsigned height = 0;
-    unsigned error = lodepng::decode(decodedPixelData, width, height, encodedPixelData);
+    unsigned error = lodepng::decode(decoded_pixel_data, width, height, encoded_pixel_data);
     if (error)
     {
         throw DecodeError(format("Failed to decode PNG data: %s", lodepng_error_text(error)));
     }
 
     // Set various properties for the image
-    setWidth(width);
-    setHeight(height);
-    setPixelFormat(PixelFormat::Rgba8);
-    setPixelData(std::move(decodedPixelData));
+    set_width(width);
+    set_height(height);
+    set_pixel_format(PixelFormat::Rgba8);
+    set_pixel_data(std::move(decoded_pixel_data));
 
     // Flip the image to OpenGL ordering
-    flipVertical();
+    flip_vertical();
 }

@@ -38,12 +38,12 @@ FrameBuffer::FrameBuffer(unsigned width, unsigned height) :
 
 void FrameBuffer::bind(Renderer& renderer)
 {
-    renderer.setTarget(*this);
+    renderer.set_target(*this);
 }
 
 void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
 {
-    ensureSlotEmpty(slot);
+    ensure_slot_empty(slot);
 
     if (texture.width() != width() || texture.height() != height())
     {
@@ -51,16 +51,16 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
     }
     else if (slot == FrameBufferSlot::Depth)
     {
-        PixelFormat pixelFormat = texture.pixelFormat();
-        if (pixelFormat.cardinality() != 1)
+        PixelFormat pixel_format = texture.pixel_format();
+        if (pixel_format.cardinality() != 1)
         {
             throw InvalidOperation("Cannot attach multi-channel texture to the depth slot of a frame buffer");
         }
     }
 
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyFrameBuffer(*this);
+        renderer().destroy_frame_buffer(*this);
     }
 
     _attachments.push_back(FrameBufferAttachment(slot, texture));
@@ -68,7 +68,7 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture2& texture)
 
 void FrameBuffer::attach(FrameBufferSlot slot, Texture3& texture)
 {
-    ensureSlotEmpty(slot);
+    ensure_slot_empty(slot);
 
     if (texture.width() != width() || texture.height() != height())
     {
@@ -79,9 +79,9 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture3& texture)
         throw InvalidOperation("Cannot attach 3-dimensional texture to the depth slot of a frame buffer");
     }
 
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyFrameBuffer(*this);
+        renderer().destroy_frame_buffer(*this);
     }
 
     _attachments.push_back(FrameBufferAttachment(slot, texture));
@@ -89,7 +89,7 @@ void FrameBuffer::attach(FrameBufferSlot slot, Texture3& texture)
 
 void FrameBuffer::attach(FrameBufferSlot slot, CubeSide side, TextureCube& texture)
 {
-    ensureSlotEmpty(slot);
+    ensure_slot_empty(slot);
 
     if (texture.width() != width() || texture.height() != height())
     {
@@ -100,9 +100,9 @@ void FrameBuffer::attach(FrameBufferSlot slot, CubeSide side, TextureCube& textu
         throw InvalidOperation("Cannot attach cubic texture to the depth slot of a frame buffer");
     }
 
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyFrameBuffer(*this);
+        renderer().destroy_frame_buffer(*this);
     }
 
     _attachments.push_back(FrameBufferAttachment(slot, side, texture));
@@ -113,7 +113,7 @@ FrameBuffer::AttachmentSequence FrameBuffer::attachments()
     return _attachments;
 }
 
-void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
+void FrameBuffer::ensure_slot_empty(FrameBufferSlot slot)
 {
     bool empty = true;
 
@@ -128,6 +128,6 @@ void FrameBuffer::ensureSlotEmpty(FrameBufferSlot slot)
 
     if (!empty)
     {
-        throw InvalidOperation(format("Frame buffer slot '%s' is not empty", Enum::toString(slot).data()));
+        throw InvalidOperation(format("Frame buffer slot '%s' is not empty", Enum::to_string(slot).data()));
     }
 }

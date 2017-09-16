@@ -45,15 +45,15 @@ class HECT_EXPORT InterfaceSystem :
     public EventListener<MouseEvent>
 {
 public:
-    InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vectorRenderer);
+    InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer);
 
     ///
     /// Creates a new interface.
     ///
-    /// \param renderTarget The target to render to.
+    /// \param render_target The target to render to.
     ///
     /// \returns A handle to the new interface.
-    Interface::Handle createInterface(RenderTarget& renderTarget);
+    Interface::Handle create_interface(RenderTarget& render_target);
 
     ///
     /// Returns the effective dimensions of the specified text using the given
@@ -62,37 +62,37 @@ public:
     /// \param text The text to measure.
     /// \param font The font.
     /// \param size The font size.
-    Vector2 measureTextDimensions(const std::string& text, const Font& font, double size) const;
+    Vector2 measure_text_dimensions(const std::string& text, const Font& font, double size) const;
 
     ///
     /// Renders all interfaces to their render targets.
-    void renderAllInterfaces();
+    void render_all_interfaces();
 
     ///
     /// Performs a single tick of simulation for all interfaces.
     ///
-    /// \param timeStep The duration of time to tick.
-    void tickAllInterfaces(Seconds timeStep);
+    /// \param time_step The duration of time to tick.
+    void tick_all_interfaces(Seconds time_step);
 
     ///
     /// The font used when none is specified.
     ///
     /// \property{required}
-    Font::Handle defaultFont;
+    Font::Handle default_font;
 
     ///
     /// The font size used when none is specified.
     ///
     /// \property{required}
-    double defaultFontSize;
+    double default_font_size;
 
 private:
     // EventListener overrides
-    void receiveEvent(const MouseEvent& event) override;
+    void receive_event(const MouseEvent& event) override;
 
     Platform& _platform;
     Renderer& _renderer;
-    VectorRenderer& _vectorRenderer;
+    VectorRenderer& _vector_renderer;
 
     std::vector<Interface::Handle> _interfaces;
 };

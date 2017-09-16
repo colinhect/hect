@@ -51,67 +51,67 @@ public:
     ///
     /// Creates a Component of the specified type.
     ///
-    /// \param typeId The type id representing the type of component to create.
+    /// \param type_id The type id representing the type of component to create.
     ///
     /// \throws InvalidOperation If the specified type id does not correspond
     /// to a registered component type.
-    static std::shared_ptr<ComponentBase> create(ComponentTypeId typeId);
+    static std::shared_ptr<ComponentBase> create(ComponentTypeId type_id);
 
     ///
     /// Creates a ComponentPool of the specified type.
     ///
-    /// \param typeId The type id representing the type of component pool to
+    /// \param type_id The type id representing the type of component pool to
     /// create.
     /// \param scene The scene that the component pool is being created for.
     ///
     /// \throws InvalidOperation If the specified type id does not correspond
     /// to a registered component type.
-    static std::shared_ptr<ComponentPoolBase> createPool(ComponentTypeId typeId, Scene& scene);
+    static std::shared_ptr<ComponentPoolBase> create_pool(ComponentTypeId type_id, Scene& scene);
 
     ///
     /// Returns the type id for the specified Component type index.
     ///
-    /// \param typeIndex The type index of the component type to get the id of.
+    /// \param type_index The type index of the component type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type index does not
     /// correspond to a registered component type.
-    static ComponentTypeId typeIdOf(std::type_index typeIndex);
+    static ComponentTypeId type_id_of(std::type_index type_index);
 
     ///
     /// Returns the type id with the specified Component type name.
     ///
-    /// \param typeName The type name of the component type to get the id of.
+    /// \param type_name The type name of the component type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type name does not correspond
     /// to a registered component type.
-    static ComponentTypeId typeIdOf(Name typeName);
+    static ComponentTypeId type_id_of(Name type_name);
 
     ///
     /// Returns the Component type name with the specified type id.
     ///
-    /// \param typeId The type id of the component type to get the type name of.
-    static Name typeNameOf(ComponentTypeId typeId);
+    /// \param type_id The type id of the component type to get the type name of.
+    static Name type_name_of(ComponentTypeId type_id);
 
     ///
     /// Returns whether the specified type id is registered with a
     /// Component type.
     ///
-    /// \param typeId The type id to check.
+    /// \param type_id The type id to check.
     ///
     /// \returns True if the type id is a registered component type id; false
     /// otherwise.
-    static bool isRegisteredTypeId(ComponentTypeId typeId);
+    static bool is_registered_type_id(ComponentTypeId type_id);
 
     ///
     /// Returns a sequence of all of the registered type ids.
-    static ComponentTypeIdSequence typeIds();
+    static ComponentTypeIdSequence type_ids();
 
     ///
     /// Registers a Component type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
-    static void registerType();
+    static void register_type();
 
     ///
     /// Returns the type id for the specified Component type.
@@ -119,21 +119,21 @@ public:
     /// \throws InvalidOperation If the specified type is not a registered
     /// component type.
     template <typename T>
-    static ComponentTypeId typeIdOf();
+    static ComponentTypeId type_id_of();
 
 private:
     ComponentRegistry() = delete;
 
-    static std::map<ComponentTypeId, Name> _typeIdToName;
-    static std::map<Name, ComponentTypeId> _typeNameToId;
-    static std::map<std::type_index, ComponentTypeId> _typeIndexToId;
-    static ComponentTypeIdContainer _typeIds;
+    static std::map<ComponentTypeId, Name> _type_id_to_name;
+    static std::map<Name, ComponentTypeId> _type_name_to_id;
+    static std::map<std::type_index, ComponentTypeId> _type_index_to_id;
+    static ComponentTypeIdContainer _type_ids;
 
     typedef std::function<std::shared_ptr<ComponentBase>()> ComponentConstructor;
     typedef std::function<std::shared_ptr<ComponentPoolBase>(Scene&)> ComponentPoolConstructor;
 
-    static std::vector<ComponentConstructor> _componentConstructors;
-    static std::vector<ComponentPoolConstructor> _componentPoolConstructors;
+    static std::vector<ComponentConstructor> _component_constructors;
+    static std::vector<ComponentPoolConstructor> _component_pool_constructors;
 };
 
 }

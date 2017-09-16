@@ -37,7 +37,7 @@ RenderTarget::RenderTarget(unsigned width, unsigned height) :
 {
 }
 
-void RenderTarget::swapBuffers()
+void RenderTarget::swap_buffers()
 {
     throw InvalidOperation("Render target does not have a back buffer");
 }
@@ -57,17 +57,17 @@ Vector2 RenderTarget::dimensions() const
     return Vector2(_width, _height);
 }
 
-float RenderTarget::aspectRatio() const
+float RenderTarget::aspect_ratio() const
 {
     return static_cast<float>(_width) / static_cast<float>(_height);
 }
 
-void RenderTarget::setWidth(unsigned width)
+void RenderTarget::set_width(unsigned width)
 {
     _width = width;
 }
 
-void RenderTarget::setHeight(unsigned height)
+void RenderTarget::set_height(unsigned height)
 {
     _height = height;
 }

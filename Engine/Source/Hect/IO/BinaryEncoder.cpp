@@ -33,134 +33,134 @@ BinaryEncoder::BinaryEncoder(WriteStream& stream) :
 }
 
 BinaryEncoder::BinaryEncoder(ByteVector& data) :
-    _ownedStream(new MemoryWriteStream(data)),
-    _stream(*_ownedStream)
+    _owned_stream(new MemoryWriteStream(data)),
+    _stream(*_owned_stream)
 {
 }
 
-bool BinaryEncoder::isBinaryStream() const
+bool BinaryEncoder::is_binary_stream() const
 {
     return true;
 }
 
-WriteStream& BinaryEncoder::binaryStream()
+WriteStream& BinaryEncoder::binary_stream()
 {
     return _stream;
 }
 
-void BinaryEncoder::beginArray()
+void BinaryEncoder::begin_array()
 {
-    incrementCount();
-    _valueTypeStack.push(ValueType_Array);
-    _countStack.push(0);
-    _countPositionStack.push(_stream.position());
+    increment_count();
+    _value_type_stack.push(ValueType_Array);
+    _count_stack.push(0);
+    _count_position_stack.push(_stream.position());
     _stream << static_cast<uint32_t>(0);
 }
 
-void BinaryEncoder::endArray()
+void BinaryEncoder::end_array()
 {
-    size_t currentPosition = _stream.position();
-    _stream.seek(_countPositionStack.top());
-    _stream << _countStack.top();
-    _stream.seek(currentPosition);
+    size_t current_position = _stream.position();
+    _stream.seek(_count_position_stack.top());
+    _stream << _count_stack.top();
+    _stream.seek(current_position);
 
-    _countPositionStack.pop();
-    _countStack.pop();
-    _valueTypeStack.pop();
+    _count_position_stack.pop();
+    _count_stack.pop();
+    _value_type_stack.pop();
 }
 
-void BinaryEncoder::beginObject()
+void BinaryEncoder::begin_object()
 {
-    incrementCount();
-    _valueTypeStack.push(ValueType_Object);
+    increment_count();
+    _value_type_stack.push(ValueType_Object);
 }
 
-void BinaryEncoder::endObject()
+void BinaryEncoder::end_object()
 {
-    _valueTypeStack.pop();
+    _value_type_stack.pop();
 }
 
-void BinaryEncoder::selectMember(const char* name)
+void BinaryEncoder::select_member(const char* name)
 {
     (void)name;
 }
 
-void BinaryEncoder::encodeString(const std::string& value)
+void BinaryEncoder::encode_string(const std::string& value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeInt8(int8_t value)
+void BinaryEncoder::encode_int8(int8_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeUInt8(uint8_t value)
+void BinaryEncoder::encode_u_int8(uint8_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeInt16(int16_t value)
+void BinaryEncoder::encode_int16(int16_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeUInt16(uint16_t value)
+void BinaryEncoder::encode_u_int16(uint16_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeInt32(int32_t value)
+void BinaryEncoder::encode_int32(int32_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeUInt32(uint32_t value)
+void BinaryEncoder::encode_u_int32(uint32_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeInt64(int64_t value)
+void BinaryEncoder::encode_int64(int64_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeUInt64(uint64_t value)
+void BinaryEncoder::encode_u_int64(uint64_t value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeFloat32(float value)
+void BinaryEncoder::encode_float32(float value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeFloat64(double value)
+void BinaryEncoder::encode_float64(double value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::encodeBool(bool value)
+void BinaryEncoder::encode_bool(bool value)
 {
-    incrementCount();
+    increment_count();
     _stream << value;
 }
 
-void BinaryEncoder::incrementCount()
+void BinaryEncoder::increment_count()
 {
-    if (!_valueTypeStack.empty() && _valueTypeStack.top() == ValueType_Array)
+    if (!_value_type_stack.empty() && _value_type_stack.top() == ValueType_Array)
     {
-        ++_countStack.top();
+        ++_count_stack.top();
     }
 }

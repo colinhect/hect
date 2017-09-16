@@ -103,7 +103,7 @@ public:
     /// The packet data received.
     ///
     /// \note Only valid for events of type PeerEventType::ReceivePacket.
-    ByteVector packetData;
+    ByteVector packet_data;
 };
 
 ///
@@ -116,13 +116,13 @@ public:
     ///
     /// Constructs a host.
     ///
-    /// \param maxPeerCount The maximum number of simultaneous peer
+    /// \param max_peer_count The maximum number of simultaneous peer
     /// connections.
-    /// \param channelCount The number of channels to use; if 0 then the
+    /// \param channel_count The number of channels to use; if 0 then the
     /// maximum number of channels are used.
     /// \param port The port to listen for incoming connections on; if 0 then
     /// incoming connections will be ignored.
-    Host(size_t maxPeerCount, size_t channelCount = 0, Port port = 0);
+    Host(size_t max_peer_count, size_t channel_count = 0, Port port = 0);
 
     ~Host();
 
@@ -139,7 +139,7 @@ public:
     ///
     /// \returns A peer representing the remote host the connection request
     /// was sent to.
-    Peer requestConnectTo(IPAddress address, Port port);
+    Peer request_connect_to(IPAddress address, Port port);
 
     ///
     /// Triggers a disconnection handshake attempt with a remote host.
@@ -151,48 +151,48 @@ public:
     ///
     /// \throws InvalidOperation If the specified peer does not belong to this
     /// host.
-    void requestDisconnectFrom(Peer peer);
+    void request_disconnect_from(Peer peer);
 
     ///
     /// Polls the next event triggered from a Peer.
     ///
     /// \param event The event.
-    /// \param timeOut The time span to wait for an event to occur.
+    /// \param time_out The time span to wait for an event to occur.
     ///
     /// \returns True if an event was received; false otherwise.
-    bool pollEvent(PeerEvent& event, Milliseconds timeOut = Milliseconds(0));
+    bool poll_event(PeerEvent& event, Milliseconds time_out = Milliseconds(0));
 
     ///
     /// Sends a packet to a Peer.
     ///
     /// \note The packet is not sent instantaneously.  It will eventually
-    /// occur during a call to pollEvent() or can be forced by calling flush().
+    /// occur during a call to poll_event() or can be forced by calling flush().
     ///
     /// \param peer The peer to send the packet to.
     /// \param channel The channel to send the packet on.
-    /// \param packetData The packet data to send.
-    /// \param packetFlags The flags describing how the packet is transported.
-    void sendPacket(Peer peer, Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag::Reliable);
+    /// \param packet_data The packet data to send.
+    /// \param packet_flags The flags describing how the packet is transported.
+    void send_packet(Peer peer, Channel channel, const ByteVector& packet_data, PacketFlags packet_flags = PacketFlag::Reliable);
 
     ///
     /// Broadcasts a packet to all connected Peer%s.
     ///
     /// \note The packet is not sent instantaneously.  It will eventually
-    /// occur during a call to pollEvent() or can be forced by calling flush().
+    /// occur during a call to poll_event() or can be forced by calling flush().
     ///
     /// \param channel The channel to send the packet on.
-    /// \param packetData The packet data to send.
-    /// \param packetFlags The flags describing how the packet is transported.
-    void broadcastPacket(Channel channel, const ByteVector& packetData, PacketFlags packetFlags = PacketFlag::Reliable);
+    /// \param packet_data The packet data to send.
+    /// \param packet_flags The flags describing how the packet is transported.
+    void broadcast_packet(Channel channel, const ByteVector& packet_data, PacketFlags packet_flags = PacketFlag::Reliable);
 
     ///
     /// Force any enqueued packet transmissions to occur.
     void flush();
 
 private:
-    static void initializeENet();
+    static void initialize_e_net();
 
-    ENetHost* _enetHost { nullptr };
+    ENetHost* _enet_host { nullptr };
 };
 
 }

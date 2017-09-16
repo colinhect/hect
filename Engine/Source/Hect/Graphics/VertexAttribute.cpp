@@ -78,29 +78,29 @@ unsigned VertexAttribute::offset() const
     return _offset;
 }
 
-bool VertexAttribute::operator==(const VertexAttribute& vertexAttribute) const
+bool VertexAttribute::operator==(const VertexAttribute& vertex_attribute) const
 {
-    return _semantic == vertexAttribute._semantic
-           && _type == vertexAttribute._type
-           && _cardinality == vertexAttribute._cardinality
-           && _offset == vertexAttribute._offset;
+    return _semantic == vertex_attribute._semantic
+           && _type == vertex_attribute._type
+           && _cardinality == vertex_attribute._cardinality
+           && _offset == vertex_attribute._offset;
 }
 
-bool VertexAttribute::operator!=(const VertexAttribute& vertexAttribute) const
+bool VertexAttribute::operator!=(const VertexAttribute& vertex_attribute) const
 {
-    return !(*this == vertexAttribute);
+    return !(*this == vertex_attribute);
 }
 
 void VertexAttribute::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("semantic", _semantic)
-            << encodeEnum("type", _type)
-            << encodeValue("cardinality", _cardinality);
+    encoder << encode_enum("semantic", _semantic)
+            << encode_enum("type", _type)
+            << encode_value("cardinality", _cardinality);
 }
 
 void VertexAttribute::decode(Decoder& decoder)
 {
-    decoder >> decodeEnum("semantic", _semantic)
-            >> decodeEnum("type", _type)
-            >> decodeValue("cardinality", _cardinality);
+    decoder >> decode_enum("semantic", _semantic)
+            >> decode_enum("type", _type)
+            >> decode_value("cardinality", _cardinality);
 }

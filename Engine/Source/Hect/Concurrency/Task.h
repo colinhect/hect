@@ -97,7 +97,7 @@ public:
 
     ///
     /// Returns whether the task has completed.
-    bool hasCompleted() const;
+    bool has_completed() const;
 
 private:
     Task(Task::Action action);
@@ -106,8 +106,8 @@ private:
 
     Task::Action _action;
     std::atomic<bool> _completed { false };
-    bool _exceptionOccurred { false };
-    std::string _exceptionMessage;
+    bool _exception_occurred { false };
+    std::string _exception_message;
 };
 
 }

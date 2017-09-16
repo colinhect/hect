@@ -53,13 +53,13 @@ AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
 template <typename T>
 const Path& AssetHandle<T>::path() const
 {
-    static Path emptyPath;
+    static Path empty_path;
     if (_entry)
     {
         return _entry->path();
     }
 
-    return emptyPath;
+    return empty_path;
 }
 
 template <typename T>
@@ -110,44 +110,44 @@ T* AssetHandle<T>::operator->() const
 }
 
 template <typename T>
-bool AssetHandle<T>::operator==(const AssetHandle<T>& assetHandle) const
+bool AssetHandle<T>::operator==(const AssetHandle<T>& asset_handle) const
 {
     if (_entry)
     {
-        return _entry == assetHandle._entry;
+        return _entry == asset_handle._entry;
     }
     else if (_owned)
     {
-        return _owned == assetHandle._owned;
+        return _owned == asset_handle._owned;
     }
     else if (_unowned)
     {
-        return _unowned == assetHandle._unowned;
+        return _unowned == asset_handle._unowned;
     }
-    return (_entry || _owned || _unowned) == (assetHandle._entry || assetHandle._owned || assetHandle._unowned);
+    return (_entry || _owned || _unowned) == (asset_handle._entry || asset_handle._owned || asset_handle._unowned);
 }
 
 template <typename T>
-bool AssetHandle<T>::operator!=(const AssetHandle<T>& assetHandle) const
+bool AssetHandle<T>::operator!=(const AssetHandle<T>& asset_handle) const
 {
-    return !(*this == assetHandle);
+    return !(*this == asset_handle);
 }
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle)
+Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& asset_handle)
 {
-    encoder << assetHandle.path().asString();
+    encoder << asset_handle.path().as_string();
     return encoder;
 }
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, AssetHandle<T>& assetHandle)
+Decoder& operator>>(Decoder& decoder, AssetHandle<T>& asset_handle)
 {
     std::string path;
-    decoder >> decodeValue(path);
+    decoder >> decode_value(path);
     if (!path.empty())
     {
-        assetHandle = decoder.assetCache().getHandle<T>(path);
+        asset_handle = decoder.asset_cache().get_handle<T>(path);
     }
     return decoder;
 }

@@ -35,23 +35,23 @@ MemoryReadStream::MemoryReadStream(const ByteVector& data) :
 {
 }
 
-void MemoryReadStream::read(uint8_t* bytes, size_t byteCount)
+void MemoryReadStream::read(uint8_t* bytes, size_t byte_count)
 {
     assert(bytes);
 
     size_t length = this->length();
     size_t position = this->position();
 
-    if (position + byteCount >= length + 1)
+    if (position + byte_count >= length + 1)
     {
         throw InvalidOperation("Attempt to read past end of data");
     }
 
-    std::memcpy(bytes, &_data[position], byteCount);
-    _position += byteCount;
+    std::memcpy(bytes, &_data[position], byte_count);
+    _position += byte_count;
 }
 
-bool MemoryReadStream::endOfStream() const
+bool MemoryReadStream::end_of_stream() const
 {
     return _position >= length();
 }

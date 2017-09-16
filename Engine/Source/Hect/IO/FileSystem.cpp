@@ -50,8 +50,8 @@ public:
     FileReadStream(const Path& path);
     ~FileReadStream();
 
-    void read(uint8_t* bytes, size_t byteCount) override;
-    bool endOfStream() const override;
+    void read(uint8_t* bytes, size_t byte_count) override;
+    bool end_of_stream() const override;
     size_t length() const override;
     size_t position() const override;
     void seek(size_t position) override;
@@ -64,11 +64,11 @@ private:
 FileReadStream::FileReadStream(const Path& path) :
     _path(path)
 {
-    const char* pathString = path.asString().data();
-    _handle = PHYSFS_openRead(pathString);
+    const char* path_string = path.as_string().data();
+    _handle = PHYSFS_openRead(path_string);
     if (!_handle)
     {
-        throw IOError(format("Failed to open file '%s' for reading: %s", pathString, PHYSFS_getLastError()));
+        throw IOError(format("Failed to open file '%s' for reading: %s", path_string, PHYSFS_getLastError()));
     }
 }
 
@@ -83,7 +83,7 @@ FileReadStream::~FileReadStream()
     }
 }
 
-void FileReadStream::read(uint8_t* bytes, size_t byteCount)
+void FileReadStream::read(uint8_t* bytes, size_t byte_count)
 {
     assert(_handle);
     assert(bytes);
@@ -91,19 +91,19 @@ void FileReadStream::read(uint8_t* bytes, size_t byteCount)
     size_t length = this->length();
     size_t position = this->position();
 
-    if (position + byteCount >= length + 1)
+    if (position + byte_count >= length + 1)
     {
         throw IOError("Attempt to read past end of file");
     }
 
-    PHYSFS_sint64 result = PHYSFS_read(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
-    if (result != static_cast<PHYSFS_sint64>(byteCount))
+    PHYSFS_sint64 result = PHYSFS_read(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byte_count));
+    if (result != static_cast<PHYSFS_sint64>(byte_count))
     {
         throw IOError(format("Failed to read from file: %s", PHYSFS_getLastError()));
     }
 }
 
-bool FileReadStream::endOfStream() const
+bool FileReadStream::end_of_stream() const
 {
     assert(_handle);
     return PHYSFS_eof(_handle) != 0;
@@ -146,7 +146,7 @@ public:
     FileWriteStream(const Path& path);
     ~FileWriteStream();
 
-    void write(const uint8_t* bytes, size_t byteCount) override;
+    void write(const uint8_t* bytes, size_t byte_count) override;
     size_t position() const override;
     void seek(size_t position) override;
 
@@ -158,11 +158,11 @@ private:
 FileWriteStream::FileWriteStream(const Path& path) :
     _path(path)
 {
-    const char* pathString = path.asString().data();
-    _handle = PHYSFS_openWrite(pathString);
+    const char* path_string = path.as_string().data();
+    _handle = PHYSFS_openWrite(path_string);
     if (!_handle)
     {
-        throw IOError(format("Failed to open file '%s' for writing: %s", pathString, PHYSFS_getLastError()));
+        throw IOError(format("Failed to open file '%s' for writing: %s", path_string, PHYSFS_getLastError()));
     }
 }
 
@@ -177,13 +177,13 @@ FileWriteStream::~FileWriteStream()
     }
 }
 
-void FileWriteStream::write(const uint8_t* bytes, size_t byteCount)
+void FileWriteStream::write(const uint8_t* bytes, size_t byte_count)
 {
     assert(_handle);
     assert(bytes);
 
-    PHYSFS_sint64 result = PHYSFS_write(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byteCount));
-    if (result != static_cast<PHYSFS_sint64>(byteCount))
+    PHYSFS_sint64 result = PHYSFS_write(_handle, bytes, 1, static_cast<PHYSFS_uint32>(byte_count));
+    if (result != static_cast<PHYSFS_sint64>(byte_count))
     {
         throw IOError(format("Failed to write to file: %s", PHYSFS_getLastError()));
     }
@@ -212,105 +212,105 @@ FileSystem::~FileSystem()
     }
 }
 
-Path FileSystem::baseDirectory()
+Path FileSystem::base_directory()
 {
-    return convertPath(PHYSFS_getBaseDir());
+    return convert_path(PHYSFS_getBaseDir());
 }
 
-Path FileSystem::workingDirectory()
+Path FileSystem::working_directory()
 {
 #ifdef HECT_WINDOWS_BUILD
     char path[2048];
     GetCurrentDirectory(2048, path);
-    return convertPath(path);
+    return convert_path(path);
 #else
-    char* rawPath = get_current_dir_name();
-    Path path(rawPath);
-    free(rawPath);
+    char* raw_path = get_current_dir_name();
+    Path path(raw_path);
+    free(raw_path);
     return path;
 #endif
 }
 
-Path FileSystem::userDirectory()
+Path FileSystem::user_directory()
 {
-    return convertPath(PHYSFS_getUserDir());
+    return convert_path(PHYSFS_getUserDir());
 }
 
-Path FileSystem::applicationDataDirectory()
+Path FileSystem::application_data_directory()
 {
 #ifdef HECT_WINDOWS_BUILD
     TCHAR path[MAX_PATH];
     assert(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA, NULL, 0, path)));
-    return convertPath(path);
+    return convert_path(path);
 #else
     return Path();
 #endif
 }
 
-void FileSystem::setWriteDirectory(const Path& path)
+void FileSystem::set_write_directory(const Path& path)
 {
-    if (!PHYSFS_setWriteDir(path.asString().data()))
+    if (!PHYSFS_setWriteDir(path.as_string().data()))
     {
-        throw IOError(format("Failed to set write directory to '%s': %s", path.asString().data(), PHYSFS_getLastError()));
+        throw IOError(format("Failed to set write directory to '%s': %s", path.as_string().data(), PHYSFS_getLastError()));
     }
 }
 
-void FileSystem::mountArchive(const Path& path, const Path& mountPoint)
+void FileSystem::mount_archive(const Path& path, const Path& mount_point)
 {
-    const char* pathString = path.asString().data();
-    const char* mountPointString = mountPoint.asString().data();
+    const char* path_string = path.as_string().data();
+    const char* mount_point_string = mount_point.as_string().data();
 
-    if (!PHYSFS_mount(pathString, mountPointString, 0))
+    if (!PHYSFS_mount(path_string, mount_point_string, 0))
     {
-        throw IOError(format("Failed to mount archive '%s': %s", pathString, PHYSFS_getLastError()));
+        throw IOError(format("Failed to mount archive '%s': %s", path_string, PHYSFS_getLastError()));
     }
 
-    if (mountPoint.empty())
+    if (mount_point.empty())
     {
-        HECT_INFO(format("Mounted archive '%s'", pathString));
+        HECT_INFO(format("Mounted archive '%s'", path_string));
     }
     else
     {
-        HECT_INFO(format("Mounted archive '%s' to '%s'", pathString, mountPointString));
+        HECT_INFO(format("Mounted archive '%s' to '%s'", path_string, mount_point_string));
     }
 }
 
-std::unique_ptr<ReadStream> FileSystem::openFileForRead(const Path& path)
+std::unique_ptr<ReadStream> FileSystem::open_file_for_read(const Path& path)
 {
     return std::unique_ptr<ReadStream>(std::make_unique<FileReadStream>(path));
 }
 
-std::unique_ptr<WriteStream> FileSystem::openFileForWrite(const Path& path)
+std::unique_ptr<WriteStream> FileSystem::open_file_for_write(const Path& path)
 {
     return std::unique_ptr<WriteStream>(std::make_unique<FileWriteStream>(path));
 }
 
-void FileSystem::createDirectory(const Path& path)
+void FileSystem::create_directory(const Path& path)
 {
-    if (!PHYSFS_mkdir(path.asString().data()))
+    if (!PHYSFS_mkdir(path.as_string().data()))
     {
         throw IOError(format("Failed to create directory: %s", PHYSFS_getLastError()));
     }
 }
 
-std::vector<Path> FileSystem::filesInDirectory(const Path& path)
+std::vector<Path> FileSystem::files_in_directory(const Path& path)
 {
-    char** paths = PHYSFS_enumerateFiles(path.asString().data());
+    char** paths = PHYSFS_enumerateFiles(path.as_string().data());
 
-    std::vector<Path> resultingPaths;
+    std::vector<Path> resulting_paths;
     for (char** i = paths; *i != nullptr; ++i)
     {
-        resultingPaths.push_back(path + *i);
+        resulting_paths.push_back(path + *i);
     }
 
     PHYSFS_freeList(paths);
 
-    return resultingPaths;
+    return resulting_paths;
 }
 
 void FileSystem::remove(const Path& path)
 {
-    if (!PHYSFS_delete(path.asString().data()))
+    if (!PHYSFS_delete(path.as_string().data()))
     {
         throw IOError(format("Failed to remove directory: %s", PHYSFS_getLastError()));
     }
@@ -318,12 +318,12 @@ void FileSystem::remove(const Path& path)
 
 bool FileSystem::exists(const Path& path)
 {
-    return PHYSFS_exists(path.asString().data()) != 0;
+    return PHYSFS_exists(path.as_string().data()) != 0;
 }
 
-TimeStamp FileSystem::lastModified(const Path& path)
+TimeStamp FileSystem::last_modified(const Path& path)
 {
-    return PHYSFS_getLastModTime(path.asString().data());
+    return PHYSFS_getLastModTime(path.as_string().data());
 }
 
 FileSystem::FileSystem(int argc, char* const argv[])
@@ -336,10 +336,10 @@ FileSystem::FileSystem(int argc, char* const argv[])
     }
 }
 
-Path FileSystem::convertPath(const char* rawPath)
+Path FileSystem::convert_path(const char* raw_path)
 {
     std::string delimiter(PHYSFS_getDirSeparator());
-    std::string string(rawPath);
+    std::string string(raw_path);
 
     size_t start = 0;
     while ((start = string.find(delimiter, start)) != std::string::npos)

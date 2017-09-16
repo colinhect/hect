@@ -95,7 +95,7 @@ void Renderer::DataHandle<T>::reset(Data<T>* data)
 }
 
 template <typename T>
-bool Renderer::Object<T>::isUploaded() const
+bool Renderer::Object<T>::is_uploaded() const
 {
     return _renderer != nullptr && _handle.data.get() != nullptr;
 }
@@ -112,21 +112,21 @@ Renderer& Renderer::Object<T>::renderer()
 
 template <typename T>
 template <typename U>
-U* Renderer::Object<T>::dataAs() const
+U* Renderer::Object<T>::data_as() const
 {
     Data<T>* data = _handle.data.get();
     return reinterpret_cast<U*>(data);
 }
 
 template <typename T>
-void Renderer::Object<T>::setAsUploaded(Renderer& renderer, Data<T>* data)
+void Renderer::Object<T>::set_as_uploaded(Renderer& renderer, Data<T>* data)
 {
     _renderer = &renderer;
     _handle.reset(data);
 }
 
 template <typename T>
-void Renderer::Object<T>::setAsDestroyed()
+void Renderer::Object<T>::set_as_destroyed()
 {
     _renderer = nullptr;
 }

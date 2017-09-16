@@ -49,31 +49,31 @@ public:
     ///
     /// \param width The width.
     /// \param height The height.
-    /// \param pixelFormat The pixel format.
-    Image(unsigned width, unsigned height, const PixelFormat& pixelFormat);
+    /// \param pixel_format The pixel format.
+    Image(unsigned width, unsigned height, const PixelFormat& pixel_format);
 
     ///
     /// Flips the image vertically.
-    void flipVertical();
+    void flip_vertical();
 
     ///
     /// Returns whether the image has pixel data.
-    bool hasPixelData() const;
+    bool has_pixel_data() const;
 
     ///
     /// Returns the raw pixel data.
-    ByteVector& pixelData();
+    ByteVector& pixel_data();
 
     ///
     /// Returns the raw pixel data.
-    const ByteVector& pixelData() const;
+    const ByteVector& pixel_data() const;
 
     ///
     /// Sets the pixel data for the image.
     ///
-    /// \param pixelData The raw pixel data to move into the image's pixel
+    /// \param pixel_data The raw pixel data to move into the image's pixel
     /// data.
-    void setPixelData(ByteVector&& pixelData);
+    void set_pixel_data(ByteVector&& pixel_data);
 
     ///
     /// Writes a color value to a pixel.
@@ -81,27 +81,27 @@ public:
     /// \param x The x coordinate.
     /// \param y The y coordinate.
     /// \param color The color to write to the pixel.
-    void writePixel(unsigned x, unsigned y, Color color);
+    void write_pixel(unsigned x, unsigned y, Color color);
 
     ///
     /// Writes a color value to a pixel.
     ///
     /// \param coords The UV coordinates.
     /// \param color The color to write to the pixel.
-    void writePixel(Vector2 coords, Color color);
+    void write_pixel(Vector2 coords, Color color);
 
     ///
     /// Reads a color value of a pixel.
     ///
     /// \param x The x coordinate.
     /// \param y The y coordinate.
-    Color readPixel(unsigned x, unsigned y) const;
+    Color read_pixel(unsigned x, unsigned y) const;
 
     ///
     /// Reads a color value of a pixel.
     ///
     /// \param coords The UV coordinates.
-    Color readPixel(Vector2 coords) const;
+    Color read_pixel(Vector2 coords) const;
 
     ///
     /// Returns the width.
@@ -111,7 +111,7 @@ public:
     /// Sets the width.
     ///
     /// \param width The new width.
-    void setWidth(unsigned width);
+    void set_width(unsigned width);
 
     ///
     /// Returns the height.
@@ -121,54 +121,54 @@ public:
     /// Sets the height.
     ///
     /// \param height The new height.
-    void setHeight(unsigned height);
+    void set_height(unsigned height);
 
     ///
     /// Returns the pixel format.
-    const PixelFormat& pixelFormat() const;
+    const PixelFormat& pixel_format() const;
 
     ///
     /// Sets the pixel format.
     ///
     /// \note Does not affect the raw pixel data.
     ///
-    /// \param pixelFormat The new pixel format.
+    /// \param pixel_format The new pixel format.
     ///
     /// \throws InvalidOperation If the pixel format is incompatible with the
     /// color space.
-    void setPixelFormat(PixelFormat pixelFormat);
+    void set_pixel_format(PixelFormat pixel_format);
 
     ///
     /// Returns the color space that the image's pixel data is in.
-    ColorSpace colorSpace() const;
+    ColorSpace color_space() const;
 
     ///
     /// Set the color space that the image's pixel data is in.
     ///
     /// \note Does not affect the raw pixel data.
     ///
-    /// \param colorSpace The new color space.
+    /// \param color_space The new color space.
     ///
     /// \throws InvalidOperation If the color space is incompatible with the
     /// pixel format.
-    void setColorSpace(ColorSpace colorSpace);
+    void set_color_space(ColorSpace color_space);
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
-    void ensurePixelData();
-    void ensureCompatible(const PixelFormat& pixelFormat, ColorSpace colorSpace);
-    size_t computePixelOffset(unsigned x, unsigned y) const;
+    void ensure_pixel_data();
+    void ensure_compatible(const PixelFormat& pixel_format, ColorSpace color_space);
+    size_t compute_pixel_offset(unsigned x, unsigned y) const;
 
     unsigned _width { 0 };
     unsigned _height { 0 };
 
-    PixelFormat _pixelFormat;
+    PixelFormat _pixel_format;
 
-    ColorSpace _colorSpace { ColorSpace::Linear };
+    ColorSpace _color_space { ColorSpace::Linear };
 
-    ByteVector _pixelData;
+    ByteVector _pixel_data;
 };
 
 }

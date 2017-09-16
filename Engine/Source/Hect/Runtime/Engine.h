@@ -62,23 +62,23 @@ public:
 
     ///
     /// Performs the pre-initialization flow.
-    static void preInitialize();
+    static void pre_initialize();
 
     ///
     /// Performs the post-uninitialization flow.
-    static void postUninitialize();
+    static void post_uninitialize();
 
     ///
     /// Constructs an engine.
     ///
     /// \param argc The number of command-line arguments passed to main().
     /// \param argv The array of command-line arguments passed to main().
-    /// \param settingsFilePath The path to the settings file to use if none
+    /// \param settings_file_path The path to the settings file to use if none
     /// is specified in the arguments.
     ///
     /// \throws InvalidOperation If an instance of Engine has already been
     /// instantiated.
-    Engine(int argc, char* const argv[], const Path& settingsFilePath = Path());
+    Engine(int argc, char* const argv[], const Path& settings_file_path = Path());
 
     ~Engine();
 
@@ -92,7 +92,7 @@ public:
     /// Plays a scene for as long as it remains active.
     ///
     /// \param scene The scene to play.
-    void playScene(Scene& scene);
+    void play_scene(Scene& scene);
 
     ///
     /// Returns the platform.
@@ -100,11 +100,11 @@ public:
 
     ///
     /// Returns the file system.
-    FileSystem& fileSystem();
+    FileSystem& file_system();
 
     ///
     /// Returns the main window.
-    Window& mainWindow();
+    Window& main_window();
 
     ///
     /// Returns the renderer.
@@ -112,15 +112,15 @@ public:
 
     ///
     /// Returns the vector renderer.
-    VectorRenderer& vectorRenderer();
+    VectorRenderer& vector_renderer();
 
     ///
     /// Returns the asset cache.
-    AssetCache& assetCache();
+    AssetCache& asset_cache();
 
     ///
     /// Returns the task pool.
-    TaskPool& taskPool();
+    TaskPool& task_pool();
 
     ///
     /// Returns the settings data.
@@ -129,87 +129,87 @@ public:
 private:
     struct CommandLineArguments
     {
-        std::string settingsFilePath;
+        std::string settings_file_path;
     };
 
-    DataValue loadConfig(const Path& settingsFilePath);
-    void setConfiguredLogLevels();
+    DataValue load_config(const Path& settings_file_path);
+    void set_configured_log_levels();
 
-    CommandLineArguments parseCommandLineArgument(int argc, char* const argv[]);
+    CommandLineArguments parse_command_line_argument(int argc, char* const argv[]);
 
-    std::unique_ptr<FileSystem> _fileSystem;
+    std::unique_ptr<FileSystem> _file_system;
     std::unique_ptr<Platform> _platform;
     std::unique_ptr<Window> _window;
     std::unique_ptr<Renderer> _renderer;
-    std::unique_ptr<VectorRenderer> _vectorRenderer;
-    std::unique_ptr<AssetCache> _assetCache;
-    std::unique_ptr<TaskPool> _taskPool;
+    std::unique_ptr<VectorRenderer> _vector_renderer;
+    std::unique_ptr<AssetCache> _asset_cache;
+    std::unique_ptr<TaskPool> _task_pool;
     DataValue _settings;
 };
 
 }
 
-#define HECT_MAIN_PROJECT(project, settingsFile) \
+#define HECT_MAIN_PROJECT(project, settings_file) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
-            hect::Engine::preInitialize(); \
-            project::registerTypes(); \
-            hect::Engine engine(argc, argv, settingsFile); \
+            hect::Engine::pre_initialize(); \
+            project::register_types(); \
+            hect::Engine engine(argc, argv, settings_file); \
             int code = engine.main(); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
             return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
         } \
         return 0; \
     }
 
-#define HECT_MAIN_SYSTEM_TEST_HARNESS(settingsFile, block) \
+#define HECT_MAIN_SYSTEM_TEST_HARNESS(settings_file, block) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
-            hect::Engine::preInitialize(); \
-            char settingsPath[] = settingsFile; \
-            char* const engineArgv[] = { argv[0], settingsPath }; \
-            hect::Engine engine(2, engineArgv); \
+            hect::Engine::pre_initialize(); \
+            char settings_path[] = settings_file; \
+            char* const engine_argv[] = { argv[0], settings_path }; \
+            hect::Engine engine(2, engine_argv); \
             int code = 0; \
             block; \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
             return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
         } \
         return 0; \
     }
 
-#define HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(project, settingsFile, block) \
+#define HECT_MAIN_SYSTEM_TEST_HARNESS_PROJECT(project, settings_file, block) \
     int main(int argc, char* const argv[]) \
     { \
         try \
         { \
-            hect::Engine::preInitialize(); \
-            project::registerTypes(); \
-            char settingsPath[] = settingsFile; \
-            char* const engineArgv[] = { argv[0], settingsPath }; \
-            hect::Engine engine(2, engineArgv); \
+            hect::Engine::pre_initialize(); \
+            project::register_types(); \
+            char settings_path[] = settings_file; \
+            char* const engine_argv[] = { argv[0], settings_path }; \
+            hect::Engine engine(2, engine_argv); \
             int code = 0; \
             block; \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
             return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
         } \
         return 0; \
     }
@@ -219,16 +219,16 @@ private:
     { \
         try \
         { \
-            hect::Engine::preInitialize(); \
+            hect::Engine::pre_initialize(); \
             int code = 0; \
             block; \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
             return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
         } \
         return 0; \
     }
@@ -238,17 +238,17 @@ private:
     { \
         try \
         { \
-            hect::Engine::preInitialize(); \
-            project::registerTypes(); \
+            hect::Engine::pre_initialize(); \
+            project::register_types(); \
             int code = 0; \
             block; \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
             return code; \
         } \
         catch (hect::Exception& exception) \
         { \
             HECT_ERROR(exception.what()); \
-            hect::Engine::postUninitialize(); \
+            hect::Engine::post_uninitialize(); \
         } \
         return 0; \
     }

@@ -30,43 +30,43 @@ namespace hect
 {
 
 template <typename T>
-void ComponentRegistry::registerType()
+void ComponentRegistry::register_type()
 {
-    std::type_index typeIndex(typeid(T));
+    std::type_index type_index(typeid(T));
 
-    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
+    if (_type_index_to_id.find(type_index) == _type_index_to_id.end())
     {
-        Name typeName = Type::get<T>().name();
+        Name type_name = Type::get<T>().name();
 
-        ComponentTypeId typeId = static_cast<ComponentTypeId>(_componentConstructors.size());
+        ComponentTypeId type_id = static_cast<ComponentTypeId>(_component_constructors.size());
 
-        _componentConstructors.push_back([]()
+        _component_constructors.push_back([]()
         {
             return std::shared_ptr<ComponentBase>(new T());
         });
 
-        _componentPoolConstructors.push_back([](Scene& scene)
+        _component_pool_constructors.push_back([](Scene& scene)
         {
             return std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(scene));
         });
 
-        _typeIndexToId[typeIndex] = typeId;
-        _typeNameToId[typeName] = typeId;
-        _typeIdToName[typeId] = typeName;
-        _typeIds.push_back(typeId);
+        _type_index_to_id[type_index] = type_id;
+        _type_name_to_id[type_name] = type_id;
+        _type_id_to_name[type_id] = type_name;
+        _type_ids.push_back(type_id);
 
-        HECT_DEBUG(format("Registered component type '%s' (type id: %d)", typeName.data(), typeId));
+        HECT_DEBUG(format("Registered component type '%s' (type id: %d)", type_name.data(), type_id));
     }
 }
 
 template <typename T>
-ComponentTypeId ComponentRegistry::typeIdOf()
+ComponentTypeId ComponentRegistry::type_id_of()
 {
     static ComponentTypeId id = ComponentTypeId(-1);
     if (id == ComponentTypeId(-1))
     {
-        std::type_index typeIndex(typeid(T));
-        id = typeIdOf(typeIndex);
+        std::type_index type_index(typeid(T));
+        id = type_id_of(type_index);
     }
     return id;
 }

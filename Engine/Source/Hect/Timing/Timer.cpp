@@ -39,7 +39,7 @@ static const uint64_t _frequency = SDL_GetPerformanceFrequency();
 static std::chrono::high_resolution_clock::time_point _start = std::chrono::high_resolution_clock::now();
 #endif
 
-Microseconds Timer::totalElapsed()
+Microseconds Timer::total_elapsed()
 {
 #ifdef HECT_PLATFORM_SDL
     uint64_t ticks = SDL_GetPerformanceCounter();
@@ -59,10 +59,10 @@ Timer::Timer()
 
 void Timer::reset()
 {
-    _start = totalElapsed();
+    _start = total_elapsed();
 }
 
 Microseconds Timer::elapsed() const
 {
-    return totalElapsed() - _start;
+    return total_elapsed() - _start;
 }

@@ -51,56 +51,56 @@ public:
 
     ///
     /// Returns the primary frame buffer.
-    FrameBuffer& frameBuffer();
+    FrameBuffer& frame_buffer();
 
     ///
     /// Returns the back frame buffer.
-    FrameBuffer& backFrameBuffer();
+    FrameBuffer& back_frame_buffer();
 
     ///
     /// Returns the depth buffer.
-    Texture2& depthBuffer();
+    Texture2& depth_buffer();
 
     ///
     /// Returns the diffuse buffer.
-    Texture2& diffuseBuffer();
+    Texture2& diffuse_buffer();
 
     ///
     /// Returns the material buffer.
-    Texture2& materialBuffer();
+    Texture2& material_buffer();
 
     ///
     /// Returns the position buffer.
-    Texture2& positionBuffer();
+    Texture2& position_buffer();
 
     ///
     /// Returns the normal buffer.
-    Texture2& normalBuffer();
+    Texture2& normal_buffer();
 
     ///
     /// Swaps the back buffers.
-    void swapBackBuffers();
+    void swap_back_buffers();
 
     ///
     /// Returns the current back buffer.
-    Texture2& backBuffer();
+    Texture2& back_buffer();
 
     ///
     /// Returns the last back buffer.
-    Texture2& lastBackBuffer();
+    Texture2& last_back_buffer();
 
 private:
-    Texture2 _depthBuffer;
-    Texture2 _diffuseBuffer;
-    Texture2 _materialBuffer;
-    Texture2 _positionBuffer;
-    Texture2 _normalBuffer;
-    std::array<Texture2, 2> _backBuffers;
+    Texture2 _depth_buffer;
+    Texture2 _diffuse_buffer;
+    Texture2 _material_buffer;
+    Texture2 _position_buffer;
+    Texture2 _normal_buffer;
+    std::array<Texture2, 2> _back_buffers;
 
-    size_t _backBufferIndex { 0 };
+    size_t _back_buffer_index { 0 };
 
-    FrameBuffer _frameBuffer;
-    std::array<FrameBuffer, 2> _backFrameBuffers;
+    FrameBuffer _frame_buffer;
+    std::array<FrameBuffer, 2> _back_frame_buffers;
 };
 
 }

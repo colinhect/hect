@@ -29,5 +29,5 @@ using namespace hect;
 
 void Window::bind(Renderer& renderer)
 {
-    renderer.setTarget(*this);
+    renderer.set_target(*this);
 }

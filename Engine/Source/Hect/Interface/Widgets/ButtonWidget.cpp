@@ -25,37 +25,37 @@
 
 using namespace hect;
 
-ButtonWidget::ButtonWidget(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+ButtonWidget::ButtonWidget(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
 }
 
 void ButtonWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    StyleColor borderStyleColor = StyleColor::Border;
+    StyleColor background_style_color = StyleColor::Background;
+    StyleColor border_style_color = StyleColor::Border;
 
-    if (isPressed())
+    if (is_pressed())
     {
-        backgroundStyleColor = StyleColor::BackgroundPressed;
-        borderStyleColor = StyleColor::BorderPressed;
+        background_style_color = StyleColor::BackgroundPressed;
+        border_style_color = StyleColor::BorderPressed;
     }
-    else if (isMouseOver())
+    else if (is_mouse_over())
     {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
-        borderStyleColor = StyleColor::BorderMouseOver;
+        background_style_color = StyleColor::BackgroundMouseOver;
+        border_style_color = StyleColor::BorderMouseOver;
     }
 
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(clipping);
-    frame.beginPath();
+    //frame.set_clipping(clipping);
+    frame.begin_path();
     frame.rectangle(bounds());
-    frame.setFillColor(styleColor(backgroundStyleColor));
+    frame.set_fill_color(style_color(background_style_color));
     frame.fill();
-    frame.beginPath();
+    frame.begin_path();
     frame.rectangle(bounds());
-    frame.setStrokeColor(styleColor(borderStyleColor));
+    frame.set_stroke_color(style_color(border_style_color));
     frame.stroke();
 
     frame.translate(position());

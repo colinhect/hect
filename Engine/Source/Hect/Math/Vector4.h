@@ -107,16 +107,16 @@ public:
     T dot(Vector4T v) const;
 
     ///
-    /// \copydoc hect::Vector2T::angleFrom()
-    Radians angleFrom(Vector4T v) const;
+    /// \copydoc hect::Vector2T::angle_from()
+    Radians angle_from(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::length()
     T length() const;
 
     ///
-    /// \copydoc hect::Vector2T::lengthSquared()
-    T lengthSquared() const;
+    /// \copydoc hect::Vector2T::length_squared()
+    T length_squared() const;
 
     ///
     /// \copydoc hect::Vector2T::floor()

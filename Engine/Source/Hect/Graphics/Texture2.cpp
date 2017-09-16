@@ -42,27 +42,27 @@ Texture2::Texture2(Name name, unsigned width, unsigned height) :
 Texture2::Texture2(Name name, const Image::Handle& image) :
     Asset(name)
 {
-    setImage(image);
+    set_image(image);
 }
 
 Image& Texture2::image()
 {
     if (!_image)
     {
-        _image = Image::Handle(new Image(_width, _height, _pixelFormat));
+        _image = Image::Handle(new Image(_width, _height, _pixel_format));
 
-        if (isUploaded())
+        if (is_uploaded())
         {
-            renderer().downloadTextureImage(*this);
+            renderer().download_texture_image(*this);
         }
     }
 
     return *_image;
 }
 
-void Texture2::setImage(const Image::Handle& image)
+void Texture2::set_image(const Image::Handle& image)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
 
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -70,9 +70,9 @@ void Texture2::setImage(const Image::Handle& image)
         // Use the width/height/pixel format of the image
         _width = image->width();
         _height = image->height();
-        _pixelFormat = image->pixelFormat();
+        _pixel_format = image->pixel_format();
     }
-    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
+    else if (_width != image->width() || _height != image->height() || _pixel_format != image->pixel_format())
     {
         throw InvalidOperation("Image is incompatible with the texture");
     }
@@ -80,9 +80,9 @@ void Texture2::setImage(const Image::Handle& image)
     _image = image;
 }
 
-void Texture2::invalidateLocalImage()
+void Texture2::invalidate_local_image()
 {
-    if (!isUploaded())
+    if (!is_uploaded())
     {
         throw InvalidOperation("Texture is not uploaded");
     }
@@ -90,57 +90,57 @@ void Texture2::invalidateLocalImage()
     _image = Image::Handle();
 }
 
-Color Texture2::readPixel(unsigned x, unsigned y)
+Color Texture2::read_pixel(unsigned x, unsigned y)
 {
-    return image().readPixel(x, y);
+    return image().read_pixel(x, y);
 }
 
-Color Texture2::readPixel(Vector2 coords)
+Color Texture2::read_pixel(Vector2 coords)
 {
-    return image().readPixel(coords);
+    return image().read_pixel(coords);
 }
 
-TextureFilter Texture2::minFilter() const
+TextureFilter Texture2::min_filter() const
 {
-    return _minFilter;
+    return _min_filter;
 }
 
-void Texture2::setMinFilter(TextureFilter filter)
+void Texture2::set_min_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _minFilter = filter;
+    destroy_if_uploaded();
+    _min_filter = filter;
 }
 
-TextureFilter Texture2::magFilter() const
+TextureFilter Texture2::mag_filter() const
 {
-    return _magFilter;
+    return _mag_filter;
 }
 
-void Texture2::setMagFilter(TextureFilter filter)
+void Texture2::set_mag_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _magFilter = filter;
+    destroy_if_uploaded();
+    _mag_filter = filter;
 }
 
-bool Texture2::isMipmapped() const
+bool Texture2::is_mipmapped() const
 {
     return _mipmapped;
 }
 
-void Texture2::setMipmapped(bool mipmapped)
+void Texture2::set_mipmapped(bool mipmapped)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
     _mipmapped = mipmapped;
 }
 
-bool Texture2::isWrapped() const
+bool Texture2::is_wrapped() const
 {
     return _wrapped;
 }
 
-void Texture2::setWrapped(bool wrapped)
+void Texture2::set_wrapped(bool wrapped)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
     _wrapped = wrapped;
 }
 
@@ -154,15 +154,15 @@ unsigned Texture2::height() const
     return _height;
 }
 
-PixelFormat Texture2::pixelFormat() const
+PixelFormat Texture2::pixel_format() const
 {
-    return _pixelFormat;
+    return _pixel_format;
 }
 
-void Texture2::setPixelFormat(PixelFormat pixelFormat)
+void Texture2::set_pixel_format(PixelFormat pixel_format)
 {
-    destroyIfUploaded();
-    _pixelFormat = pixelFormat;
+    destroy_if_uploaded();
+    _pixel_format = pixel_format;
 }
     
 bool Texture2::operator==(const Texture2& texture) const
@@ -180,13 +180,13 @@ bool Texture2::operator==(const Texture2& texture) const
     }
 
     // Pixel format
-    if (_pixelFormat != texture._pixelFormat)
+    if (_pixel_format != texture._pixel_format)
     {
         return false;
     }
 
     // Min/mag filters
-    if (_minFilter != texture._minFilter && _magFilter != texture._magFilter)
+    if (_min_filter != texture._min_filter && _mag_filter != texture._mag_filter)
     {
         return false;
     }
@@ -207,46 +207,46 @@ bool Texture2::operator!=(const Texture2& texture) const
 
 void Texture2::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("image", _image)
-            << encodeEnum("minFilter", _minFilter)
-            << encodeEnum("magFilter", _magFilter)
-            << encodeValue("wrapped", _wrapped)
-            << encodeValue("mipmapped", _mipmapped);
+    encoder << encode_value("image", _image)
+            << encode_enum("min_filter", _min_filter)
+            << encode_enum("mag_filter", _mag_filter)
+            << encode_value("wrapped", _wrapped)
+            << encode_value("mipmapped", _mipmapped);
 }
 
 void Texture2::decode(Decoder& decoder)
 {
     // Color space
-    ColorSpace colorSpace = ColorSpace::NonLinear;
-    if (decoder.selectMember("colorSpace"))
+    ColorSpace color_space = ColorSpace::NonLinear;
+    if (decoder.select_member("color_space"))
     {
-        decoder >> decodeEnum(colorSpace);
+        decoder >> decode_enum(color_space);
     }
 
     // Images
-    if (decoder.selectMember("image"))
+    if (decoder.select_member("image"))
     {
         Image::Handle image;
-        decoder >> decodeValue(image);
+        decoder >> decode_value(image);
 
         // Remove the image from the asset cache because we don't want to
         // store uncompressed image data in main memory
-        decoder.assetCache().remove(image.path());
+        decoder.asset_cache().remove(image.path());
 
-        image->setColorSpace(colorSpace);
-        setImage(image);
+        image->set_color_space(color_space);
+        set_image(image);
     }
 
-    decoder >> decodeEnum("minFilter", _minFilter)
-            >> decodeEnum("magFilter", _magFilter)
-            >> decodeValue("wrapped", _wrapped)
-            >> decodeValue("mipmapped", _mipmapped);
+    decoder >> decode_enum("min_filter", _min_filter)
+            >> decode_enum("mag_filter", _mag_filter)
+            >> decode_value("wrapped", _wrapped)
+            >> decode_value("mipmapped", _mipmapped);
 }
 
-void Texture2::destroyIfUploaded()
+void Texture2::destroy_if_uploaded()
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyTexture(*this);
+        renderer().destroy_texture(*this);
     }
 }

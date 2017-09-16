@@ -32,9 +32,9 @@
 
 using namespace hect;
 
-Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
+Host::Host(size_t max_peer_count, size_t channel_count, Port port)
 {
-    initializeENet();
+    initialize_e_net();
 
     // If a port was specified
     if (port)
@@ -45,19 +45,19 @@ Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
         address.port = port;
 
         // Create a listening ENet host
-        _enetHost = enet_host_create(&address, maxPeerCount, channelCount, 0, 0);
+        _enet_host = enet_host_create(&address, max_peer_count, channel_count, 0, 0);
 
         HECT_INFO(format("Created local host listening on port %d", port));
     }
     else
     {
-        _enetHost = enet_host_create(nullptr, maxPeerCount, channelCount, 0, 0);
+        _enet_host = enet_host_create(nullptr, max_peer_count, channel_count, 0, 0);
 
         HECT_INFO("Created local host");
     }
 
     // Verify that the host was successfully created
-    if (!_enetHost)
+    if (!_enet_host)
     {
         throw FatalError("Failed to create host");
     }
@@ -66,86 +66,86 @@ Host::Host(size_t maxPeerCount, size_t channelCount, Port port)
 Host::~Host()
 {
     // Destroy the associated host if there is one
-    if (_enetHost)
+    if (_enet_host)
     {
-        if (_enetHost->address.port)
+        if (_enet_host->address.port)
         {
-            HECT_INFO(format("Destroyed local host listening on port %d", _enetHost->address.port));
+            HECT_INFO(format("Destroyed local host listening on port %d", _enet_host->address.port));
         }
         else
         {
             HECT_INFO("Destroyed local host");
         }
 
-        enet_host_destroy(_enetHost);
+        enet_host_destroy(_enet_host);
     }
 }
 
-Peer Host::requestConnectTo(IPAddress address, Port port)
+Peer Host::request_connect_to(IPAddress address, Port port)
 {
     // Create the ENet address to connect to
-    ENetAddress enetAddress;
-    enetAddress.host = static_cast<uint32_t>(address);
-    enetAddress.port = port;
+    ENetAddress enet_address;
+    enet_address.host = static_cast<uint32_t>(address);
+    enet_address.port = port;
 
     // Trigger the connection
-    ENetPeer* enetPeer = enet_host_connect(_enetHost, &enetAddress, _enetHost->channelLimit, 0);
-    if (!enetPeer)
+    ENetPeer* enet_peer = enet_host_connect(_enet_host, &enet_address, _enet_host->channelLimit, 0);
+    if (!enet_peer)
     {
         throw FatalError("Failed to create peer");
     }
 
-    HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.asString().data(), port));
+    HECT_INFO(format("Requested connection to remote host at address %s on port %d", address.as_string().data(), port));
 
     // Return the associated peer
-    return Peer(enetPeer);
+    return Peer(enet_peer);
 }
 
-void Host::requestDisconnectFrom(Peer peer)
+void Host::request_disconnect_from(Peer peer)
 {
     // Trigger the disconnect
     if (peer.state() == PeerState::Connected)
     {
-        enet_peer_disconnect(peer._enetPeer, 0);
-        HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().asString().data()));
+        enet_peer_disconnect(peer._enet_peer, 0);
+        HECT_INFO(format("Requested disconnection from remote host at address %s", peer.address().as_string().data()));
     }
     else
     {
-        enet_peer_reset(peer._enetPeer);
+        enet_peer_reset(peer._enet_peer);
     }
 }
 
-bool Host::pollEvent(PeerEvent& event, Milliseconds timeOut)
+bool Host::poll_event(PeerEvent& event, Milliseconds time_out)
 {
     // Poll for the ENet event
-    ENetEvent enetEvent;
-    if (enet_host_service(_enetHost, &enetEvent, static_cast<uint32_t>(timeOut.value)) > 0)
+    ENetEvent enet_event;
+    if (enet_host_service(_enet_host, &enet_event, static_cast<uint32_t>(time_out.value)) > 0)
     {
-        Peer peer(enetEvent.peer);
+        Peer peer(enet_event.peer);
 
         // Create the event
         event = PeerEvent();
-        event.type = static_cast<PeerEventType>(enetEvent.type);
+        event.type = static_cast<PeerEventType>(enet_event.type);
         event.peer = peer;
 
         // If it is a packet receive event then copy the packet data to the
         // packet of the event
-        if (enetEvent.type == ENET_EVENT_TYPE_RECEIVE)
+        if (enet_event.type == ENET_EVENT_TYPE_RECEIVE)
         {
-            ByteVector packetData(enetEvent.packet->dataLength, 0);
-            std::memcpy(&packetData[0], enetEvent.packet->data, packetData.size());
-            event.packetData = std::move(packetData);
-            enet_packet_destroy(enetEvent.packet);
+            ByteVector packet_data(enet_event.packet->dataLength, 0);
+            std::memcpy(&packet_data[0], enet_event.packet->data, packet_data.size());
+            event.packet_data = std::move(packet_data);
+            enet_packet_destroy(enet_event.packet);
         }
 
         // Log connection/disconnection events
         switch (event.type)
         {
         case PeerEventType::Connect:
-            HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().asString().data(), peer.id()));
+            HECT_INFO(format("Connected to remote host at address %s (peer id = %d)", peer.address().as_string().data(), peer.id()));
             break;
         case PeerEventType::Disconnect:
-            HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().asString().data(), peer.id()));
+            HECT_INFO(format("Disconnected from remote host at address %s (peer id = %d)", peer.address().as_string().data(), peer.id()));
             break;
         default:
             break;
@@ -159,24 +159,24 @@ bool Host::pollEvent(PeerEvent& event, Milliseconds timeOut)
     return false;
 }
 
-void Host::sendPacket(Peer peer, Channel channel, const ByteVector& packetData, PacketFlags packetFlags)
+void Host::send_packet(Peer peer, Channel channel, const ByteVector& packet_data, PacketFlags packet_flags)
 {
-    ENetPacket* enetPacket = enet_packet_create(&packetData[0], packetData.size(), packetFlags);
-    enet_peer_send(peer._enetPeer, channel, enetPacket);
+    ENetPacket* enet_packet = enet_packet_create(&packet_data[0], packet_data.size(), packet_flags);
+    enet_peer_send(peer._enet_peer, channel, enet_packet);
 }
 
-void Host::broadcastPacket(Channel channel, const ByteVector& packetData, PacketFlags packetFlags)
+void Host::broadcast_packet(Channel channel, const ByteVector& packet_data, PacketFlags packet_flags)
 {
-    ENetPacket* enetPacket = enet_packet_create(&packetData[0], packetData.size(), packetFlags);
-    enet_host_broadcast(_enetHost, channel, enetPacket);
+    ENetPacket* enet_packet = enet_packet_create(&packet_data[0], packet_data.size(), packet_flags);
+    enet_host_broadcast(_enet_host, channel, enet_packet);
 }
 
 void Host::flush()
 {
-    enet_host_flush(_enetHost);
+    enet_host_flush(_enet_host);
 }
 
-void Host::initializeENet()
+void Host::initialize_e_net()
 {
     static bool initialized = false;
 

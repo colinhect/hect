@@ -46,7 +46,7 @@ Any& Any::operator=(const T& value)
 }
 
 template <typename T>
-bool Any::isType() const
+bool Any::is_type() const
 {
     if (_container)
     {
@@ -61,14 +61,14 @@ bool Any::isType() const
 template <typename T>
 T& Any::as() const
 {
-    auto containerValue = dynamic_cast<ContainerValue<T>*>(_container);
+    auto container_value = dynamic_cast<ContainerValue<T>*>(_container);
 
-    if (!containerValue)
+    if (!container_value)
     {
         throw InvalidOperation("Invalid type");
     }
 
-    return containerValue->held;
+    return container_value->held;
 }
 
 template <typename T>

@@ -63,7 +63,7 @@ public:
     /// The value of the joystick axis related to the event.
     ///
     /// \note Only relevant for a ::JoystickEventType::AxisMotion event.
-    double axisValue { 0 };
+    double axis_value { 0 };
 };
 
 }

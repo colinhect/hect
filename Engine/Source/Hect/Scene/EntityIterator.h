@@ -61,7 +61,7 @@ public:
 protected:
     Entity& dereference() const;
     void increment();
-    bool isValid() const;
+    bool is_valid() const;
     bool equals(const EntityIteratorBase& other) const;
 
 private:

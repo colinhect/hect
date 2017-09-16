@@ -25,57 +25,57 @@
 
 using namespace hect;
 
-CheckBoxWidget::CheckBoxWidget(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+CheckBoxWidget::CheckBoxWidget(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
-    setDimensions(Vector2(10));
+    set_dimensions(Vector2(10));
 }
 
-bool CheckBoxWidget::isChecked() const
+bool CheckBoxWidget::is_checked() const
 {
     return _checked;
 }
 
-void CheckBoxWidget::setChecked(bool checked)
+void CheckBoxWidget::set_checked(bool checked)
 {
     _checked = checked;
 }
 
 void CheckBoxWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
-    StyleColor forgroundStyleColor = StyleColor::Foreground;
-    StyleColor backgroundStyleColor = StyleColor::Background;
+    StyleColor forground_style_color = StyleColor::Foreground;
+    StyleColor background_style_color = StyleColor::Background;
 
-    if (isMouseOver())
+    if (is_mouse_over())
     {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+        background_style_color = StyleColor::BackgroundMouseOver;
     }
 
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(clipping);
-    frame.beginPath();
+    //frame.set_clipping(clipping);
+    frame.begin_path();
     frame.rectangle(bounds());
-    frame.setFillColor(styleColor(backgroundStyleColor));
+    frame.set_fill_color(style_color(background_style_color));
     frame.fill();
 
     frame.translate(position());
 
     if (_checked)
     {
-        Vector2 checkPosition = dimensions() * 0.25;
-        Vector2 checkDimensions = dimensions() * 0.75;
+        Vector2 check_position = dimensions() * 0.25;
+        Vector2 check_dimensions = dimensions() * 0.75;
 
-        frame.beginPath();
-        frame.rectangle(Rectangle(checkPosition.ceil(), checkDimensions.floor()));
-        frame.setFillColor(styleColor(forgroundStyleColor));
+        frame.begin_path();
+        frame.rectangle(Rectangle(check_position.ceil(), check_dimensions.floor()));
+        frame.set_fill_color(style_color(forground_style_color));
         frame.fill();
     }
 
     WidgetBase::render(frame, clipping);
 }
 
-void CheckBoxWidget::onPressed()
+void CheckBoxWidget::on_pressed()
 {
     _checked = !_checked;
 }

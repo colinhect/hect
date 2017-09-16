@@ -27,220 +27,220 @@ using namespace hect;
 
 MeshReader::MeshReader(const Mesh& mesh) :
     _mesh(mesh),
-    _vertexStream(mesh.vertexData()),
-    _indexStream(mesh.indexData())
+    _vertex_stream(mesh.vertex_data()),
+    _index_stream(mesh.index_data())
 {
 }
 
-bool MeshReader::nextVertex()
+bool MeshReader::next_vertex()
 {
-    if (_vertexCount != 0)
+    if (_vertex_count != 0)
     {
-        _vertexPosition += _mesh.vertexLayout().vertexSize();
+        _vertex_position += _mesh.vertex_layout().vertex_size();
     }
 
-    ++_vertexCount;
-    return _mesh.vertexCount() >= _vertexCount;
+    ++_vertex_count;
+    return _mesh.vertex_count() >= _vertex_count;
 }
 
-double MeshReader::readAttributeDouble(VertexAttributeSemantic semantic) const
+double MeshReader::read_attribute_double(VertexAttributeSemantic semantic) const
 {
-    checkVertexBoundary();
+    check_vertex_boundary();
 
     float value = 0;
 
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
-        value = readComponentValue(attribute, 0);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
+        value = read_component_value(attribute, 0);
     }
 
     return value;
 }
 
-Vector2 MeshReader::readAttributeVector2(VertexAttributeSemantic semantic) const
+Vector2 MeshReader::read_attribute_vector2(VertexAttributeSemantic semantic) const
 {
-    checkVertexBoundary();
+    check_vertex_boundary();
 
     Vector2 value;
 
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
         if (cardinality > 0)
         {
-            value.x = readComponentValue(attribute, 0);
+            value.x = read_component_value(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = readComponentValue(attribute, 1);
+            value.y = read_component_value(attribute, 1);
         }
     }
 
     return value;
 }
 
-Vector3 MeshReader::readAttributeVector3(VertexAttributeSemantic semantic) const
+Vector3 MeshReader::read_attribute_vector3(VertexAttributeSemantic semantic) const
 {
-    checkVertexBoundary();
+    check_vertex_boundary();
 
     Vector3 value;
 
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
-            value.x = readComponentValue(attribute, 0);
+            value.x = read_component_value(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = readComponentValue(attribute, 1);
+            value.y = read_component_value(attribute, 1);
         }
 
         if (cardinality > 2)
         {
-            value.z = readComponentValue(attribute, 2);
+            value.z = read_component_value(attribute, 2);
         }
     }
 
     return value;
 }
 
-Vector4 MeshReader::readAttributeVector4(VertexAttributeSemantic semantic) const
+Vector4 MeshReader::read_attribute_vector4(VertexAttributeSemantic semantic) const
 {
-    checkVertexBoundary();
+    check_vertex_boundary();
 
     Vector4 value;
 
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
-            value.x = readComponentValue(attribute, 0);
+            value.x = read_component_value(attribute, 0);
         }
 
         if (cardinality > 1)
         {
-            value.y = readComponentValue(attribute, 1);
+            value.y = read_component_value(attribute, 1);
         }
 
         if (cardinality > 2)
         {
-            value.z = readComponentValue(attribute, 2);
+            value.z = read_component_value(attribute, 2);
         }
 
         if (cardinality > 3)
         {
-            value.w = readComponentValue(attribute, 3);
+            value.w = read_component_value(attribute, 3);
         }
     }
 
     return value;
 }
 
-Color MeshReader::readAttributeColor(VertexAttributeSemantic semantic) const
+Color MeshReader::read_attribute_color(VertexAttributeSemantic semantic) const
 {
-    Vector4 value = readAttributeVector4(semantic);
+    Vector4 value = read_attribute_vector4(semantic);
     return Color(value.x, value.y, value.z, value.w);
 }
 
-bool MeshReader::nextIndex()
+bool MeshReader::next_index()
 {
-    if (_indexCount != 0)
+    if (_index_count != 0)
     {
-        _indexPosition += _mesh.indexSize();
+        _index_position += _mesh.index_size();
     }
 
-    ++_indexCount;
-    return _mesh.indexCount() >= _indexCount;
+    ++_index_count;
+    return _mesh.index_count() >= _index_count;
 }
 
-uint8_t MeshReader::readIndexUInt8() const
+uint8_t MeshReader::read_index_u_int8() const
 {
-    return static_cast<uint8_t>(readIndexUInt32());
+    return static_cast<uint8_t>(read_index_u_int32());
 }
 
-uint16_t MeshReader::readIndexUInt16() const
+uint16_t MeshReader::read_index_u_int16() const
 {
-    return static_cast<uint16_t>(readIndexUInt32());
+    return static_cast<uint16_t>(read_index_u_int32());
 }
 
-uint32_t MeshReader::readIndexUInt32() const
+uint32_t MeshReader::read_index_u_int32() const
 {
-    checkIndexBoundary();
-    _indexStream.seek(_indexPosition);
+    check_index_boundary();
+    _index_stream.seek(_index_position);
 
     // Read the index data based on the type
     uint32_t index = 0;
-    switch (_mesh.indexType())
+    switch (_mesh.index_type())
     {
     case IndexType::UInt8:
     {
         uint8_t value;
-        _indexStream >> value;
+        _index_stream >> value;
         index = value;
     }
     break;
     case IndexType::UInt16:
     {
         uint16_t value;
-        _indexStream >> value;
+        _index_stream >> value;
         index = value;
     }
     break;
     case IndexType::UInt32:
-        _indexStream >> index;
+        _index_stream >> index;
         break;
     }
 
     return index;
 }
 
-void MeshReader::checkVertexBoundary() const
+void MeshReader::check_vertex_boundary() const
 {
-    if (_vertexCount == 0)
+    if (_vertex_count == 0)
     {
         throw InvalidOperation("Cannot read attribute before moving to the first vertex");
     }
-    else if (_vertexCount > _mesh.vertexCount())
+    else if (_vertex_count > _mesh.vertex_count())
     {
         throw InvalidOperation("Cannot read past the last vertex");
     }
 }
 
-void MeshReader::checkIndexBoundary() const
+void MeshReader::check_index_boundary() const
 {
-    if (_indexCount == 0)
+    if (_index_count == 0)
     {
         throw InvalidOperation("Cannot read index before moving to the first index");
     }
-    else if (_indexCount > _mesh.indexCount())
+    else if (_index_count > _mesh.index_count())
     {
         throw InvalidOperation("Cannot read past the last index");
     }
 }
 
-float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned index) const
+float MeshReader::read_component_value(const VertexAttribute& attribute, unsigned index) const
 {
-    _vertexStream.seek(_vertexPosition);
+    _vertex_stream.seek(_vertex_position);
 
-    size_t offset = _vertexPosition + attribute.offset();
+    size_t offset = _vertex_position + attribute.offset();
 
     // Read the vertex data based on the type
     float value = 0;
@@ -248,58 +248,58 @@ float MeshReader::readComponentValue(const VertexAttribute& attribute, unsigned 
     {
     case VertexAttributeType::Int8:
     {
-        _vertexStream.seek(offset + index * sizeof(int8_t));
-        int8_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(int8_t));
+        int8_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::UInt8:
     {
-        _vertexStream.seek(offset + index * sizeof(uint8_t));
-        uint8_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(uint8_t));
+        uint8_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::Int16:
     {
-        _vertexStream.seek(offset + index * sizeof(int16_t));
-        int16_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(int16_t));
+        int16_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::UInt16:
     {
-        _vertexStream.seek(offset + index * sizeof(uint16_t));
-        uint16_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(uint16_t));
+        uint16_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::Int32:
     {
-        _vertexStream.seek(offset + index * sizeof(int32_t));
-        int32_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(int32_t));
+        int32_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::UInt32:
     {
-        _vertexStream.seek(offset + index * sizeof(uint32_t));
-        uint32_t readValue;
-        _vertexStream >> readValue;
-        value = static_cast<float>(readValue);
+        _vertex_stream.seek(offset + index * sizeof(uint32_t));
+        uint32_t read_value;
+        _vertex_stream >> read_value;
+        value = static_cast<float>(read_value);
     }
     break;
     case VertexAttributeType::Reserved:
         // Float 16
         break;
     case VertexAttributeType::Float32:
-        _vertexStream.seek(offset + index * sizeof(float));
-        _vertexStream >> value;
+        _vertex_stream.seek(offset + index * sizeof(float));
+        _vertex_stream >> value;
         break;
     }
 

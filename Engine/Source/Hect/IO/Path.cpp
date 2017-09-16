@@ -31,7 +31,7 @@ using namespace hect;
 namespace
 {
 
-const char _pathDelimiter = '/';
+const char _path_delimiter = '/';
 
 }
 
@@ -41,26 +41,26 @@ Path::Path()
 
 Path::Path(const char* path)
 {
-    setRawPath(path);
+    set_raw_path(path);
 }
 
 Path::Path(const std::string& path)
 {
-    setRawPath(path.data());
+    set_raw_path(path.data());
 }
 
 Path::Path(Name path)
 {
-    setRawPath(path.data());
+    set_raw_path(path.data());
 }
 
 std::string Path::extension() const
 {
     // Find the position of the first '.' starting from the right
-    size_t i = _rawPath.size();
+    size_t i = _raw_path.size();
     for (; i > 0; --i)
     {
-        if (_rawPath[i] == '.')
+        if (_raw_path[i] == '.')
         {
             break;
         }
@@ -73,16 +73,16 @@ std::string Path::extension() const
     }
 
     // Return the extension
-    return _rawPath.substr(i + 1, _rawPath.size() - i - 1);
+    return _raw_path.substr(i + 1, _raw_path.size() - i - 1);
 }
 
-Path Path::parentDirectory() const
+Path Path::parent_directory() const
 {
     // Find the position of the first '/' starting from the right
-    size_t i = _rawPath.size();
+    size_t i = _raw_path.size();
     for (; i > 0; --i)
     {
-        if (_rawPath[i] == _pathDelimiter)
+        if (_raw_path[i] == _path_delimiter)
         {
             break;
         }
@@ -95,12 +95,12 @@ Path Path::parentDirectory() const
     }
 
     // Return the parent directory
-    return _rawPath.substr(0, i);
+    return _raw_path.substr(0, i);
 }
 
 bool Path::empty() const
 {
-    return _rawPath.empty();
+    return _raw_path.empty();
 }
 
 Path Path::operator+(const Path& path) const
@@ -108,15 +108,15 @@ Path Path::operator+(const Path& path) const
     Path result(*this);
 
     // Only add if the right-hand side is not empty
-    if (!path._rawPath.empty())
+    if (!path._raw_path.empty())
     {
         // Add a delimiter between the paths if the left-hand side is not
         // empty and the right-hand side does not start with a delimeter
-        if (!result._rawPath.empty() && path._rawPath[0] != _pathDelimiter)
+        if (!result._raw_path.empty() && path._raw_path[0] != _path_delimiter)
         {
-            result._rawPath += _pathDelimiter;
+            result._raw_path += _path_delimiter;
         }
-        result._rawPath.append(path._rawPath);
+        result._raw_path.append(path._raw_path);
     }
     return result;
 }
@@ -124,52 +124,52 @@ Path Path::operator+(const Path& path) const
 Path& Path::operator+=(const Path& path)
 {
     // Only add if the right-hand side is not empty
-    if (!path._rawPath.empty())
+    if (!path._raw_path.empty())
     {
 
         // Don't add the delimiter if this path is empty
-        if (!_rawPath.empty())
+        if (!_raw_path.empty())
         {
-            _rawPath += _pathDelimiter;
+            _raw_path += _path_delimiter;
         }
-        _rawPath.append(path._rawPath);
+        _raw_path.append(path._raw_path);
     }
     return *this;
 }
 
-const std::string& Path::asString() const
+const std::string& Path::as_string() const
 {
-    return _rawPath;
+    return _raw_path;
 }
 
-Name Path::asName() const
+Name Path::as_name() const
 {
-    return Name(_rawPath);
+    return Name(_raw_path);
 }
 
 bool Path::operator<(const Path& path) const
 {
-    return _rawPath < path._rawPath;
+    return _raw_path < path._raw_path;
 }
 
 bool Path::operator==(const Path& path) const
 {
-    return _rawPath == path._rawPath;
+    return _raw_path == path._raw_path;
 }
 
 bool Path::operator!=(const Path& path) const
 {
-    return _rawPath != path._rawPath;
+    return _raw_path != path._raw_path;
 }
 
-void Path::setRawPath(const char* rawPath)
+void Path::set_raw_path(const char* raw_path)
 {
-    _rawPath = std::string(rawPath);
+    _raw_path = std::string(raw_path);
     std::string delimiter(" /");
 
     // Trim trailing delimiter
-    size_t end = _rawPath.find_last_not_of(delimiter);
-    _rawPath = _rawPath.substr(0, end + 1);
+    size_t end = _raw_path.find_last_not_of(delimiter);
+    _raw_path = _raw_path.substr(0, end + 1);
 }
 
 namespace hect
@@ -177,15 +177,15 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Path& path)
 {
-    encoder << encodeValue(path.asString());
+    encoder << encode_value(path.as_string());
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Path& path)
 {
-    std::string rawPath;
-    decoder >> decodeValue(rawPath);
-    path = Path(rawPath);
+    std::string raw_path;
+    decoder >> decode_value(raw_path);
+    path = Path(raw_path);
     return decoder;
 }
 

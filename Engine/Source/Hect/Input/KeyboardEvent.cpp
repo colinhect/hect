@@ -50,12 +50,12 @@
 
 using namespace hect;
 
-bool KeyboardEvent::isKeyDown(Key key) const
+bool KeyboardEvent::is_key_down(Key key) const
 {
     return type == KeyboardEventType::KeyDown && this->key == key;
 }
 
-bool KeyboardEvent::isKeyUp(Key key) const
+bool KeyboardEvent::is_key_up(Key key) const
 {
     return type == KeyboardEventType::KeyUp && this->key == key;
 }

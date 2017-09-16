@@ -52,17 +52,17 @@ public:
     ///
     /// Constructs an enum value given its numeric value and string value.
     ///
-    /// \param numericValue The numeric value of the enum.
-    /// \param stringValue The string value of the enum.
-    EnumValue(EnumValue::Type numericValue, const std::string& stringValue);
+    /// \param numeric_value The numeric value of the enum.
+    /// \param string_value The string value of the enum.
+    EnumValue(EnumValue::Type numeric_value, const std::string& string_value);
 
     ///
     /// The numeric value of the enum.
-    EnumValue::Type numericValue;
+    EnumValue::Type numeric_value;
 
     ///
     /// The string value of the enum.
-    std::string stringValue;
+    std::string string_value;
 };
 
 ///
@@ -81,51 +81,51 @@ public:
     /// Creates an enum value for a specific enum type from its string
     /// representation.
     ///
-    /// \param stringValue The string representation of the enum value.
+    /// \param string_value The string representation of the enum value.
     ///
     /// \returns The enum value.
     ///
     /// \throws DecodeError If the string does not represent a valid enum
     /// value or if the type is not an enum.
     template <typename T>
-    static T fromString(const std::string& stringValue);
+    static T from_string(const std::string& string_value);
 
     ///
     /// Converts an enum value to its string representation.
     ///
-    /// \param numericValue The numeric representation of the enum value.
+    /// \param numeric_value The numeric representation of the enum value.
     ///
     /// \returns The string representation of the enum value.
     ///
     /// \throws EncodeError If the number does not represent a valid enum
     /// value or if the type is not an enum.
     template <typename T>
-    static const std::string& toString(T numericValue);
+    static const std::string& to_string(T numeric_value);
 
     ///
     /// Creates an enum value for a specific enum type from its string
     /// representation.
     ///
-    /// \param stringValue The string representation of the enum value.
+    /// \param string_value The string representation of the enum value.
     ///
     /// \returns The enum value.
     ///
     /// \throws DecodeError If the string does not represent a valid enum
     /// value.
-    EnumValue::Type fromString(const std::string& stringValue) const;
+    EnumValue::Type from_string(const std::string& string_value) const;
 
     ///
     /// Converts an enum value to its string representation.
     ///
-    /// \param numericValue The numeric representation of the enum value.
+    /// \param numeric_value The numeric representation of the enum value.
     ///
     /// \returns The string representation of the enum value.
     ///
     /// \throws EncodeError If the number does not represent a valid enum
     /// value or if the type is not an enum.
-    const std::string& toString(EnumValue::Type numericValue) const;
+    const std::string& to_string(EnumValue::Type numeric_value) const;
 
-    void addValue(EnumValue::Type value, const std::string& string);
+    void add_value(EnumValue::Type value, const std::string& string);
 
     ///
     /// Returns the values in the enum.
@@ -137,8 +137,8 @@ private:
 
     Name _name;
     ValueContainer _values;
-    std::map<std::string, EnumValue::Type> _stringToNumeric;
-    std::map<EnumValue::Type, std::string> _numericToString;
+    std::map<std::string, EnumValue::Type> _string_to_numeric;
+    std::map<EnumValue::Type, std::string> _numeric_to_string;
 };
 
 }

@@ -25,33 +25,33 @@
 
 using namespace hect;
 
-PanelWidget::PanelWidget(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+PanelWidget::PanelWidget(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
-    setStyleColor(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
-    setStyleColor(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
+    set_style_color(StyleColor::Background, Color(0.0, 0.0, 0.0, 0.8));
+    set_style_color(StyleColor::BackgroundMouseOver, Color(0.0, 0.0, 0.0, 0.8));
 }
 
 void PanelWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
-    StyleColor backgroundStyleColor = StyleColor::Background;
-    if (isMouseOver())
+    StyleColor background_style_color = StyleColor::Background;
+    if (is_mouse_over())
     {
-        backgroundStyleColor = StyleColor::BackgroundMouseOver;
+        background_style_color = StyleColor::BackgroundMouseOver;
     }
 
-    StyleColor borderStyleColor = StyleColor::Border;
+    StyleColor border_style_color = StyleColor::Border;
 
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(clipping);
-    frame.beginPath();
-    frame.setFillColor(styleColor(backgroundStyleColor));
+    //frame.set_clipping(clipping);
+    frame.begin_path();
+    frame.set_fill_color(style_color(background_style_color));
     frame.rectangle(bounds());
     frame.fill();
-    frame.beginPath();
+    frame.begin_path();
     frame.rectangle(bounds());
-    frame.setStrokeColor(styleColor(borderStyleColor));
+    frame.set_stroke_color(style_color(border_style_color));
     frame.stroke();
 
     frame.translate(position());

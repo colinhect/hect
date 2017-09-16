@@ -46,17 +46,17 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Encodable& value)
 {
-    encoder << beginObject();
+    encoder << begin_object();
     value.encode(encoder);
-    encoder << endObject();
+    encoder << end_object();
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Encodable& value)
 {
-    decoder >> beginObject();
+    decoder >> begin_object();
     value.decode(decoder);
-    decoder >> endObject();
+    decoder >> end_object();
     return decoder;
 }
 

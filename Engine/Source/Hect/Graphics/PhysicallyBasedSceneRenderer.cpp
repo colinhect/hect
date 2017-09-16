@@ -48,52 +48,52 @@ const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
 
 }
 
-PhysicallyBasedSceneRenderer::PhysicallyBasedSceneRenderer(AssetCache& assetCache, TaskPool& taskPool) :
-    _taskPool(taskPool)
+PhysicallyBasedSceneRenderer::PhysicallyBasedSceneRenderer(AssetCache& asset_cache, TaskPool& task_pool) :
+    _task_pool(task_pool)
 {
-    _compositeShader = assetCache.getHandle<Shader>(CompositeShaderPath);
-    _defaultMaterial = assetCache.getHandle<Material>(DefaultMaterialPath);
-    _directionalLightShader = assetCache.getHandle<Shader>(DirectionalLightShaderPath);
-    _environmentShader = assetCache.getHandle<Shader>(EnvironmentShaderPath);
-    _exposeShader = assetCache.getHandle<Shader>(ExposeShaderPath);
-    _skyBoxMesh = assetCache.getHandle<Mesh>(SkyBoxMeshPath);
-    _skyBoxShader = assetCache.getHandle<Shader>(SkyBoxShaderPath);
+    _composite_shader = asset_cache.get_handle<Shader>(CompositeShaderPath);
+    _default_material = asset_cache.get_handle<Material>(DefaultMaterialPath);
+    _directional_light_shader = asset_cache.get_handle<Shader>(DirectionalLightShaderPath);
+    _environment_shader = asset_cache.get_handle<Shader>(EnvironmentShaderPath);
+    _expose_shader = asset_cache.get_handle<Shader>(ExposeShaderPath);
+    _sky_box_mesh = asset_cache.get_handle<Mesh>(SkyBoxMeshPath);
+    _sky_box_shader = asset_cache.get_handle<Shader>(SkyBoxShaderPath);
 
-    _skyBoxMaterial.reset(new Material("Skybox"));
-    _skyBoxMaterial->setShader(_skyBoxShader);
-    _skyBoxMaterial->setCullMode(CullMode::None);
+    _sky_box_material.reset(new Material("Skybox"));
+    _sky_box_material->set_shader(_sky_box_shader);
+    _sky_box_material->set_cull_mode(CullMode::None);
 }
 
-void PhysicallyBasedSceneRenderer::enqueueRenderCall(const TransformComponent& transform, Mesh& mesh)
+void PhysicallyBasedSceneRenderer::enqueue_render_call(const TransformComponent& transform, Mesh& mesh)
 {
-    return enqueueRenderCall(transform, mesh, *_defaultMaterial);
+    return enqueue_render_call(transform, mesh, *_default_material);
 }
 
-void PhysicallyBasedSceneRenderer::enqueueRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material)
+void PhysicallyBasedSceneRenderer::enqueue_render_call(const TransformComponent& transform, Mesh& mesh, Material& material)
 {
     const Shader::Handle& shader = material.shader();
     if (shader)
     {
-        switch (shader->renderStage())
+        switch (shader->render_stage())
         {
         case RenderStage::PrePhysicalGeometry:
-            _frameData.prePhysicalGeometry.emplace_back(transform, mesh, material);
+            _frame_data.pre_physical_geometry.emplace_back(transform, mesh, material);
             break;
         case RenderStage::PhysicalGeometry:
-            _frameData.opaquePhysicalGeometry.emplace_back(transform, mesh, material);
+            _frame_data.opaque_physical_geometry.emplace_back(transform, mesh, material);
             break;
         case RenderStage::PostPhysicalGeometry:
         case RenderStage::None:
-            _frameData.postPhysicalGeometry.emplace_back(transform, mesh, material);
+            _frame_data.post_physical_geometry.emplace_back(transform, mesh, material);
             break;
         }
     }
 }
 
-void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, Vector3 position, TextureCube& texture)
+void PhysicallyBasedSceneRenderer::render_to_texture_cube(Scene& scene, CameraSystem& camera_system, Renderer& renderer, Vector3 position, TextureCube& texture)
 {
     // These values are specific to OpenGL's cube map conventions (issue #189)
-    static std::vector<std::pair<Vector3, Vector3>> cameraVectors =
+    static std::vector<std::pair<Vector3, Vector3>> camera_vectors =
     {
         std::pair<Vector3, Vector3>(Vector3::UnitX, -Vector3::UnitY),
         std::pair<Vector3, Vector3>(-Vector3::UnitX, -Vector3::UnitY),
@@ -106,98 +106,98 @@ void PhysicallyBasedSceneRenderer::renderToTextureCube(Scene& scene, CameraSyste
     // Create a geometry buffer for rendering to the texture cube
     unsigned width = texture.width();
     unsigned height = texture.height();
-    GeometryBuffer geometryBuffer(width, height);
+    GeometryBuffer geometry_buffer(width, height);
 
     // Create a transient entity for holding our camera
-    Entity& entity = scene.createEntity();
-    entity.setTransient(true);
+    Entity& entity = scene.create_entity();
+    entity.set_transient(true);
 
     // Create the camera
-    auto& camera = entity.addComponent<CameraComponent>();
+    auto& camera = entity.add_component<CameraComponent>();
     camera.position = position;
     camera.exposure = -1.0;
-    camera.fieldOfView = Degrees(180.0);
+    camera.field_of_view = Degrees(180.0);
 
-    CameraComponent::Iterator activeCamera = cameraSystem.activeCamera();
-    if (activeCamera)
+    CameraComponent::Iterator active_camera = camera_system.active_camera();
+    if (active_camera)
     {
-        camera.nearClip = activeCamera->nearClip;
-        camera.farClip = activeCamera->farClip;
+        camera.near_clip = active_camera->near_clip;
+        camera.far_clip = active_camera->far_clip;
     }
 
     // For each side of the cube face
     for (unsigned i = 0; i < 6; ++i)
     {
         // Update the camera's matrices
-        camera.front = cameraVectors[i].first;
-        camera.up = cameraVectors[i].second;
-        cameraSystem.updateCamera(camera);
+        camera.front = camera_vectors[i].first;
+        camera.up = camera_vectors[i].second;
+        camera_system.update_camera(camera);
 
         // Create the frame buffer and attach the corresponding face
         // of the cubic texture
-        FrameBuffer frameBuffer(width, height);
-        frameBuffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
+        FrameBuffer frame_buffer(width, height);
+        frame_buffer.attach(FrameBufferSlot::Color0, static_cast<CubeSide>(i), texture);
 
         // Render the frame
-        prepareFrame(scene, cameraSystem, camera, frameBuffer, geometryBuffer);
-        renderFrame(camera, renderer, frameBuffer);
+        prepare_frame(scene, camera_system, camera, frame_buffer, geometry_buffer);
+        render_frame(camera, renderer, frame_buffer);
     }
 
     // Destroy the transient entity holding the camera
     entity.destroy();
 }
 
-void PhysicallyBasedSceneRenderer::render(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, RenderTarget& target)
+void PhysicallyBasedSceneRenderer::render(Scene& scene, CameraSystem& camera_system, Renderer& renderer, RenderTarget& target)
 {
-    CameraComponent::Iterator camera = cameraSystem.activeCamera();
+    CameraComponent::Iterator camera = camera_system.active_camera();
     if (camera)
     {
-        if (!_geometryBuffer)
+        if (!_geometry_buffer)
         {
-            _geometryBuffer.reset(new GeometryBuffer(target.width(), target.height()));
+            _geometry_buffer.reset(new GeometryBuffer(target.width(), target.height()));
         }
 
-        prepareFrame(scene, cameraSystem, *camera, target, *_geometryBuffer);
-        renderFrame(*camera, renderer, target);
+        prepare_frame(scene, camera_system, *camera, target, *_geometry_buffer);
+        render_frame(*camera, renderer, target);
     }
     else
     {
         // If there is no camera then just clear the target
-        Renderer::Frame frame = renderer.beginFrame(target);
+        Renderer::Frame frame = renderer.begin_frame(target);
         frame.clear();
     }
 }
 
-void PhysicallyBasedSceneRenderer::prepareFrame(Scene& scene, CameraSystem& cameraSystem, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometryBuffer)
+void PhysicallyBasedSceneRenderer::prepare_frame(Scene& scene, CameraSystem& camera_system, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometry_buffer)
 {
     // Clear the state from the last frame and begin initializing it for the
     // next frame
-    _frameData.clear();
-    _frameData.geometryBuffer = &geometryBuffer;
+    _frame_data.clear();
+    _frame_data.geometry_buffer = &geometry_buffer;
 
     // Update the camera transform
-    _frameData.cameraTransform.globalPosition = camera.position;
+    _frame_data.camera_transform.global_position = camera.position;
 
     // Update the camera's aspect ratio if needed
-    if (camera.aspectRatio != target.aspectRatio())
+    if (camera.aspect_ratio != target.aspect_ratio())
     {
-        camera.aspectRatio = target.aspectRatio();
+        camera.aspect_ratio = target.aspect_ratio();
 
-        cameraSystem.updateCamera(camera);
+        camera_system.update_camera(camera);
     }
 
     // Get the cube map of the active light probe
-    LightProbeComponent::Iterator lightProbe = scene.components<LightProbeComponent>().begin();
-    if (lightProbe && lightProbe->texture)
+    LightProbeComponent::Iterator light_probe = scene.components<LightProbeComponent>().begin();
+    if (light_probe && light_probe->texture)
     {
-        _frameData.lightProbeTexture = &*lightProbe->texture;
+        _frame_data.light_probe_texture = &*light_probe->texture;
     }
 
     // Get the cube map of the active sky box
-    SkyBoxComponent::Iterator skyBox = scene.components<SkyBoxComponent>().begin();
-    if (skyBox && skyBox->texture)
+    SkyBoxComponent::Iterator sky_box = scene.components<SkyBoxComponent>().begin();
+    if (sky_box && sky_box->texture)
     {
-        _frameData.skyBoxTexture = &*skyBox->texture;
+        _frame_data.sky_box_texture = &*sky_box->texture;
     }
 
     // Build all render calls and sort by priority
@@ -205,134 +205,134 @@ void PhysicallyBasedSceneRenderer::prepareFrame(Scene& scene, CameraSystem& came
     {
         if (!entity.parent())
         {
-            buildRenderCalls(camera, entity);
+            build_render_calls(camera, entity);
         }
     }
 
     // Add each directional light to the frame data
     for (const DirectionalLightComponent& light : scene.components<DirectionalLightComponent>())
     {
-        _frameData.directionalLights.push_back(light.iterator());
+        _frame_data.directional_lights.push_back(light.iterator());
     }
 
-    std::vector<Task::Handle> sortingTasks;
+    std::vector<Task::Handle> sorting_tasks;
 
     // Spin up a task to sort the pre-physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sorting_tasks.push_back(_task_pool.enqueue([this]
     {
-        std::vector<RenderCall>& renderCalls = _frameData.prePhysicalGeometry;
-        std::sort(renderCalls.begin(), renderCalls.end());
+        std::vector<RenderCall>& render_calls = _frame_data.pre_physical_geometry;
+        std::sort(render_calls.begin(), render_calls.end());
     }));
 
     // Spin up a task to sort the opaque physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sorting_tasks.push_back(_task_pool.enqueue([this]
     {
-        std::vector<RenderCall>& renderCalls = _frameData.opaquePhysicalGeometry;
-        std::sort(renderCalls.begin(), renderCalls.end());
+        std::vector<RenderCall>& render_calls = _frame_data.opaque_physical_geometry;
+        std::sort(render_calls.begin(), render_calls.end());
     }));
 
     // Spin up a task to sort the translucent physical geometry render calls
-    sortingTasks.push_back(_taskPool.enqueue([this]
+    sorting_tasks.push_back(_task_pool.enqueue([this]
     {
-        std::vector<RenderCall>& renderCalls = _frameData.translucentPhysicalGeometry;
-        std::sort(renderCalls.begin(), renderCalls.end());
+        std::vector<RenderCall>& render_calls = _frame_data.translucent_physical_geometry;
+        std::sort(render_calls.begin(), render_calls.end());
     }));
 
     // Wait until all sorting tasks complete
-    for (Task::Handle& task : sortingTasks)
+    for (Task::Handle& task : sorting_tasks)
     {
         task->wait();
     }
 }
 
-void PhysicallyBasedSceneRenderer::renderFrame(CameraComponent& camera, Renderer& renderer, RenderTarget& target)
+void PhysicallyBasedSceneRenderer::render_frame(CameraComponent& camera, Renderer& renderer, RenderTarget& target)
 {
-    GeometryBuffer& geometryBuffer = *_frameData.geometryBuffer;
+    GeometryBuffer& geometry_buffer = *_frame_data.geometry_buffer;
 
     // Opaque geometry rendering
     {
-        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.frameBuffer());
-        frame.clear(camera.clearColor);
+        Renderer::Frame frame = renderer.begin_frame(geometry_buffer.frame_buffer());
+        frame.clear(camera.clear_color);
 
         // Render pre-physical geometry
-        for (RenderCall& renderCall : _frameData.prePhysicalGeometry)
+        for (RenderCall& render_call : _frame_data.pre_physical_geometry)
         {
-            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            render_mesh(frame, camera, target, *render_call.material, *render_call.mesh, *render_call.transform);
         }
 
         // Render opaque physical geometry
-        for (RenderCall& renderCall : _frameData.opaquePhysicalGeometry)
+        for (RenderCall& render_call : _frame_data.opaque_physical_geometry)
         {
-            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            render_mesh(frame, camera, target, *render_call.material, *render_call.mesh, *render_call.transform);
         }
     }
 
     // Light rendering
     {
-        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.backFrameBuffer());
+        Renderer::Frame frame = renderer.begin_frame(geometry_buffer.back_frame_buffer());
         frame.clear(Color::Zero, false);
 
         // Render environment light
-        if (_frameData.lightProbeTexture)
+        if (_frame_data.light_probe_texture)
         {
-            frame.setShader(*_environmentShader);
-            setBoundUniforms(frame, *_environmentShader, camera, target, TransformComponent::Identity);
-            frame.renderViewport();
+            frame.set_shader(*_environment_shader);
+            set_bound_uniforms(frame, *_environment_shader, camera, target, TransformComponent::Identity);
+            frame.render_viewport();
         }
 
         // Render each directional light in the scene
-        if (!_frameData.directionalLights.empty())
+        if (!_frame_data.directional_lights.empty())
         {
-            frame.setShader(*_directionalLightShader);
-            for (DirectionalLightComponent::ConstIterator light : _frameData.directionalLights)
+            frame.set_shader(*_directional_light_shader);
+            for (DirectionalLightComponent::ConstIterator light : _frame_data.directional_lights)
             {
-                _frameData.primaryLightDirection = light->direction;
-                _frameData.primaryLightColor = light->color;
-                setBoundUniforms(frame, *_directionalLightShader, camera, target, TransformComponent::Identity);
-                frame.renderViewport();
+                _frame_data.primary_light_direction = light->direction;
+                _frame_data.primary_light_color = light->color;
+                set_bound_uniforms(frame, *_directional_light_shader, camera, target, TransformComponent::Identity);
+                frame.render_viewport();
             }
         }
     }
 
-    geometryBuffer.swapBackBuffers();
+    geometry_buffer.swap_back_buffers();
 
     // Composite
     {
-        Renderer::Frame frame = renderer.beginFrame(geometryBuffer.backFrameBuffer());
+        Renderer::Frame frame = renderer.begin_frame(geometry_buffer.back_frame_buffer());
         frame.clear(Color::Zero, false);
 
         // Composite
-        frame.setShader(*_compositeShader);
-        setBoundUniforms(frame, *_compositeShader, camera, target, TransformComponent::Identity);
-        frame.renderViewport();
+        frame.set_shader(*_composite_shader);
+        set_bound_uniforms(frame, *_composite_shader, camera, target, TransformComponent::Identity);
+        frame.render_viewport();
 
         // Render translucent geometry
-        for (RenderCall& renderCall : _frameData.translucentPhysicalGeometry)
+        for (RenderCall& render_call : _frame_data.translucent_physical_geometry)
         {
-            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            render_mesh(frame, camera, target, *render_call.material, *render_call.mesh, *render_call.transform);
         }
 
         // Render post-physical geometry
-        for (RenderCall& renderCall : _frameData.postPhysicalGeometry)
+        for (RenderCall& render_call : _frame_data.post_physical_geometry)
         {
-            renderMesh(frame, camera, target, *renderCall.material, *renderCall.mesh, *renderCall.transform);
+            render_mesh(frame, camera, target, *render_call.material, *render_call.mesh, *render_call.transform);
         }
     }
 
-    geometryBuffer.swapBackBuffers();
+    geometry_buffer.swap_back_buffers();
 
     // Expose
     {
-        Renderer::Frame frame = renderer.beginFrame(target);
-        frame.clear(camera.clearColor);
-        frame.setShader(*_exposeShader);
-        setBoundUniforms(frame, *_exposeShader, camera, target, TransformComponent::Identity);
+        Renderer::Frame frame = renderer.begin_frame(target);
+        frame.clear(camera.clear_color);
+        frame.set_shader(*_expose_shader);
+        set_bound_uniforms(frame, *_expose_shader, camera, target, TransformComponent::Identity);
 
-        frame.renderViewport();
+        frame.render_viewport();
     }
 }
 
-void PhysicallyBasedSceneRenderer::uploadRenderObjectsForScene(Scene& scene, Renderer& renderer)
+void PhysicallyBasedSceneRenderer::upload_render_objects_for_scene(Scene& scene, Renderer& renderer)
 {
     for (GeometryComponent& geometry : scene.components<GeometryComponent>())
     {
@@ -341,47 +341,47 @@ void PhysicallyBasedSceneRenderer::uploadRenderObjectsForScene(Scene& scene, Ren
             Mesh& mesh = *surface.mesh;
             Material& material = *surface.material;
 
-            renderer.uploadMesh(mesh);
-            renderer.uploadShader(*material.shader());
-            for (UniformValue& uniformValue : material.uniformValues())
+            renderer.upload_mesh(mesh);
+            renderer.upload_shader(*material.shader());
+            for (UniformValue& uniform_value : material.uniform_values())
             {
-                if (uniformValue.type() == UniformType::Texture2)
+                if (uniform_value.type() == UniformType::Texture2)
                 {
-                    renderer.uploadTexture(*uniformValue.asTexture2());
+                    renderer.upload_texture(*uniform_value.as_texture2());
                 }
             }
         }
     }
 
-    for (SkyBoxComponent& skyBox : scene.components<SkyBoxComponent>())
+    for (SkyBoxComponent& sky_box : scene.components<SkyBoxComponent>())
     {
-        renderer.uploadTexture(*skyBox.texture);
+        renderer.upload_texture(*sky_box.texture);
     }
 }
 
-void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest)
+void PhysicallyBasedSceneRenderer::build_render_calls(CameraComponent& camera, Entity& entity, bool frustum_test)
 {
     // By default, assume that the entity is visible
     bool visible = true;
 
     // If we need to test this entity against the frustum
-    if (frustumTest)
+    if (frustum_test)
     {
-        if (entity.hasComponent<BoundingBoxComponent>())
+        if (entity.has_component<BoundingBoxComponent>())
         {
-            auto& boundingBox = entity.component<BoundingBoxComponent>();
+            auto& bounding_box = entity.component<BoundingBoxComponent>();
 
             // Test the bounding box against the frustum
-            FrustumTestResult result = camera.frustum.testAxisAlignedBox(boundingBox.globalExtents);
+            FrustumTestResult result = camera.frustum.test_axis_aligned_box(bounding_box.globalExtents);
             if (result == FrustumTestResult::Inside)
             {
                 // No need to test any children
-                frustumTest = false;
+                frustum_test = false;
             }
             else if (result == FrustumTestResult::Intersect)
             {
                 // Need to test children
-                frustumTest = true;
+                frustum_test = true;
             }
             else
             {
@@ -394,7 +394,7 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
     // If the entity is visible
     if (visible)
     {
-        if (entity.hasComponent<GeometryComponent>())
+        if (entity.has_component<GeometryComponent>())
         {
             auto& geometry = entity.component<GeometryComponent>();
             if (geometry.visible)
@@ -411,83 +411,83 @@ void PhysicallyBasedSceneRenderer::buildRenderCalls(CameraComponent& camera, Ent
 
                     TransformComponent transform = TransformComponent::Identity;
 
-                    if (entity.hasComponent<TransformComponent>())
+                    if (entity.has_component<TransformComponent>())
                     {
-                        auto& transformComponent = entity.component<TransformComponent>();
-                        transform = transformComponent;
+                        auto& transform_component = entity.component<TransformComponent>();
+                        transform = transform_component;
                     }
 
                     if (surface.material)
                     {
-                        enqueueRenderCall(transform, mesh, *surface.material);
+                        enqueue_render_call(transform, mesh, *surface.material);
                     }
                     else
                     {
-                        enqueueRenderCall(transform, mesh);
+                        enqueue_render_call(transform, mesh);
                     }
                 }
             }
         }
 
-        if (entity.hasComponent<SkyBoxComponent>())
+        if (entity.has_component<SkyBoxComponent>())
         {
-            enqueueRenderCall(_frameData.cameraTransform, *_skyBoxMesh, *_skyBoxMaterial);
+            enqueue_render_call(_frame_data.camera_transform, *_sky_box_mesh, *_sky_box_material);
         }
 
         // Render all children
         for (Entity& child : entity.children())
         {
-            buildRenderCalls(camera, child, frustumTest);
+            build_render_calls(camera, child, frustum_test);
         }
     }
 }
 
-void PhysicallyBasedSceneRenderer::renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform)
+void PhysicallyBasedSceneRenderer::render_mesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform)
 {
     Shader& shader = *material.shader();
 
     // Set the shader
-    frame.setShader(shader);
-    setBoundUniforms(frame, shader, camera, target, transform);
+    frame.set_shader(shader);
+    set_bound_uniforms(frame, shader, camera, target, transform);
 
     // Set the uniform values of the material
     UniformIndex index = 0;
-    for (const UniformValue& value : material.uniformValues())
+    for (const UniformValue& value : material.uniform_values())
     {
         if (value)
         {
             const Uniform& uniform = shader.uniform(index);
-            frame.setUniform(uniform, value);
+            frame.set_uniform(uniform, value);
         }
         ++index;
     }
 
     // Render the mesh
-    frame.setCullMode(material.cullMode());
-    frame.renderMesh(mesh);
+    frame.set_cull_mode(material.cull_mode());
+    frame.render_mesh(mesh);
 }
 
-void PhysicallyBasedSceneRenderer::setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform)
+void PhysicallyBasedSceneRenderer::set_bound_uniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform)
 {
     // Buid the model matrix
     Matrix4 model;
 
     // Translate the matrix to the global position
-    if (transform.globalPosition != Vector3::Zero)
+    if (transform.global_position != Vector3::Zero)
     {
-        model.translate(transform.globalPosition);
+        model.translate(transform.global_position);
     }
 
     // Scale the matrix by the global scale
-    if (transform.globalScale != Vector3::Zero)
+    if (transform.global_scale != Vector3::Zero)
     {
-        model.scale(transform.globalScale);
+        model.scale(transform.global_scale);
     }
 
     // Rotate the matrix by the global rotation
-    if (transform.globalRotation != Quaternion())
+    if (transform.global_rotation != Quaternion())
     {
-        model.rotate(transform.globalRotation);
+        model.rotate(transform.global_rotation);
     }
 
     for (const Uniform& uniform : shader.uniforms())
@@ -498,74 +498,74 @@ void PhysicallyBasedSceneRenderer::setBoundUniforms(Renderer::Frame& frame, Shad
         case UniformBinding::None:
             break;
         case UniformBinding::RenderTargetSize:
-            frame.setUniform(uniform, Vector2(static_cast<double>(target.width()), static_cast<double>(target.height())));
+            frame.set_uniform(uniform, Vector2(static_cast<double>(target.width()), static_cast<double>(target.height())));
             break;
         case UniformBinding::CameraPosition:
-            frame.setUniform(uniform, camera.position);
+            frame.set_uniform(uniform, camera.position);
             break;
         case UniformBinding::CameraFront:
-            frame.setUniform(uniform, camera.front);
+            frame.set_uniform(uniform, camera.front);
             break;
         case UniformBinding::CameraUp:
-            frame.setUniform(uniform, camera.up);
+            frame.set_uniform(uniform, camera.up);
             break;
         case UniformBinding::CameraExposure:
-            frame.setUniform(uniform, camera.exposure);
+            frame.set_uniform(uniform, camera.exposure);
             break;
         case UniformBinding::CameraOneOverGamma:
-            frame.setUniform(uniform, 1.0 / camera.gamma);
+            frame.set_uniform(uniform, 1.0 / camera.gamma);
             break;
         case UniformBinding::PrimaryLightDirection:
-            frame.setUniform(uniform, _frameData.primaryLightDirection);
+            frame.set_uniform(uniform, _frame_data.primary_light_direction);
             break;
         case UniformBinding::PrimaryLightColor:
-            frame.setUniform(uniform, _frameData.primaryLightColor);
+            frame.set_uniform(uniform, _frame_data.primary_light_color);
             break;
         case UniformBinding::ViewMatrix:
-            frame.setUniform(uniform, camera.viewMatrix);
+            frame.set_uniform(uniform, camera.view_matrix);
             break;
         case UniformBinding::ProjectionMatrix:
-            frame.setUniform(uniform, camera.projectionMatrix);
+            frame.set_uniform(uniform, camera.projection_matrix);
             break;
         case UniformBinding::ViewProjectionMatrix:
-            frame.setUniform(uniform, camera.projectionMatrix * camera.viewMatrix);
+            frame.set_uniform(uniform, camera.projection_matrix * camera.view_matrix);
             break;
         case UniformBinding::ModelMatrix:
-            frame.setUniform(uniform, model);
+            frame.set_uniform(uniform, model);
             break;
         case UniformBinding::ModelViewMatrix:
-            frame.setUniform(uniform, camera.viewMatrix * model);
+            frame.set_uniform(uniform, camera.view_matrix * model);
             break;
         case UniformBinding::ModelViewProjectionMatrix:
-            frame.setUniform(uniform, camera.projectionMatrix * (camera.viewMatrix * model));
+            frame.set_uniform(uniform, camera.projection_matrix * (camera.view_matrix * model));
             break;
         case UniformBinding::LightProbeTexture:
-            assert(_frameData.lightProbeTexture);
-            frame.setUniform(uniform, *_frameData.lightProbeTexture);
+            assert(_frame_data.light_probe_texture);
+            frame.set_uniform(uniform, *_frame_data.light_probe_texture);
             break;
         case UniformBinding::SkyBoxTexture:
-            assert(_frameData.skyBoxTexture);
-            frame.setUniform(uniform, *_frameData.skyBoxTexture);
+            assert(_frame_data.sky_box_texture);
+            frame.set_uniform(uniform, *_frame_data.sky_box_texture);
             break;
         case UniformBinding::DiffuseBuffer:
-            assert(_frameData.geometryBuffer);
-            frame.setUniform(uniform, _frameData.geometryBuffer->diffuseBuffer());
+            assert(_frame_data.geometry_buffer);
+            frame.set_uniform(uniform, _frame_data.geometry_buffer->diffuse_buffer());
             break;
         case UniformBinding::MaterialBuffer:
-            assert(_frameData.geometryBuffer);
-            frame.setUniform(uniform, _frameData.geometryBuffer->materialBuffer());
+            assert(_frame_data.geometry_buffer);
+            frame.set_uniform(uniform, _frame_data.geometry_buffer->material_buffer());
             break;
         case UniformBinding::PositionBuffer:
-            assert(_frameData.geometryBuffer);
-            frame.setUniform(uniform, _frameData.geometryBuffer->positionBuffer());
+            assert(_frame_data.geometry_buffer);
+            frame.set_uniform(uniform, _frame_data.geometry_buffer->position_buffer());
             break;
         case UniformBinding::NormalBuffer:
-            assert(_frameData.geometryBuffer);
-            frame.setUniform(uniform, _frameData.geometryBuffer->normalBuffer());
+            assert(_frame_data.geometry_buffer);
+            frame.set_uniform(uniform, _frame_data.geometry_buffer->normal_buffer());
             break;
         case UniformBinding::BackBuffer:
-            assert(_frameData.geometryBuffer);
-            frame.setUniform(uniform, _frameData.geometryBuffer->lastBackBuffer());
+            assert(_frame_data.geometry_buffer);
+            frame.set_uniform(uniform, _frame_data.geometry_buffer->last_back_buffer());
             break;
         }
     }
@@ -589,17 +589,17 @@ PhysicallyBasedSceneRenderer::RenderCall::RenderCall(const TransformComponent& t
 
 void PhysicallyBasedSceneRenderer::FrameData::clear()
 {
-    prePhysicalGeometry.clear();
-    opaquePhysicalGeometry.clear();
-    translucentPhysicalGeometry.clear();
-    postPhysicalGeometry.clear();
+    pre_physical_geometry.clear();
+    opaque_physical_geometry.clear();
+    translucent_physical_geometry.clear();
+    post_physical_geometry.clear();
 
-    directionalLights.clear();
+    directional_lights.clear();
 
-    cameraTransform = TransformComponent();
-    primaryLightDirection = Vector3();
-    primaryLightColor = Color();
-    lightProbeTexture = nullptr;
-    skyBoxTexture = nullptr;
-    geometryBuffer = nullptr;
+    camera_transform = TransformComponent();
+    primary_light_direction = Vector3();
+    primary_light_color = Color();
+    light_probe_texture = nullptr;
+    sky_box_texture = nullptr;
+    geometry_buffer = nullptr;
 }

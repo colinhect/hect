@@ -42,11 +42,11 @@ Texture3::Texture3(Name name, unsigned width, unsigned height, unsigned depth) :
 
 Image& Texture3::image(unsigned depth)
 {
-    bool downloadImages = false;
+    bool download_images = false;
     if (_images.empty())
     {
         _images = std::vector<Image::Handle>(_depth);
-        downloadImages = isUploaded();
+        download_images = is_uploaded();
     }
 
     if (depth >= _depth)
@@ -57,18 +57,18 @@ Image& Texture3::image(unsigned depth)
     Image::Handle& image = _images[depth];
     if (!image)
     {
-        image = Image::Handle(new Image(_width, _height, _pixelFormat));
+        image = Image::Handle(new Image(_width, _height, _pixel_format));
     }
 
-    if (downloadImages)
+    if (download_images)
     {
-        renderer().downloadTextureImages(*this);
+        renderer().download_texture_images(*this);
     }
 
     return *image;
 }
 
-void Texture3::setImage(unsigned depth, const Image::Handle& image)
+void Texture3::set_image(unsigned depth, const Image::Handle& image)
 {
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -76,9 +76,9 @@ void Texture3::setImage(unsigned depth, const Image::Handle& image)
         // Use the width/height/pixel format of the image
         _width = image->width();
         _height = image->height();
-        _pixelFormat = image->pixelFormat();
+        _pixel_format = image->pixel_format();
     }
-    else if (_width != image->width() || _height != image->height() || _pixelFormat != image->pixelFormat())
+    else if (_width != image->width() || _height != image->height() || _pixel_format != image->pixel_format())
     {
         throw InvalidOperation("Image is incompatible with the texture");
     }
@@ -90,9 +90,9 @@ void Texture3::setImage(unsigned depth, const Image::Handle& image)
     _images[depth] = image;
 }
 
-void Texture3::invalidateLocalImages()
+void Texture3::invalidate_local_images()
 {
-    if (!isUploaded())
+    if (!is_uploaded())
     {
         throw InvalidOperation("Texture is not uploaded");
     }
@@ -100,58 +100,58 @@ void Texture3::invalidateLocalImages()
     _images.clear();
 }
 
-Color Texture3::readPixel(unsigned x, unsigned y, unsigned z)
+Color Texture3::read_pixel(unsigned x, unsigned y, unsigned z)
 {
-    return image(z).readPixel(x, y);
+    return image(z).read_pixel(x, y);
 }
 
-Color Texture3::readPixel(Vector3 coords)
+Color Texture3::read_pixel(Vector3 coords)
 {
     unsigned z = static_cast<unsigned>(coords.z * _depth) % _depth;
-    return image(z).readPixel(Vector2(coords.x, coords.y));
+    return image(z).read_pixel(Vector2(coords.x, coords.y));
 }
 
-TextureFilter Texture3::minFilter() const
+TextureFilter Texture3::min_filter() const
 {
-    return _minFilter;
+    return _min_filter;
 }
 
-void Texture3::setMinFilter(TextureFilter filter)
+void Texture3::set_min_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _minFilter = filter;
+    destroy_if_uploaded();
+    _min_filter = filter;
 }
 
-TextureFilter Texture3::magFilter() const
+TextureFilter Texture3::mag_filter() const
 {
-    return _magFilter;
+    return _mag_filter;
 }
 
-void Texture3::setMagFilter(TextureFilter filter)
+void Texture3::set_mag_filter(TextureFilter filter)
 {
-    destroyIfUploaded();
-    _magFilter = filter;
+    destroy_if_uploaded();
+    _mag_filter = filter;
 }
 
-bool Texture3::isMipmapped() const
+bool Texture3::is_mipmapped() const
 {
     return _mipmapped;
 }
 
-void Texture3::setMipmapped(bool mipmapped)
+void Texture3::set_mipmapped(bool mipmapped)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
     _mipmapped = mipmapped;
 }
 
-bool Texture3::isWrapped() const
+bool Texture3::is_wrapped() const
 {
     return _wrapped;
 }
 
-void Texture3::setWrapped(bool wrapped)
+void Texture3::set_wrapped(bool wrapped)
 {
-    destroyIfUploaded();
+    destroy_if_uploaded();
     _wrapped = wrapped;
 }
 
@@ -170,15 +170,15 @@ unsigned Texture3::depth() const
     return _depth;
 }
 
-PixelFormat Texture3::pixelFormat() const
+PixelFormat Texture3::pixel_format() const
 {
-    return _pixelFormat;
+    return _pixel_format;
 }
 
-void Texture3::setPixelFormat(PixelFormat pixelFormat)
+void Texture3::set_pixel_format(PixelFormat pixel_format)
 {
-    destroyIfUploaded();
-    _pixelFormat = pixelFormat;
+    destroy_if_uploaded();
+    _pixel_format = pixel_format;
 }
 
 bool Texture3::operator==(const Texture3& texture) const
@@ -190,13 +190,13 @@ bool Texture3::operator==(const Texture3& texture) const
     }
 
     // Pixel format
-    if (_pixelFormat != texture._pixelFormat)
+    if (_pixel_format != texture._pixel_format)
     {
         return false;
     }
 
     // Min/mag filters
-    if (_minFilter != texture._minFilter && _magFilter != texture._magFilter)
+    if (_min_filter != texture._min_filter && _mag_filter != texture._mag_filter)
     {
         return false;
     }
@@ -217,27 +217,27 @@ bool Texture3::operator!=(const Texture3& texture) const
 
 void Texture3::encode(Encoder& encoder) const
 {
-    encoder << encodeVector("image", _images)
-            << encodeEnum("minFilter", _minFilter)
-            << encodeEnum("magFilter", _magFilter)
-            << encodeValue("wrapped", _wrapped)
-            << encodeValue("mipmapped", _mipmapped);
+    encoder << encode_vector("image", _images)
+            << encode_enum("min_filter", _min_filter)
+            << encode_enum("mag_filter", _mag_filter)
+            << encode_value("wrapped", _wrapped)
+            << encode_value("mipmapped", _mipmapped);
 }
 
 void Texture3::decode(Decoder& decoder)
 {
     // Color space
-    ColorSpace colorSpace = ColorSpace::NonLinear;
-    if (decoder.selectMember("colorSpace"))
+    ColorSpace color_space = ColorSpace::NonLinear;
+    if (decoder.select_member("color_space"))
     {
-        decoder >> decodeEnum(colorSpace);
+        decoder >> decode_enum(color_space);
     }
 
     // Images
-    if (decoder.selectMember("images"))
+    if (decoder.select_member("images"))
     {
         std::vector<Image::Handle> images;
-        decoder >> decodeVector(images);
+        decoder >> decode_vector(images);
 
         _depth = static_cast<unsigned>(images.size());
 
@@ -246,25 +246,25 @@ void Texture3::decode(Decoder& decoder)
         {
             // Remove the image from the asset cache because we don't want to
             // store uncompressed image data in main memory
-            decoder.assetCache().remove(image.path());
+            decoder.asset_cache().remove(image.path());
 
-            image->setColorSpace(colorSpace);
-            setImage(depth, image);
+            image->set_color_space(color_space);
+            set_image(depth, image);
 
             ++depth;
         }
     }
 
-    decoder >> decodeEnum("minFilter", _minFilter)
-            >> decodeEnum("magFilter", _magFilter)
-            >> decodeValue("wrapped", _wrapped)
-            >> decodeValue("mipmapped", _mipmapped);
+    decoder >> decode_enum("min_filter", _min_filter)
+            >> decode_enum("mag_filter", _mag_filter)
+            >> decode_value("wrapped", _wrapped)
+            >> decode_value("mipmapped", _mipmapped);
 }
 
-void Texture3::destroyIfUploaded()
+void Texture3::destroy_if_uploaded()
 {
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyTexture(*this);
+        renderer().destroy_texture(*this);
     }
 }

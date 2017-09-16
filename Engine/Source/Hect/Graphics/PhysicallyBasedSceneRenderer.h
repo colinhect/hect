@@ -49,14 +49,14 @@ class HECT_EXPORT PhysicallyBasedSceneRenderer :
     public Uncopyable
 {
 public:
-    PhysicallyBasedSceneRenderer(AssetCache& assetCache, TaskPool& taskPool);
+    PhysicallyBasedSceneRenderer(AssetCache& asset_cache, TaskPool& task_pool);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
     ///
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
-    void enqueueRenderCall(const TransformComponent& transform, Mesh& mesh);
+    void enqueue_render_call(const TransformComponent& transform, Mesh& mesh);
 
     ///
     /// Enqueues a render call to be rendered on the upcoming frame.
@@ -64,7 +64,7 @@ public:
     /// \param transform The world-space transform.
     /// \param mesh The mesh to render.
     /// \param material The material to use.
-    void enqueueRenderCall(const TransformComponent& transform, Mesh& mesh, Material& material);
+    void enqueue_render_call(const TransformComponent& transform, Mesh& mesh, Material& material);
 
     ///
     /// Renders the scene to a texture cube at the specified location.
@@ -72,30 +72,30 @@ public:
     /// \note The properties of the camera camera are used.
     ///
     /// \param scene The scene to render.
-    /// \param cameraSystem The camera system.
+    /// \param camera_system The camera system.
     /// \param renderer The renderer.
     /// \param position The position to render from.
     /// \param texture The texture to render to.
-    void renderToTextureCube(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, Vector3 position, TextureCube& texture);
+    void render_to_texture_cube(Scene& scene, CameraSystem& camera_system, Renderer& renderer, Vector3 position, TextureCube& texture);
 
     ///
     /// Renders the scene to the specified target.
     ///
     /// \param scene The scene to render.
-    /// \param cameraSystem The camera system.
+    /// \param camera_system The camera system.
     /// \param renderer The renderer.
     /// \param target The target to render to.
-    void render(Scene& scene, CameraSystem& cameraSystem, Renderer& renderer, RenderTarget& target);
+    void render(Scene& scene, CameraSystem& camera_system, Renderer& renderer, RenderTarget& target);
 
 private:
-    void prepareFrame(Scene& scene, CameraSystem& cameraSystem, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometryBuffer);
-    void renderFrame(CameraComponent& camera, Renderer& renderer, RenderTarget& target);
+    void prepare_frame(Scene& scene, CameraSystem& camera_system, CameraComponent& camera, RenderTarget& target, GeometryBuffer& geometry_buffer);
+    void render_frame(CameraComponent& camera, Renderer& renderer, RenderTarget& target);
 
-    void uploadRenderObjectsForScene(Scene& scene, Renderer& renderer);
+    void upload_render_objects_for_scene(Scene& scene, Renderer& renderer);
 
-    void buildRenderCalls(CameraComponent& camera, Entity& entity, bool frustumTest = true);
-    void renderMesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
-    void setBoundUniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform);
+    void build_render_calls(CameraComponent& camera, Entity& entity, bool frustum_test = true);
+    void render_mesh(Renderer::Frame& frame, const CameraComponent& camera, const RenderTarget& target, Material& material, Mesh& mesh, const TransformComponent& transform);
+    void set_bound_uniforms(Renderer::Frame& frame, Shader& shader, const CameraComponent& camera, const RenderTarget& target, const TransformComponent& transform);
 
     class RenderCall
     {
@@ -116,51 +116,51 @@ private:
     public:
         void clear();
 
-        std::vector<RenderCall> prePhysicalGeometry;
-        std::vector<RenderCall> opaquePhysicalGeometry;
-        std::vector<RenderCall> translucentPhysicalGeometry;
-        std::vector<RenderCall> postPhysicalGeometry;
+        std::vector<RenderCall> pre_physical_geometry;
+        std::vector<RenderCall> opaque_physical_geometry;
+        std::vector<RenderCall> translucent_physical_geometry;
+        std::vector<RenderCall> post_physical_geometry;
 
-        std::vector<DirectionalLightComponent::ConstIterator> directionalLights;
+        std::vector<DirectionalLightComponent::ConstIterator> directional_lights;
 
-        TransformComponent cameraTransform;
-        Vector3 primaryLightDirection;
-        Color primaryLightColor;
-        TextureCube* lightProbeTexture { nullptr };
-        TextureCube* skyBoxTexture { nullptr };
-        GeometryBuffer* geometryBuffer { nullptr };
-    } _frameData;
+        TransformComponent camera_transform;
+        Vector3 primary_light_direction;
+        Color primary_light_color;
+        TextureCube* light_probe_texture { nullptr };
+        TextureCube* sky_box_texture { nullptr };
+        GeometryBuffer* geometry_buffer { nullptr };
+    } _frame_data;
 
-    TaskPool& _taskPool;
+    TaskPool& _task_pool;
 
     // The shader used to composite all components of the image into the final
     // image
-    Shader::Handle _compositeShader;
+    Shader::Handle _composite_shader;
 
     // The default material to fall-back on if no material is provided
-    Material::Handle _defaultMaterial;
+    Material::Handle _default_material;
 
     // The shader used to perform directional lighting on physically lit
     // objects
-    Shader::Handle _directionalLightShader;
+    Shader::Handle _directional_light_shader;
 
     // The shader used to perform environmental lighting on physically lit
     // objects
-    Shader::Handle _environmentShader;
+    Shader::Handle _environment_shader;
 
     // The shader used to expose the final image to the window
-    Shader::Handle _exposeShader;
+    Shader::Handle _expose_shader;
 
     // The material used to render sky boxes
-    Material::Handle _skyBoxMaterial;
+    Material::Handle _sky_box_material;
 
     // The mesh used to render sky boxes
-    Mesh::Handle _skyBoxMesh;
+    Mesh::Handle _sky_box_mesh;
 
     // The shader used to render sky boxes
-    Shader::Handle _skyBoxShader;
+    Shader::Handle _sky_box_shader;
 
-    std::unique_ptr<GeometryBuffer> _geometryBuffer;
+    std::unique_ptr<GeometryBuffer> _geometry_buffer;
 };
 
 }

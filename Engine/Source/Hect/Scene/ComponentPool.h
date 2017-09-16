@@ -48,11 +48,11 @@ public:
     virtual ~ComponentPoolBase() = default;
 
 protected:
-    virtual void dispatchEvent(ComponentEventType type, Entity& entity) = 0;
+    virtual void dispatch_event(ComponentEventType type, Entity& entity) = 0;
 
-    virtual void addBase(Entity& entity, const ComponentBase& component) = 0;
-    virtual ComponentBase& getBase(Entity& entity) = 0;
-    virtual const ComponentBase& getBase(const Entity& entity) const = 0;
+    virtual void add_base(Entity& entity, const ComponentBase& component) = 0;
+    virtual ComponentBase& get_base(Entity& entity) = 0;
+    virtual const ComponentBase& get_base(const Entity& entity) const = 0;
 
     virtual void remove(Entity& entity) = 0;
     virtual void clone(const Entity& source, Entity& dest) = 0;
@@ -106,7 +106,7 @@ public:
     /// \returns A hande to the first matching component; invalid if there
     /// was no matching component.
     template <typename U>
-    typename Component<T>::Handle findFirst(U&& predicate) const;
+    typename Component<T>::Handle find_first(U&& predicate) const;
 
     ///
     /// Returns handles to all Component%s matching the given predicate.
@@ -126,18 +126,18 @@ public:
     ///
     /// \throws InvalidOperation If no component with the given id exists in
     /// the pool.
-    T& withId(ComponentId id);
+    T& with_id(ComponentId id);
 
     ///
-    /// \copydoc hect::ComponentPool::withId()
-    const T& withId(ComponentId id) const;
+    /// \copydoc hect::ComponentPool::with_id()
+    const T& with_id(ComponentId id) const;
 
 private:
-    void dispatchEvent(ComponentEventType type, Entity& entity) override;
+    void dispatch_event(ComponentEventType type, Entity& entity) override;
 
-    void addBase(Entity& entity, const ComponentBase& component) override;
-    ComponentBase& getBase(Entity& entity) override;
-    const ComponentBase& getBase(const Entity& entity) const override;
+    void add_base(Entity& entity, const ComponentBase& component) override;
+    ComponentBase& get_base(Entity& entity) override;
+    const ComponentBase& get_base(const Entity& entity) const override;
 
     void remove(Entity& entity) override;
     void clone(const Entity& source, Entity& dest) override;
@@ -150,30 +150,30 @@ private:
     T& get(Entity& entity);
     const T& get(const Entity& entity) const;
 
-    ComponentId maxId() const;
+    ComponentId max_id() const;
 
-    bool componentHasEntity(ComponentId id) const;
+    bool component_has_entity(ComponentId id) const;
 
-    Entity& entityForComponent(ComponentId id);
-    const Entity& entityForComponent(ComponentId id) const;
+    Entity& entity_for_component(ComponentId id);
+    const Entity& entity_for_component(ComponentId id) const;
 
-    EntityId componentIdToEntityId(ComponentId id) const;
+    EntityId component_id_to_entity_id(ComponentId id) const;
 
-    bool entityIdToComponentId(EntityId entityId, ComponentId& id) const;
+    bool entity_id_to_component_id(EntityId entity_id, ComponentId& id) const;
 
-    T& lookUpComponent(ComponentId id);
-    const T& lookUpComponent(ComponentId id) const;
+    T& look_up_component(ComponentId id);
+    const T& look_up_component(ComponentId id) const;
 
     template <typename U>
-    bool expandVector(std::vector<U>& vector, size_t size, U value = U());
+    bool expand_vector(std::vector<U>& vector, size_t size, U value = U());
 
     Scene& _scene;
-    IdPool<ComponentId> _idPool;
+    IdPool<ComponentId> _id_pool;
 
     std::deque<T> _components;
 
-    std::vector<ComponentId> _entityToComponent;
-    std::vector<EntityId> _componentToEntity;
+    std::vector<ComponentId> _entity_to_component;
+    std::vector<EntityId> _component_to_entity;
 };
 
 }

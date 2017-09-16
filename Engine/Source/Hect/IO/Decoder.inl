@@ -25,70 +25,70 @@ namespace hect
 {
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decodeValue)
+Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decode_value)
 {
-    if (!decodeValue.name || decoder.selectMember(decodeValue.name))
+    if (!decode_value.name || decoder.select_member(decode_value.name))
     {
-        return decoder >> decodeValue.value;
+        return decoder >> decode_value.value;
     }
     else
     {
-        if (decodeValue.name && decodeValue.required)
+        if (decode_value.name && decode_value.required)
         {
-            throw DecodeError(format("Missing required value '%s'", decodeValue.name));
+            throw DecodeError(format("Missing required value '%s'", decode_value.name));
         }
         return decoder;
     }
 }
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decodeVector)
+Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decode_vector)
 {
-    if (!decodeVector.name || decoder.selectMember(decodeVector.name))
+    if (!decode_vector.name || decoder.select_member(decode_vector.name))
     {
-        decoder >> beginArray();
+        decoder >> begin_array();
 
-        while (decoder.hasMoreElements())
+        while (decoder.has_more_elements())
         {
-            decodeVector.values.push_back(T());
-            decoder >> decodeValue(decodeVector.values.back());
+            decode_vector.values.push_back(T());
+            decoder >> decode_value(decode_vector.values.back());
         }
 
-        decoder >> endArray();
+        decoder >> end_array();
     }
     else
     {
-        if (decodeVector.name && decodeVector.required)
+        if (decode_vector.name && decode_vector.required)
         {
-            throw DecodeError(format("Missing required value '%s'", decodeVector.name));
+            throw DecodeError(format("Missing required value '%s'", decode_vector.name));
         }
     }
     return decoder;
 }
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decodeEnum)
+Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decode_enum)
 {
-    if (!decodeEnum.name || decoder.selectMember(decodeEnum.name))
+    if (!decode_enum.name || decoder.select_member(decode_enum.name))
     {
-        if (decoder.isBinaryStream())
+        if (decoder.is_binary_stream())
         {
             uint8_t value;
-            decoder >> decodeValue(value);
-            decodeEnum.value = static_cast<T>(value);
+            decoder >> decode_value(value);
+            decode_enum.value = static_cast<T>(value);
         }
         else
         {
             std::string string;
-            decoder >> decodeValue(string);
-            decodeEnum.value = Enum::fromString<T>(string);
+            decoder >> decode_value(string);
+            decode_enum.value = Enum::from_string<T>(string);
         }
     }
     else
     {
-        if (decodeEnum.name && decodeEnum.required)
+        if (decode_enum.name && decode_enum.required)
         {
-            throw DecodeError(format("Missing required value '%s'", decodeEnum.name));
+            throw DecodeError(format("Missing required value '%s'", decode_enum.name));
         }
     }
     return decoder;

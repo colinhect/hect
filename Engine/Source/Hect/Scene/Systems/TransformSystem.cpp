@@ -29,13 +29,13 @@
 
 using namespace hect;
 
-TransformSystem::TransformSystem(Scene& scene, BoundingBoxSystem& boundingBoxSystem) :
+TransformSystem::TransformSystem(Scene& scene, BoundingBoxSystem& bounding_box_system) :
     System(scene),
-    _boundingBoxSystem(boundingBoxSystem)
+    _bounding_box_system(bounding_box_system)
 {
 }
 
-void TransformSystem::commitTransform(TransformComponent& transform)
+void TransformSystem::commit_transform(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
@@ -43,10 +43,10 @@ void TransformSystem::commitTransform(TransformComponent& transform)
     }
 
     const ComponentId id = transform.id();
-    _committedTransformIds.push_back(id);
+    _committed_transform_ids.push_back(id);
 }
 
-void TransformSystem::updateTransform(TransformComponent& transform)
+void TransformSystem::update_transform(TransformComponent& transform)
 {
     if (transform.mobility != Mobility::Dynamic)
     {
@@ -58,85 +58,85 @@ void TransformSystem::updateTransform(TransformComponent& transform)
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent
-        updateRecursively(*parent, entity);
+        update_recursively(*parent, entity);
     }
     else
     {
         // Local and global are the same if there is no parent
-        transform.globalPosition = transform.localPosition;
-        transform.globalScale = transform.localScale;
-        transform.globalRotation = transform.localRotation;
+        transform.global_position = transform.local_position;
+        transform.global_scale = transform.local_scale;
+        transform.global_rotation = transform.local_rotation;
 
         // Update the transform hierachy for all children
         for (Entity& child : entity.children())
         {
-            updateRecursively(entity, child);
+            update_recursively(entity, child);
         }
     }
 
     // Force the bounding box to update
-    _boundingBoxSystem.updateRecursively(entity);
+    _bounding_box_system.update_recursively(entity);
 }
 
-void TransformSystem::updateCommittedTransforms()
+void TransformSystem::update_committed_transforms()
 {
     // Update all committed transforms
-    ComponentPool<TransformComponent>& transformComponents = scene().components<TransformComponent>();
-    for (ComponentId id : _committedTransformIds)
+    ComponentPool<TransformComponent>& transform_components = scene().components<TransformComponent>();
+    for (ComponentId id : _committed_transform_ids)
     {
-        TransformComponent& transform = transformComponents.withId(id);
-        updateTransform(transform);
+        TransformComponent& transform = transform_components.with_id(id);
+        update_transform(transform);
     }
-    _committedTransformIds.clear();
+    _committed_transform_ids.clear();
 }
 
-void TransformSystem::updateRecursively(Entity& parent, Entity& child)
+void TransformSystem::update_recursively(Entity& parent, Entity& child)
 {
-    if (child.hasComponent<TransformComponent>())
+    if (child.has_component<TransformComponent>())
     {
-        auto& childTransform = child.component<TransformComponent>();
+        auto& child_transform = child.component<TransformComponent>();
 
-        if (parent.hasComponent<TransformComponent>())
+        if (parent.has_component<TransformComponent>())
         {
-            auto& parentTransform = parent.component<TransformComponent>();
+            auto& parent_transform = parent.component<TransformComponent>();
 
             // Compute global components of the transform
-            childTransform.globalPosition = parentTransform.globalRotation * childTransform.localPosition;
-            childTransform.globalPosition += parentTransform.globalPosition;
-            childTransform.globalScale = parentTransform.globalScale * childTransform.localScale;
-            childTransform.globalRotation = parentTransform.globalRotation * childTransform.localRotation;
+            child_transform.global_position = parent_transform.global_rotation * child_transform.local_position;
+            child_transform.global_position += parent_transform.global_position;
+            child_transform.global_scale = parent_transform.global_scale * child_transform.local_scale;
+            child_transform.global_rotation = parent_transform.global_rotation * child_transform.local_rotation;
         }
         else
         {
             // Local and global are the same if there is no parent
-            childTransform.globalPosition = childTransform.localPosition;
-            childTransform.globalScale = childTransform.localScale;
-            childTransform.globalRotation = childTransform.localRotation;
+            child_transform.global_position = child_transform.local_position;
+            child_transform.global_scale = child_transform.local_scale;
+            child_transform.global_rotation = child_transform.local_rotation;
         }
 
         // Recursively update for all children
-        for (Entity& nextChild : child.children())
+        for (Entity& next_child : child.children())
         {
-            updateRecursively(child, nextChild);
+            update_recursively(child, next_child);
         }
     }
 }
 
-void TransformSystem::onComponentAdded(TransformComponent& transform)
+void TransformSystem::on_component_added(TransformComponent& transform)
 {
     // Temporarily make the transform dynamic so it can be initially updated
     const Mobility mobility = transform.mobility;
     transform.mobility = Mobility::Dynamic;
 
     // Update the transform
-    updateTransform(transform);
+    update_transform(transform);
 
     // Restore the transforms mobility
     transform.mobility = mobility;
 }
 
-void TransformSystem::onComponentRemoved(TransformComponent& transform)
+void TransformSystem::on_component_removed(TransformComponent& transform)
 {
     // Remove the transform from the committed transform vector
-    _committedTransformIds.erase(std::remove(_committedTransformIds.begin(), _committedTransformIds.end(), transform.id()), _committedTransformIds.end());
+    _committed_transform_ids.erase(std::remove(_committed_transform_ids.begin(), _committed_transform_ids.end(), transform.id()), _committed_transform_ids.end());
 }

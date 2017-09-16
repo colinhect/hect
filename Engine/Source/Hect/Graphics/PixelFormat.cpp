@@ -79,24 +79,24 @@ unsigned PixelFormat::size() const
     return 0;
 }
 
-bool PixelFormat::operator==(const PixelFormat& pixelFormat) const
+bool PixelFormat::operator==(const PixelFormat& pixel_format) const
 {
-    return _type == pixelFormat._type && _cardinality == pixelFormat._cardinality;
+    return _type == pixel_format._type && _cardinality == pixel_format._cardinality;
 }
 
-bool PixelFormat::operator!=(const PixelFormat& pixelFormat) const
+bool PixelFormat::operator!=(const PixelFormat& pixel_format) const
 {
-    return _type != pixelFormat._type || _cardinality != pixelFormat._cardinality;
+    return _type != pixel_format._type || _cardinality != pixel_format._cardinality;
 }
 
 void PixelFormat::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("type", _type)
-            << encodeValue("cardinality", _cardinality);
+    encoder << encode_enum("type", _type)
+            << encode_value("cardinality", _cardinality);
 }
 
 void PixelFormat::decode(Decoder& decoder)
 {
-    decoder >> decodeEnum("type", _type)
-            >> decodeValue("cardinality", _cardinality);
+    decoder >> decode_enum("type", _type)
+            >> decode_value("cardinality", _cardinality);
 }

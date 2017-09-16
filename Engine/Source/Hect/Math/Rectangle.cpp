@@ -29,9 +29,9 @@ Rectangle::Rectangle()
 {
 }
 
-Rectangle::Rectangle(double minX, double minY, double maxX, double maxY) :
-    _minimum(minX, minY),
-    _maximum(maxX, maxY)
+Rectangle::Rectangle(double min_x, double min_y, double max_x, double max_y) :
+    _minimum(min_x, min_y),
+    _maximum(max_x, max_y)
 {
 }
 
@@ -87,12 +87,12 @@ bool Rectangle::operator!=(Rectangle rectangle) const
 
 void Rectangle::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("minimum", _minimum)
-            << encodeValue("maximum", _maximum);
+    encoder << encode_value("minimum", _minimum)
+            << encode_value("maximum", _maximum);
 }
 
 void Rectangle::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("minimum", _minimum, true)
-            >> decodeValue("maximum", _maximum, true);
+    decoder >> decode_value("minimum", _minimum, true)
+            >> decode_value("maximum", _maximum, true);
 }

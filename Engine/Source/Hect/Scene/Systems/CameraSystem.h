@@ -42,29 +42,29 @@ public:
 
     ///
     /// Returns the active camera in the scene.
-    CameraComponent::Iterator activeCamera();
+    CameraComponent::Iterator active_camera();
 
     ///
     /// Sets the active camera in the scene.
     ///
     /// \param camera The new active camera.
-    void setActiveCamera(CameraComponent& camera);
+    void set_active_camera(CameraComponent& camera);
 
     ///
     /// Updates the vectors and matrices of a camera.
     ///
     /// \param camera The camera to update.
-    void updateCamera(CameraComponent& camera);
+    void update_camera(CameraComponent& camera);
 
     ///
     /// Updates the vectors and matrices of all cameras in the scene.
-    void updateAllCameras();
+    void update_all_cameras();
 
 private:
     // System overrides
-    void onComponentAdded(CameraComponent& camera) override;
+    void on_component_added(CameraComponent& camera) override;
 
-    Entity::Handle _activeCameraEntity;
+    Entity::Handle _active_camera_entity;
 };
 
 }

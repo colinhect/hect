@@ -50,7 +50,7 @@ public:
     /// \param axis The axis to add.
     ///
     /// \throws InvalidOperation If an axis already exists with the same name.
-    void addAxis(const InputAxis& axis);
+    void add_axis(const InputAxis& axis);
 
     ///
     /// Returns the value of the axis with the given name.
@@ -58,13 +58,13 @@ public:
     /// \param name The name of the axis.
     ///
     /// \returns The value of the axis; 0 if the axis does not exist.
-    double axisValue(Name name) const;
+    double axis_value(Name name) const;
 
     ///
     /// Update the values of all axes.
     ///
-    /// \param timeStep The duration of time in seconds to update for.
-    void updateAxes(Seconds timeStep);
+    /// \param time_step The duration of time in seconds to update for.
+    void update_axes(Seconds time_step);
 
 private:
     Platform& _platform;

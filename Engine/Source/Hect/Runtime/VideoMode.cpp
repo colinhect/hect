@@ -46,21 +46,21 @@ unsigned VideoMode::height() const
     return _height;
 }
 
-bool VideoMode::isFullscreen() const
+bool VideoMode::is_fullscreen() const
 {
     return _fullscreen;
 }
 
 void VideoMode::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("width", _width)
-            << encodeValue("height", _height)
-            << encodeValue("fullscreen", _fullscreen);
+    encoder << encode_value("width", _width)
+            << encode_value("height", _height)
+            << encode_value("fullscreen", _fullscreen);
 }
 
 void VideoMode::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("width", _width)
-            >> decodeValue("height", _height)
-            >> decodeValue("fullscreen", _fullscreen);
+    decoder >> decode_value("width", _width)
+            >> decode_value("height", _height)
+            >> decode_value("fullscreen", _fullscreen);
 }

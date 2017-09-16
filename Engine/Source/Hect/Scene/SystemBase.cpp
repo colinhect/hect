@@ -32,7 +32,7 @@ using namespace hect;
 SystemBase::SystemBase(Scene& scene) :
     _scene(scene)
 {
-    scene.addSystem(*this);
+    scene.add_system(*this);
 }
 
 Scene& SystemBase::scene()

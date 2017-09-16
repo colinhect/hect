@@ -40,7 +40,7 @@ double Sphere::radius() const
     return _radius;
 }
 
-void Sphere::setRadius(double radius)
+void Sphere::set_radius(double radius)
 {
     _radius = radius;
 }

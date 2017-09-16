@@ -27,60 +27,60 @@
 
 using namespace hect;
 
-InterfaceSystem::InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vectorRenderer) :
+InterfaceSystem::InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer) :
     System(scene),
     _platform(platform),
     _renderer(renderer),
-    _vectorRenderer(vectorRenderer)
+    _vector_renderer(vector_renderer)
 {
-    platform.mouse().registerListener(*this);
+    platform.mouse().register_listener(*this);
 }
 
-Interface::Handle InterfaceSystem::createInterface(RenderTarget& renderTarget)
+Interface::Handle InterfaceSystem::create_interface(RenderTarget& render_target)
 {
-    Interface::Handle interface(new Interface(*this, renderTarget));
+    Interface::Handle interface(new Interface(*this, render_target));
     _interfaces.push_back(interface);
     return interface;
 }
 
-Vector2 InterfaceSystem::measureTextDimensions(const std::string& text, const Font& font, double size) const
+Vector2 InterfaceSystem::measure_text_dimensions(const std::string& text, const Font& font, double size) const
 {
-    return _vectorRenderer.measureTextDimensions(text, font, size);
+    return _vector_renderer.measure_text_dimensions(text, font, size);
 }
 
-void InterfaceSystem::renderAllInterfaces()
-{
-    for (const Interface::Handle& interface : _interfaces)
-    {
-        RenderTarget& interfaceTarget = interface->renderTarget();
-
-        Renderer::Frame frame = _renderer.beginFrame(interfaceTarget);
-        VectorRenderer::Frame vectorFrame = _vectorRenderer.beginFrame(interfaceTarget);
-
-        Rectangle clipping(0.0, 0.0, interfaceTarget.width(), interfaceTarget.height());
-        interface->render(vectorFrame, clipping);
-    }
-}
-
-void InterfaceSystem::tickAllInterfaces(Seconds timeStep)
+void InterfaceSystem::render_all_interfaces()
 {
     for (const Interface::Handle& interface : _interfaces)
     {
-        interface->tick(timeStep);
+        RenderTarget& interface_target = interface->render_target();
+
+        Renderer::Frame frame = _renderer.begin_frame(interface_target);
+        VectorRenderer::Frame vector_frame = _vector_renderer.begin_frame(interface_target);
+
+        Rectangle clipping(0.0, 0.0, interface_target.width(), interface_target.height());
+        interface->render(vector_frame, clipping);
     }
 }
 
-void InterfaceSystem::receiveEvent(const MouseEvent& event)
+void InterfaceSystem::tick_all_interfaces(Seconds time_step)
+{
+    for (const Interface::Handle& interface : _interfaces)
+    {
+        interface->tick(time_step);
+    }
+}
+
+void InterfaceSystem::receive_event(const MouseEvent& event)
 {
     if (_platform.mouse().mode() == MouseMode::Cursor)
     {
         for (const Interface::Handle& interface : _interfaces)
         {
-            if (!interface->hasParent())
+            if (!interface->has_parent())
             {
-                if (interface->globalBounds().contains(event.cursorPosition))
+                if (interface->global_bounds().contains(event.cursor_position))
                 {
-                    interface->receiveEvent(event);
+                    interface->receive_event(event);
                 }
             }
         }

@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-LabelWidget::LabelWidget(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+LabelWidget::LabelWidget(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
 }
 
@@ -37,10 +37,10 @@ const std::string& LabelWidget::text() const
     return _text;
 }
 
-void LabelWidget::setText(const std::string& text)
+void LabelWidget::set_text(const std::string& text)
 {
     _text = text;
-    markLayoutDirty();
+    mark_layout_dirty();
 }
 
 Font::Handle LabelWidget::font() const
@@ -48,62 +48,62 @@ Font::Handle LabelWidget::font() const
     return _font;
 }
 
-void LabelWidget::setFont(Font::Handle font, double size)
+void LabelWidget::set_font(Font::Handle font, double size)
 {
     _font = font;
-    _fontSize = size;
-    markLayoutDirty();
+    _font_size = size;
+    mark_layout_dirty();
 }
 
 void LabelWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(bounds);
+    //frame.set_clipping(bounds);
 
     if (!_text.empty())
     {
-        StyleColor forgroundStyleColor = StyleColor::Foreground;
+        StyleColor forground_style_color = StyleColor::Foreground;
 
-        const Font& font = effectiveFont();
-        const double fontSize = effectiveFontSize();
+        const Font& font = effective_font();
+        const double font_size = effective_font_size();
 
         frame.translate(position());
-        frame.setFont(font, fontSize);
-        frame.setFillColor(styleColor(forgroundStyleColor));
-        frame.renderText(_text);
+        frame.set_font(font, font_size);
+        frame.set_fill_color(style_color(forground_style_color));
+        frame.render_text(_text);
     }
 
     WidgetBase::render(frame, clipping);
 }
 
-void LabelWidget::updateLayout()
+void LabelWidget::update_layout()
 {
-    Vector2 dimensions = interfaceSystem().measureTextDimensions(_text, effectiveFont(), effectiveFontSize());
-    setDimensions(dimensions);
-    WidgetBase::updateLayout();
+    Vector2 dimensions = interface_system().measure_text_dimensions(_text, effective_font(), effective_font_size());
+    set_dimensions(dimensions);
+    WidgetBase::update_layout();
 }
 
-Font& LabelWidget::effectiveFont()
+Font& LabelWidget::effective_font()
 {
     // If no font is set then defer to the interface system
     Font::Handle font = _font;
     if (!font)
     {
-        font = interfaceSystem().defaultFont;
+        font = interface_system().default_font;
     }
 
     return *font;
 }
 
-double LabelWidget::effectiveFontSize()
+double LabelWidget::effective_font_size()
 {
     // If no font size is set then defer to the interface system
-    double fontSize = _fontSize;
-    if (fontSize <= 0.0)
+    double font_size = _font_size;
+    if (font_size <= 0.0)
     {
-        fontSize = interfaceSystem().defaultFontSize;
+        font_size = interface_system().default_font_size;
     }
 
-    return fontSize;
+    return font_size;
 }

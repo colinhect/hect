@@ -105,14 +105,14 @@ public:
     ///
     /// Returns whether the handle refers to the same asset as another handle.
     ///
-    /// \param assetHandle The other asset handle.
-    bool operator==(const AssetHandle<T>& assetHandle) const;
+    /// \param asset_handle The other asset handle.
+    bool operator==(const AssetHandle<T>& asset_handle) const;
 
     ///
     /// Returns whether the handle refers to a different asset as another handle.
     ///
-    /// \param assetHandle The other asset handle.
-    bool operator!=(const AssetHandle<T>& assetHandle) const;
+    /// \param asset_handle The other asset handle.
+    bool operator!=(const AssetHandle<T>& asset_handle) const;
 
 private:
     std::shared_ptr<T> _owned;
@@ -121,9 +121,9 @@ private:
 };
 
 template <typename T>
-Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& assetHandle);
+Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& asset_handle);
 
 template <typename T>
-Decoder& operator>>(Decoder& decoder, AssetHandle<T>& assetHandle);
+Decoder& operator>>(Decoder& decoder, AssetHandle<T>& asset_handle);
 
 }

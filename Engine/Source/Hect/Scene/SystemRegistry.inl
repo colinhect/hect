@@ -30,32 +30,32 @@ namespace hect
 {
 
 template <typename T>
-void SystemRegistry::registerType()
+void SystemRegistry::register_type()
 {
-    std::type_index typeIndex(typeid(T));
+    std::type_index type_index(typeid(T));
 
-    if (_typeIndexToId.find(typeIndex) == _typeIndexToId.end())
+    if (_type_index_to_id.find(type_index) == _type_index_to_id.end())
     {
-        Name typeName = Type::get<T>().name();
-        SystemTypeId typeId = static_cast<SystemTypeId>(_typeIds.size());
+        Name type_name = Type::get<T>().name();
+        SystemTypeId type_id = static_cast<SystemTypeId>(_type_ids.size());
 
-        _typeIndexToId[typeIndex] = typeId;
-        _typeNameToId[typeName] = typeId;
-        _typeIdToName[typeId] = typeName;
-        _typeIds.push_back(typeId);
+        _type_index_to_id[type_index] = type_id;
+        _type_name_to_id[type_name] = type_id;
+        _type_id_to_name[type_id] = type_name;
+        _type_ids.push_back(type_id);
 
-        HECT_DEBUG(format("Registered system type '%s' (type id: %d)", typeName.data(), typeId));
+        HECT_DEBUG(format("Registered system type '%s' (type id: %d)", type_name.data(), type_id));
     }
 }
 
 template <typename T>
-SystemTypeId SystemRegistry::typeIdOf()
+SystemTypeId SystemRegistry::type_id_of()
 {
     static SystemTypeId id = SystemTypeId(-1);
     if (id == SystemTypeId(-1))
     {
-        std::type_index typeIndex(typeid(T));
-        id = typeIdOf(typeIndex);
+        std::type_index type_index(typeid(T));
+        id = type_id_of(type_index);
     }
     return id;
 }

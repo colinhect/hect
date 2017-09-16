@@ -51,9 +51,9 @@ public:
 
     ~ShaderData()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyShader(*object);
+            renderer->destroy_shader(*object);
         }
     }
 };
@@ -64,19 +64,19 @@ class Texture2Data :
 public:
     Texture2Data(Renderer& renderer, Texture2& object) :
         Renderer::Data<Texture2>(renderer, object),
-        pixelData(object.image().pixelData())
+        pixel_data(object.image().pixel_data())
     {
     }
 
     ~Texture2Data()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyTexture(*object);
+            renderer->destroy_texture(*object);
         }
     }
 
-    ByteVector pixelData;
+    ByteVector pixel_data;
 };
 
 class Texture3Data :
@@ -88,20 +88,20 @@ public:
     {
         for (unsigned z = 0; z < object.depth(); ++z)
         {
-            ByteVector& imagePixelData = object.image(z).pixelData();
-            pixelData.push_back(imagePixelData);
+            ByteVector& image_pixel_data = object.image(z).pixel_data();
+            pixel_data.push_back(image_pixel_data);
         }
     }
 
     ~Texture3Data()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyTexture(*object);
+            renderer->destroy_texture(*object);
         }
     }
 
-    std::vector<ByteVector> pixelData;
+    std::vector<ByteVector> pixel_data;
 };
 
 class TextureCubeData :
@@ -115,9 +115,9 @@ public:
 
     ~TextureCubeData()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyTexture(*object);
+            renderer->destroy_texture(*object);
         }
     }
 };
@@ -133,9 +133,9 @@ public:
 
     ~FrameBufferData()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyFrameBuffer(*object);
+            renderer->destroy_frame_buffer(*object);
         }
     }
 };
@@ -151,174 +151,174 @@ public:
 
     ~MeshData()
     {
-        if (object && object->isUploaded())
+        if (object && object->is_uploaded())
         {
-            renderer->destroyMesh(*object);
+            renderer->destroy_mesh(*object);
         }
     }
 };
 
 }
 
-void Renderer::uploadFrameBuffer(FrameBuffer& frameBuffer)
+void Renderer::upload_frame_buffer(FrameBuffer& frame_buffer)
 {
-    if (frameBuffer.isUploaded())
+    if (frame_buffer.is_uploaded())
     {
         return;
     }
 
-    frameBuffer.setAsUploaded(*this, new FrameBufferData(*this, frameBuffer));
+    frame_buffer.set_as_uploaded(*this, new FrameBufferData(*this, frame_buffer));
 }
 
-void Renderer::destroyFrameBuffer(FrameBuffer& frameBuffer)
+void Renderer::destroy_frame_buffer(FrameBuffer& frame_buffer)
 {
-    if (!frameBuffer.isUploaded())
+    if (!frame_buffer.is_uploaded())
     {
         return;
     }
 
-    frameBuffer.setAsDestroyed();
+    frame_buffer.set_as_destroyed();
 }
 
-void Renderer::uploadShader(Shader& shader)
+void Renderer::upload_shader(Shader& shader)
 {
-    if (shader.isUploaded())
+    if (shader.is_uploaded())
     {
         return;
     }
 
-    shader.setAsUploaded(*this, new ShaderData(*this, shader));
+    shader.set_as_uploaded(*this, new ShaderData(*this, shader));
 }
 
-void Renderer::destroyShader(Shader& shader)
+void Renderer::destroy_shader(Shader& shader)
 {
-    if (!shader.isUploaded())
+    if (!shader.is_uploaded())
     {
         return;
     }
 
-    shader.setAsDestroyed();
+    shader.set_as_destroyed();
 }
 
-void Renderer::uploadTexture(Texture2& texture)
+void Renderer::upload_texture(Texture2& texture)
 {
-    if (texture.isUploaded())
+    if (texture.is_uploaded())
     {
         return;
     }
 
-    texture.setAsUploaded(*this, new Texture2Data(*this, texture));
+    texture.set_as_uploaded(*this, new Texture2Data(*this, texture));
 }
 
-void Renderer::uploadTexture(Texture3& texture)
+void Renderer::upload_texture(Texture3& texture)
 {
-    if (texture.isUploaded())
+    if (texture.is_uploaded())
     {
         return;
     }
 
-    texture.setAsUploaded(*this, new Texture3Data(*this, texture));
+    texture.set_as_uploaded(*this, new Texture3Data(*this, texture));
 }
 
-void Renderer::uploadTexture(TextureCube& texture)
+void Renderer::upload_texture(TextureCube& texture)
 {
-    if (texture.isUploaded())
+    if (texture.is_uploaded())
     {
         return;
     }
 
-    texture.setAsUploaded(*this, new TextureCubeData(*this, texture));
+    texture.set_as_uploaded(*this, new TextureCubeData(*this, texture));
 }
 
-void Renderer::destroyTexture(Texture2& texture, bool downloadImage)
+void Renderer::destroy_texture(Texture2& texture, bool download_image)
 {
-    if (!texture.isUploaded())
+    if (!texture.is_uploaded())
     {
         return;
     }
 
-    if (downloadImage)
+    if (download_image)
     {
         // Force the texture to download its image
         texture.image();
     }
 
-    texture.setAsDestroyed();
+    texture.set_as_destroyed();
 }
 
-void Renderer::destroyTexture(Texture3& texture, bool downloadImage)
+void Renderer::destroy_texture(Texture3& texture, bool download_image)
 {
-    if (!texture.isUploaded())
+    if (!texture.is_uploaded())
     {
         return;
     }
 
-    if (downloadImage)
+    if (download_image)
     {
         // Force the texture to download its images
         texture.image(0);
     }
 
-    texture.setAsDestroyed();
+    texture.set_as_destroyed();
 }
 
-void Renderer::destroyTexture(TextureCube& texture, bool downloadImage)
+void Renderer::destroy_texture(TextureCube& texture, bool download_image)
 {
-    (void)downloadImage;
+    (void)download_image;
 
-    if (!texture.isUploaded())
+    if (!texture.is_uploaded())
     {
         return;
     }
 
-    texture.setAsDestroyed();
+    texture.set_as_destroyed();
 }
 
-void Renderer::downloadTextureImage(Texture2& texture)
+void Renderer::download_texture_image(Texture2& texture)
 {
-    if (!texture.isUploaded())
+    if (!texture.is_uploaded())
     {
         throw InvalidOperation("The texture is not uploaded");
     }
 
-    auto data = texture.dataAs<Texture2Data>();
-    ByteVector pixelData = data->pixelData;
-    texture.image().setPixelData(std::move(pixelData));
+    auto data = texture.data_as<Texture2Data>();
+    ByteVector pixel_data = data->pixel_data;
+    texture.image().set_pixel_data(std::move(pixel_data));
 }
 
-void Renderer::downloadTextureImages(Texture3& texture)
+void Renderer::download_texture_images(Texture3& texture)
 {
-    if (!texture.isUploaded())
+    if (!texture.is_uploaded())
     {
         throw InvalidOperation("The texture is not uploaded");
     }
 
-    auto data = texture.dataAs<Texture3Data>();
+    auto data = texture.data_as<Texture3Data>();
     for (unsigned z = 0; z < texture.depth(); ++z)
     {
-        ByteVector pixelData = data->pixelData[z];
-        texture.image(z).setPixelData(std::move(pixelData));
+        ByteVector pixel_data = data->pixel_data[z];
+        texture.image(z).set_pixel_data(std::move(pixel_data));
     }
 }
 
-void Renderer::uploadMesh(Mesh& mesh)
+void Renderer::upload_mesh(Mesh& mesh)
 {
-    if (mesh.isUploaded())
+    if (mesh.is_uploaded())
     {
         return;
     }
 
-    mesh.setAsUploaded(*this, new MeshData(*this, mesh));
+    mesh.set_as_uploaded(*this, new MeshData(*this, mesh));
 }
 
-void Renderer::destroyMesh(Mesh& mesh)
+void Renderer::destroy_mesh(Mesh& mesh)
 {
-    if (!mesh.isUploaded())
+    if (!mesh.is_uploaded())
     {
         return;
     }
 
-    mesh.setAsDestroyed();
+    mesh.set_as_destroyed();
 }
 
 void Renderer::initialize()
@@ -329,113 +329,113 @@ void Renderer::shutdown()
 {
 }
 
-void Renderer::onBeginFrame(RenderTarget& target)
+void Renderer::on_begin_frame(RenderTarget& target)
 {
     (void)target;
 }
 
-void Renderer::onEndFrame()
+void Renderer::on_end_frame()
 {
 }
 
-void Renderer::setTarget(RenderTarget& target)
+void Renderer::set_target(RenderTarget& target)
 {
     (void)target;
 }
 
-void Renderer::setTarget(Window& window)
+void Renderer::set_target(Window& window)
 {
     (void)window;
 }
 
-void Renderer::setTarget(FrameBuffer& frameBuffer)
+void Renderer::set_target(FrameBuffer& frame_buffer)
 {
-    if (!frameBuffer.isUploaded())
+    if (!frame_buffer.is_uploaded())
     {
-        uploadFrameBuffer(frameBuffer);
+        upload_frame_buffer(frame_buffer);
     }
 }
 
 
-void Renderer::setCullMode(CullMode cullMode)
+void Renderer::set_cull_mode(CullMode cull_mode)
 {
-    (void)cullMode;
+    (void)cull_mode;
 }
 
-void Renderer::setShader(Shader& shader)
+void Renderer::set_shader(Shader& shader)
 {
-    if (!shader.isUploaded())
+    if (!shader.is_uploaded())
     {
-        uploadShader(shader);
+        upload_shader(shader);
     }
 }
 
-void Renderer::setUniform(const Uniform& uniform, int value)
+void Renderer::set_uniform(const Uniform& uniform, int value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, double value)
+void Renderer::set_uniform(const Uniform& uniform, double value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Vector2 value)
+void Renderer::set_uniform(const Uniform& uniform, Vector2 value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Vector3 value)
+void Renderer::set_uniform(const Uniform& uniform, Vector3 value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Vector4 value)
+void Renderer::set_uniform(const Uniform& uniform, Vector4 value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, const Matrix4& value)
+void Renderer::set_uniform(const Uniform& uniform, const Matrix4& value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Color value)
+void Renderer::set_uniform(const Uniform& uniform, Color value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Texture2& value)
+void Renderer::set_uniform(const Uniform& uniform, Texture2& value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, Texture3& value)
+void Renderer::set_uniform(const Uniform& uniform, Texture3& value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::setUniform(const Uniform& uniform, TextureCube& value)
+void Renderer::set_uniform(const Uniform& uniform, TextureCube& value)
 {
     (void)uniform;
     (void)value;
 }
 
-void Renderer::renderMesh(Mesh& mesh)
+void Renderer::render_mesh(Mesh& mesh)
 {
     (void)mesh;
 }
 
-void Renderer::renderViewport()
+void Renderer::render_viewport()
 {
 }
 

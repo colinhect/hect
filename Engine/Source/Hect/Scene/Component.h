@@ -45,7 +45,7 @@ public:
 
     ///
     /// Returns the if of the component's type.
-    virtual ComponentTypeId typeId() const = 0;
+    virtual ComponentTypeId type_id() const = 0;
 };
 
 template <typename T>
@@ -133,7 +133,7 @@ public:
     /// Returns the id of the component.
     ComponentId id() const;
 
-    ComponentTypeId typeId() const override;
+    ComponentTypeId type_id() const override;
 
     ///
     /// Assigns the component as a copy from another component.
@@ -148,10 +148,10 @@ public:
     Component<T>& operator=(Component&& component);
 
 private:
-    void enterPool(ComponentPool<T>& pool, ComponentId id);
-    void exitPool();
-    bool inPool() const;
-    void ensureInPool() const;
+    void enter_pool(ComponentPool<T>& pool, ComponentId id);
+    void exit_pool();
+    bool in_pool() const;
+    void ensure_in_pool() const;
 
     ComponentPool<T>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };

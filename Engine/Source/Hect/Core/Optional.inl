@@ -33,35 +33,35 @@ Optional<T>::Optional()
 
 template <typename T>
 Optional<T>::Optional(const T& value) :
-    _hasValue(true),
+    _has_value(true),
     _value(value)
 {
 }
 
 template <typename T>
 Optional<T>::Optional(const Optional<T>& optional) :
-    _hasValue(optional._hasValue),
+    _has_value(optional._has_value),
     _value(optional._value)
 {
 }
 
 template <typename T>
 Optional<T>::Optional(Optional<T>&& optional) :
-    _hasValue(optional._hasValue),
+    _has_value(optional._has_value),
     _value(std::move(optional._value))
 {
 }
 
 template <typename T>
-bool Optional<T>::hasValue() const
+bool Optional<T>::has_value() const
 {
-    return _hasValue;
+    return _has_value;
 }
 
 template <typename T>
 T& Optional<T>::value()
 {
-    if (!_hasValue)
+    if (!_has_value)
     {
         throw InvalidOperation("No value in optional container");
     }
@@ -78,7 +78,7 @@ const T& Optional<T>::value() const
 template <typename T>
 Optional<T>::operator bool() const
 {
-    return hasValue();
+    return has_value();
 }
 
 template <typename T>
@@ -108,7 +108,7 @@ const T* Optional<T>::operator->() const
 template <typename T>
 Optional<T>& Optional<T>::operator=(const T& value)
 {
-    _hasValue = true;
+    _has_value = true;
     _value = value;
     return *this;
 }
@@ -116,7 +116,7 @@ Optional<T>& Optional<T>::operator=(const T& value)
 template <typename T>
 Optional<T>& Optional<T>::operator=(T&& value)
 {
-    _hasValue = true;
+    _has_value = true;
     _value = std::move(value);
     return *this;
 }
@@ -124,8 +124,8 @@ Optional<T>& Optional<T>::operator=(T&& value)
 template <typename T>
 Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
 {
-    _hasValue = optional._hasValue;
-    if (_hasValue)
+    _has_value = optional._has_value;
+    if (_has_value)
     {
         _value = optional._value;
     }
@@ -135,8 +135,8 @@ Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
 template <typename T>
 Optional<T>& Optional<T>::operator=(Optional<T>&& optional)
 {
-    _hasValue = optional._hasValue;
-    if (_hasValue)
+    _has_value = optional._has_value;
+    if (_has_value)
     {
         _value = std::move(optional._value);
     }

@@ -67,14 +67,14 @@ public:
     ///
     /// Returns whether the shader module is equivalent to another.
     ///
-    /// \param shaderModule The other shader module.
-    bool operator==(const ShaderModule& shaderModule) const;
+    /// \param shader_module The other shader module.
+    bool operator==(const ShaderModule& shader_module) const;
 
     ///
     /// Returns whether the shader source is different from another.
     ///
-    /// \param shaderModule The other shader module.
-    bool operator!=(const ShaderModule& shaderModule) const;
+    /// \param shader_module The other shader module.
+    bool operator!=(const ShaderModule& shader_module) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

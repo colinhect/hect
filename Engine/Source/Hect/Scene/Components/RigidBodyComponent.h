@@ -59,13 +59,13 @@ public:
     /// The linear velocity.
     ///
     /// \property
-    Vector3 linearVelocity;
+    Vector3 linear_velocity;
 
     ///
     /// The angular velocity.
     ///
     /// \property
-    Vector3 angularVelocity;
+    Vector3 angular_velocity;
 
     ///
     /// The collision mesh.
@@ -74,9 +74,9 @@ public:
     Mesh::Handle mesh;
 
 private:
-    std::shared_ptr<btRigidBody> _rigidBody;
-    std::shared_ptr<btMotionState> _motionState;
-    std::shared_ptr<btCollisionShape> _collisionShape;
+    std::shared_ptr<btRigidBody> _rigid_body;
+    std::shared_ptr<btMotionState> _motion_state;
+    std::shared_ptr<btCollisionShape> _collision_shape;
 };
 
 }

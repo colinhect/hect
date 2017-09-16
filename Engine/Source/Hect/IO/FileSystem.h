@@ -48,19 +48,19 @@ public:
 
     ///
     /// Returns the full path to the base directory of the executable.
-    Path baseDirectory();
+    Path base_directory();
 
     ///
     /// Returns the full path to the working directory of the executable.
-    Path workingDirectory();
+    Path working_directory();
 
     ///
     /// Returns the full path to the user's home directory.
-    Path userDirectory();
+    Path user_directory();
 
     ///
     /// Returns the full path to the application data directory.
-    Path applicationDataDirectory();
+    Path application_data_directory();
 
     ///
     /// Sets the directory where write access is allowed and directed to.
@@ -68,7 +68,7 @@ public:
     /// \param path The path to the directory to direct write access.
     ///
     /// \throws IOError If the write directory could not be set.
-    void setWriteDirectory(const Path& path);
+    void set_write_directory(const Path& path);
 
     ///
     /// Mounts a directory or archive.
@@ -78,10 +78,10 @@ public:
     /// archive which was mounted first.
     ///
     /// \param path Path to the directory or archive to mount.
-    /// \param mountPoint The point to mount the path to.
+    /// \param mount_point The point to mount the path to.
     ///
     /// \throws IOError If the archive could not be mounted.
-    void mountArchive(const Path& path, const Path& mountPoint = Path());
+    void mount_archive(const Path& path, const Path& mount_point = Path());
 
     ///
     /// Opens a file for reading.
@@ -91,13 +91,13 @@ public:
     /// \returns A stream for the opened file.
     ///
     /// \throws IOError If the file could not be opened.
-    std::unique_ptr<ReadStream> openFileForRead(const Path& path);
+    std::unique_ptr<ReadStream> open_file_for_read(const Path& path);
 
     ///
     /// Opens a file for writing.
     ///
     /// \warning The write directory must be set using the
-    /// setWriteDirectory() method.
+    /// set_write_directory() method.
     ///
     /// \param path The path to the file to open for writing relative to
     /// the write directory path.
@@ -105,7 +105,7 @@ public:
     /// \returns A stream for the opened file.
     ///
     /// \throws IOError If the file could not be opened.
-    std::unique_ptr<WriteStream> openFileForWrite(const Path& path);
+    std::unique_ptr<WriteStream> open_file_for_write(const Path& path);
 
     ///
     /// Creates a directory.
@@ -114,27 +114,27 @@ public:
     /// exist.  If the directory already exists then nothing happens.
     ///
     /// \warning The write directory must first be set using the
-    /// setWriteDirectory() method.
+    /// set_write_directory() method.
     ///
     /// \param path The path to the directory to create relative to the
     /// write directory path.
     ///
     /// \throws IOError If the directory could not be created.
-    void createDirectory(const Path& path);
+    void create_directory(const Path& path);
 
     ///
     /// Returns the paths to all files in a given directory.
     ///
     /// \param path The path of the directory to return the paths of the files
     /// it contains.
-    std::vector<Path> filesInDirectory(const Path& path);
+    std::vector<Path> files_in_directory(const Path& path);
 
     ///
     /// Removes the file or directory at the given path.  If the path does
     /// not exist then nothing happens.
     ///
     /// \warning The write directory mustfirst  be set using the
-    /// setWriteDirectory() method.
+    /// set_write_directory() method.
     ///
     /// \param path The path to the file or directory to remove relative to
     /// the write directory path.
@@ -153,12 +153,12 @@ public:
     ///
     /// \note If the last modified time cannot be determined then -1 is
     /// returned.
-    TimeStamp lastModified(const Path& path);
+    TimeStamp last_modified(const Path& path);
 
 private:
     FileSystem(int argc, char* const argv[]);
 
-    Path convertPath(const char* rawPath);
+    Path convert_path(const char* raw_path);
 };
 
 }

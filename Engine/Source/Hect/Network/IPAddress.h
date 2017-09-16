@@ -48,14 +48,14 @@ public:
     ///
     /// Constructs an IP address from a host name.
     ///
-    /// \param hostName The name of the host.
-    IPAddress(const char* hostName);
+    /// \param host_name The name of the host.
+    IPAddress(const char* host_name);
 
     ///
     /// Constructs an IP address from a host name.
     ///
-    /// \param hostName The name of the host.
-    IPAddress(const std::string& hostName);
+    /// \param host_name The name of the host.
+    IPAddress(const std::string& host_name);
 
     ///
     /// Constructs an IP address from a raw 32-bit value.
@@ -65,11 +65,11 @@ public:
 
     ///
     /// Returns whether the address is a valid IP address.
-    bool isValid() const;
+    bool is_valid() const;
 
     ///
     /// Returns a string representation of the address.
-    std::string asString() const;
+    std::string as_string() const;
 
     ///
     /// Casts the address to a 32-bit unsigned integer.

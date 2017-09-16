@@ -46,7 +46,7 @@ public:
     /// \param data The data to write to.
     MemoryWriteStream(ByteVector& data);
 
-    void write(const uint8_t* bytes, size_t byteCount) override;
+    void write(const uint8_t* bytes, size_t byte_count) override;
     size_t position() const override;
     void seek(size_t position) override;
 

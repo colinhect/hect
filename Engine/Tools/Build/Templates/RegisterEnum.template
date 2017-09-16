@@ -2,6 +2,6 @@
     // $(type_name)
     {
         hect::Type& type = hect::Type::create<$(type_name)>(hect::Kind::Enum, "$(type_name)");
-        hect::Enum& enumType = type.asEnum();
+        hect::Enum& enum_type = type.as_enum();
 $(add_enum_values)
     }

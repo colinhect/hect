@@ -39,22 +39,22 @@ public:
     ///
     /// Constructs an empty check box widget.
     ///
-    /// \param interfaceSystem The interface system.
-    CheckBoxWidget(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    CheckBoxWidget(InterfaceSystem& interface_system);
 
     ///
     /// Returns whether the check box is checked.
-    bool isChecked() const;
+    bool is_checked() const;
 
     ///
     /// Sets whether the check box is checked.
     ///
     /// \param checked Whether the check box is checked.
-    void setChecked(bool checked);
+    void set_checked(bool checked);
 
     // Widget overrides
     virtual void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
-    virtual void onPressed() override;
+    virtual void on_pressed() override;
 
 private:
     bool _checked { false };

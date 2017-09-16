@@ -53,13 +53,13 @@ public:
     /// Expands the bounds of the box to include point.
     ///
     /// \param point The point to include.
-    void expandToInclude(Vector3 point);
+    void expand_to_include(Vector3 point);
 
     ///
     /// Expands the bounds of the box to include another box.
     ///
     /// \param box The box to include.
-    void expandToInclude(const AxisAlignedBox& box);
+    void expand_to_include(const AxisAlignedBox& box);
 
     ///
     /// Applies a translation to the box.
@@ -97,14 +97,14 @@ public:
 
     ///
     /// Returns whether the box has a non-negligible size.
-    bool hasSize() const;
+    bool has_size() const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;
 
 private:
-    void mergeMinimum(Vector3 point);
-    void mergeMaximum(Vector3 point);
+    void merge_minimum(Vector3 point);
+    void merge_maximum(Vector3 point);
 
     enum Flags
     {

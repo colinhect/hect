@@ -29,182 +29,182 @@ using namespace hect;
 
 MeshWriter::MeshWriter(Mesh& mesh) :
     _mesh(mesh),
-    _vertexStream(mesh._vertexData),
-    _indexStream(mesh._indexData)
+    _vertex_stream(mesh._vertex_data),
+    _index_stream(mesh._index_data)
 {
 }
 
-size_t MeshWriter::addVertex()
+size_t MeshWriter::add_vertex()
 {
-    _vertexPosition = _vertexStream.position();
+    _vertex_position = _vertex_stream.position();
 
     // Push back zeroed data for the added vertex
-    for (unsigned i = 0; i < _mesh.vertexLayout().vertexSize(); ++i)
+    for (unsigned i = 0; i < _mesh.vertex_layout().vertex_size(); ++i)
     {
-        _vertexStream << static_cast<uint8_t>(0);
+        _vertex_stream << static_cast<uint8_t>(0);
     }
 
-    return _mesh._vertexCount++;
+    return _mesh._vertex_count++;
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, double value)
+void MeshWriter::write_attribute_data(VertexAttributeSemantic semantic, double value)
 {
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
-        setComponentValue(attribute, 0, static_cast<float>(value));
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
+        set_component_value(attribute, 0, static_cast<float>(value));
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Vector2 value)
+void MeshWriter::write_attribute_data(VertexAttributeSemantic semantic, Vector2 value)
 {
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, static_cast<float>(value.x));
+            set_component_value(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, static_cast<float>(value.y));
+            set_component_value(attribute, 1, static_cast<float>(value.y));
         }
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Vector3 value)
+void MeshWriter::write_attribute_data(VertexAttributeSemantic semantic, Vector3 value)
 {
     // If this data is a position then expand the bounding box to include it
     if (semantic == VertexAttributeSemantic::Position)
     {
-        _mesh.axisAlignedBox().expandToInclude(value);
+        _mesh.axis_aligned_box().expand_to_include(value);
     }
 
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, static_cast<float>(value.x));
+            set_component_value(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, static_cast<float>(value.y));
+            set_component_value(attribute, 1, static_cast<float>(value.y));
         }
 
         if (cardinality > 2)
         {
-            setComponentValue(attribute, 2, static_cast<float>(value.z));
+            set_component_value(attribute, 2, static_cast<float>(value.z));
         }
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Vector4 value)
+void MeshWriter::write_attribute_data(VertexAttributeSemantic semantic, Vector4 value)
 {
-    const VertexLayout& vertexLayout = _mesh.vertexLayout();
-    if (vertexLayout.hasAttributeWithSemantic(semantic))
+    const VertexLayout& vertex_layout = _mesh.vertex_layout();
+    if (vertex_layout.has_attribute_with_semantic(semantic))
     {
-        const VertexAttribute& attribute = vertexLayout.attributeWithSemantic(semantic);
+        const VertexAttribute& attribute = vertex_layout.attribute_with_semantic(semantic);
 
         unsigned cardinality = attribute.cardinality();
 
         if (cardinality > 0)
         {
-            setComponentValue(attribute, 0, static_cast<float>(value.x));
+            set_component_value(attribute, 0, static_cast<float>(value.x));
         }
 
         if (cardinality > 1)
         {
-            setComponentValue(attribute, 1, static_cast<float>(value.y));
+            set_component_value(attribute, 1, static_cast<float>(value.y));
         }
 
         if (cardinality > 2)
         {
-            setComponentValue(attribute, 2, static_cast<float>(value.z));
+            set_component_value(attribute, 2, static_cast<float>(value.z));
         }
 
         if (cardinality > 3)
         {
-            setComponentValue(attribute, 3, static_cast<float>(value.w));
+            set_component_value(attribute, 3, static_cast<float>(value.w));
         }
     }
 }
 
-void MeshWriter::writeAttributeData(VertexAttributeSemantic semantic, Color value)
+void MeshWriter::write_attribute_data(VertexAttributeSemantic semantic, Color value)
 {
-    writeAttributeData(semantic, Vector4(value.r, value.g, value.b, value.a));
+    write_attribute_data(semantic, Vector4(value.r, value.g, value.b, value.a));
 }
 
-void MeshWriter::addIndex(uint64_t value)
+void MeshWriter::add_index(uint64_t value)
 {
     // Write the index data based on the type
-    switch (_mesh.indexType())
+    switch (_mesh.index_type())
     {
     case IndexType::UInt8:
-        _indexStream << static_cast<uint8_t>(value);
+        _index_stream << static_cast<uint8_t>(value);
         break;
     case IndexType::UInt16:
-        _indexStream << static_cast<uint16_t>(value);
+        _index_stream << static_cast<uint16_t>(value);
         break;
     case IndexType::UInt32:
-        _indexStream << static_cast<uint32_t>(value);
+        _index_stream << static_cast<uint32_t>(value);
         break;
     }
 
-    ++_mesh._indexCount;
+    ++_mesh._index_count;
 }
 
-void MeshWriter::setComponentValue(const VertexAttribute& attribute, unsigned index, float value)
+void MeshWriter::set_component_value(const VertexAttribute& attribute, unsigned index, float value)
 {
-    size_t position = _vertexStream.position();
-    size_t offset = _vertexPosition + attribute.offset();
+    size_t position = _vertex_stream.position();
+    size_t offset = _vertex_position + attribute.offset();
 
     // Write the vertex data based on the type
     switch (attribute.type())
     {
     case VertexAttributeType::Int8:
-        _vertexStream.seek(offset + index * sizeof(int8_t));
-        _vertexStream << static_cast<int8_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(int8_t));
+        _vertex_stream << static_cast<int8_t>(value);
         break;
     case VertexAttributeType::UInt8:
-        _vertexStream.seek(offset + index * sizeof(uint8_t));
-        _vertexStream << static_cast<uint8_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(uint8_t));
+        _vertex_stream << static_cast<uint8_t>(value);
         break;
     case VertexAttributeType::Int16:
-        _vertexStream.seek(offset + index * sizeof(int16_t));
-        _vertexStream << static_cast<int16_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(int16_t));
+        _vertex_stream << static_cast<int16_t>(value);
         break;
     case VertexAttributeType::UInt16:
-        _vertexStream.seek(offset + index * sizeof(uint16_t));
-        _vertexStream << static_cast<uint16_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(uint16_t));
+        _vertex_stream << static_cast<uint16_t>(value);
         break;
     case VertexAttributeType::Int32:
-        _vertexStream.seek(offset + index * sizeof(int32_t));
-        _vertexStream << static_cast<int32_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(int32_t));
+        _vertex_stream << static_cast<int32_t>(value);
         break;
     case VertexAttributeType::UInt32:
-        _vertexStream.seek(offset + index * sizeof(uint32_t));
-        _vertexStream << static_cast<uint32_t>(value);
+        _vertex_stream.seek(offset + index * sizeof(uint32_t));
+        _vertex_stream << static_cast<uint32_t>(value);
         break;
     case VertexAttributeType::Reserved:
         // Float 16
         break;
     case VertexAttributeType::Float32:
-        _vertexStream.seek(offset + index * sizeof(float));
-        _vertexStream << value;
+        _vertex_stream.seek(offset + index * sizeof(float));
+        _vertex_stream << value;
         break;
     }
 
-    _vertexStream.seek(position);
+    _vertex_stream.seek(position);
 }

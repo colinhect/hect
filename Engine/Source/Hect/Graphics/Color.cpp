@@ -183,18 +183,18 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, Color color)
 {
-    encoder << beginArray() << color.r << color.g << color.b << color.a << endArray();
+    encoder << begin_array() << color.r << color.g << color.b << color.a << end_array();
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Color& color)
 {
-    decoder >> beginArray();
-    for (size_t i = 0; decoder.hasMoreElements() && i <= 4; ++i)
+    decoder >> begin_array();
+    for (size_t i = 0; decoder.has_more_elements() && i <= 4; ++i)
     {
-        decoder >> decodeValue(color[i]);
+        decoder >> decode_value(color[i]);
     }
-    decoder >> endArray();
+    decoder >> end_array();
     return decoder;
 }
 

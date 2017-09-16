@@ -25,7 +25,7 @@ namespace hect
 {
 
 template <typename T>
-Entity::Handle EntityPool::findFirst(T&& predicate) const
+Entity::Handle EntityPool::find_first(T&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {

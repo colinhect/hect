@@ -60,7 +60,7 @@ public:
 protected:
     T& dereference() const;
     void increment();
-    bool isValid() const;
+    bool is_valid() const;
     bool equals(const ComponentIteratorBase& other) const;
 
     mutable ComponentPool<T>* _pool { nullptr };

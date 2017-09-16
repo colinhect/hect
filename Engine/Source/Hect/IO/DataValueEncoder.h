@@ -51,35 +51,35 @@ public:
 
     ///
     /// Returns the encoded DataValue%s.
-    ValueSequence dataValues();
+    ValueSequence data_values();
 
-    bool isBinaryStream() const override;
-    WriteStream& binaryStream() override;
-    void beginArray() override;
-    void endArray() override;
-    void beginObject() override;
-    void endObject() override;
-    void selectMember(const char* name) override;
-    void encodeString(const std::string& value) override;
-    void encodeInt8(int8_t value) override;
-    void encodeUInt8(uint8_t value) override;
-    void encodeInt16(int16_t value) override;
-    void encodeUInt16(uint16_t value) override;
-    void encodeInt32(int32_t value) override;
-    void encodeUInt32(uint32_t value) override;
-    void encodeInt64(int64_t value) override;
-    void encodeUInt64(uint64_t value) override;
-    void encodeFloat32(float value) override;
-    void encodeFloat64(double value) override;
-    void encodeBool(bool value) override;
+    bool is_binary_stream() const override;
+    WriteStream& binary_stream() override;
+    void begin_array() override;
+    void end_array() override;
+    void begin_object() override;
+    void end_object() override;
+    void select_member(const char* name) override;
+    void encode_string(const std::string& value) override;
+    void encode_int8(int8_t value) override;
+    void encode_u_int8(uint8_t value) override;
+    void encode_int16(int16_t value) override;
+    void encode_u_int16(uint16_t value) override;
+    void encode_int32(int32_t value) override;
+    void encode_u_int32(uint32_t value) override;
+    void encode_int64(int64_t value) override;
+    void encode_u_int64(uint64_t value) override;
+    void encode_float32(float value) override;
+    void encode_float64(double value) override;
+    void encode_bool(bool value) override;
 
 private:
     void encode(const DataValue& value);
 
-    std::stack<std::string> _nameStack;
-    std::stack<DataValue> _valueStack;
+    std::stack<std::string> _name_stack;
+    std::stack<DataValue> _value_stack;
 
-    bool _memberSelected { false };
+    bool _member_selected { false };
 
     ValueContainer _completed;
 };

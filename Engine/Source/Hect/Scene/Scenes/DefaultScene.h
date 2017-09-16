@@ -54,54 +54,54 @@ public:
     /// \param engine The engine.
     DefaultScene(Engine& engine);
 
-    void preTick(Seconds timeStep);
-    void postTick(Seconds timeStep);
+    void pre_tick(Seconds time_step);
+    void post_tick(Seconds time_step);
 
     // Scene overrides
-    virtual void tick(Seconds timeStep) override;
+    virtual void tick(Seconds time_step) override;
     virtual void render(RenderTarget& target) override;
 
     // EventListener overrides
-    virtual void receiveEvent(const KeyboardEvent& event) override;
+    virtual void receive_event(const KeyboardEvent& event) override;
 
     ///
     /// Returns the InterfaceSystem.
-    InterfaceSystem& interfaceSystem();
+    InterfaceSystem& interface_system();
 
     ///
     /// Returns the DebugSystem.
-    DebugSystem& debugSystem();
+    DebugSystem& debug_system();
 
     ///
     /// Returns the InputSystem.
-    InputSystem& inputSystem();
+    InputSystem& input_system();
 
     ///
     /// Returns the CameraSystem.
-    CameraSystem& cameraSystem();
+    CameraSystem& camera_system();
 
     ///
     /// Returns the BoundingBoxSystem.
-    BoundingBoxSystem& boundingBoxSystem();
+    BoundingBoxSystem& bounding_box_system();
 
     ///
     /// Returns the TransformSystem.
-    TransformSystem& transformSystem();
+    TransformSystem& transform_system();
 
     ///
     /// Returns the PhysicsSystem.
-    PhysicsSystem& physicsSystem();
+    PhysicsSystem& physics_system();
 
 private:
-    InterfaceSystem _interfaceSystem;
-    DebugSystem _debugSystem;
-    InputSystem _inputSystem;
-    CameraSystem _cameraSystem;
-    BoundingBoxSystem _boundingBoxSystem;
-    TransformSystem _transformSystem;
-    PhysicsSystem _physicsSystem;
-    PhysicallyBasedSceneRenderer _sceneRenderer;
-    bool _debugRenderingEnabled { false };
+    InterfaceSystem _interface_system;
+    DebugSystem _debug_system;
+    InputSystem _input_system;
+    CameraSystem _camera_system;
+    BoundingBoxSystem _bounding_box_system;
+    TransformSystem _transform_system;
+    PhysicsSystem _physics_system;
+    PhysicallyBasedSceneRenderer _scene_renderer;
+    bool _debug_rendering_enabled { false };
 };
 
 }

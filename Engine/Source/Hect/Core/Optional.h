@@ -57,7 +57,7 @@ public:
 
     ///
     /// Returns whether the optional container holds a value.
-    bool hasValue() const;
+    bool has_value() const;
 
     ///
     /// Returns a reference to the value that the optional container holds.
@@ -70,7 +70,7 @@ public:
     const T& value() const;
 
     ///
-    /// \copydoc Optional::hasValue()
+    /// \copydoc Optional::has_value()
     operator bool() const;
 
     ///
@@ -114,7 +114,7 @@ public:
     Optional& operator=(Optional<T>&& optional);
 
 private:
-    bool _hasValue { false };
+    bool _has_value { false };
     T _value;
 };
 

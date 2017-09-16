@@ -28,47 +28,47 @@
 
 using namespace hect;
 
-SystemTypeId SystemRegistry::typeIdOf(std::type_index typeIndex)
+SystemTypeId SystemRegistry::type_id_of(std::type_index type_index)
 {
-    auto it = _typeIndexToId.find(typeIndex);
-    if (it == _typeIndexToId.end())
+    auto it = _type_index_to_id.find(type_index);
+    if (it == _type_index_to_id.end())
     {
         throw InvalidOperation("Unknown system type index");
     }
     return it->second;
 }
 
-SystemTypeId SystemRegistry::typeIdOf(Name typeName)
+SystemTypeId SystemRegistry::type_id_of(Name type_name)
 {
-    auto it = _typeNameToId.find(typeName);
-    if (it == _typeNameToId.end())
+    auto it = _type_name_to_id.find(type_name);
+    if (it == _type_name_to_id.end())
     {
-        throw InvalidOperation(format("Unknown system type name '%s'", typeName.data()));
+        throw InvalidOperation(format("Unknown system type name '%s'", type_name.data()));
     }
     return it->second;
 }
 
-Name SystemRegistry::typeNameOf(SystemTypeId typeId)
+Name SystemRegistry::type_name_of(SystemTypeId type_id)
 {
-    auto it = _typeIdToName.find(typeId);
-    if (it == _typeIdToName.end())
+    auto it = _type_id_to_name.find(type_id);
+    if (it == _type_id_to_name.end())
     {
         throw InvalidOperation("Unknown system type id");
     }
-    return _typeIdToName[typeId];
+    return _type_id_to_name[type_id];
 }
 
-bool SystemRegistry::isRegisteredTypeId(SystemTypeId typeId)
+bool SystemRegistry::is_registered_type_id(SystemTypeId type_id)
 {
-    return typeId < _typeIds.size();
+    return type_id < _type_ids.size();
 }
 
-SystemRegistry::SystemTypeIdSequence SystemRegistry::typeIds()
+SystemRegistry::SystemTypeIdSequence SystemRegistry::type_ids()
 {
-    return SystemTypeIdSequence(_typeIds);
+    return SystemTypeIdSequence(_type_ids);
 }
 
-std::map<SystemTypeId, Name> SystemRegistry::_typeIdToName;
-std::map<Name, SystemTypeId> SystemRegistry::_typeNameToId;
-std::map<std::type_index, SystemTypeId> SystemRegistry::_typeIndexToId;
-SystemRegistry::SystemTypeIdContainer SystemRegistry::_typeIds;
+std::map<SystemTypeId, Name> SystemRegistry::_type_id_to_name;
+std::map<Name, SystemTypeId> SystemRegistry::_type_name_to_id;
+std::map<std::type_index, SystemTypeId> SystemRegistry::_type_index_to_id;
+SystemRegistry::SystemTypeIdContainer SystemRegistry::_type_ids;

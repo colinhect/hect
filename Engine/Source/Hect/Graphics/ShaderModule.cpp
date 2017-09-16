@@ -53,36 +53,36 @@ const std::string& ShaderModule::source() const
     return _source;
 }
 
-bool ShaderModule::operator==(const ShaderModule& shaderSource) const
+bool ShaderModule::operator==(const ShaderModule& shader_source) const
 {
-    return _type == shaderSource._type
-           && _name == shaderSource._name
-           && _source == shaderSource._source;
+    return _type == shader_source._type
+           && _name == shader_source._name
+           && _source == shader_source._source;
 }
 
-bool ShaderModule::operator!=(const ShaderModule& shaderSource) const
+bool ShaderModule::operator!=(const ShaderModule& shader_source) const
 {
-    return !(*this == shaderSource);
+    return !(*this == shader_source);
 }
 
 void ShaderModule::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("type", _type)
-            << encodeValue("path", _name);
+    encoder << encode_enum("type", _type)
+            << encode_value("path", _name);
 }
 
 void ShaderModule::decode(Decoder& decoder)
 {
     Path path;
-    decoder >> decodeEnum("type", _type, true)
-            >> decodeValue("path", path, true);
+    decoder >> decode_enum("type", _type, true)
+            >> decode_value("path", path, true);
 
     // Resolve the path
-    AssetCache& assetCache = decoder.assetCache();
-    path = assetCache.resolvePath(path);
-    _name = path.asString();
+    AssetCache& asset_cache = decoder.asset_cache();
+    path = asset_cache.resolve_path(path);
+    _name = path.as_string();
 
     // Load the shader source
-    auto stream = assetCache.fileSystem().openFileForRead(path);
-    _source = stream->readAllToString();
+    auto stream = asset_cache.file_system().open_file_for_read(path);
+    _source = stream->read_all_to_string();
 }

@@ -36,17 +36,17 @@ MemoryWriteStream::MemoryWriteStream(ByteVector& data) :
 {
 }
 
-void MemoryWriteStream::write(const uint8_t* bytes, size_t byteCount)
+void MemoryWriteStream::write(const uint8_t* bytes, size_t byte_count)
 {
     assert(bytes);
 
-    while (_position + byteCount > _data.size())
+    while (_position + byte_count > _data.size())
     {
         _data.push_back(0);
     }
 
-    std::memcpy(&_data[_position], bytes, byteCount);
-    _position += byteCount;
+    std::memcpy(&_data[_position], bytes, byte_count);
+    _position += byte_count;
 }
 
 size_t MemoryWriteStream::position() const

@@ -31,7 +31,7 @@ namespace hect
 enum class ColorSpace
 {
     ///
-    /// Non-linear color space (sRGB).
+    /// Non-linear color space (s_r_g_b).
     ///
     /// \note Only an image with a pixel type of PixelType::Byte can
     /// be non-linear.

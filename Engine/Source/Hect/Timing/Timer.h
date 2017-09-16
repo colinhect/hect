@@ -37,7 +37,7 @@ public:
 
     ///
     /// Returns the total elapsed time since program initialization.
-    static Microseconds totalElapsed();
+    static Microseconds total_elapsed();
 
     ///
     /// Constructs a timer and resets it.

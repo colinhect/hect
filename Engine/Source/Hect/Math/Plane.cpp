@@ -26,7 +26,7 @@
 namespace hect
 {
 
-Plane Plane::fromPoints(Vector3 p0, Vector3 p1, Vector3 p2)
+Plane Plane::from_points(Vector3 p0, Vector3 p1, Vector3 p2)
 {
     Vector3 position = p1;
     Vector3 normal = (p2 - p1).cross(p0 - p1).normalized();

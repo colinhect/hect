@@ -40,10 +40,10 @@ namespace
 std::unique_ptr<Mouse> _mouse;
 std::unique_ptr<Keyboard> _keyboard;
 std::vector<Joystick> _joysticks;
-std::vector<SDL_Joystick*> _openJoysticks;
-MouseMode _mouseMode { MouseMode::Cursor };
+std::vector<SDL_Joystick*> _open_joysticks;
+MouseMode _mouse_mode { MouseMode::Cursor };
 
-Key convertKey(SDL_Keycode key)
+Key convert_key(SDL_Keycode key)
 {
     switch (key)
     {
@@ -146,26 +146,26 @@ Key convertKey(SDL_Keycode key)
 Platform::~Platform()
 {
     // Close all joysticks
-    for (SDL_Joystick* joystick : _openJoysticks)
+    for (SDL_Joystick* joystick : _open_joysticks)
     {
         SDL_JoystickClose(joystick);
     }
-    _openJoysticks.clear();
+    _open_joysticks.clear();
 
     SDL_Quit();
 }
 
-bool Platform::handleEvents()
+bool Platform::handle_events()
 {
-    _mouse->clearMovement();
+    _mouse->clear_movement();
 
     // Update the mouse mode if needed
-    MouseMode currentMouseMode = _mouse->mode();
-    if (currentMouseMode != _mouseMode)
+    MouseMode current_mouse_mode = _mouse->mode();
+    if (current_mouse_mode != _mouse_mode)
     {
-        _mouseMode = currentMouseMode;
+        _mouse_mode = current_mouse_mode;
 
-        switch (currentMouseMode)
+        switch (current_mouse_mode)
         {
         case MouseMode::Cursor:
             SDL_SetRelativeMouseMode(SDL_FALSE);
@@ -191,28 +191,28 @@ bool Platform::handleEvents()
         {
             KeyboardEvent event;
             event.type = e.type == SDL_KEYDOWN ? KeyboardEventType::KeyDown : KeyboardEventType::KeyUp;
-            event.key = convertKey(e.key.keysym.sym);
-            _keyboard->enqueueEvent(event);
+            event.key = convert_key(e.key.keysym.sym);
+            _keyboard->enqueue_event(event);
         }
         break;
         case SDL_MOUSEMOTION:
         {
             // Get relative cursor movement
-            int movementX = 0;
-            int movementY = 0;
-            SDL_GetRelativeMouseState(&movementX, &movementY);
+            int movement_x = 0;
+            int movement_y = 0;
+            SDL_GetRelativeMouseState(&movement_x, &movement_y);
 
             // Get absolute cursor position
-            int positionX = 0;
-            int positionY = 0;
-            SDL_GetMouseState(&positionX, &positionY);
+            int position_x = 0;
+            int position_y = 0;
+            SDL_GetMouseState(&position_x, &position_y);
 
             // Enqueue the event
             MouseEvent event;
             event.type = MouseEventType::Movement;
-            event.cursorMovement = IntVector2(movementX, -movementY);
-            event.cursorPosition = IntVector2(positionX, positionY);
-            _mouse->enqueueEvent(event);
+            event.cursor_movement = IntVector2(movement_x, -movement_y);
+            event.cursor_position = IntVector2(position_x, position_y);
+            _mouse->enqueue_event(event);
         }
         break;
         case SDL_MOUSEWHEEL:
@@ -220,22 +220,22 @@ bool Platform::handleEvents()
             // Enqueue the event
             MouseEvent event;
             event.type = e.wheel.y > 0 ? MouseEventType::ScrollUp : MouseEventType::ScrollDown;
-            _mouse->enqueueEvent(event);
+            _mouse->enqueue_event(event);
         }
         break;
         case SDL_MOUSEBUTTONDOWN:
         case SDL_MOUSEBUTTONUP:
         {
             // Get absolute cursor position
-            int positionX = 0;
-            int positionY = 0;
-            SDL_GetMouseState(&positionX, &positionY);
+            int position_x = 0;
+            int position_y = 0;
+            SDL_GetMouseState(&position_x, &position_y);
 
             // Enqueue the event
             MouseEvent event;
             event.type = e.type == SDL_MOUSEBUTTONDOWN ? MouseEventType::ButtonDown : MouseEventType::ButtonUp;
-            event.cursorPosition = IntVector2(positionX, positionY);
-            _mouse->enqueueEvent(event);
+            event.cursor_position = IntVector2(position_x, position_y);
+            _mouse->enqueue_event(event);
         }
         break;
         case SDL_JOYAXISMOTION:
@@ -245,8 +245,8 @@ bool Platform::handleEvents()
             event.type = JoystickEventType::AxisMotion;
             event.index = e.jaxis.which;
             event.axis = static_cast<JoystickAxis>(e.jaxis.axis);
-            event.axisValue = std::max(static_cast<double>(e.jaxis.value) / 32767.0, -1.0);
-            _joysticks[event.index].enqueueEvent(event);
+            event.axis_value = std::max(static_cast<double>(e.jaxis.value) / 32767.0, -1.0);
+            _joysticks[event.index].enqueue_event(event);
         }
         break;
         case SDL_JOYBUTTONDOWN:
@@ -257,7 +257,7 @@ bool Platform::handleEvents()
             event.type = e.type == SDL_JOYBUTTONDOWN ? JoystickEventType::ButtonDown : JoystickEventType::ButtonUp;
             event.index = e.jbutton.which;
             event.button = static_cast<JoystickButton>(e.jbutton.button);
-            _joysticks[event.index].enqueueEvent(event);
+            _joysticks[event.index].enqueue_event(event);
         }
         break;
         default:
@@ -265,18 +265,18 @@ bool Platform::handleEvents()
         }
     }
 
-    _mouse->dispatchEvents();
-    _keyboard->dispatchEvents();
+    _mouse->dispatch_events();
+    _keyboard->dispatch_events();
 
     for (Joystick& joystick : _joysticks)
     {
-        joystick.dispatchEvents();
+        joystick.dispatch_events();
     }
 
     return active;
 }
 
-bool Platform::hasMouse()
+bool Platform::has_mouse()
 {
     return true;
 }
@@ -286,7 +286,7 @@ Mouse& Platform::mouse()
     return *_mouse;
 }
 
-bool Platform::hasKeyboard()
+bool Platform::has_keyboard()
 {
     return true;
 }
@@ -296,14 +296,14 @@ Keyboard& Platform::keyboard()
     return *_keyboard;
 }
 
-bool Platform::hasJoystick(JoystickIndex index)
+bool Platform::has_joystick(JoystickIndex index)
 {
     return index < _joysticks.size();
 }
 
 Joystick& Platform::joystick(JoystickIndex index)
 {
-    if (!hasJoystick(index))
+    if (!has_joystick(index))
     {
         throw InvalidOperation(format("No joystick connected at index %i", index));
     }
@@ -326,23 +326,23 @@ Platform::Platform()
         SDL_Joystick* joystick = SDL_JoystickOpen(i);
         if (joystick)
         {
-            _openJoysticks.push_back(joystick);
+            _open_joysticks.push_back(joystick);
 
             std::string name = SDL_JoystickName(joystick);
-            size_t buttonCount = SDL_JoystickNumButtons(joystick);
-            size_t axisCount = SDL_JoystickNumAxes(joystick);
+            size_t button_count = SDL_JoystickNumButtons(joystick);
+            size_t axis_count = SDL_JoystickNumAxes(joystick);
 
-            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.data(), buttonCount, axisCount));
+            HECT_INFO(format("Detected joystick '%s' with %i buttons and %i axes", name.data(), button_count, axis_count));
 
-            _joysticks.push_back(Joystick(name, buttonCount, axisCount));
-            for (size_t axisIndex = 0; axisIndex < axisCount; ++axisIndex)
+            _joysticks.push_back(Joystick(name, button_count, axis_count));
+            for (size_t axis_index = 0; axis_index < axis_count; ++axis_index)
             {
                 JoystickEvent event;
                 event.type = JoystickEventType::AxisMotion;
                 event.index = _joysticks.size() - 1;
-                event.axis = static_cast<JoystickAxis>(axisIndex);
-                event.axisValue = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(axisIndex))) / 32767.0, -1.0);
-                _joysticks[event.index].enqueueEvent(event);
+                event.axis = static_cast<JoystickAxis>(axis_index);
+                event.axis_value = std::max(static_cast<double>(SDL_JoystickGetAxis(joystick, static_cast<int>(axis_index))) / 32767.0, -1.0);
+                _joysticks[event.index].enqueue_event(event);
             }
         }
     }

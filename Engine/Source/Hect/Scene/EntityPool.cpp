@@ -30,7 +30,7 @@ using namespace hect;
 EntityPool::EntityPool(Scene& scene) :
     _scene(scene)
 {
-    allocateChunk();
+    allocate_chunk();
 }
 
 Entity::Iterator EntityPool::begin()
@@ -38,7 +38,7 @@ Entity::Iterator EntityPool::begin()
     Entity::Iterator iterator(*this, 0);
 
     // Move to the first activated entity
-    if (!iterator || !iterator->isActivated())
+    if (!iterator || !iterator->is_activated())
     {
         ++iterator;
     }
@@ -50,7 +50,7 @@ Entity::ConstIterator EntityPool::begin() const
     Entity::ConstIterator iterator(*this, 0);
 
     // Move to the first activated entity
-    if (!iterator || !iterator->isActivated())
+    if (!iterator || !iterator->is_activated())
     {
         ++iterator;
     }
@@ -59,31 +59,31 @@ Entity::ConstIterator EntityPool::begin() const
 
 Entity::Iterator EntityPool::end()
 {
-    return Entity::Iterator(*this, std::max(maxId(), static_cast<EntityId>(1)));
+    return Entity::Iterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
 }
 
 Entity::ConstIterator EntityPool::end() const
 {
-    return Entity::ConstIterator(*this, std::max(maxId(), static_cast<EntityId>(1)));
+    return Entity::ConstIterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
 }
 
-Entity::Handle EntityPool::findFirstByName(Name name) const
+Entity::Handle EntityPool::find_first_by_name(Name name) const
 {
-    return findFirst([name](const Entity& entity) { return entity.name() == name; });
+    return find_first([name](const Entity& entity) { return entity.name() == name; });
 }
 
-Entity& EntityPool::withId(EntityId id)
+Entity& EntityPool::with_id(EntityId id)
 {
-    const Entity& entity = const_cast<const EntityPool*>(this)->withId(id);
+    const Entity& entity = const_cast<const EntityPool*>(this)->with_id(id);
     return const_cast<Entity&>(entity);
 }
 
-const Entity& EntityPool::withId(EntityId id) const
+const Entity& EntityPool::with_id(EntityId id) const
 {
-    if (id < maxId())
+    if (id < max_id())
     {
-        const Entity& entity = lookUpEntity(id);
-        if (entity.inPool())
+        const Entity& entity = look_up_entity(id);
+        if (entity.in_pool())
         {
             return entity;
         }
@@ -94,37 +94,37 @@ const Entity& EntityPool::withId(EntityId id) const
 
 Entity& EntityPool::create(Name name)
 {
-    EntityId id = _idPool.create();
+    EntityId id = _id_pool.create();
 
     // Allocate chunk if needed
-    while (id >= maxId())
+    while (id >= max_id())
     {
-        allocateChunk();
+        allocate_chunk();
     }
 
-    Entity& entity = lookUpEntity(id);
-    entity.setName(name);
-    entity.enterPool(*this, id);
+    Entity& entity = look_up_entity(id);
+    entity.set_name(name);
+    entity.enter_pool(*this, id);
 
     return entity;
 }
 
 void EntityPool::destroy(EntityId id)
 {
-    if (!entityIsValid(id))
+    if (!entity_is_valid(id))
     {
         throw InvalidOperation("Entity does not exist");
     }
 
-    _idPool.destroy(id);
-    lookUpEntity(id).exitPool();
+    _id_pool.destroy(id);
+    look_up_entity(id).exit_pool();
 }
 
-bool EntityPool::entityIsValid(EntityId id)
+bool EntityPool::entity_is_valid(EntityId id)
 {
-    if (id < maxId())
+    if (id < max_id())
     {
-        if (lookUpEntity(id).inPool())
+        if (look_up_entity(id).in_pool())
         {
             return true;
         }
@@ -132,18 +132,18 @@ bool EntityPool::entityIsValid(EntityId id)
     return false;
 }
 
-Entity& EntityPool::entityWithId(EntityId id)
+Entity& EntityPool::entity_with_id(EntityId id)
 {
-    const Entity& entity = const_cast<const EntityPool*>(this)->entityWithId(id);
+    const Entity& entity = const_cast<const EntityPool*>(this)->entity_with_id(id);
     return const_cast<Entity&>(entity);
 }
 
-const Entity& EntityPool::entityWithId(EntityId id) const
+const Entity& EntityPool::entity_with_id(EntityId id) const
 {
-    if (id < maxId())
+    if (id < max_id())
     {
-        const Entity& entity = lookUpEntity(id);
-        if (entity.inPool())
+        const Entity& entity = look_up_entity(id);
+        if (entity.in_pool())
         {
             return entity;
         }
@@ -151,35 +151,35 @@ const Entity& EntityPool::entityWithId(EntityId id) const
     throw InvalidOperation("Invalid entity");
 }
 
-Entity& EntityPool::lookUpEntity(EntityId id)
+Entity& EntityPool::look_up_entity(EntityId id)
 {
-    const size_t chunkIndex = id / _entityChunkSize;
-    const size_t entityIndex = id % _entityChunkSize;
-    return _entityChunks[chunkIndex][entityIndex];
+    const size_t chunk_index = id / _entity_chunk_size;
+    const size_t entity_index = id % _entity_chunk_size;
+    return _entity_chunks[chunk_index][entity_index];
 }
 
-const Entity& EntityPool::lookUpEntity(EntityId id) const
+const Entity& EntityPool::look_up_entity(EntityId id) const
 {
-    const size_t chunkIndex = id / _entityChunkSize;
-    const size_t entityIndex = id % _entityChunkSize;
-    return _entityChunks[chunkIndex][entityIndex];
+    const size_t chunk_index = id / _entity_chunk_size;
+    const size_t entity_index = id % _entity_chunk_size;
+    return _entity_chunks[chunk_index][entity_index];
 }
 
-EntityId EntityPool::maxId() const
+EntityId EntityPool::max_id() const
 {
-    return static_cast<EntityId>(_entityChunks.size() * _entityChunkSize);
+    return static_cast<EntityId>(_entity_chunks.size() * _entity_chunk_size);
 }
 
-void EntityPool::allocateChunk()
+void EntityPool::allocate_chunk()
 {
-    std::unique_ptr<Entity[]> chunk(new Entity[_entityChunkSize]);
+    std::unique_ptr<Entity[]> chunk(new Entity[_entity_chunk_size]);
 
     // Initialize all of the entities
-    for (size_t i = 0; i < _entityChunkSize; ++i)
+    for (size_t i = 0; i < _entity_chunk_size; ++i)
     {
         chunk[i] = Entity();
     }
 
-    _entityChunks.push_back(std::move(chunk));
+    _entity_chunks.push_back(std::move(chunk));
 }
 

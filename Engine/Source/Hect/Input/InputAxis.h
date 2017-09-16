@@ -61,20 +61,20 @@ public:
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(Name name);
+    void set_name(Name name);
 
     ///
     /// Adds a binding to affect the input axis.
     ///
     /// \param binding The binding to add.
-    void addBinding(const InputAxisBinding& binding);
+    void add_binding(const InputAxisBinding& binding);
 
     ///
     /// Updates the input axis based on the current state of its bindings.
     ///
     /// \param platform The platform.
-    /// \param timeStep The time step in seconds.
-    void update(Platform& platform, Seconds timeStep);
+    /// \param time_step The time step in seconds.
+    void update(Platform& platform, Seconds time_step);
 
     ///
     /// Returns the current value of the axis.

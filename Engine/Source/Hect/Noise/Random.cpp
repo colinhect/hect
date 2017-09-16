@@ -32,7 +32,7 @@
 using namespace hect;
 
 Random::Random() :
-    _current(static_cast<RandomSeed>(std::time(nullptr) + Timer::totalElapsed().value))
+    _current(static_cast<RandomSeed>(std::time(nullptr) + Timer::total_elapsed().value))
 {
 }
 

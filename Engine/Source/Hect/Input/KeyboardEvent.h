@@ -48,13 +48,13 @@ public:
     /// Returns whether the event is for the specified key getting depressed.
     ///
     /// \param key The key.
-    bool isKeyDown(Key key) const;
+    bool is_key_down(Key key) const;
 
     ///
     /// Returns whether the event is for the specified key getting released.
     ///
     /// \param key The key.
-    bool isKeyUp(Key key) const;
+    bool is_key_up(Key key) const;
 };
 
 }

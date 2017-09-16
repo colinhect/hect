@@ -28,7 +28,7 @@
 #ifdef HECT_WINDOWS_BUILD
 #include <Windows.h>
 
-static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+static HANDLE std_out_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 #endif
 
 #include <iomanip>
@@ -39,18 +39,18 @@ static HANDLE stdOutHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 namespace hect
 {
 
-static std::recursive_mutex _logMutex;
+static std::recursive_mutex _log_mutex;
 static EventDispatcher<LogMessageEvent> _dispatcher;
-static std::vector<bool> _logLevels;
-static std::vector<std::string> _logLevelStrings;
+static std::vector<bool> _log_levels;
+static std::vector<std::string> _log_level_strings;
 
 void log(LogLevel level, const std::string& message)
 {
     static Timer timer;
-    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+    std::lock_guard<std::recursive_mutex> lock(_log_mutex);
 
     // Ignore the message if the level is not enabled
-    if (!isLogLevelEnabled(level))
+    if (!is_log_level_enabled(level))
     {
         return;
     }
@@ -59,7 +59,7 @@ void log(LogLevel level, const std::string& message)
     LogMessageEvent event;
     event.level = level;
     event.message = message;
-    _dispatcher.dispatchEvent(event);
+    _dispatcher.dispatch_event(event);
 
     // Calculate timestamp parts
     int64_t total = Milliseconds(timer.elapsed()).value;
@@ -75,73 +75,73 @@ void log(LogLevel level, const std::string& message)
        << std::setw(2) << seconds << ":"
        << std::setw(3) << milliseconds << "] "
        << message << std::endl;
-    std::string formattedMessage = ss.str();
+    std::string formatted_message = ss.str();
 
 #ifdef HECT_WINDOWS_BUILD
 
 #ifdef HECT_DEBUG_BUILD
-    OutputDebugString(formattedMessage.data());
+    OutputDebugString(formatted_message.data());
 #endif
 
     // Set the color text color
     switch (level)
     {
     case LogLevel::Info:
-        SetConsoleTextAttribute(stdOutHandle, 15);
+        SetConsoleTextAttribute(std_out_handle, 15);
         break;
     case LogLevel::Debug:
-        SetConsoleTextAttribute(stdOutHandle, 7);
+        SetConsoleTextAttribute(std_out_handle, 7);
         break;
     case LogLevel::Warning:
-        SetConsoleTextAttribute(stdOutHandle, 14);
+        SetConsoleTextAttribute(std_out_handle, 14);
         break;
     case LogLevel::Error:
-        SetConsoleTextAttribute(stdOutHandle, 12);
+        SetConsoleTextAttribute(std_out_handle, 12);
         break;
     case LogLevel::Trace:
-        SetConsoleTextAttribute(stdOutHandle, 8);
+        SetConsoleTextAttribute(std_out_handle, 8);
         break;
     }
 
-    std::cout << formattedMessage;
+    std::cout << formatted_message;
     std::cout.flush();
 
     // Reset the console text color
-    SetConsoleTextAttribute(stdOutHandle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+    SetConsoleTextAttribute(std_out_handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #else
     (void)level;
-    std::cout << formattedMessage;
+    std::cout << formatted_message;
     std::cout.flush();
 #endif
 }
 
-void registerLogListener(EventListener<LogMessageEvent>& listener)
+void register_log_listener(EventListener<LogMessageEvent>& listener)
 {
-    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+    std::lock_guard<std::recursive_mutex> lock(_log_mutex);
 
-    _dispatcher.registerListener(listener);
+    _dispatcher.register_listener(listener);
 }
 
-void setLogLevelEnabled(LogLevel level, bool enabled)
+void set_log_level_enabled(LogLevel level, bool enabled)
 {
-    std::lock_guard<std::recursive_mutex> lock(_logMutex);
-    if (_logLevels.empty())
+    std::lock_guard<std::recursive_mutex> lock(_log_mutex);
+    if (_log_levels.empty())
     {
-        _logLevels = std::vector<bool>(5, false);
+        _log_levels = std::vector<bool>(5, false);
     }
 
-    _logLevels[static_cast<int>(level)] = enabled;
+    _log_levels[static_cast<int>(level)] = enabled;
 }
 
-bool isLogLevelEnabled(LogLevel level)
+bool is_log_level_enabled(LogLevel level)
 {
-    std::lock_guard<std::recursive_mutex> lock(_logMutex);
+    std::lock_guard<std::recursive_mutex> lock(_log_mutex);
 
     bool enabled = false;
 
-    if (!_logLevels.empty())
+    if (!_log_levels.empty())
     {
-        enabled = _logLevels[static_cast<int>(level)];
+        enabled = _log_levels[static_cast<int>(level)];
     }
 
     return enabled;

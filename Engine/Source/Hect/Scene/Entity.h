@@ -81,7 +81,7 @@ public:
     /// \throws InvalidOperation If the entity already has a component of the
     /// type or if the entity is invalid.
     template <typename T, typename... Args>
-    T& addComponent(Args&&... args);
+    T& add_component(Args&&... args);
 
     ///
     /// Replaces an existing Component that the Entity has.
@@ -97,7 +97,7 @@ public:
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.
     template <typename T, typename... Args>
-    T& replaceComponent(Args&&... args);
+    T& replace_component(Args&&... args);
 
     ///
     /// Removes the Component of a specific type from the Entity.
@@ -108,12 +108,12 @@ public:
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.
     template <typename T>
-    void removeComponent();
+    void remove_component();
 
     ///
     /// Returns whether the Entity has a Component of a specific type.
     template <typename T>
-    bool hasComponent() const;
+    bool has_component() const;
 
     ///
     /// Returns a reference to the Component of a specific type for the Entity.
@@ -139,7 +139,7 @@ public:
     /// Sets the name.
     ///
     /// \param name The new name.
-    void setName(Name name);
+    void set_name(Name name);
 
     ///
     /// Returns the Scene that the Entity is in.
@@ -185,25 +185,25 @@ public:
 
     ///
     /// Returns whether the entity is activated.
-    bool isActivated() const;
+    bool is_activated() const;
 
     ///
     /// Returns whether the entity is pending activation.
-    bool isPendingActivation() const;
+    bool is_pending_activation() const;
 
     ///
     /// Returns whether the entity is pending destruction.
-    bool isPendingDestruction() const;
+    bool is_pending_destruction() const;
 
     ///
     /// Returns whether the entity is transient.
-    bool isTransient() const;
+    bool is_transient() const;
 
     ///
     /// Sets whether the entity is transient.
     ///
     /// \param transient True if the entity is transient; false otherwise.
-    void setTransient(bool transient);
+    void set_transient(bool transient);
 
     ///
     /// Returns the id of the entity.
@@ -226,7 +226,7 @@ public:
     /// \throws InvalidOperation If the entity is invalid, in another scene,
     /// in a differing activation state, is pending destruction, or is a child
     /// of another entity.
-    void addChild(Entity& entity);
+    void add_child(Entity& entity);
 
     ///
     /// Removes a child entity from the entity.
@@ -235,11 +235,11 @@ public:
     ///
     /// \throws InvalidOperation If the entity is invalid, in another scene, or
     /// is not a child of the entity.
-    void removeChild(Entity& entity);
+    void remove_child(Entity& entity);
 
     ///
     /// Destroys all child entities from the entity.
-    void destroyAllChildren();
+    void destroy_all_children();
 
     ///
     /// Returns the children of the entity.
@@ -251,7 +251,7 @@ public:
 
     ///
     /// Returns whether the entity has any children.
-    bool hasChildren() const;
+    bool has_children() const;
 
     ///
     /// Returns a handle to the first child entity matching the given
@@ -264,7 +264,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle findFirstChild(T&& predicate) const;
+    Entity::Handle find_first_child(T&& predicate) const;
 
     ///
     /// Returns a handle to the first descendant entity matching the given
@@ -277,7 +277,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle findFirstDescendant(T&& predicate) const;
+    Entity::Handle find_first_descendant(T&& predicate) const;
 
     ///
     /// Returns a handle to the first ancestor entity matching the given
@@ -290,7 +290,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle findFirstAncestor(T&& predicate) const;
+    Entity::Handle find_first_ancestor(T&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -301,7 +301,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> findChildren(T&& predicate) const;
+    std::vector<Entity::Handle> find_children(T&& predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -313,7 +313,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> findDescendants(T&& predicate) const;
+    std::vector<Entity::Handle> find_descendants(T&& predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -325,7 +325,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> findAncestors(T&& predicate) const;
+    std::vector<Entity::Handle> find_ancestors(T&& predicate) const;
 
     ///
     /// Iterates over all child entities.
@@ -333,12 +333,12 @@ public:
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
     template <typename T>
-    void forChildren(T&& action);
+    void for_children(T&& action);
 
     ///
-    /// \copydoc Entity::forChildren()
+    /// \copydoc Entity::for_children()
     template <typename T>
-    void forChildren(T&& action) const;
+    void for_children(T&& action) const;
 
     ///
     /// Iterates over all descendant entities.
@@ -346,12 +346,12 @@ public:
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
     template <typename T>
-    void forDescendants(T&& action);
+    void for_descendants(T&& action);
 
     ///
-    /// \copydoc Entity::forDescendants()
+    /// \copydoc Entity::for_descendants()
     template <typename T>
-    void forDescendants(T&& action) const;
+    void for_descendants(T&& action) const;
 
     ///
     /// Iterates over all ancestor entities.
@@ -359,12 +359,12 @@ public:
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
     template <typename T>
-    void forAncestors(T&& action);
+    void for_ancestors(T&& action);
 
     ///
-    /// \copydoc Entity::forAncestors()
+    /// \copydoc Entity::for_ancestors()
     template <typename T>
-    void forAncestors(T&& action) const;
+    void for_ancestors(T&& action) const;
 
     ///
     /// Returns whether the entity is valid.
@@ -389,17 +389,17 @@ private:
         PendingDestruction
     };
 
-    void enterPool(EntityPool& pool, EntityId id);
-    void exitPool();
-    bool inPool() const;
-    void ensureInPool() const;
-    void setFlag(Flag flag, bool value);
+    void enter_pool(EntityPool& pool, EntityId id);
+    void exit_pool();
+    bool in_pool() const;
+    void ensure_in_pool() const;
+    void set_flag(Flag flag, bool value);
     bool flag(Flag flag) const;
 
     EntityPool* _pool { nullptr };
     EntityId _id { EntityId(-1) };
-    EntityId _parentId { EntityId(-1) };
-    std::vector<EntityId> _childIds;
+    EntityId _parent_id { EntityId(-1) };
+    std::vector<EntityId> _child_ids;
     Name _name;
     std::bitset<4> _flags;
     mutable EntityHandle _handle;

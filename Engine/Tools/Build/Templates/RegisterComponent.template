@@ -1,1 +1,1 @@
-    hect::ComponentRegistry::registerType<$(type_name)>();
+    hect::ComponentRegistry::register_type<$(type_name)>();

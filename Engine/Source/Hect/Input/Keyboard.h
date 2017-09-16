@@ -43,14 +43,14 @@ public:
     /// Returns whether the given key is down.
     ///
     /// \param key The key to check if it is down.
-    bool isKeyDown(Key key) const;
+    bool is_key_down(Key key) const;
 
-    void enqueueEvent(const KeyboardEvent& event);
-    void dispatchEvents();
+    void enqueue_event(const KeyboardEvent& event);
+    void dispatch_events();
 
 private:
     std::vector<KeyboardEvent> _events;
-    std::vector<bool> _keyStates;
+    std::vector<bool> _key_states;
 };
 
 }

@@ -50,7 +50,7 @@ public:
         public Widget<Cell>
     {
     public:
-        Cell(InterfaceSystem& interfaceSystem);
+        Cell(InterfaceSystem& interface_system);
 
         void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
     };
@@ -58,12 +58,12 @@ public:
     ///
     /// Constructs an empty table widget.
     ///
-    /// \param interfaceSystem The interface system.
-    TableWidget(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    TableWidget(InterfaceSystem& interface_system);
 
     ///
     /// Returns the number of columns.
-    unsigned columnCount() const;
+    unsigned column_count() const;
 
     ///
     /// Adds a new column.
@@ -71,7 +71,7 @@ public:
     /// \param width The width of the column.
     ///
     /// \returns The column that was added.
-    Column addColumn(double width);
+    Column add_column(double width);
 
     ///
     /// Sets the width of the specified column.
@@ -80,11 +80,11 @@ public:
     /// \param width The new width of the column.
     ///
     /// \throws InvalidOperation If the column is out of range.
-    void resizeColumn(Column column, double width);
+    void resize_column(Column column, double width);
 
     ///
     /// Returns the number of rows.
-    unsigned rowCount() const;
+    unsigned row_count() const;
 
     ///
     /// Adds a new row.
@@ -92,7 +92,7 @@ public:
     /// \param height The height of the row.
     ///
     /// \returns The row that was added.
-    Column addRow(double height);
+    Column add_row(double height);
 
     ///
     /// Sets the row of the specified row.
@@ -101,7 +101,7 @@ public:
     /// \param height The new height of the row.
     ///
     /// \throws InvalidOperation If the row is out of range.
-    void resizeRow(Row row, double height);
+    void resize_row(Row row, double height);
 
     ///
     /// Creates a cell widget at the specified coordinates.
@@ -111,19 +111,19 @@ public:
     ///
     /// \throws InvalidOperation If the row or column is out of range or a
     /// cell widget already exists in the Row coordinates.
-    Cell::Handle createCell(Column column, Row row);
+    Cell::Handle create_cell(Column column, Row row);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
 
 private:
-    void updateDimensions();
-    void checkColumn(Column column) const;
-    void checkRow(Row row) const;
+    void update_dimensions();
+    void check_column(Column column) const;
+    void check_row(Row row) const;
 
     std::map<Column, std::map<Row, WidgetBase::Handle>> _cells;
-    std::vector<double> _columnWidths;
-    std::vector<double> _rowHeights;
+    std::vector<double> _column_widths;
+    std::vector<double> _row_heights;
 };
 
 }

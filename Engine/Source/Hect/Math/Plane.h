@@ -41,7 +41,7 @@ public:
     /// \param p0 The first point.
     /// \param p1 The second point.
     /// \param p2 The third point.
-    static Plane fromPoints(Vector3 p0, Vector3 p1, Vector3 p2);
+    static Plane from_points(Vector3 p0, Vector3 p1, Vector3 p2);
 
     ///
     /// Constructs a default plane.

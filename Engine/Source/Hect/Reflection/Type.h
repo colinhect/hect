@@ -115,19 +115,19 @@ public:
     /// Returns the type as an enum.
     ///
     /// \throws InvalidOperation If the type is not an enum.
-    Enum& asEnum();
+    Enum& as_enum();
 
     ///
     /// Returns the type as an enum.
     ///
     /// \throws InvalidOperation If the type is not an enum.
-    const Enum& asEnum() const;
+    const Enum& as_enum() const;
 
     ///
     /// Sets the function to use when encoding a value of this type.
     ///
     /// \param function The encode function.
-    void setEncodeFunction(EncodeFunction function);
+    void set_encode_function(EncodeFunction function);
 
     ///
     /// Encodes a value of this type using the registered encode function.
@@ -143,7 +143,7 @@ public:
     /// Sets the function to use when decoding a value of this type.
     ///
     /// \param function The decode function.
-    void setDecodeFunction(DecodeFunction function);
+    void set_decode_function(DecodeFunction function);
 
     ///
     /// Decodes a value of this type using the registered decode function.
@@ -158,16 +158,16 @@ public:
 private:
     Type(Kind kind, Name name);
 
-    static const Type& fromTypeInfo(const std::type_info& typeInfo);
+    static const Type& from_type_info(const std::type_info& type_info);
 
     Kind _kind { Kind::None };
     Name _name;
     std::shared_ptr<Enum> _enum;
 
-    EncodeFunction _encodeFunction;
-    DecodeFunction _decodeFunction;
+    EncodeFunction _encode_function;
+    DecodeFunction _decode_function;
 
-    static std::map<std::type_index, Type> _registeredTypes;
+    static std::map<std::type_index, Type> _registered_types;
 };
 
 }

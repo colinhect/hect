@@ -71,13 +71,13 @@ void Task::wait()
     }
 
     // Re-throw the exception if one occurred
-    if (_exceptionOccurred)
+    if (_exception_occurred)
     {
-        throw TaskError(_exceptionMessage);
+        throw TaskError(_exception_message);
     }
 }
 
-bool Task::hasCompleted() const
+bool Task::has_completed() const
 {
     return _completed;
 }
@@ -95,13 +95,13 @@ void Task::execute()
     }
     catch (const std::exception& exception)
     {
-        _exceptionOccurred = true;
-        _exceptionMessage = exception.what();
+        _exception_occurred = true;
+        _exception_message = exception.what();
     }
     catch (...)
     {
-        _exceptionOccurred = true;
-        _exceptionMessage = "Unknown exception";
+        _exception_occurred = true;
+        _exception_message = "Unknown exception";
     }
 
     _completed = true;

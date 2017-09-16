@@ -43,13 +43,13 @@ Name Asset<T>::name() const
 }
 
 template <typename T>
-void Asset<T>::setName(Name name)
+void Asset<T>::set_name(Name name)
 {
     _name = name;
 }
 
 template <typename T>
-AssetHandle<T> Asset<T>::createHandle()
+AssetHandle<T> Asset<T>::create_handle()
 {
     return AssetHandle<T>(reinterpret_cast<T*>(this), false);
 }

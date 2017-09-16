@@ -47,25 +47,25 @@ public:
     /// The horizontal field of view.
     ///
     /// \property
-    Degrees fieldOfView { 90.0 };
+    Degrees field_of_view { 90.0 };
 
     ///
     /// The aspect ratio.
     ///
     /// \property
-    double aspectRatio { 1.0 };
+    double aspect_ratio { 1.0 };
 
     ///
     /// The near clip distance.
     ///
     /// \property
-    double nearClip { 0.1 };
+    double near_clip { 0.1 };
 
     ///
     /// The far clip distance.
     ///
     /// \property
-    double farClip { 10000 };
+    double far_clip { 10000 };
 
     ///
     /// The exposure.
@@ -83,7 +83,7 @@ public:
     /// The color used to clear the render target.
     ///
     /// \property
-    Color clearColor { Color::Zero };
+    Color clear_color { Color::Zero };
 
     ///
     /// The front vector.
@@ -103,11 +103,11 @@ public:
 
     ///
     /// The view matrix.
-    Matrix4 viewMatrix;
+    Matrix4 view_matrix;
 
     ///
     /// The projection matrix.
-    Matrix4 projectionMatrix;
+    Matrix4 projection_matrix;
 
     ///
     /// The frustum.

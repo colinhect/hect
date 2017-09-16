@@ -44,11 +44,11 @@ public:
     ///
     /// Constructs a rectangle.
     ///
-    /// \param minX The x coordinate of the minimum point.
-    /// \param minY The y coordinate of the minimum point.
-    /// \param maxX The x coordinate of the maximum point.
-    /// \param maxY The y coordinate of the maximum point.
-    Rectangle(double minX, double minY, double maxX, double maxY);
+    /// \param min_x The x coordinate of the minimum point.
+    /// \param min_y The y coordinate of the minimum point.
+    /// \param max_x The x coordinate of the maximum point.
+    /// \param max_y The y coordinate of the maximum point.
+    Rectangle(double min_x, double min_y, double max_x, double max_y);
 
     ///
     /// Constructs a rectangle.

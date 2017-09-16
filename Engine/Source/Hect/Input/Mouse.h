@@ -45,19 +45,19 @@ public:
     /// Returns whether the given button is down.
     ///
     /// \param button The button to check if it is down.
-    bool isButtonDown(MouseButton button) const;
+    bool is_button_down(MouseButton button) const;
 
     ///
     /// Returns the position of the cursor in window space.
-    const IntVector2& cursorPosition() const;
+    const IntVector2& cursor_position() const;
 
     ///
     /// Returns the relative motion of the cursor.
-    const IntVector2& cursorMovement() const;
+    const IntVector2& cursor_movement() const;
 
     ///
     /// Clears the current relative motion of the cursor.
-    void clearMovement();
+    void clear_movement();
 
     ///
     /// Returns the mode.
@@ -67,19 +67,19 @@ public:
     /// Sets the mode.
     ///
     /// \param mode The new mode.
-    void setMode(MouseMode mode);
+    void set_mode(MouseMode mode);
 
-    void enqueueEvent(const MouseEvent& event);
-    void dispatchEvents();
+    void enqueue_event(const MouseEvent& event);
+    void dispatch_events();
 
 private:
     std::vector<MouseEvent> _events;
 
     MouseMode _mode;
-    IntVector2 _cursorPosition;
-    IntVector2 _cursorMovement;
+    IntVector2 _cursor_position;
+    IntVector2 _cursor_movement;
 
-    std::vector<bool> _buttonStates;
+    std::vector<bool> _button_states;
 };
 
 }

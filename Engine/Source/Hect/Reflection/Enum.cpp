@@ -29,37 +29,37 @@
 
 using namespace hect;
 
-EnumValue::EnumValue(EnumValue::Type numericValue, const std::string& stringValue) :
-    numericValue(numericValue),
-    stringValue(stringValue)
+EnumValue::EnumValue(EnumValue::Type numeric_value, const std::string& string_value) :
+    numeric_value(numeric_value),
+    string_value(string_value)
 {
 }
 
-EnumValue::Type Enum::fromString(const std::string& stringValue) const
+EnumValue::Type Enum::from_string(const std::string& string_value) const
 {
-    auto it = _stringToNumeric.find(stringValue);
-    if (it == _stringToNumeric.end())
+    auto it = _string_to_numeric.find(string_value);
+    if (it == _string_to_numeric.end())
     {
-        throw DecodeError(format("Invalid string value '%s' for enum '%s'", stringValue.data(), _name.data()));
+        throw DecodeError(format("Invalid string value '%s' for enum '%s'", string_value.data(), _name.data()));
     }
     return it->second;
 }
 
-const std::string& Enum::toString(EnumValue::Type numericValue) const
+const std::string& Enum::to_string(EnumValue::Type numeric_value) const
 {
-    auto it = _numericToString.find(numericValue);
-    if (it == _numericToString.end())
+    auto it = _numeric_to_string.find(numeric_value);
+    if (it == _numeric_to_string.end())
     {
-        throw EncodeError(format("Invalid numeric value '%i' for enum '%s'", numericValue, _name.data()));
+        throw EncodeError(format("Invalid numeric value '%i' for enum '%s'", numeric_value, _name.data()));
     }
     return it->second;
 }
 
-void Enum::addValue(EnumValue::Type numericValue, const std::string& stringValue)
+void Enum::add_value(EnumValue::Type numeric_value, const std::string& string_value)
 {
-    _values.push_back(EnumValue(numericValue, stringValue));
-    _stringToNumeric[stringValue] = numericValue;
-    _numericToString[numericValue] = stringValue;
+    _values.push_back(EnumValue(numeric_value, string_value));
+    _string_to_numeric[string_value] = numeric_value;
+    _numeric_to_string[numeric_value] = string_value;
 }
 
 Enum::ValueSequence Enum::values() const

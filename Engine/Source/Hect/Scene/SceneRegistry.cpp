@@ -28,51 +28,51 @@
 
 using namespace hect;
 
-std::shared_ptr<Scene> SceneRegistry::create(SceneTypeId typeId)
+std::shared_ptr<Scene> SceneRegistry::create(SceneTypeId type_id)
 {
-    if (!isRegisteredTypeId(typeId))
+    if (!is_registered_type_id(type_id))
     {
         throw InvalidOperation("Unknown scene type id");
     }
-    return _sceneConstructors[typeId]();
+    return _scene_constructors[type_id]();
 }
 
-SceneTypeId SceneRegistry::typeIdOf(std::type_index typeIndex)
+SceneTypeId SceneRegistry::type_id_of(std::type_index type_index)
 {
-    auto it = _typeIndexToId.find(typeIndex);
-    if (it == _typeIndexToId.end())
+    auto it = _type_index_to_id.find(type_index);
+    if (it == _type_index_to_id.end())
     {
         throw InvalidOperation("Unknown scene type");
     }
     return it->second;
 }
 
-SceneTypeId SceneRegistry::typeIdOf(Name typeName)
+SceneTypeId SceneRegistry::type_id_of(Name type_name)
 {
-    auto it = _typeNameToId.find(typeName);
-    if (it == _typeNameToId.end())
+    auto it = _type_name_to_id.find(type_name);
+    if (it == _type_name_to_id.end())
     {
-        throw InvalidOperation(format("Unknown scene type '%s'", typeName.data()));
+        throw InvalidOperation(format("Unknown scene type '%s'", type_name.data()));
     }
     return it->second;
 }
 
-Name SceneRegistry::typeNameOf(SceneTypeId typeId)
+Name SceneRegistry::type_name_of(SceneTypeId type_id)
 {
-    auto it = _typeIdToName.find(typeId);
-    if (it == _typeIdToName.end())
+    auto it = _type_id_to_name.find(type_id);
+    if (it == _type_id_to_name.end())
     {
         throw InvalidOperation("Unknown scene type id");
     }
-    return _typeIdToName[typeId];
+    return _type_id_to_name[type_id];
 }
 
-bool SceneRegistry::isRegisteredTypeId(SceneTypeId typeId)
+bool SceneRegistry::is_registered_type_id(SceneTypeId type_id)
 {
-    return typeId < _sceneConstructors.size();
+    return type_id < _scene_constructors.size();
 }
 
-std::map<SceneTypeId, Name> SceneRegistry::_typeIdToName;
-std::map<Name, SceneTypeId> SceneRegistry::_typeNameToId;
-std::map<std::type_index, SceneTypeId> SceneRegistry::_typeIndexToId;
-std::vector<SceneRegistry::SceneConstructor> SceneRegistry::_sceneConstructors;
+std::map<SceneTypeId, Name> SceneRegistry::_type_id_to_name;
+std::map<Name, SceneTypeId> SceneRegistry::_type_name_to_id;
+std::map<std::type_index, SceneTypeId> SceneRegistry::_type_index_to_id;
+std::vector<SceneRegistry::SceneConstructor> SceneRegistry::_scene_constructors;

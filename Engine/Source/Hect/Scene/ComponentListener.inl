@@ -30,38 +30,38 @@ namespace hect
 template <typename T>
 ComponentListener<T>::ComponentListener(Scene& scene)
 {
-    scene.components<T>().registerListener(*this);
+    scene.components<T>().register_listener(*this);
 }
 
 template <typename T>
-void ComponentListener<T>::onComponentAdded(T& component)
+void ComponentListener<T>::on_component_added(T& component)
 {
     (void)component;
 }
 
 template <typename T>
-void ComponentListener<T>::onComponentRemoved(T& component)
+void ComponentListener<T>::on_component_removed(T& component)
 {
     (void)component;
 }
 
 template <typename T>
-void ComponentListener<T>::receiveEvent(const ComponentEvent<T>& event)
+void ComponentListener<T>::receive_event(const ComponentEvent<T>& event)
 {
     if (event.entity)
     {
         // Copy the event to allow access to non-const component reference of
         // the entity
-        ComponentEvent<T> copiedEvent = event;
-        auto& component = copiedEvent.entity->template component<T>();
+        ComponentEvent<T> copied_event = event;
+        auto& component = copied_event.entity->template component<T>();
 
         switch (event.type)
         {
         case ComponentEventType::Add:
-            onComponentAdded(component);
+            on_component_added(component);
             break;
         case ComponentEventType::Remove:
-            onComponentRemoved(component);
+            on_component_removed(component);
             break;
         default:
             break;

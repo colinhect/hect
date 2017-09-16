@@ -44,19 +44,19 @@ public:
     /// Constructs a valid entity child iterator.
     ///
     /// \param pool The entity pool that the entity belongs to.
-    /// \param parentId The id of the parent entity.
+    /// \param parent_id The id of the parent entity.
     /// \param index The index of the child entity.
-    EntityChildIteratorBase(EntityPool& pool, EntityId parentId, size_t index);
+    EntityChildIteratorBase(EntityPool& pool, EntityId parent_id, size_t index);
 
 protected:
     Entity& dereference() const;
     void increment();
-    bool isValid() const;
+    bool is_valid() const;
     bool equals(const EntityChildIteratorBase& other) const;
 
 private:
     EntityPool* _pool { nullptr };
-    EntityId _parentId { EntityId(-1) };
+    EntityId _parent_id { EntityId(-1) };
     size_t _index { 0 };
 };
 
@@ -82,9 +82,9 @@ public:
     /// Constructs a valid entity child iterator.
     ///
     /// \param pool The entity pool that the entity belongs to.
-    /// \param parentId The id of the parent entity.
+    /// \param parent_id The id of the parent entity.
     /// \param index The index of the child entity.
-    EntityChildIterator(EntityPool& pool, EntityId parentId, size_t index);
+    EntityChildIterator(EntityPool& pool, EntityId parent_id, size_t index);
 
     ///
     /// Dereferences the iterator to a reference to the entity.
@@ -141,9 +141,9 @@ public:
     /// Constructs a valid entity child iterator.
     ///
     /// \param pool The entity pool that the entity belongs to.
-    /// \param parentId The id of the parent entity.
+    /// \param parent_id The id of the parent entity.
     /// \param index The index of the child entity.
-    EntityChildConstIterator(const EntityPool& pool, EntityId parentId, size_t index);
+    EntityChildConstIterator(const EntityPool& pool, EntityId parent_id, size_t index);
 
     ///
     /// Dereferences the iterator to a reference to the entity.

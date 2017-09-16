@@ -31,17 +31,17 @@ using namespace hect;
 
 Scene::Scene(Engine& engine) :
     _engine(&engine),
-    _entityPool(*this)
+    _entity_pool(*this)
 {
     // Register to entity events if trace-level logging is enabled
-    if (isLogLevelEnabled(LogLevel::Trace))
+    if (is_log_level_enabled(LogLevel::Trace))
     {
-        _entityPool.registerListener(*this);
+        _entity_pool.register_listener(*this);
     }
 
-    for (ComponentTypeId typeId : ComponentRegistry::typeIds())
+    for (ComponentTypeId type_id : ComponentRegistry::type_ids())
     {
-        addComponentType(typeId);
+        add_component_type(type_id);
     }
 }
 
@@ -49,7 +49,7 @@ Scene::~Scene()
 {
 }
 
-void Scene::addSystem(SystemBase& system)
+void Scene::add_system(SystemBase& system)
 {
     _systems.push_back(&system);
 }
@@ -59,7 +59,7 @@ bool Scene::active() const
     return _active;
 }
 
-void Scene::setActive(bool active)
+void Scene::set_active(bool active)
 {
     _active = active;
 }
@@ -67,15 +67,15 @@ void Scene::setActive(bool active)
 void Scene::refresh()
 {
     // Create/activate/destroy all pending entities and dispatch related
-    while (hasPendingEntities())
+    while (has_pending_entities())
     {
-        dispatchEntityCreationEvents();
-        activatePendingEntities();
-        destroyPendingEntities();
+        dispatch_entity_creation_events();
+        activate_pending_entities();
+        destroy_pending_entities();
     }
 }
 
-bool Scene::isInitialized() const
+bool Scene::is_initialized() const
 {
     return _initialized;
 }
@@ -85,52 +85,52 @@ void Scene::initialize()
     _initialized = true;
 }
 
-Entity& Scene::createEntity(Name name)
+Entity& Scene::create_entity(Name name)
 {
-    Entity& entity = _entityPool.create(name);
-    _entitiesPendingCreation.push_back(entity.id());
+    Entity& entity = _entity_pool.create(name);
+    _entities_pending_creation.push_back(entity.id());
     return entity;
 }
 
-Entity& Scene::loadEntity(const Path& path)
+Entity& Scene::load_entity(const Path& path)
 {
     Timer timer;
 
-    Entity& entity = createEntity();
+    Entity& entity = create_entity();
 
     // Resolve the path to the entity
-    AssetCache& assetCache = _engine->assetCache();
-    const Path resolvedPath = assetCache.resolvePath(path);
+    AssetCache& asset_cache = _engine->asset_cache();
+    const Path resolved_path = asset_cache.resolve_path(path);
 
-    AssetDecoder decoder(_engine->assetCache(), resolvedPath);
-    decoder >> decodeValue(entity);
+    AssetDecoder decoder(_engine->asset_cache(), resolved_path);
+    decoder >> decode_value(entity);
 
-    HECT_INFO(format("Loaded entity '%s' in %ims", resolvedPath.asString().data(), Milliseconds(timer.elapsed()).value));
+    HECT_INFO(format("Loaded entity '%s' in %ims", resolved_path.as_string().data(), Milliseconds(timer.elapsed()).value));
 
     return entity;
 }
 
-void Scene::destroyAllEntities()
+void Scene::destroy_all_entities()
 {
     for (Entity& entity : entities())
     {
-        destroyEntity(entity);
+        destroy_entity(entity);
     }
 }
 
 EntityPool& Scene::entities()
 {
-    return _entityPool;
+    return _entity_pool;
 }
 
 const EntityPool& Scene::entities() const
 {
-    return _entityPool;
+    return _entity_pool;
 }
 
-size_t Scene::entityCount() const
+size_t Scene::entity_count() const
 {
-    return _entityCount;
+    return _entity_count;
 }
 
 void Scene::load(const Path& path)
@@ -143,87 +143,87 @@ void Scene::load(const Path& path)
     Timer timer;
 
     // Resolve the path to the scene
-    AssetCache& assetCache = _engine->assetCache();
-    const Path resolvedPath = assetCache.resolvePath(path);
+    AssetCache& asset_cache = _engine->asset_cache();
+    const Path resolved_path = asset_cache.resolve_path(path);
 
     // Set the name of the scene to the resolved path
-    setName(resolvedPath.asString());
+    set_name(resolved_path.as_string());
 
     // Decode the scene from the asset
-    AssetDecoder decoder(_engine->assetCache(), resolvedPath);
-    decoder >> decodeValue(*this);
+    AssetDecoder decoder(_engine->asset_cache(), resolved_path);
+    decoder >> decode_value(*this);
 
     // Refresh and initialize the scene
     refresh();
     initialize();
     refresh();
 
-    HECT_INFO(format("Loaded scene '%s' in %ims", resolvedPath.asString().data(), Milliseconds(timer.elapsed()).value));
+    HECT_INFO(format("Loaded scene '%s' in %ims", resolved_path.as_string().data(), Milliseconds(timer.elapsed()).value));
 }
 
 void Scene::encode(Encoder& encoder) const
 {
-    const std::type_index typeIndex(typeid(*this));
-    const SceneTypeId sceneTypeId = SceneRegistry::typeIdOf(typeIndex);
-    if (encoder.isBinaryStream())
+    const std::type_index type_index(typeid(*this));
+    const SceneTypeId scene_type_id = SceneRegistry::type_id_of(type_index);
+    if (encoder.is_binary_stream())
     {
-        encoder << encodeValue(sceneTypeId);
+        encoder << encode_value(scene_type_id);
     }
     else
     {
-        const Name typeName = SceneRegistry::typeNameOf(sceneTypeId);
-        encoder << encodeValue("sceneType", typeName.asString());
+        const Name type_name = SceneRegistry::type_name_of(scene_type_id);
+        encoder << encode_value("scene_type", type_name.as_string());
     }
 
     // Systems
-    encoder << beginArray("systems");
+    encoder << begin_array("systems");
     for (auto& system : _systems)
     {
-        encoder << beginObject();
+        encoder << begin_object();
 
-        if (!encoder.isBinaryStream())
+        if (!encoder.is_binary_stream())
         {
-            const Name typeName = Type::of(*system).name();
-            encoder << encodeValue("systemType", typeName);
+            const Name type_name = Type::of(*system).name();
+            encoder << encode_value("system_type", type_name);
         }
 
         system->encode(encoder);
 
-        encoder << endObject();
+        encoder << end_object();
     }
-    encoder << endArray();
+    encoder << end_array();
 
     // Entities
-    encoder << beginArray("entities");
+    encoder << begin_array("entities");
     for (const Entity& entity : entities())
     {
         // Only encode the root entities (children are encoded recursively)
         if (!entity.parent())
         {
-            encoder << encodeValue(entity);
+            encoder << encode_value(entity);
         }
     }
-    encoder << endArray();
+    encoder << end_array();
 }
 
 void Scene::decode(Decoder& decoder)
 {
     // Base
-    if (!decoder.isBinaryStream())
+    if (!decoder.is_binary_stream())
     {
-        if (decoder.selectMember("base"))
+        if (decoder.select_member("base"))
         {
-            Path basePath;
-            decoder >> decodeValue(basePath);
+            Path base_path;
+            decoder >> decode_value(base_path);
 
             try
             {
-                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> beginObject() >> decodeValue(*this) >> endObject();
+                AssetDecoder base_decoder(decoder.asset_cache(), base_path);
+                base_decoder >> begin_object() >> decode_value(*this) >> end_object();
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base scene '%s': %s", basePath.asString().data(), exception.what()));
+                throw DecodeError(format("Failed to load base scene '%s': %s", base_path.as_string().data(), exception.what()));
             }
         }
     }
@@ -231,46 +231,46 @@ void Scene::decode(Decoder& decoder)
     // Decode the scene type; nothing is done with the resulting value since
     // the scene has already been constructed (this is only done to make
     // encoding and decoding reflective)
-    if (decoder.isBinaryStream())
+    if (decoder.is_binary_stream())
     {
-        SceneTypeId typeId;
-        decoder >> decodeValue(typeId);
+        SceneTypeId type_id;
+        decoder >> decode_value(type_id);
     }
     else
     {
-        std::string typeName;
-        decoder >> decodeValue("sceneType", typeName);
+        std::string type_name;
+        decoder >> decode_value("scene_type", type_name);
     }
 
     // Systems
-    if (decoder.selectMember("systems"))
+    if (decoder.select_member("systems"))
     {
-        decoder >> beginArray();
+        decoder >> begin_array();
 
-        if (decoder.isBinaryStream())
+        if (decoder.is_binary_stream())
         {
-            size_t systemIndex = 0;
-            while (decoder.hasMoreElements())
+            size_t system_index = 0;
+            while (decoder.has_more_elements())
             {
-                decoder >> beginObject();
-                _systems[systemIndex++]->decode(decoder);
-                decoder >> endObject();
+                decoder >> begin_object();
+                _systems[system_index++]->decode(decoder);
+                decoder >> end_object();
             }
         }
         else
         {
-            while (decoder.hasMoreElements())
+            while (decoder.has_more_elements())
             {
-                decoder >> beginObject();
+                decoder >> begin_object();
 
-                std::string systemType;
-                decoder >> decodeValue("systemType", systemType);
+                std::string system_type;
+                decoder >> decode_value("system_type", system_type);
 
                 // Find the system of the specified type
-                auto it = std::find_if(_systems.begin(), _systems.end(), [&systemType](const SystemBase* system)
+                auto it = std::find_if(_systems.begin(), _systems.end(), [&system_type](const SystemBase* system)
                     {
-                        const Name typeName = Type::of(*system).name();
-                        return typeName.asString() == systemType;
+                        const Name type_name = Type::of(*system).name();
+                        return type_name.as_string() == system_type;
                     });
 
                 // If the system was found
@@ -281,27 +281,27 @@ void Scene::decode(Decoder& decoder)
                 }
                 else
                 {
-                    throw DecodeError(format("Scene does not have system of type '%s'", systemType.data()));
+                    throw DecodeError(format("Scene does not have system of type '%s'", system_type.data()));
                 }
 
-                decoder >> endObject();
+                decoder >> end_object();
             }
         }
 
-        decoder >> endArray();
+        decoder >> end_array();
     }
 
     // Entities
-    if (decoder.selectMember("entities"))
+    if (decoder.select_member("entities"))
     {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
+        decoder >> begin_array();
+        while (decoder.has_more_elements())
         {
-            Entity& entity = createEntity();
-            decoder >> decodeValue(entity);
+            Entity& entity = create_entity();
+            decoder >> decode_value(entity);
             entity.activate();
         }
-        decoder >> endArray();
+        decoder >> end_array();
     }
 
     refresh();
@@ -313,74 +313,74 @@ Engine& Scene::engine() const
     return *_engine;
 }
 
-void Scene::addComponentType(ComponentTypeId typeId)
+void Scene::add_component_type(ComponentTypeId type_id)
 {
     // Make sure the component type isn't already added
-    if (typeId < _componentPools.size() && _componentPools[typeId])
+    if (type_id < _component_pools.size() && _component_pools[type_id])
     {
-        Name typeName = ComponentRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene already supports component type '%s'", typeName.data()));
+        Name type_name = ComponentRegistry::type_name_of(type_id);
+        throw InvalidOperation(format("Scene already supports component type '%s'", type_name.data()));
     }
 
     // Make sure the type id is a real type id
-    if (!ComponentRegistry::isRegisteredTypeId(typeId))
+    if (!ComponentRegistry::is_registered_type_id(type_id))
     {
         throw InvalidOperation("Unknown component type id");
     }
 
     // Resize the component pool vector if needed
-    while (typeId >= _componentPools.size())
+    while (type_id >= _component_pools.size())
     {
-        size_t oldSize = _componentPools.size();
-        _componentPools.resize(std::max(oldSize * 2, size_t(8)));
+        size_t old_size = _component_pools.size();
+        _component_pools.resize(std::max(old_size * 2, size_t(8)));
     }
 
     // Add the component pool
-    auto componentPool = ComponentRegistry::createPool(typeId, *this);
-    _componentPools[typeId] = componentPool;
-    _componentTypeIds.push_back(typeId);
+    auto component_pool = ComponentRegistry::create_pool(type_id, *this);
+    _component_pools[type_id] = component_pool;
+    _component_type_ids.push_back(type_id);
 }
 
-ComponentPoolBase& Scene::componentPoolOfTypeId(ComponentTypeId typeId)
+ComponentPoolBase& Scene::component_pool_of_type_id(ComponentTypeId type_id)
 {
-    if (!ComponentRegistry::isRegisteredTypeId(typeId))
+    if (!ComponentRegistry::is_registered_type_id(type_id))
     {
         throw InvalidOperation("Unknown component type id");
     }
-    else if (typeId >= _componentPools.size() || !_componentPools[typeId])
+    else if (type_id >= _component_pools.size() || !_component_pools[type_id])
     {
-        Name typeName = ComponentRegistry::typeNameOf(typeId);
-        throw InvalidOperation(format("Scene does not support component type '%s'", typeName.data()));
+        Name type_name = ComponentRegistry::type_name_of(type_id);
+        throw InvalidOperation(format("Scene does not support component type '%s'", type_name.data()));
     }
     else
     {
-        return *_componentPools[typeId];
+        return *_component_pools[type_id];
     }
 }
 
-Entity& Scene::cloneEntity(const Entity& entity)
+Entity& Scene::clone_entity(const Entity& entity)
 {
-    Entity& clonedEntity = createEntity(entity.name());
+    Entity& cloned_entity = create_entity(entity.name());
 
-    for (ComponentTypeId typeId : _componentTypeIds)
+    for (ComponentTypeId type_id : _component_type_ids)
     {
-        ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
-        componentPool.clone(entity, clonedEntity);
+        ComponentPoolBase& component_pool = component_pool_of_type_id(type_id);
+        component_pool.clone(entity, cloned_entity);
     }
 
     // Recursively clone all children
     for (const Entity& child : entity.children())
     {
-        Entity& clonedChild = child.clone();
-        clonedEntity.addChild(clonedChild);
+        Entity& cloned_child = child.clone();
+        cloned_entity.add_child(cloned_child);
     }
 
-    return clonedEntity;
+    return cloned_entity;
 }
 
-void Scene::destroyEntity(Entity& entity)
+void Scene::destroy_entity(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity.in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
@@ -389,66 +389,66 @@ void Scene::destroyEntity(Entity& entity)
     EntityEvent event;
     event.type = EntityEventType::Destroy;
     event.entity = entity.handle();
-    _entityPool.dispatchEvent(event);
+    _entity_pool.dispatch_event(event);
 
     // Destroy all children
-    std::vector<EntityId> childIds;
+    std::vector<EntityId> child_ids;
     for (Entity& child : entity.children())
     {
-        childIds.push_back(child._id);
+        child_ids.push_back(child._id);
     }
-    for (EntityId childId : childIds)
+    for (EntityId child_id : child_ids)
     {
-        _entityPool.entityWithId(childId).destroy();
+        _entity_pool.entity_with_id(child_id).destroy();
     }
 
     // Remove all components
-    for (ComponentTypeId typeId : _componentTypeIds)
+    for (ComponentTypeId type_id : _component_type_ids)
     {
-        ComponentPoolBase& componentPool = *_componentPools[typeId];
-        if (componentPool.has(entity))
+        ComponentPoolBase& component_pool = *_component_pools[type_id];
+        if (component_pool.has(entity))
         {
-            componentPool.remove(entity);
+            component_pool.remove(entity);
         }
     }
 
-    if (entity.isActivated())
+    if (entity.is_activated())
     {
-        --_entityCount;
+        --_entity_count;
     }
 
     // If the entity had a parent then remove itself as a child
     Entity::Handle parent = entity.parent();
     if (parent)
     {
-        parent->removeChild(entity);
+        parent->remove_child(entity);
     }
 
-    _entityPool.destroy(entity._id);
+    _entity_pool.destroy(entity._id);
 }
 
-void Scene::activateEntity(Entity& entity)
+void Scene::activate_entity(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity.in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity.isActivated())
+    if (entity.is_activated())
     {
         throw InvalidOperation("Entity is already activated");
     }
 
-    ++_entityCount;
-    entity.setFlag(Entity::Flag::Activated, true);
-    entity.setFlag(Entity::Flag::PendingActivation, false);
+    ++_entity_count;
+    entity.set_flag(Entity::Flag::Activated, true);
+    entity.set_flag(Entity::Flag::PendingActivation, false);
 
-    for (ComponentTypeId typeId : _componentTypeIds)
+    for (ComponentTypeId type_id : _component_type_ids)
     {
-        ComponentPoolBase& componentPool = *_componentPools[typeId];
-        if (componentPool.has(entity))
+        ComponentPoolBase& component_pool = *_component_pools[type_id];
+        if (component_pool.has(entity))
         {
-            componentPool.dispatchEvent(ComponentEventType::Add, entity);
+            component_pool.dispatch_event(ComponentEventType::Add, entity);
         }
     }
 
@@ -456,232 +456,232 @@ void Scene::activateEntity(Entity& entity)
     EntityEvent event;
     event.type = EntityEventType::Activate;
     event.entity = entity.handle();
-    _entityPool.dispatchEvent(event);
+    _entity_pool.dispatch_event(event);
 }
 
-void Scene::pendEntityDestruction(Entity& entity)
+void Scene::pend_entity_destruction(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity.in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity.isPendingDestruction())
+    if (entity.is_pending_destruction())
     {
         throw InvalidOperation("Entity is already pending destruction");
     }
 
-    entity.setFlag(Entity::Flag::PendingDestruction, true);
-    _entitiesPendingDestruction.push_back(entity._id);
+    entity.set_flag(Entity::Flag::PendingDestruction, true);
+    _entities_pending_destruction.push_back(entity._id);
 }
 
-void Scene::pendEntityActivation(Entity& entity)
+void Scene::pend_entity_activation(Entity& entity)
 {
-    if (!entity.inPool())
+    if (!entity.in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
 
-    if (entity.isPendingActivation())
+    if (entity.is_pending_activation())
     {
         throw InvalidOperation("Entity is already pending activation");
     }
-    else if (entity.isActivated())
+    else if (entity.is_activated())
     {
         throw InvalidOperation("Entity is already activated");
     }
 
-    entity.setFlag(Entity::Flag::PendingActivation, true);
+    entity.set_flag(Entity::Flag::PendingActivation, true);
 
     // Enqueue the entity to activate on the next refresh
-    _entitiesPendingActivation.push_back(entity._id);
+    _entities_pending_activation.push_back(entity._id);
 }
 
-bool Scene::hasPendingEntities() const
+bool Scene::has_pending_entities() const
 {
-    return !_entitiesPendingCreation.empty() || !_entitiesPendingActivation.empty() || !_entitiesPendingDestruction.empty();
+    return !_entities_pending_creation.empty() || !_entities_pending_activation.empty() || !_entities_pending_destruction.empty();
 }
 
-void Scene::dispatchEntityCreationEvents()
+void Scene::dispatch_entity_creation_events()
 {
     // Dispatch the entity creation event for all entities pending creation
-    while (!_entitiesPendingCreation.empty())
+    while (!_entities_pending_creation.empty())
     {
-        const EntityId entityId = _entitiesPendingCreation.front();
-        _entitiesPendingCreation.pop_front();
+        const EntityId entity_id = _entities_pending_creation.front();
+        _entities_pending_creation.pop_front();
 
         // Dispatch an entity create event
         EntityEvent event;
         event.type = EntityEventType::Create;
-        event.entity = _entityPool.withId(entityId).handle();
-        _entityPool.dispatchEvent(event);
+        event.entity = _entity_pool.with_id(entity_id).handle();
+        _entity_pool.dispatch_event(event);
     }
 }
 
-void Scene::activatePendingEntities()
+void Scene::activate_pending_entities()
 {
     // Activate all entities pending activation
-    while (!_entitiesPendingActivation.empty())
+    while (!_entities_pending_activation.empty())
     {
-        const EntityId entityId = _entitiesPendingActivation.front();
-        _entitiesPendingActivation.pop_front();
+        const EntityId entity_id = _entities_pending_activation.front();
+        _entities_pending_activation.pop_front();
 
-        Entity& entity = _entityPool.entityWithId(entityId);
-        activateEntity(entity);
+        Entity& entity = _entity_pool.entity_with_id(entity_id);
+        activate_entity(entity);
     }
 }
 
-void Scene::destroyPendingEntities()
+void Scene::destroy_pending_entities()
 {
     // Destroy all entities set pending destruction
-    while (!_entitiesPendingDestruction.empty())
+    while (!_entities_pending_destruction.empty())
     {
-        const EntityId entityId = _entitiesPendingDestruction.front();
-        _entitiesPendingDestruction.pop_front();
+        const EntityId entity_id = _entities_pending_destruction.front();
+        _entities_pending_destruction.pop_front();
 
-        Entity& entity = _entityPool.entityWithId(entityId);
-        destroyEntity(entity);
+        Entity& entity = _entity_pool.entity_with_id(entity_id);
+        destroy_entity(entity);
     }
 }
 
-void Scene::addEntityComponentBase(Entity& entity, const ComponentBase& component)
+void Scene::add_entity_component_base(Entity& entity, const ComponentBase& component)
 {
-    if (!entity.inPool())
+    if (!entity.in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
 
-    ComponentTypeId typeId = component.typeId();
-    ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
-    componentPool.addBase(entity, component);
+    ComponentTypeId type_id = component.type_id();
+    ComponentPoolBase& component_pool = component_pool_of_type_id(type_id);
+    component_pool.add_base(entity, component);
 }
 
-void Scene::encodeComponents(const Entity& entity, Encoder& encoder)
+void Scene::encode_components(const Entity& entity, Encoder& encoder)
 {
-    if (encoder.isBinaryStream())
+    if (encoder.is_binary_stream())
     {
-        WriteStream& stream = encoder.binaryStream();
+        WriteStream& stream = encoder.binary_stream();
 
-        size_t componentCountPosition = stream.position();
-        uint8_t componentCount = 0;
-        stream << componentCount;
+        size_t component_count_position = stream.position();
+        uint8_t component_count = 0;
+        stream << component_count;
 
-        for (ComponentTypeId typeId : _componentTypeIds)
+        for (ComponentTypeId type_id : _component_type_ids)
         {
-            ComponentPoolBase& componentPool = *_componentPools[typeId];
-            if (componentPool.has(entity))
+            ComponentPoolBase& component_pool = *_component_pools[type_id];
+            if (component_pool.has(entity))
             {
-                ++componentCount;
+                ++component_count;
 
-                const ComponentBase& component = componentPool.getBase(entity);
-                stream << component.typeId();
+                const ComponentBase& component = component_pool.get_base(entity);
+                stream << component.type_id();
                 component.encode(encoder);
             }
         }
 
-        size_t currentPosition = stream.position();
-        stream.seek(componentCountPosition);
-        stream << componentCount;
-        stream.seek(currentPosition);
+        size_t current_position = stream.position();
+        stream.seek(component_count_position);
+        stream << component_count;
+        stream.seek(current_position);
     }
     else
     {
-        encoder << beginArray("components");
+        encoder << begin_array("components");
 
-        for (ComponentTypeId typeId : _componentTypeIds)
+        for (ComponentTypeId type_id : _component_type_ids)
         {
-            ComponentPoolBase& componentPool = *_componentPools[typeId];
-            if (componentPool.has(entity))
+            ComponentPoolBase& component_pool = *_component_pools[type_id];
+            if (component_pool.has(entity))
             {
-                encoder << beginObject();
+                encoder << begin_object();
 
-                const ComponentBase& component = componentPool.getBase(entity);
-                Name typeName = Type::of(component).name();
+                const ComponentBase& component = component_pool.get_base(entity);
+                Name type_name = Type::of(component).name();
 
-                encoder << encodeValue("componentType", typeName);
+                encoder << encode_value("component_type", type_name);
                 component.encode(encoder);
 
-                encoder << endObject();
+                encoder << end_object();
             }
         }
 
-        encoder << endArray();
+        encoder << end_array();
     }
 }
 
-void Scene::decodeComponents(Entity& entity, Decoder& decoder)
+void Scene::decode_components(Entity& entity, Decoder& decoder)
 {
-    if (decoder.isBinaryStream())
+    if (decoder.is_binary_stream())
     {
-        ReadStream& stream = decoder.binaryStream();
-        uint8_t componentCount;
-        stream >> componentCount;
-        for (uint8_t i = 0; i < componentCount; ++i)
+        ReadStream& stream = decoder.binary_stream();
+        uint8_t component_count;
+        stream >> component_count;
+        for (uint8_t i = 0; i < component_count; ++i)
         {
-            ComponentTypeId typeId;
-            stream >> typeId;
-            std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
+            ComponentTypeId type_id;
+            stream >> type_id;
+            std::shared_ptr<ComponentBase> component = ComponentRegistry::create(type_id);
             component->decode(decoder);
-            addEntityComponentBase(entity, *component);
+            add_entity_component_base(entity, *component);
         }
     }
     else
     {
-        if (decoder.selectMember("components"))
+        if (decoder.select_member("components"))
         {
-            decoder >> beginArray();
-            while (decoder.hasMoreElements())
+            decoder >> begin_array();
+            while (decoder.has_more_elements())
             {
-                decoder >> beginObject();
+                decoder >> begin_object();
 
-                std::string typeName;
-                decoder >> decodeValue("componentType", typeName);
+                std::string type_name;
+                decoder >> decode_value("component_type", type_name);
 
-                ComponentTypeId typeId = ComponentRegistry::typeIdOf(typeName);
+                ComponentTypeId type_id = ComponentRegistry::type_id_of(type_name);
 
                 // If the entity already has a component of this type
-                ComponentPoolBase& componentPool = componentPoolOfTypeId(typeId);
-                if (componentPool.has(entity))
+                ComponentPoolBase& component_pool = component_pool_of_type_id(type_id);
+                if (component_pool.has(entity))
                 {
                     // Re-decode the existing component
-                    ComponentBase& component = componentPool.getBase(entity);
+                    ComponentBase& component = component_pool.get_base(entity);
                     component.decode(decoder);
                 }
                 else
                 {
                     // Add and decode a new component of the type
-                    std::shared_ptr<ComponentBase> component = ComponentRegistry::create(typeId);
+                    std::shared_ptr<ComponentBase> component = ComponentRegistry::create(type_id);
                     component->decode(decoder);
-                    addEntityComponentBase(entity, *component);
+                    add_entity_component_base(entity, *component);
                 }
 
-                decoder >> endObject();
+                decoder >> end_object();
             }
-            decoder >> endArray();
+            decoder >> end_array();
         }
     }
 }
 
-void Scene::receiveEvent(const EntityEvent& event)
+void Scene::receive_event(const EntityEvent& event)
 {
     if (event.entity)
     {
-        const char* entityName = event.entity->name().asString().data();
-        const EntityId entityId = event.entity->id();
+        const char* entity_name = event.entity->name().as_string().data();
+        const EntityId entity_id = event.entity->id();
 
-        (void)entityName;
-        (void)entityId;
+        (void)entity_name;
+        (void)entity_id;
 
         switch (event.type)
         {
         case EntityEventType::Create:
-            HECT_TRACE(format("Created entity '%s' (id: 0x%08x)", entityName, entityId));
+            HECT_TRACE(format("Created entity '%s' (id: 0x%08x)", entity_name, entity_id));
             break;
         case EntityEventType::Activate:
-            HECT_TRACE(format("Activated entity '%s' (id: 0x%08x)", entityName, entityId));
+            HECT_TRACE(format("Activated entity '%s' (id: 0x%08x)", entity_name, entity_id));
             break;
         case EntityEventType::Destroy:
-            HECT_TRACE(format("Destroyed entity '%s' (id: 0x%08x)", entityName, entityId));
+            HECT_TRACE(format("Destroyed entity '%s' (id: 0x%08x)", entity_name, entity_id));
             break;
         }
     }

@@ -40,14 +40,14 @@ Uniform::Uniform(Name name, UniformBinding binding) :
     _name(name),
     _binding(binding)
 {
-    resolveType();
+    resolve_type();
 }
 
 Uniform::Uniform(Name name, const UniformValue& value) :
     _name(name),
     _value(value)
 {
-    resolveType();
+    resolve_type();
 }
 
 Name Uniform::name() const
@@ -70,7 +70,7 @@ const UniformValue& Uniform::value() const
     return _value;
 }
 
-void Uniform::setValue(const UniformValue& value)
+void Uniform::set_value(const UniformValue& value)
 {
     _binding = UniformBinding::None;
     _type = value.type();
@@ -82,9 +82,9 @@ UniformIndex Uniform::index() const
     return _index;
 }
 
-TextureIndex Uniform::textureIndex() const
+TextureIndex Uniform::texture_index() const
 {
-    return _textureIndex;
+    return _texture_index;
 }
 
 UniformLocation Uniform::location() const
@@ -92,7 +92,7 @@ UniformLocation Uniform::location() const
     return _location;
 }
 
-void Uniform::setLocation(UniformLocation location)
+void Uniform::set_location(UniformLocation location)
 {
     _location = location;
 }
@@ -134,54 +134,54 @@ bool Uniform::operator!=(const Uniform& uniform) const
 
 void Uniform::encode(Encoder& encoder) const
 {
-    bool isBound = _binding != UniformBinding::None;
+    bool is_bound = _binding != UniformBinding::None;
 
-    if (encoder.isBinaryStream())
+    if (encoder.is_binary_stream())
     {
-        encoder << encodeValue(isBound);
+        encoder << encode_value(is_bound);
     }
 
-    if (isBound)
+    if (is_bound)
     {
-        encoder << encodeValue("name", _name)
-                << encodeEnum("binding", _binding);
+        encoder << encode_value("name", _name)
+                << encode_enum("binding", _binding);
     }
     else
     {
-        encoder << encodeValue("name", _name);
+        encoder << encode_value("name", _name);
         _value.encode(encoder);
     }
 }
 
 void Uniform::decode(Decoder& decoder)
 {
-    if (decoder.isBinaryStream())
+    if (decoder.is_binary_stream())
     {
-        bool isBound = false;
-        decoder >> decodeValue(isBound);
+        bool is_bound = false;
+        decoder >> decode_value(is_bound);
 
-        if (isBound)
+        if (is_bound)
         {
-            decoder >> decodeValue("name", _name)
-                    >> decodeEnum("binding", _binding);
+            decoder >> decode_value("name", _name)
+                    >> decode_enum("binding", _binding);
         }
         else
         {
-            decoder >> decodeValue("name", _name);
+            decoder >> decode_value("name", _name);
             _value.decode(decoder);
         }
     }
     else
     {
-        decoder >> decodeValue("name", _name)
-                >> decodeEnum("binding", _binding);
+        decoder >> decode_value("name", _name)
+                >> decode_enum("binding", _binding);
 
         _value.decode(decoder);
     }
-    resolveType();
+    resolve_type();
 }
 
-void Uniform::resolveType()
+void Uniform::resolve_type()
 {
     switch (_binding)
     {

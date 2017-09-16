@@ -27,29 +27,29 @@
 
 using namespace hect;
 
-bool Keyboard::isKeyDown(Key key) const
+bool Keyboard::is_key_down(Key key) const
 {
-    assert(static_cast<size_t>(key) < _keyStates.size());
-    return _keyStates[static_cast<size_t>(key)];
+    assert(static_cast<size_t>(key) < _key_states.size());
+    return _key_states[static_cast<size_t>(key)];
 }
 
 Keyboard::Keyboard() :
-    _keyStates(256, false)
+    _key_states(256, false)
 {
 }
 
-void Keyboard::enqueueEvent(const KeyboardEvent& event)
+void Keyboard::enqueue_event(const KeyboardEvent& event)
 {
-    assert(static_cast<size_t>(event.key) < _keyStates.size());
-    _keyStates[static_cast<size_t>(event.key)] = event.type == KeyboardEventType::KeyDown;
+    assert(static_cast<size_t>(event.key) < _key_states.size());
+    _key_states[static_cast<size_t>(event.key)] = event.type == KeyboardEventType::KeyDown;
     _events.push_back(event);
 }
 
-void Keyboard::dispatchEvents()
+void Keyboard::dispatch_events()
 {
     for (const KeyboardEvent& event : _events)
     {
-        dispatchEvent(event);
+        dispatch_event(event);
     }
     _events.clear();
 }

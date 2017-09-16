@@ -30,50 +30,50 @@
 
 using namespace hect;
 
-DebugSystem::DebugSystem(Scene& scene, InterfaceSystem& interfaceSystem) :
+DebugSystem::DebugSystem(Scene& scene, InterfaceSystem& interface_system) :
     System(scene),
-    _interfaceSystem(interfaceSystem),
-    _linesMesh("DebugLines")
+    _interface_system(interface_system),
+    _lines_mesh("DebugLines")
 {
-    VertexLayout vertexLayout;
-    VertexAttribute positionAttribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
-    vertexLayout.addAttribute(positionAttribute);
-    VertexAttribute colorAttribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 4);
-    vertexLayout.addAttribute(colorAttribute);
+    VertexLayout vertex_layout;
+    VertexAttribute position_attribute(VertexAttributeSemantic::Position, VertexAttributeType::Float32, 3);
+    vertex_layout.add_attribute(position_attribute);
+    VertexAttribute color_attribute(VertexAttributeSemantic::Color, VertexAttributeType::Float32, 4);
+    vertex_layout.add_attribute(color_attribute);
 
-    _linesMesh.setVertexLayout(vertexLayout);
-    _linesMesh.setPrimitiveType(PrimitiveType::Lines);
+    _lines_mesh.set_vertex_layout(vertex_layout);
+    _lines_mesh.set_primitive_type(PrimitiveType::Lines);
 }
 
-void DebugSystem::clearEnqueuedDebugGeometry()
+void DebugSystem::clear_enqueued_debug_geometry()
 {
-    _linesMesh.clearVertexData();
-    _linesMesh.clearIndexData();
+    _lines_mesh.clear_vertex_data();
+    _lines_mesh.clear_index_data();
 }
 
-void DebugSystem::renderLine(Color color, Vector3 startPosition, Vector3 endPosition, double duration)
+void DebugSystem::render_line(Color color, Vector3 start_position, Vector3 end_position, double duration)
 {
-    MeshWriter writer(meshForDuration(duration));
+    MeshWriter writer(mesh_for_duration(duration));
 
     // Start vertex
-    size_t startIndex = writer.addVertex();
-    writer.writeAttributeData(VertexAttributeSemantic::Position, startPosition);
-    writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+    size_t start_index = writer.add_vertex();
+    writer.write_attribute_data(VertexAttributeSemantic::Position, start_position);
+    writer.write_attribute_data(VertexAttributeSemantic::Color, color);
 
     // End vertex
-    size_t endIndex = writer.addVertex();
-    writer.writeAttributeData(VertexAttributeSemantic::Position, endPosition);
-    writer.writeAttributeData(VertexAttributeSemantic::Color, color);
+    size_t end_index = writer.add_vertex();
+    writer.write_attribute_data(VertexAttributeSemantic::Position, end_position);
+    writer.write_attribute_data(VertexAttributeSemantic::Color, color);
 
     // Add indices
-    writer.addIndex(startIndex);
-    writer.addIndex(endIndex);
+    writer.add_index(start_index);
+    writer.add_index(end_index);
 }
 
-void DebugSystem::renderBox(Color color, Box box, Vector3 position, Quaternion rotation, double duration)
+void DebugSystem::render_box(Color color, Box box, Vector3 position, Quaternion rotation, double duration)
 {
     // The lines of an axis-aligned box with a width of one
-    static const std::array<std::pair<Vector3, Vector3>, 12> unitBoxLines =
+    static const std::array<std::pair<Vector3, Vector3>, 12> unit_box_lines =
     {
         std::make_pair(Vector3(-0.5, -0.5, -0.5), Vector3(0.5, -0.5, -0.5)),
         std::make_pair(Vector3(-0.5, 0.5, -0.5), Vector3(0.5, 0.5, -0.5)),
@@ -89,25 +89,25 @@ void DebugSystem::renderBox(Color color, Box box, Vector3 position, Quaternion r
         std::make_pair(Vector3(0.5, -0.5, 0.5), Vector3(0.5, 0.5, 0.5))
     };
 
-    for (auto& line : unitBoxLines)
+    for (auto& line : unit_box_lines)
     {
         const Vector3 scale = box.scale();
         const Vector3 start = position + rotation * (line.first * scale);
         const Vector3 end = position + rotation * (line.second * scale);
-        renderLine(color, start, end, duration);
+        render_line(color, start, end, duration);
     }
 }
 
-void DebugSystem::addRenderCalls(PhysicallyBasedSceneRenderer& sceneRenderer)
+void DebugSystem::add_render_calls(PhysicallyBasedSceneRenderer& scene_renderer)
 {
-    if (!_linesMesh.vertexData().empty())
+    if (!_lines_mesh.vertex_data().empty())
     {
-        sceneRenderer.enqueueRenderCall(TransformComponent::Identity, _linesMesh, *linesMaterial);
+        scene_renderer.enqueue_render_call(TransformComponent::Identity, _lines_mesh, *lines_material);
     }
 }
 
-Mesh& DebugSystem::meshForDuration(double duration)
+Mesh& DebugSystem::mesh_for_duration(double duration)
 {
     (void)duration;
-    return _linesMesh;
+    return _lines_mesh;
 }

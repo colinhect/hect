@@ -1,1 +1,1 @@
-            encoder << encodeEnum("$(property_name)", typedValue.$(property_name));
+            encoder << encode_enum("$(property_name)", typed_value.$(property_name));

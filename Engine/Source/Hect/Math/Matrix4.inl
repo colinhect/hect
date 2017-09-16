@@ -30,7 +30,7 @@ namespace hect
 {
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromTranslation(Vector3T<T> translation)
+Matrix4T<T> Matrix4T<T>::from_translation(Vector3T<T> translation)
 {
     Matrix4T m;
     m[12] = translation.x;
@@ -40,7 +40,7 @@ Matrix4T<T> Matrix4T<T>::fromTranslation(Vector3T<T> translation)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromScale(Vector3T<T> scale)
+Matrix4T<T> Matrix4T<T>::from_scale(Vector3T<T> scale)
 {
     Matrix4T m;
     m[ 0] *= scale.x;
@@ -50,7 +50,7 @@ Matrix4T<T> Matrix4T<T>::fromScale(Vector3T<T> scale)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::fromRotation(QuaternionT<T> rotation)
+Matrix4T<T> Matrix4T<T>::from_rotation(QuaternionT<T> rotation)
 {
     T x = rotation.x;
     T y = rotation.y;
@@ -73,7 +73,7 @@ Matrix4T<T> Matrix4T<T>::fromRotation(QuaternionT<T> rotation)
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::createView(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up)
+Matrix4T<T> Matrix4T<T>::create_view(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up)
 {
     Matrix4T m;
 
@@ -89,39 +89,39 @@ Matrix4T<T> Matrix4T<T>::createView(Vector3T<T> position, Vector3T<T> direction,
     m[ 9] = up.z;
     m[10] = -direction.z;
 
-    Matrix4T positionMatrix;
-    positionMatrix.translate(-position);
+    Matrix4T position_matrix;
+    position_matrix.translate(-position);
 
-    return m * positionMatrix;
+    return m * position_matrix;
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::createPerspective(Radians fieldOfView, T aspectRatio, T nearClip, T farClip)
+Matrix4T<T> Matrix4T<T>::create_perspective(Radians field_of_view, T aspect_ratio, T near_clip, T far_clip)
 {
     Matrix4T m;
 
-    T h = T(1) / std::tan(fieldOfView.value * T(0.5));
-    m[ 0] = h / aspectRatio;
+    T h = T(1) / std::tan(field_of_view.value * T(0.5));
+    m[ 0] = h / aspect_ratio;
     m[ 5] = h;
-    m[10] = (farClip + nearClip) / (nearClip - farClip);
+    m[10] = (far_clip + near_clip) / (near_clip - far_clip);
     m[11] = -T(1);
-    m[14] = (T(2) * nearClip * farClip) / (nearClip - farClip);
+    m[14] = (T(2) * near_clip * far_clip) / (near_clip - far_clip);
     m[15] = T(0);
 
     return m;
 }
 
 template <typename T>
-Matrix4T<T> Matrix4T<T>::createOrthogonal(T left, T right, T bottom, T top, T nearValue, T farValue)
+Matrix4T<T> Matrix4T<T>::create_orthogonal(T left, T right, T bottom, T top, T near_value, T far_value)
 {
     Matrix4T m;
 
     m[ 0] = T(2) / (right - left);
     m[ 5] = T(2) / (top - bottom);
-    m[10] = T(-2) / (farValue - nearValue);
+    m[10] = T(-2) / (far_value - near_value);
     m[12] = -((right + left) / (right - left));
     m[13] = -((top + bottom) / (top - bottom));
-    m[14] = -((farValue + nearValue) / (farValue - nearValue));
+    m[14] = -((far_value + near_value) / (far_value - near_value));
 
     return m;
 }
@@ -129,7 +129,7 @@ Matrix4T<T> Matrix4T<T>::createOrthogonal(T left, T right, T bottom, T top, T ne
 template <typename T>
 Matrix4T<T>::Matrix4T()
 {
-    static const T identityValues[16] =
+    static const T identity_values[16] =
     {
         T(1), T(0), T(0), T(0),
         T(0), T(1), T(0), T(0),
@@ -137,7 +137,7 @@ Matrix4T<T>::Matrix4T()
         T(0), T(0), T(0), T(1)
     };
 
-    std::memcpy(_c, identityValues, sizeof(T) * 16);
+    std::memcpy(_c, identity_values, sizeof(T) * 16);
 }
 
 template <typename T>
@@ -159,7 +159,7 @@ void Matrix4T<T>::scale(Vector3T<T> scale)
 template <typename T>
 void Matrix4T<T>::rotate(QuaternionT<T> rotation)
 {
-    *this *= Matrix4T<T>::fromRotation(rotation);
+    *this *= Matrix4T<T>::from_rotation(rotation);
 }
 
 template <typename T>
@@ -264,24 +264,24 @@ Matrix4T<T>::operator Matrix4T<U>() const
 template <typename T>
 Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m)
 {
-    encoder << beginArray();
+    encoder << begin_array();
     for (size_t i = 0; i < 16; ++i)
     {
         encoder << m[i];
     }
-    encoder << endArray();
+    encoder << end_array();
     return encoder;
 }
 
 template <typename T>
 Decoder& operator>>(Decoder& decoder, Matrix4T<T>& m)
 {
-    decoder >> beginArray();
+    decoder >> begin_array();
     for (size_t i = 0; i < 16; ++i)
     {
         decoder >> m[i];
     }
-    decoder >> endArray();
+    decoder >> end_array();
     return decoder;
 }
 

@@ -25,10 +25,10 @@ namespace hect
 {
 
 template <typename ...ComponentTypes>
-Entity& Scene::createEntityWith(Name name)
+Entity& Scene::create_entity_with(Name name)
 {
-    Entity& entity = createEntity(name);
-    int _[] = { 0, (entity.addComponent<ComponentTypes>(), 0)... };
+    Entity& entity = create_entity(name);
+    int _[] = { 0, (entity.add_component<ComponentTypes>(), 0)... };
     (void)_;
     return entity;
 }
@@ -37,13 +37,13 @@ Entity& Scene::createEntityWith(Name name)
 template <typename ComponentType>
 ComponentPool<ComponentType>& Scene::components()
 {
-    const ComponentTypeId typeId = ComponentRegistry::typeIdOf<ComponentType>();
-    if (typeId >= _componentPools.size() || !_componentPools[typeId])
+    const ComponentTypeId type_id = ComponentRegistry::type_id_of<ComponentType>();
+    if (type_id >= _component_pools.size() || !_component_pools[type_id])
     {
-        const Name componentTypeName = Type::get<ComponentType>().name();
-        throw InvalidOperation(format("Scene does not support component type '%s'", componentTypeName.data()));
+        const Name component_type_name = Type::get<ComponentType>().name();
+        throw InvalidOperation(format("Scene does not support component type '%s'", component_type_name.data()));
     }
-    return static_cast<ComponentPool<ComponentType>&>(*_componentPools[typeId]);
+    return static_cast<ComponentPool<ComponentType>&>(*_component_pools[type_id]);
 }
 
 template <typename ComponentType>

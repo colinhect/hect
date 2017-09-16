@@ -109,7 +109,7 @@ const Texture3& FrameBufferAttachment::texture3() const
     return *reinterpret_cast<const Texture3*>(_texture);
 }
 
-TextureCube& FrameBufferAttachment::textureCube()
+TextureCube& FrameBufferAttachment::texture_cube()
 {
     if (_type != FrameBufferAttachmentType::TextureCube)
     {
@@ -119,7 +119,7 @@ TextureCube& FrameBufferAttachment::textureCube()
     return *reinterpret_cast<TextureCube*>(_texture);
 }
 
-const TextureCube& FrameBufferAttachment::textureCube() const
+const TextureCube& FrameBufferAttachment::texture_cube() const
 {
     if (_type != FrameBufferAttachmentType::TextureCube)
     {

@@ -33,105 +33,105 @@ BoundingBoxSystem::BoundingBoxSystem(Scene& scene) :
 {
 }
 
-BoundingBoxSystem::BoundingBoxSystem(Scene& scene, DebugSystem& debugSystem) :
+BoundingBoxSystem::BoundingBoxSystem(Scene& scene, DebugSystem& debug_system) :
     System(scene),
-    _debugSystem(&debugSystem)
+    _debug_system(&debug_system)
 {
 }
 
-void BoundingBoxSystem::updateBoundingBox(BoundingBoxComponent& boundingBox)
+void BoundingBoxSystem::update_bounding_box(BoundingBoxComponent& bounding_box)
 {
-    Entity::Handle root = boundingBox.entity().root();
-    updateRecursively(*root);
+    Entity::Handle root = bounding_box.entity().root();
+    update_recursively(*root);
 }
 
-void BoundingBoxSystem::renderDebugGeometry()
+void BoundingBoxSystem::render_debug_geometry()
 {
-    if (_debugSystem)
+    if (_debug_system)
     {
         // Render a debug box for each bounding box
-        for (const BoundingBoxComponent& boundingBox : scene().components<BoundingBoxComponent>())
+        for (const BoundingBoxComponent& bounding_box : scene().components<BoundingBoxComponent>())
         {
-            AxisAlignedBox axisAlignedBox = boundingBox.globalExtents;
-            Box box(axisAlignedBox.maximum() - axisAlignedBox.minimum());
+            AxisAlignedBox axis_aligned_box = bounding_box.globalExtents;
+            Box box(axis_aligned_box.maximum() - axis_aligned_box.minimum());
 
-            _debugSystem->renderBox(Color::Green, box, axisAlignedBox.center());
+            _debug_system->render_box(Color::Green, box, axis_aligned_box.center());
         }
     }
 }
 
-void BoundingBoxSystem::updateRecursively(Entity& entity)
+void BoundingBoxSystem::update_recursively(Entity& entity)
 {
-    BoundingBoxComponent* entityBoundingBox = nullptr;
+    BoundingBoxComponent* entity_bounding_box = nullptr;
 
     // Compute the bounding box of this entity
-    if (entity.hasComponent<BoundingBoxComponent>())
+    if (entity.has_component<BoundingBoxComponent>())
     {
-        auto& boundingBox = entity.component<BoundingBoxComponent>();
-        entityBoundingBox = &boundingBox;
+        auto& bounding_box = entity.component<BoundingBoxComponent>();
+        entity_bounding_box = &bounding_box;
 
         // Update the local extents if the bounding box is adaptive
-        if (boundingBox.adaptive)
+        if (bounding_box.adaptive)
         {
             // Start with an empty box
-            AxisAlignedBox& localExtents = boundingBox.localExtents;
-            localExtents = AxisAlignedBox();
+            AxisAlignedBox& local_extents = bounding_box.local_extents;
+            local_extents = AxisAlignedBox();
 
             // Expand to fit all meshes that the component has
-            if (entity.hasComponent<GeometryComponent>())
+            if (entity.has_component<GeometryComponent>())
             {
                 auto& geometry = entity.component<GeometryComponent>();
                 for (const GeometrySurface& surface : geometry.surfaces)
                 {
                     Mesh& mesh = *surface.mesh;
-                    localExtents.expandToInclude(mesh.axisAlignedBox());
+                    local_extents.expand_to_include(mesh.axis_aligned_box());
                 }
             }
         }
 
         // Sync the global extents with the local extents
-        boundingBox.globalExtents = boundingBox.localExtents;
+        bounding_box.globalExtents = bounding_box.local_extents;
 
         // Transform the global extents of the bounding box by the entity's
         // global transform
-        if (entity.hasComponent<TransformComponent>())
+        if (entity.has_component<TransformComponent>())
         {
             auto& transform = entity.component<TransformComponent>();
 
-            AxisAlignedBox& globalExtents = boundingBox.globalExtents;
-            globalExtents.scale(transform.globalScale);
-            globalExtents.rotate(transform.globalRotation);
-            globalExtents.translate(transform.globalPosition);
+            AxisAlignedBox& globalExtents = bounding_box.globalExtents;
+            globalExtents.scale(transform.global_scale);
+            globalExtents.rotate(transform.global_rotation);
+            globalExtents.translate(transform.global_position);
         }
     }
 
     // Recursively compute the bounding boxes of all children
     for (Entity& child : entity.children())
     {
-        updateRecursively(child);
+        update_recursively(child);
 
-        if (entityBoundingBox)
+        if (entity_bounding_box)
         {
             // If the child has a bounding box
-            if (child.hasComponent<BoundingBoxComponent>())
+            if (child.has_component<BoundingBoxComponent>())
             {
-                auto& childBoundingBox = child.component<BoundingBoxComponent>();
+                auto& child_bounding_box = child.component<BoundingBoxComponent>();
 
                 // Expand the bounding box to include this child
-                entityBoundingBox->globalExtents.expandToInclude(childBoundingBox.globalExtents);
+                entity_bounding_box->globalExtents.expand_to_include(child_bounding_box.globalExtents);
             }
         }
     }
 }
 
-void BoundingBoxSystem::onComponentAdded(BoundingBoxComponent& boundingBox)
+void BoundingBoxSystem::on_component_added(BoundingBoxComponent& bounding_box)
 {
     // Update the extents of the bounding box if it is adaptive
-    if (boundingBox.adaptive)
+    if (bounding_box.adaptive)
     {
-        Entity& entity = boundingBox.entity();
+        Entity& entity = bounding_box.entity();
 
         // Update the extent of the bounding box
-        updateRecursively(entity);
+        update_recursively(entity);
     }
 }

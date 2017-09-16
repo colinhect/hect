@@ -41,22 +41,22 @@ Name InputAxis::name() const
     return _name;
 }
 
-void InputAxis::setName(Name name)
+void InputAxis::set_name(Name name)
 {
     _name = name;
 }
 
-void InputAxis::addBinding(const InputAxisBinding& binding)
+void InputAxis::add_binding(const InputAxisBinding& binding)
 {
     _bindings.push_back(binding);
 }
 
-void InputAxis::update(Platform& platform, Seconds timeStep)
+void InputAxis::update(Platform& platform, Seconds time_step)
 {
     _value = 0;
     for (InputAxisBinding& binding : _bindings)
     {
-        binding.update(platform, timeStep);
+        binding.update(platform, time_step);
         _value += binding.value();
     }
     _value = std::max(-1.0, std::min(_value, 1.0));
@@ -69,12 +69,12 @@ double InputAxis::value() const
 
 void InputAxis::encode(Encoder& encoder) const
 {
-    encoder << encodeValue("name", _name)
-            << encodeVector("bindings", _bindings);
+    encoder << encode_value("name", _name)
+            << encode_vector("bindings", _bindings);
 }
 
 void InputAxis::decode(Decoder& decoder)
 {
-    decoder >> decodeValue("name", _name, true)
-            >> decodeVector("bindings", _bindings);
+    decoder >> decode_value("name", _name, true)
+            >> decode_vector("bindings", _bindings);
 }

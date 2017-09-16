@@ -35,26 +35,26 @@ Name Entity::name() const
     return _name;
 }
 
-void Entity::setName(Name name)
+void Entity::set_name(Name name)
 {
     _name = name;
 }
 
 Scene& Entity::scene()
 {
-    ensureInPool();
+    ensure_in_pool();
     return _pool->_scene;
 }
 
 const Scene& Entity::scene() const
 {
-    ensureInPool();
+    ensure_in_pool();
     return _pool->_scene;
 }
 
 Entity::Handle Entity::handle() const
 {
-    if (!inPool())
+    if (!in_pool())
     {
         return Entity::Handle();
     }
@@ -79,13 +79,13 @@ Entity::ConstIterator Entity::iterator() const
 
 Entity& Entity::clone() const
 {
-    ensureInPool();
-    return _pool->_scene.cloneEntity(*this);
+    ensure_in_pool();
+    return _pool->_scene.clone_entity(*this);
 }
 
 void Entity::destroy()
 {
-    ensureInPool();
+    ensure_in_pool();
 
     // Destroy all children first
     for (Entity& child : children())
@@ -93,12 +93,12 @@ void Entity::destroy()
         child.destroy();
     }
 
-    _pool->_scene.pendEntityDestruction(*this);
+    _pool->_scene.pend_entity_destruction(*this);
 }
 
 void Entity::activate()
 {
-    ensureInPool();
+    ensure_in_pool();
 
     // Activate all children first
     for (Entity& child : children())
@@ -106,36 +106,36 @@ void Entity::activate()
         child.activate();
     }
 
-    _pool->_scene.pendEntityActivation(*this);
+    _pool->_scene.pend_entity_activation(*this);
 }
 
-bool Entity::isActivated() const
+bool Entity::is_activated() const
 {
     return flag(Flag::Activated);
 }
 
-bool Entity::isPendingActivation() const
+bool Entity::is_pending_activation() const
 {
-    ensureInPool();
+    ensure_in_pool();
     return flag(Flag::PendingActivation);
 }
 
-bool Entity::isPendingDestruction() const
+bool Entity::is_pending_destruction() const
 {
-    ensureInPool();
+    ensure_in_pool();
     return flag(Flag::PendingDestruction);
 }
 
-bool Entity::isTransient() const
+bool Entity::is_transient() const
 {
-    ensureInPool();
+    ensure_in_pool();
     return flag(Flag::Transient);
 }
 
-void Entity::setTransient(bool transient)
+void Entity::set_transient(bool transient)
 {
-    ensureInPool();
-    setFlag(Flag::Transient, transient);
+    ensure_in_pool();
+    set_flag(Flag::Transient, transient);
 }
 
 EntityId Entity::id() const
@@ -145,10 +145,10 @@ EntityId Entity::id() const
 
 Entity::Handle Entity::parent() const
 {
-    ensureInPool();
-    if (_parentId != EntityId(-1))
+    ensure_in_pool();
+    if (_parent_id != EntityId(-1))
     {
-        return _pool->withId(_parentId).handle();
+        return _pool->with_id(_parent_id).handle();
     }
     else
     {
@@ -158,9 +158,9 @@ Entity::Handle Entity::parent() const
 
 Entity::Handle Entity::root() const
 {
-    ensureInPool();
+    ensure_in_pool();
 
-    auto root = findFirstAncestor([](const Entity& entity)
+    auto root = find_first_ancestor([](const Entity& entity)
     {
         return !entity.parent();
     });
@@ -173,9 +173,9 @@ Entity::Handle Entity::root() const
     return root;
 }
 
-void Entity::addChild(Entity& entity)
+void Entity::add_child(Entity& entity)
 {
-    if (entity._parentId != EntityId(-1))
+    if (entity._parent_id != EntityId(-1))
     {
         throw InvalidOperation("Cannot add a child entity which already has a parent");
     }
@@ -185,37 +185,37 @@ void Entity::addChild(Entity& entity)
         throw InvalidOperation("Cannot add a child entity from another scene");
     }
 
-    if (isPendingDestruction())
+    if (is_pending_destruction())
     {
         throw InvalidOperation("Cannot add a child entity to an entity pending destruction");
     }
 
-    if ((isActivated() || isPendingActivation()) && (!entity.isActivated() && !entity.isPendingActivation()))
+    if ((is_activated() || is_pending_activation()) && (!entity.is_activated() && !entity.is_pending_activation()))
     {
         throw InvalidOperation("Cannot add unactivated entity as child of activated entity");
     }
 
-    if ((!isActivated() && !isPendingActivation()) && (entity.isActivated() || entity.isPendingActivation()))
+    if ((!is_activated() && !is_pending_activation()) && (entity.is_activated() || entity.is_pending_activation()))
     {
         throw InvalidOperation("Cannot add activated entity as child of unactivated entity");
     }
 
-    entity._parentId = _id;
-    _childIds.push_back(entity._id);
+    entity._parent_id = _id;
+    _child_ids.push_back(entity._id);
 }
 
-void Entity::removeChild(Entity& entity)
+void Entity::remove_child(Entity& entity)
 {
-    if (entity._pool != _pool || entity._parentId != _id)
+    if (entity._pool != _pool || entity._parent_id != _id)
     {
         throw InvalidOperation("Entity is not a child of this entity");
     }
 
-    _childIds.erase(std::remove(_childIds.begin(), _childIds.end(), entity._id), _childIds.end());
-    entity._parentId = EntityId(-1);
+    _child_ids.erase(std::remove(_child_ids.begin(), _child_ids.end(), entity._id), _child_ids.end());
+    entity._parent_id = EntityId(-1);
 }
 
-void Entity::destroyAllChildren()
+void Entity::destroy_all_children()
 {
     for (Entity& child : children())
     {
@@ -233,9 +233,9 @@ const Entity::Children& Entity::children() const
     return *reinterpret_cast<const EntityChildren*>(this);
 }
 
-bool Entity::hasChildren() const
+bool Entity::has_children() const
 {
-    return !_childIds.empty();
+    return !_child_ids.empty();
 }
 
 Entity::Entity() :
@@ -247,8 +247,8 @@ Entity::Entity(const Entity& entity) :
     Uncopyable(),
     _pool(entity._pool),
     _id(entity._id),
-    _parentId(entity._parentId),
-    _childIds(entity._childIds),
+    _parent_id(entity._parent_id),
+    _child_ids(entity._child_ids),
     _name(entity._name),
     _flags(entity._flags)
 {
@@ -257,8 +257,8 @@ Entity::Entity(const Entity& entity) :
 Entity::Entity(Entity&& entity) :
     _pool(entity._pool),
     _id(entity._id),
-    _parentId(entity._parentId),
-    _childIds(std::move(entity._childIds)),
+    _parent_id(entity._parent_id),
+    _child_ids(std::move(entity._child_ids)),
     _name(entity._name),
     _flags(entity._flags)
 {
@@ -268,8 +268,8 @@ Entity& Entity::operator=(const Entity& entity)
 {
     _pool = entity._pool;
     _id = entity._id;
-    _parentId = entity._parentId;
-    _childIds = entity._childIds;
+    _parent_id = entity._parent_id;
+    _child_ids = entity._child_ids;
     _handle = entity._handle;
     _name = entity._name;
     _flags = entity._flags;
@@ -280,26 +280,26 @@ Entity& Entity::operator=(Entity&& entity)
 {
     _pool = entity._pool;
     _id = entity._id;
-    _parentId = entity._parentId;
-    _childIds = std::move(entity._childIds);
+    _parent_id = entity._parent_id;
+    _child_ids = std::move(entity._child_ids);
     _handle = entity._handle;
     _name = entity._name;
     _flags = entity._flags;
     return *this;
 }
 
-void Entity::enterPool(EntityPool& pool, EntityId id)
+void Entity::enter_pool(EntityPool& pool, EntityId id)
 {
     _pool = &pool;
     _id = id;
 }
 
-void Entity::exitPool()
+void Entity::exit_pool()
 {
     _pool = nullptr;
     _id = EntityId(-1);
-    _parentId = EntityId(-1);
-    _childIds.clear();
+    _parent_id = EntityId(-1);
+    _child_ids.clear();
     _flags = std::bitset<4>();
 
     if (_handle)
@@ -309,20 +309,20 @@ void Entity::exitPool()
     _handle = EntityHandle();
 }
 
-bool Entity::inPool() const
+bool Entity::in_pool() const
 {
     return _pool && _id != EntityId(-1);
 }
 
-void Entity::ensureInPool() const
+void Entity::ensure_in_pool() const
 {
-    if (!inPool())
+    if (!in_pool())
     {
         throw InvalidOperation("Invalid entity");
     }
 }
 
-void Entity::setFlag(Flag flag, bool value)
+void Entity::set_flag(Flag flag, bool value)
 {
     _flags[static_cast<size_t>(flag)] = value;
 }
@@ -334,41 +334,41 @@ bool Entity::flag(Flag flag) const
 
 Entity::operator bool() const
 {
-    return inPool();
+    return in_pool();
 }
 
 void Entity::encode(Encoder& encoder) const
 {
-    ensureInPool();
+    ensure_in_pool();
 
-    if (!isTransient())
+    if (!is_transient())
     {
-        const bool hasName = _name != Name::Unnamed;
-        if (encoder.isBinaryStream())
+        const bool has_name = _name != Name::Unnamed;
+        if (encoder.is_binary_stream())
         {
-            encoder << encodeValue(hasName);
+            encoder << encode_value(has_name);
         }
 
-        if (hasName)
+        if (has_name)
         {
-            encoder << encodeValue("name", _name);
+            encoder << encode_value("name", _name);
         }
 
         Scene& scene = _pool->_scene;
-        scene.encodeComponents(*this, encoder);
+        scene.encode_components(*this, encoder);
 
-        encoder << beginArray("children");
+        encoder << begin_array("children");
         for (const Entity& child : children())
         {
-            encoder << encodeValue(child);
+            encoder << encode_value(child);
         }
-        encoder << endArray();
+        encoder << end_array();
     }
 }
 
 void Entity::decode(Decoder& decoder)
 {
-    ensureInPool();
+    ensure_in_pool();
 
     Scene& scene = _pool->_scene;
 
@@ -376,55 +376,55 @@ void Entity::decode(Decoder& decoder)
     // entities are created
     Entity::Iterator entity = iterator();
 
-    if (!decoder.isBinaryStream())
+    if (!decoder.is_binary_stream())
     {
-        if (decoder.selectMember("base"))
+        if (decoder.select_member("base"))
         {
-            Path basePath;
-            decoder >> decodeValue(basePath);
+            Path base_path;
+            decoder >> decode_value(base_path);
 
             try
             {
-                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> decodeValue(*entity);
+                AssetDecoder base_decoder(decoder.asset_cache(), base_path);
+                base_decoder >> decode_value(*entity);
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base entity '%s': %s", basePath.asString().data(), exception.what()));
+                throw DecodeError(format("Failed to load base entity '%s': %s", base_path.as_string().data(), exception.what()));
             }
         }
     }
 
-    bool hasName = true;
-    if (decoder.isBinaryStream())
+    bool has_name = true;
+    if (decoder.is_binary_stream())
     {
-        decoder >> decodeValue(hasName);
+        decoder >> decode_value(has_name);
     }
 
-    if (hasName)
+    if (has_name)
     {
-        decoder >> decodeValue("name", entity->_name);
+        decoder >> decode_value("name", entity->_name);
     }
 
-    if (decoder.selectMember("components"))
+    if (decoder.select_member("components"))
     {
-        scene.decodeComponents(*this, decoder);
+        scene.decode_components(*this, decoder);
     }
 
-    if (decoder.selectMember("children"))
+    if (decoder.select_member("children"))
     {
-        decoder >> beginArray();
-        while (decoder.hasMoreElements())
+        decoder >> begin_array();
+        while (decoder.has_more_elements())
         {
-            Entity& child = scene.createEntity();
+            Entity& child = scene.create_entity();
 
-            decoder >> beginObject();
+            decoder >> begin_object();
             child.decode(decoder);
-            decoder >> endObject();
+            decoder >> end_object();
 
-            entity->addChild(child);
+            entity->add_child(child);
         }
-        decoder >> endArray();
+        decoder >> end_array();
     }
 }
 
@@ -433,17 +433,17 @@ namespace hect
 
 Encoder& operator<<(Encoder& encoder, const Entity& entity)
 {
-    encoder << beginObject();
+    encoder << begin_object();
     entity.encode(encoder);
-    encoder << endObject();
+    encoder << end_object();
     return encoder;
 }
 
 Decoder& operator>>(Decoder& decoder, Entity& entity)
 {
-    decoder >> beginObject();
+    decoder >> begin_object();
     entity.decode(decoder);
-    decoder >> endObject();
+    decoder >> end_object();
     return decoder;
 }
 

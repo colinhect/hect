@@ -29,27 +29,27 @@ namespace hect
 template <typename T>
 const Type& Type::of(T& value)
 {
-    return fromTypeInfo(typeid(value));
+    return from_type_info(typeid(value));
 }
 
 template <typename T>
 const Type& Type::get()
 {
-    return fromTypeInfo(typeid(T));
+    return from_type_info(typeid(T));
 }
 
 template <typename T>
 Type& Type::create(Kind kind, Name name)
 {
-    std::type_index typeIndex(typeid(T));
+    std::type_index type_index(typeid(T));
 
-    auto it = _registeredTypes.find(typeIndex);
-    if (it != _registeredTypes.end())
+    auto it = _registered_types.find(type_index);
+    if (it != _registered_types.end())
     {
         throw InvalidOperation("Type already exists");
     }
 
-    return _registeredTypes[typeIndex] = Type(kind, name);
+    return _registered_types[type_index] = Type(kind, name);
 }
 
 }

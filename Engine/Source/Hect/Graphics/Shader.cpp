@@ -34,23 +34,23 @@ Shader::Shader(Name name) :
 {
 }
 
-RenderStage Shader::renderStage() const
+RenderStage Shader::render_stage() const
 {
-    return _renderStage;
+    return _render_stage;
 }
 
-void Shader::setRenderStage(RenderStage renderStage)
+void Shader::set_render_stage(RenderStage render_stage)
 {
-    _renderStage = renderStage;
+    _render_stage = render_stage;
 }
 
-void Shader::addModule(const ShaderModule& module)
+void Shader::add_module(const ShaderModule& module)
 {
     // Destroy the shader if it is uploaded so that any changes the added
     // module contributes to the shader when it is compiled will take effect
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyShader(*this);
+        renderer().destroy_shader(*this);
     }
 
     _modules.push_back(module);
@@ -61,17 +61,17 @@ const Shader::ModuleSequence Shader::modules() const
     return _modules;
 }
 
-UniformIndex Shader::addUniform(const Uniform& uniform)
+UniformIndex Shader::add_uniform(const Uniform& uniform)
 {
     // Destroy the shader if it is uploaded so that the uniforms location can
     // be established when the shader is uploaded
-    if (isUploaded())
+    if (is_uploaded())
     {
-        renderer().destroyShader(*this);
+        renderer().destroy_shader(*this);
     }
 
     _uniforms.push_back(uniform);
-    resolveUniforms();
+    resolve_uniforms();
 
     return _uniforms.size() - 1;
 }
@@ -102,8 +102,8 @@ const Uniform& Shader::uniform(UniformIndex index) const
 
 Uniform& Shader::uniform(Name name)
 {
-    auto it = _uniformIndices.find(name);
-    if (it == _uniformIndices.end())
+    auto it = _uniform_indices.find(name);
+    if (it == _uniform_indices.end())
     {
         throw InvalidOperation(format("Shader '%s' does not have a uniform named '%s'", this->name().data(), name.data()));
     }
@@ -117,8 +117,8 @@ const Uniform& Shader::uniform(Name name) const
 
 Uniform& Shader::uniform(const char* name)
 {
-    auto it = _uniformIndices.find(name);
-    if (it == _uniformIndices.end())
+    auto it = _uniform_indices.find(name);
+    if (it == _uniform_indices.end())
     {
         throw InvalidOperation(format("Shader '%s' does not have a uniform named '%s'", this->name().data(), name));
     }
@@ -130,30 +130,30 @@ const Uniform& Shader::uniform(const char* name) const
     return const_cast<Shader*>(this)->uniform(name);
 }
 
-bool Shader::hasUniform(Name name) const
+bool Shader::has_uniform(Name name) const
 {
-    auto it = _uniformIndices.find(name);
-    return it != _uniformIndices.end();
+    auto it = _uniform_indices.find(name);
+    return it != _uniform_indices.end();
 }
 
-const BlendMode& Shader::blendMode() const
+const BlendMode& Shader::blend_mode() const
 {
-    return _blendMode;
+    return _blend_mode;
 }
 
-void Shader::setBlendMode(const BlendMode& blendMode)
+void Shader::set_blend_mode(const BlendMode& blend_mode)
 {
-    _blendMode = blendMode;
+    _blend_mode = blend_mode;
 }
 
-bool Shader::isDepthTested() const
+bool Shader::is_depth_tested() const
 {
-    return _depthTested;
+    return _depth_tested;
 }
 
-void Shader::setDepthTested(bool depthTested)
+void Shader::set_depth_tested(bool depth_tested)
 {
-    _depthTested = depthTested;
+    _depth_tested = depth_tested;
 }
 
 int Shader::priority() const
@@ -161,7 +161,7 @@ int Shader::priority() const
     return _priority;
 }
 
-void Shader::setPriority(int priority)
+void Shader::set_priority(int priority)
 {
     _priority = priority;
 }
@@ -199,13 +199,13 @@ bool Shader::operator==(const Shader& shader) const
     }
 
     // Blend mode
-    if (_blendMode != shader._blendMode)
+    if (_blend_mode != shader._blend_mode)
     {
         return false;
     }
 
     // Depth tested
-    if (_depthTested != shader._depthTested)
+    if (_depth_tested != shader._depth_tested)
     {
         return false;
     }
@@ -226,61 +226,61 @@ bool Shader::operator!=(const Shader& shader) const
 
 void Shader::encode(Encoder& encoder) const
 {
-    encoder << encodeEnum("renderStage", _renderStage)
-            << encodeVector("modules", _modules)
-            << encodeVector("uniforms", _uniforms)
-            << encodeValue("depthTested", _depthTested)
-            << encodeValue("blendMode", _blendMode)
-            << encodeValue("priority", _priority);
+    encoder << encode_enum("render_stage", _render_stage)
+            << encode_vector("modules", _modules)
+            << encode_vector("uniforms", _uniforms)
+            << encode_value("depth_tested", _depth_tested)
+            << encode_value("blend_mode", _blend_mode)
+            << encode_value("priority", _priority);
 }
 
 void Shader::decode(Decoder& decoder)
 {
     // Base
-    if (!decoder.isBinaryStream())
+    if (!decoder.is_binary_stream())
     {
-        if (decoder.selectMember("base"))
+        if (decoder.select_member("base"))
         {
-            Path basePath;
-            decoder >> decodeValue(basePath);
+            Path base_path;
+            decoder >> decode_value(base_path);
 
             try
             {
-                AssetDecoder baseDecoder(decoder.assetCache(), basePath);
-                baseDecoder >> decodeValue(*this);
+                AssetDecoder base_decoder(decoder.asset_cache(), base_path);
+                base_decoder >> decode_value(*this);
             }
             catch (const Exception& exception)
             {
-                throw DecodeError(format("Failed to load base shader '%s': %s", basePath.asString().data(), exception.what()));
+                throw DecodeError(format("Failed to load base shader '%s': %s", base_path.as_string().data(), exception.what()));
             }
         }
     }
 
-    decoder >> decodeEnum("renderStage", _renderStage)
-            >> decodeVector("modules", _modules, true)
-            >> decodeVector("uniforms", _uniforms)
-            >> decodeValue("depthTested", _depthTested)
-            >> decodeValue("blendMode", _blendMode)
-            >> decodeValue("priority", _priority);
+    decoder >> decode_enum("render_stage", _render_stage)
+            >> decode_vector("modules", _modules, true)
+            >> decode_vector("uniforms", _uniforms)
+            >> decode_value("depth_tested", _depth_tested)
+            >> decode_value("blend_mode", _blend_mode)
+            >> decode_value("priority", _priority);
 
-    resolveUniforms();
+    resolve_uniforms();
 }
 
-void Shader::resolveUniforms()
+void Shader::resolve_uniforms()
 {
-    size_t textureIndex = 0;
+    size_t texture_index = 0;
     for (UniformIndex index = 0; index < _uniforms.size(); ++index)
     {
         Uniform& uniform = _uniforms[index];
         uniform._index = index;
 
-        _uniformIndices[uniform._name] = index;
+        _uniform_indices[uniform._name] = index;
         if (uniform.type() == UniformType::Texture2 ||
                 uniform.type() == UniformType::Texture3 ||
                 uniform.type() == UniformType::TextureCube)
         {
-            uniform._textureIndex = textureIndex;
-            ++textureIndex;
+            uniform._texture_index = texture_index;
+            ++texture_index;
         }
     }
 }

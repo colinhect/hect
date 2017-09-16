@@ -113,14 +113,14 @@ public:
     ///
     /// Returns whether the format is equivalent to another.
     ///
-    /// \param pixelFormat The other format.
-    bool operator==(const PixelFormat& pixelFormat) const;
+    /// \param pixel_format The other format.
+    bool operator==(const PixelFormat& pixel_format) const;
 
     ///
     /// Returns whether the format is different from another.
     ///
-    /// \param pixelFormat The other format.
-    bool operator!=(const PixelFormat& pixelFormat) const;
+    /// \param pixel_format The other format.
+    bool operator!=(const PixelFormat& pixel_format) const;
 
     void encode(Encoder& encoder) const override;
     void decode(Decoder& decoder) override;

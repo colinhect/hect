@@ -27,8 +27,8 @@ using namespace hect;
 
 VectorRenderer::Frame::~Frame()
 {
-    _renderer.onEndFrame();
-    _renderer._inFrame = false;
+    _renderer.on_end_frame();
+    _renderer._in_frame = false;
 }
 
 VectorRenderer::Frame::Frame(Frame&& frame) :
@@ -39,18 +39,18 @@ VectorRenderer::Frame::Frame(Frame&& frame) :
 VectorRenderer::Frame::Frame(VectorRenderer& renderer, RenderTarget& target) :
     _renderer(renderer)
 {
-    renderer.onBeginFrame(target);
+    renderer.on_begin_frame(target);
 }
 
 VectorRenderer::FrameStateScope::FrameStateScope(Frame& frame) :
     _frame(frame)
 {
-    _frame.pushState();
+    _frame.push_state();
 }
 
 VectorRenderer::FrameStateScope::~FrameStateScope()
 {
-    _frame.popState();
+    _frame.pop_state();
 }
 
 VectorRenderer::~VectorRenderer()
@@ -58,13 +58,13 @@ VectorRenderer::~VectorRenderer()
     shutdown();
 }
 
-VectorRenderer::Frame VectorRenderer::beginFrame(RenderTarget& target)
+VectorRenderer::Frame VectorRenderer::begin_frame(RenderTarget& target)
 {
-    if (_inFrame)
+    if (_in_frame)
     {
         throw InvalidOperation("Cannot begin a new frame when there is an active frame");
     }
-    _inFrame = true;
+    _in_frame = true;
 
     return Frame(*this, target);
 }

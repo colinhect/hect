@@ -30,8 +30,8 @@ using namespace hect;
 
 Renderer::Frame::~Frame()
 {
-    _renderer.onEndFrame();
-    _renderer._inFrame = false;
+    _renderer.on_end_frame();
+    _renderer._in_frame = false;
 }
 
 Renderer::Frame::Frame(Frame&& frame) :
@@ -42,191 +42,191 @@ Renderer::Frame::Frame(Frame&& frame) :
 Renderer::Frame::Frame(Renderer& renderer, RenderTarget& target) :
     _renderer(renderer)
 {
-    renderer.onBeginFrame(target);
+    renderer.on_begin_frame(target);
 }
 
-void Renderer::Frame::setCullMode(CullMode cullMode)
+void Renderer::Frame::set_cull_mode(CullMode cull_mode)
 {
-    _renderer.setCullMode(cullMode);
+    _renderer.set_cull_mode(cull_mode);
 }
 
-void Renderer::Frame::setShader(Shader& shader)
+void Renderer::Frame::set_shader(Shader& shader)
 {
-    _renderer.setShader(shader);
+    _renderer.set_shader(shader);
 
     // Set the values for each unbound uniform
     for (const Uniform& uniform : shader.uniforms())
     {
         if (uniform.binding() == UniformBinding::None)
         {
-            setUniform(uniform, uniform.value());
+            set_uniform(uniform, uniform.value());
         }
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const UniformValue& value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, const UniformValue& value)
 {
     switch (value.type())
     {
     case UniformType::Int:
-        setUniform(uniform, value.asInt());
+        set_uniform(uniform, value.as_int());
         break;
     case UniformType::Float:
-        setUniform(uniform, value.asDouble());
+        set_uniform(uniform, value.as_double());
         break;
     case UniformType::Vector2:
-        setUniform(uniform, value.asVector2());
+        set_uniform(uniform, value.as_vector2());
         break;
     case UniformType::Vector3:
-        setUniform(uniform, value.asVector3());
+        set_uniform(uniform, value.as_vector3());
         break;
     case UniformType::Vector4:
-        setUniform(uniform, value.asVector4());
+        set_uniform(uniform, value.as_vector4());
         break;
     case UniformType::Matrix4:
-        setUniform(uniform, value.asMatrix4());
+        set_uniform(uniform, value.as_matrix4());
         break;
     case UniformType::Color:
-        setUniform(uniform, value.asColor());
+        set_uniform(uniform, value.as_color());
         break;
     case UniformType::Texture2:
     {
-        Texture2::Handle texture = value.asTexture2();
+        Texture2::Handle texture = value.as_texture2();
         if (texture)
         {
-            setUniform(uniform, *texture);
+            set_uniform(uniform, *texture);
         }
     }
     break;
     case UniformType::Texture3:
     {
-        Texture3::Handle texture = value.asTexture3();
+        Texture3::Handle texture = value.as_texture3();
         if (texture)
         {
-            setUniform(uniform, *texture);
+            set_uniform(uniform, *texture);
         }
     }
     break;
     case UniformType::TextureCube:
     {
-        TextureCube::Handle texture = value.asTextureCube();
+        TextureCube::Handle texture = value.as_texture_cube();
         if (texture)
         {
-            setUniform(uniform, *texture);
+            set_uniform(uniform, *texture);
         }
     }
     break;
     }
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, int value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, int value)
 {
     if (uniform.type() != UniformType::Int)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, double value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, double value)
 {
     if (uniform.type() != UniformType::Float)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector2 value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Vector2 value)
 {
     if (uniform.type() != UniformType::Vector2)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector3 value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Vector3 value)
 {
     if (uniform.type() != UniformType::Vector3)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Vector4 value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Vector4 value)
 {
     if (uniform.type() != UniformType::Vector4)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, const Matrix4& value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, const Matrix4& value)
 {
     if (uniform.type() != UniformType::Matrix4)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Color value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Color value)
 {
     if (uniform.type() != UniformType::Color)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture2& value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Texture2& value)
 {
     if (uniform.type() != UniformType::Texture2)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, Texture3& value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, Texture3& value)
 {
     if (uniform.type() != UniformType::Texture3)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::setUniform(const Uniform& uniform, TextureCube& value)
+void Renderer::Frame::set_uniform(const Uniform& uniform, TextureCube& value)
 {
     if (uniform.type() != UniformType::TextureCube)
     {
         throw InvalidOperation("Invalid value for uniform");
     }
 
-    _renderer.setUniform(uniform, value);
+    _renderer.set_uniform(uniform, value);
 }
 
-void Renderer::Frame::renderMesh(Mesh& mesh)
+void Renderer::Frame::render_mesh(Mesh& mesh)
 {
-    _renderer.renderMesh(mesh);
+    _renderer.render_mesh(mesh);
 }
 
-void Renderer::Frame::renderViewport()
+void Renderer::Frame::render_viewport()
 {
-    _renderer.renderViewport();
+    _renderer.render_viewport();
 }
 
 void Renderer::Frame::clear(Color color, bool depth)
@@ -239,13 +239,13 @@ Renderer::~Renderer()
     shutdown();
 }
 
-Renderer::Frame Renderer::beginFrame(RenderTarget& target)
+Renderer::Frame Renderer::begin_frame(RenderTarget& target)
 {
-    if (_inFrame)
+    if (_in_frame)
     {
         throw InvalidOperation("Cannot begin a new frame when there is an active frame");
     }
-    _inFrame = true;
+    _in_frame = true;
 
     return Frame(*this, target);
 }

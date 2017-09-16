@@ -37,12 +37,12 @@ EventListener<T>::~EventListener()
     // Unregister the listener from all dispatchers
     for (EventDispatcher<T>* dispatcher : dispatchers)
     {
-        dispatcher->unregisterListener(*this);
+        dispatcher->unregister_listener(*this);
     }
 }
 
 template <typename T>
-void EventListener<T>::addDispatcher(EventDispatcher<T>& dispatcher)
+void EventListener<T>::add_dispatcher(EventDispatcher<T>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it != _dispatchers.end())
@@ -56,7 +56,7 @@ void EventListener<T>::addDispatcher(EventDispatcher<T>& dispatcher)
 }
 
 template <typename T>
-void EventListener<T>::removeDispatcher(EventDispatcher<T>& dispatcher)
+void EventListener<T>::remove_dispatcher(EventDispatcher<T>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it == _dispatchers.end())

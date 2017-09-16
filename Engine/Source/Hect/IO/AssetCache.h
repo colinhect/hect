@@ -46,14 +46,14 @@ public:
     ///
     /// Constructs an asset cache.
     ///
-    /// \param fileSystem The file system.
+    /// \param file_system The file system.
     /// \param concurrent Whether assets should be loaded in concurrent
     /// threads.
-    AssetCache(FileSystem& fileSystem, bool concurrent);
+    AssetCache(FileSystem& file_system, bool concurrent);
 
     ~AssetCache();
 
-    FileSystem& fileSystem();
+    FileSystem& file_system();
 
     ///
     /// Returns a reference to the asset at the given path.
@@ -81,22 +81,22 @@ public:
     /// \throws InvalidOperation If the asset at the given path is of a
     /// different type.
     template <typename T, typename... Args>
-    AssetHandle<T> getHandle(const Path& path, Args&&... args);
+    AssetHandle<T> get_handle(const Path& path, Args&&... args);
 
     ///
     /// Re-loads any cached assets of a specific type.
     ///
-    /// \param onlyModified Whether to only re-load the assets whose asset
+    /// \param only_modified Whether to only re-load the assets whose asset
     /// files have been modified since it was loaded.
     template <typename T>
-    void refresh(bool onlyModified);
+    void refresh(bool only_modified);
 
     ///
     /// Re-loads any cached assets of all types.
     ///
-    /// \param onlyModified Whether to only re-load the assets whose asset
+    /// \param only_modified Whether to only re-load the assets whose asset
     /// files have been modified since it was loaded.
-    void refresh(bool onlyModified);
+    void refresh(bool only_modified);
 
     ///
     /// Removes an asset from a handle from the cache.
@@ -115,35 +115,35 @@ public:
 
     ///
     /// Returns the task pool used for asset loading.
-    TaskPool& taskPool();
+    TaskPool& task_pool();
 
     ///
     /// Returns the full path to an asset given a partial path based on the
     /// the current preferred directory.
     ///
     /// \param path The path to resolve.
-    /// \param preferYamlFile Whether to prefer a YAML source file if one
+    /// \param prefer_yaml_file Whether to prefer a YAML source file if one
     /// exists.
-    Path resolvePath(const Path& path, bool preferYamlFile = true);
+    Path resolve_path(const Path& path, bool prefer_yaml_file = true);
 
     ///
     /// Push the given directory as the preferred directory for the current
     /// thread.
     ///
-    /// \param directoryPath The path to the directory to push.
-    void pushDirectory(const Path& directoryPath);
+    /// \param directory_path The path to the directory to push.
+    void push_directory(const Path& directory_path);
 
     ///
     /// Pops the previously pushed directory (if any) as the preferred
     /// directory for the current thread.
-    void popDirectory();
+    void pop_directory();
 
 private:
-    FileSystem& _fileSystem;
-    TaskPool _taskPool;
+    FileSystem& _file_system;
+    TaskPool _task_pool;
 
     std::recursive_mutex _mutex;
-    std::map<std::thread::id, std::stack<Path>> _directoryStack;
+    std::map<std::thread::id, std::stack<Path>> _directory_stack;
     std::map<Path, std::shared_ptr<AssetEntryBase>> _entries;
 };
 

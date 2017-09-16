@@ -26,7 +26,7 @@ namespace hect
 
 template <typename T>
 IdPool<T>::IdPool() :
-    _nextId(0)
+    _next_id(0)
 {
 }
 
@@ -34,14 +34,14 @@ template <typename T>
 T IdPool<T>::create()
 {
     T id;
-    if (!_nextIds.empty())
+    if (!_next_ids.empty())
     {
-        id = _nextIds.back();
-        _nextIds.pop_back();
+        id = _next_ids.back();
+        _next_ids.pop_back();
     }
     else
     {
-        id = _nextId++;
+        id = _next_id++;
     }
 
     return id;
@@ -50,7 +50,7 @@ T IdPool<T>::create()
 template <typename T>
 void IdPool<T>::destroy(T id)
 {
-    _nextIds.push_front(id);
+    _next_ids.push_front(id);
 }
 
 }

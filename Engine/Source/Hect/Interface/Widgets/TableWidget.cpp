@@ -27,8 +27,8 @@
 
 using namespace hect;
 
-TableWidget::Cell::Cell(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+TableWidget::Cell::Cell(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
 }
 
@@ -36,125 +36,125 @@ void TableWidget::Cell::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(clipping);
+    //frame.set_clipping(clipping);
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
 }
 
-TableWidget::TableWidget(InterfaceSystem& interfaceSystem) :
-    Widget(interfaceSystem)
+TableWidget::TableWidget(InterfaceSystem& interface_system) :
+    Widget(interface_system)
 {
 }
 
-unsigned TableWidget::columnCount() const
+unsigned TableWidget::column_count() const
 {
-    return static_cast<unsigned>(_columnWidths.size());
+    return static_cast<unsigned>(_column_widths.size());
 }
 
-TableWidget::Column TableWidget::addColumn(double width)
+TableWidget::Column TableWidget::add_column(double width)
 {
-    const Column column = static_cast<Column>(_columnWidths.size());
-    _columnWidths.push_back(width);
-    updateDimensions();
+    const Column column = static_cast<Column>(_column_widths.size());
+    _column_widths.push_back(width);
+    update_dimensions();
     return column;
 }
 
-void TableWidget::resizeColumn(Column column, double width)
+void TableWidget::resize_column(Column column, double width)
 {
-    checkColumn(column);
-    _columnWidths[column] = width;
-    updateDimensions();
+    check_column(column);
+    _column_widths[column] = width;
+    update_dimensions();
 }
 
-unsigned TableWidget::rowCount() const
+unsigned TableWidget::row_count() const
 {
-    return static_cast<unsigned>(_rowHeights.size());
+    return static_cast<unsigned>(_row_heights.size());
 }
 
-TableWidget::Row TableWidget::addRow(double height)
+TableWidget::Row TableWidget::add_row(double height)
 {
-    const Row row = static_cast<Row>(_rowHeights.size());
-    _rowHeights.push_back(height);
-    updateDimensions();
+    const Row row = static_cast<Row>(_row_heights.size());
+    _row_heights.push_back(height);
+    update_dimensions();
     return row;
 }
 
-void TableWidget::resizeRow(Row row, double height)
+void TableWidget::resize_row(Row row, double height)
 {
-    checkRow(row);
-    _rowHeights[row] = height;
-    updateDimensions();
+    check_row(row);
+    _row_heights[row] = height;
+    update_dimensions();
 }
 
-TableWidget::Cell::Handle TableWidget::createCell(Column column, Row row)
+TableWidget::Cell::Handle TableWidget::create_cell(Column column, Row row)
 {
-    checkColumn(column);
-    checkRow(row);
+    check_column(column);
+    check_row(row);
 
     // Compute the position of the cell
     Vector2 position;
     for (Column index = 0; index < column; ++index)
     {
-        position.x += _columnWidths[index];
+        position.x += _column_widths[index];
     }
     for (Row index = 0; index < row; ++index)
     {
-        position.y += _rowHeights[index];
+        position.y += _row_heights[index];
     }
 
     // Compute the dimensions of the cell
     Vector2 dimensions;
-    dimensions.x = _columnWidths[column];
-    dimensions.y = _rowHeights[row];
+    dimensions.x = _column_widths[column];
+    dimensions.y = _row_heights[row];
 
     // Create the cell
-    Cell::Handle cellWidget = createChild<Cell>();
-    cellWidget->setPosition(position);
-    cellWidget->setDimensions(dimensions);
+    Cell::Handle cell_widget = create_child<Cell>();
+    cell_widget->set_position(position);
+    cell_widget->set_dimensions(dimensions);
 
-    _cells[column][row] = cellWidget;
+    _cells[column][row] = cell_widget;
 
-    return cellWidget;
+    return cell_widget;
 }
 
 void TableWidget::render(VectorRenderer::Frame& frame, Rectangle clipping)
 {
     VectorRenderer::FrameStateScope scope(frame);
 
-    //frame.setClipping(clipping);
+    //frame.set_clipping(clipping);
     frame.translate(position());
 
     WidgetBase::render(frame, clipping);
 }
 
-void TableWidget::updateDimensions()
+void TableWidget::update_dimensions()
 {
     Vector2 dimensions;
-    for (double width : _columnWidths)
+    for (double width : _column_widths)
     {
         dimensions.x += width;
     }
 
-    for (double height : _rowHeights)
+    for (double height : _row_heights)
     {
         dimensions.y += height;
     }
 
-    setDimensions(dimensions);
+    set_dimensions(dimensions);
 }
 
-void TableWidget::checkColumn(Column column) const
+void TableWidget::check_column(Column column) const
 {
-    if (column >= _columnWidths.size())
+    if (column >= _column_widths.size())
     {
         throw InvalidOperation("Column is out of range");
     }
 }
 
-void TableWidget::checkRow(Row row) const
+void TableWidget::check_row(Row row) const
 {
-    if (row >= _rowHeights.size())
+    if (row >= _row_heights.size())
     {
         throw InvalidOperation("Row is out of range");
     }

@@ -64,16 +64,16 @@ public:
     ///
     /// Constructs a widget.
     ///
-    /// \param interfaceSystem The interface system.
-    WidgetBase(InterfaceSystem& interfaceSystem);
+    /// \param interface_system The interface system.
+    WidgetBase(InterfaceSystem& interface_system);
 
     virtual ~WidgetBase() { }
 
     ///
     /// Performs a single update tick for the widget.
     ///
-    /// \param timeStep The duration of time for the tick to update.
-    virtual void tick(Seconds timeStep);
+    /// \param time_step The duration of time for the tick to update.
+    virtual void tick(Seconds time_step);
 
     ///
     /// Renders the widget to a frame.
@@ -84,25 +84,25 @@ public:
 
     ///
     /// Invoked when the mouse cursor enters the bounds of the widget.
-    virtual void onMouseEnter();
+    virtual void on_mouse_enter();
 
     ///
     /// Invoked when the mouse cursor exits the bounds of the widget.
-    virtual void onMouseExit();
+    virtual void on_mouse_exit();
 
     ///
     /// Invoked when the widget is pressed.
-    virtual void onPressed();
+    virtual void on_pressed();
 
     ///
-    /// \copydoc EventListener::receiveEvent()
-    virtual void receiveEvent(const MouseEvent& event);
+    /// \copydoc EventListener::receive_event()
+    virtual void receive_event(const MouseEvent& event);
 
     ///
     /// Sets the action that is invoked when the widget is pressed.
     ///
     /// \param action The action to perform when the widget is pressed.
-    void setPressAction(const WidgetBase::Action& action);
+    void set_press_action(const WidgetBase::Action& action);
 
     ///
     /// Returns the local position of the widget.
@@ -113,11 +113,11 @@ public:
     /// not aligned).
     ///
     /// \param position The new position of the widget.
-    void setPosition(Vector2 position);
+    void set_position(Vector2 position);
 
     ///
     /// Returns the global position of the widget.
-    Vector2 globalPosition() const;
+    Vector2 global_position() const;
 
     ///
     /// Returns the dimensions of the widget.
@@ -127,7 +127,7 @@ public:
     /// Sets the dimensions of the widget.
     ///
     /// \param dimensions The new dimensions of the widget.
-    void setDimensions(Vector2 dimensions);
+    void set_dimensions(Vector2 dimensions);
 
     ///
     /// Returns the local bounds of the widget.
@@ -135,27 +135,27 @@ public:
 
     ///
     /// Returns the global bounds of the widget.
-    Rectangle globalBounds() const;
+    Rectangle global_bounds() const;
 
     ///
     /// Returns the horizontal alignment.
-    HorizontalAlign horizontalAlign() const;
+    HorizontalAlign horizontal_align() const;
 
     ///
     /// Sets the horizontal alignment of the widget.
     ///
     /// \param align The alignment.
-    void setHorizontalAlign(HorizontalAlign align);
+    void set_horizontal_align(HorizontalAlign align);
 
     ///
     /// Returns the vertical alignment.
-    VerticalAlign verticalAlign() const;
+    VerticalAlign vertical_align() const;
 
     ///
     /// Sets the vertical alignment of the widget.
     ///
     /// \param align The alignment.
-    void setVerticalAlign(VerticalAlign align);
+    void set_vertical_align(VerticalAlign align);
 
     ///
     /// Returns the tooltip of the widget.
@@ -165,39 +165,39 @@ public:
     /// Sets the tooltip of the widget.
     ///
     /// \param tooltip The new tooltip of the widget.
-    void setTooltip(const std::string& tooltip);
+    void set_tooltip(const std::string& tooltip);
 
     ///
     /// Returns whether the widget is visible.
-    bool isVisible() const;
+    bool is_visible() const;
 
     ///
     /// Sets whether the widget is visible.
     ///
     /// \param visible Whether the widget is visible.
-    void setVisible(bool visible);
+    void set_visible(bool visible);
 
     ///
     /// Returns a style color.
     ///
-    /// \param styleColor The style color to get.
-    Color styleColor(StyleColor styleColor) const;
+    /// \param style_color The style color to get.
+    Color style_color(StyleColor style_color) const;
 
     ///
     /// Sets a style color.
     ///
-    /// \param styleColor The style color to set.
+    /// \param style_color The style color to set.
     /// \param color The new color value of the style color.
-    void setStyleColor(StyleColor styleColor, Color color);
+    void set_style_color(StyleColor style_color, Color color);
 
     ///
     /// Returns whether the mouse cursor is currently over the bounds of the
     /// widget.
-    bool isMouseOver() const;
+    bool is_mouse_over() const;
 
     ///
     /// Returns whether the widget is currently pressed.
-    bool isPressed() const;
+    bool is_pressed() const;
 
     ///
     /// Creates a new child widget.
@@ -206,7 +206,7 @@ public:
     ///
     /// \returns A handle to the created child widget.
     template <typename T, typename... Args>
-    typename T::Handle createChild(Args&&... args);
+    typename T::Handle create_child(Args&&... args);
 
     ///
     /// Destroys a child widget.
@@ -214,11 +214,11 @@ public:
     /// \param child The child widget to destroy.
     ///
     /// \throws InvalidOperation If the widget is not a child of the widget.
-    void destroyChild(const WidgetBase::Handle& child);
+    void destroy_child(const WidgetBase::Handle& child);
 
     ///
     /// Returns whether the widget is a child of another widget.
-    bool hasParent() const;
+    bool has_parent() const;
 
     ///
     /// Returns the parent of the widget.
@@ -232,55 +232,55 @@ public:
 
     ///
     /// Returns the interface system that the widget belongs to.
-    InterfaceSystem& interfaceSystem();
+    InterfaceSystem& interface_system();
 
     ///
-    /// \copydoc WidgetBase::interfaceSystem()
-    const InterfaceSystem& interfaceSystem() const;
+    /// \copydoc WidgetBase::interface_system()
+    const InterfaceSystem& interface_system() const;
 
 protected:
 
     ///
     /// Updates the layout of the widget and its children.
-    virtual void updateLayout();
+    virtual void update_layout();
 
     ///
     /// Returns whether the layout needs to be updated.
-    bool isLayoutDirty() const;
+    bool is_layout_dirty() const;
 
     ///
     /// Mark the widget to update its layout when necessary.
-    void markLayoutDirty();
+    void mark_layout_dirty();
 
     ///
     /// Sets whether the mouse cursor is currently hovering over the widget.
-    void setMouseOver(bool value);
+    void set_mouse_over(bool value);
 
 private:
-    InterfaceSystem& _interfaceSystem;
+    InterfaceSystem& _interface_system;
     WidgetBase* _parent { nullptr };
 
-    Vector2 _assignedPosition;
-    Vector2 _actualPosition;
+    Vector2 _assigned_position;
+    Vector2 _actual_position;
 
     Vector2 _dimensions;
 
-    HorizontalAlign _horizontalAlign { HorizontalAlign::None };
-    VerticalAlign _verticalAlign { VerticalAlign::None };
+    HorizontalAlign _horizontal_align { HorizontalAlign::None };
+    VerticalAlign _vertical_align { VerticalAlign::None };
 
-    bool _layoutDirty { true };
+    bool _layout_dirty { true };
 
     std::string _tooltip;
 
-    Action _pressAction;
+    Action _press_action;
 
     bool _pressed { false };
     bool _visible { true };
-    bool _mouseOver { false };
+    bool _mouse_over { false };
 
     std::vector<WidgetBase::Handle> _children;
-    std::vector<WidgetBase::Handle> _childrenToDestroy;
-    std::map<StyleColor, Color> _styleColors;
+    std::vector<WidgetBase::Handle> _children_to_destroy;
+    std::map<StyleColor, Color> _style_colors;
 };
 
 }

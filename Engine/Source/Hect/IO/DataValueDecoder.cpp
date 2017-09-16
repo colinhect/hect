@@ -27,34 +27,34 @@
 
 using namespace hect;
 
-DataValueDecoder::DataValueDecoder(const DataValue& dataValue)
+DataValueDecoder::DataValueDecoder(const DataValue& data_value)
 {
-    _valueStack.push(dataValue);
+    _value_stack.push(data_value);
 }
 
-DataValueDecoder::DataValueDecoder(const DataValue& dataValue, AssetCache& assetCache) :
-    Decoder(assetCache)
+DataValueDecoder::DataValueDecoder(const DataValue& data_value, AssetCache& asset_cache) :
+    Decoder(asset_cache)
 {
-    _valueStack.push(dataValue);
+    _value_stack.push(data_value);
 }
 
-bool DataValueDecoder::isBinaryStream() const
+bool DataValueDecoder::is_binary_stream() const
 {
     return false;
 }
 
-ReadStream& DataValueDecoder::binaryStream()
+ReadStream& DataValueDecoder::binary_stream()
 {
     throw InvalidOperation("The decoder is not reading from a binary stream");
 }
 
-void DataValueDecoder::beginArray()
+void DataValueDecoder::begin_array()
 {
     DataValue value = decode();
-    if (value.isArray())
+    if (value.is_array())
     {
-        _indexStack.push(0);
-        _valueStack.push(value);
+        _index_stack.push(0);
+        _value_stack.push(value);
     }
     else
     {
@@ -62,26 +62,26 @@ void DataValueDecoder::beginArray()
     }
 }
 
-void DataValueDecoder::endArray()
+void DataValueDecoder::end_array()
 {
-    assert(_valueStack.top().isArray());
-    _indexStack.pop();
-    _valueStack.pop();
+    assert(_value_stack.top().is_array());
+    _index_stack.pop();
+    _value_stack.pop();
 }
 
-bool DataValueDecoder::hasMoreElements() const
+bool DataValueDecoder::has_more_elements() const
 {
-    const DataValue& top = _valueStack.top();
-    assert(top.isArray());
-    return _indexStack.top() < top.size();
+    const DataValue& top = _value_stack.top();
+    assert(top.is_array());
+    return _index_stack.top() < top.size();
 }
 
-void DataValueDecoder::beginObject()
+void DataValueDecoder::begin_object()
 {
     DataValue value = decode();
-    if (value.isObject())
+    if (value.is_object())
     {
-        _valueStack.push(value);
+        _value_stack.push(value);
     }
     else
     {
@@ -89,20 +89,20 @@ void DataValueDecoder::beginObject()
     }
 }
 
-void DataValueDecoder::endObject()
+void DataValueDecoder::end_object()
 {
-    assert(_valueStack.top().isObject());
-    _valueStack.pop();
+    assert(_value_stack.top().is_object());
+    _value_stack.pop();
 }
 
-bool DataValueDecoder::selectMember(const char* name)
+bool DataValueDecoder::select_member(const char* name)
 {
-    const DataValue& top = _valueStack.top();
-    assert(top.isObject());
+    const DataValue& top = _value_stack.top();
+    assert(top.is_object());
 
-    if (!top[name].isNull())
+    if (!top[name].is_null())
     {
-        _selectedMemberName = name;
+        _selected_member_name = name;
         return true;
     }
     else
@@ -111,88 +111,88 @@ bool DataValueDecoder::selectMember(const char* name)
     }
 }
 
-std::vector<std::string> DataValueDecoder::memberNames() const
+std::vector<std::string> DataValueDecoder::member_names() const
 {
-    const DataValue& top = _valueStack.top();
-    assert(top.isObject());
-    return top.memberNames();
+    const DataValue& top = _value_stack.top();
+    assert(top.is_object());
+    return top.member_names();
 }
 
-std::string DataValueDecoder::decodeString()
+std::string DataValueDecoder::decode_string()
 {
-    return decode().asString();
+    return decode().as_string();
 }
 
-int8_t DataValueDecoder::decodeInt8()
+int8_t DataValueDecoder::decode_int8()
 {
-    return static_cast<int8_t>(decode().asDouble());
+    return static_cast<int8_t>(decode().as_double());
 }
 
-uint8_t DataValueDecoder::decodeUInt8()
+uint8_t DataValueDecoder::decode_u_int8()
 {
-    return static_cast<uint8_t>(decode().asDouble());
+    return static_cast<uint8_t>(decode().as_double());
 }
 
-int16_t DataValueDecoder::decodeInt16()
+int16_t DataValueDecoder::decode_int16()
 {
-    return static_cast<int16_t>(decode().asDouble());
+    return static_cast<int16_t>(decode().as_double());
 }
 
-uint16_t DataValueDecoder::decodeUInt16()
+uint16_t DataValueDecoder::decode_u_int16()
 {
-    return static_cast<uint16_t>(decode().asDouble());
+    return static_cast<uint16_t>(decode().as_double());
 }
 
-int32_t DataValueDecoder::decodeInt32()
+int32_t DataValueDecoder::decode_int32()
 {
-    return static_cast<int32_t>(decode().asDouble());
+    return static_cast<int32_t>(decode().as_double());
 }
 
-uint32_t DataValueDecoder::decodeUInt32()
+uint32_t DataValueDecoder::decode_u_int32()
 {
-    return static_cast<uint32_t>(decode().asDouble());
+    return static_cast<uint32_t>(decode().as_double());
 }
 
-int64_t DataValueDecoder::decodeInt64()
+int64_t DataValueDecoder::decode_int64()
 {
-    return static_cast<int64_t>(decode().asDouble());
+    return static_cast<int64_t>(decode().as_double());
 }
 
-uint64_t DataValueDecoder::decodeUInt64()
+uint64_t DataValueDecoder::decode_u_int64()
 {
-    return static_cast<uint64_t>(decode().asDouble());
+    return static_cast<uint64_t>(decode().as_double());
 }
 
-float DataValueDecoder::decodeFloat32()
+float DataValueDecoder::decode_float32()
 {
-    return static_cast<float>(decode().asDouble());
+    return static_cast<float>(decode().as_double());
 }
 
-double DataValueDecoder::decodeFloat64()
+double DataValueDecoder::decode_float64()
 {
-    return decode().asDouble();
+    return decode().as_double();
 }
 
-bool DataValueDecoder::decodeBool()
+bool DataValueDecoder::decode_bool()
 {
-    return decode().asBool();
+    return decode().as_bool();
 }
 
 const DataValue& DataValueDecoder::decode()
 {
-    DataValue& top = _valueStack.top();
-    if (top.isArray() && !_indexStack.empty())
+    DataValue& top = _value_stack.top();
+    if (top.is_array() && !_index_stack.empty())
     {
-        return top[_indexStack.top()++];
+        return top[_index_stack.top()++];
     }
-    else if (top.isObject() && !_selectedMemberName.empty())
+    else if (top.is_object() && !_selected_member_name.empty())
     {
-        const DataValue& result = top[_selectedMemberName];
-        if (result.isNull())
+        const DataValue& result = top[_selected_member_name];
+        if (result.is_null())
         {
-            throw DecodeError(format("No member value '%s'", _selectedMemberName.data()));
+            throw DecodeError(format("No member value '%s'", _selected_member_name.data()));
         }
-        _selectedMemberName = std::string();
+        _selected_member_name = std::string();
         return result;
     }
     else

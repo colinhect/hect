@@ -46,52 +46,52 @@ public:
     ///
     /// Creates a Scene of the specified type.
     ///
-    /// \param typeId The type id representing the type of scene to create.
+    /// \param type_id The type id representing the type of scene to create.
     ///
     /// \throws InvalidOperation If the specified type id does not correspond
     /// to a registered scene type.
-    static std::shared_ptr<Scene> create(SceneTypeId typeId);
+    static std::shared_ptr<Scene> create(SceneTypeId type_id);
 
     ///
     /// Returns the type id for the specified Scene type index.
     ///
-    /// \param typeIndex The type index of the scene type to get the id of.
+    /// \param type_index The type index of the scene type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type index does not
     /// correspond to a registered scene type.
-    static SceneTypeId typeIdOf(std::type_index typeIndex);
+    static SceneTypeId type_id_of(std::type_index type_index);
 
     ///
     /// Returns the type id with the specified Scene type name.
     ///
-    /// \param typeName The type name of the scene type to get the id of.
+    /// \param type_name The type name of the scene type to get the id of.
     ///
     /// \throws InvalidOperation If the specified type name does not correspond
     /// to a registered scene type.
-    static SceneTypeId typeIdOf(Name typeName);
+    static SceneTypeId type_id_of(Name type_name);
 
     ///
     /// Returns the Scene type name with the specified type id.
     ///
-    /// \param typeId The type id of the scene type to get the type name of.
-    static Name typeNameOf(SceneTypeId typeId);
+    /// \param type_id The type id of the scene type to get the type name of.
+    static Name type_name_of(SceneTypeId type_id);
 
     ///
     /// Returns whether the specified type id is registered with a
     /// Scene type.
     ///
-    /// \param typeId The type id to check.
+    /// \param type_id The type id to check.
     ///
     /// \returns True if the type id is a registered scene type id; false
     /// otherwise.
-    static bool isRegisteredTypeId(SceneTypeId typeId);
+    static bool is_registered_type_id(SceneTypeId type_id);
 
     ///
     /// Registers a Scene type.
     ///
     /// \warning The type must be registered with Type.
     template <typename T>
-    static void registerType();
+    static void register_type();
 
     ///
     /// Returns the type id for the specified Scene type.
@@ -99,18 +99,18 @@ public:
     /// \throws InvalidOperation If the specified type is not a registered
     /// scene type.
     template <typename T>
-    static SceneTypeId typeIdOf();
+    static SceneTypeId type_id_of();
 
 private:
     SceneRegistry() = delete;
 
-    static std::map<SceneTypeId, Name> _typeIdToName;
-    static std::map<Name, SceneTypeId> _typeNameToId;
-    static std::map<std::type_index, SceneTypeId> _typeIndexToId;
+    static std::map<SceneTypeId, Name> _type_id_to_name;
+    static std::map<Name, SceneTypeId> _type_name_to_id;
+    static std::map<std::type_index, SceneTypeId> _type_index_to_id;
 
     typedef std::function<std::shared_ptr<Scene>()> SceneConstructor;
 
-    static std::vector<SceneConstructor> _sceneConstructors;
+    static std::vector<SceneConstructor> _scene_constructors;
 };
 
 }
