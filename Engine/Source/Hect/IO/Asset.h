@@ -31,6 +31,10 @@ namespace hect
 {
 
 ///
+/// Denotes an inline path to a asset dependency.
+#define HECT_ASSET(path) path
+
+///
 /// Inheriting from this allows for caching/loading using an AssetCache.
 template <typename T>
 class Asset :

@@ -45,7 +45,7 @@ class HECT_EXPORT InterfaceSystem :
     public EventListener<MouseEvent>
 {
 public:
-    InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer);
+    InterfaceSystem(Scene& scene, AssetCache& asset_cache, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer);
 
     ///
     /// Creates a new interface.
@@ -77,14 +77,14 @@ public:
     ///
     /// The font used when none is specified.
     ///
-    /// \property{required}
+    /// \property
     Font::Handle default_font;
 
     ///
     /// The font size used when none is specified.
     ///
-    /// \property{required}
-    double default_font_size;
+    /// \property
+    double default_font_size { 13.0 };
 
 private:
     // EventListener overrides

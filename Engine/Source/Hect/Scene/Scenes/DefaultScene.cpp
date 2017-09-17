@@ -36,8 +36,8 @@ using namespace hect;
 
 DefaultScene::DefaultScene(Engine& engine) :
     Scene(engine),
-    _interface_system(*this, engine.platform(), engine.renderer(), engine.vector_renderer()),
-    _debug_system(*this, _interface_system),
+    _interface_system(*this, engine.asset_cache(), engine.platform(), engine.renderer(), engine.vector_renderer()),
+    _debug_system(*this, engine.asset_cache(), _interface_system),
     _input_system(*this, engine.platform(), engine.settings()),
     _camera_system(*this),
     _bounding_box_system(*this, _debug_system),

@@ -22,6 +22,7 @@
 // IN THE SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////
 #include "Hect/Core/Exception.h"
+#include "AssetHandle.h"
 
 namespace hect
 {
@@ -47,6 +48,12 @@ AssetHandle<T>::AssetHandle(T* asset, bool owned)
 template <typename T>
 AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
     _entry(entry)
+{
+}
+
+template<typename T>
+AssetHandle<T>::AssetHandle(AssetCache& asset_cache, const Path& path) :
+    _entry(new AssetEntry<T>(asset_cache, path, [] { return new T(); }))
 {
 }
 

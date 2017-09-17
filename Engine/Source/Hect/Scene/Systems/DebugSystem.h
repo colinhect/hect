@@ -45,7 +45,7 @@ class HECT_EXPORT DebugSystem :
     public System<DebugSystem>
 {
 public:
-    DebugSystem(Scene& scene, InterfaceSystem& interface_system);
+    DebugSystem(Scene& scene, AssetCache& asset_cache, InterfaceSystem& interface_system);
 
     ///
     /// Clears all enqueued debug geometry.

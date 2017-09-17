@@ -27,8 +27,9 @@
 
 using namespace hect;
 
-InterfaceSystem::InterfaceSystem(Scene& scene, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer) :
+InterfaceSystem::InterfaceSystem(Scene& scene, AssetCache& asset_cache, Platform& platform, Renderer& renderer, VectorRenderer& vector_renderer) :
     System(scene),
+    default_font(asset_cache, HECT_ASSET("Hect/Interface/Vera.font")),
     _platform(platform),
     _renderer(renderer),
     _vector_renderer(vector_renderer)

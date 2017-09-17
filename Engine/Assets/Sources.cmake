@@ -30,12 +30,6 @@ set(SOURCE_RENDERING
 
 source_group("Assets\\Rendering" FILES ${SOURCE_RENDERING})
 
-set(SOURCE_SCENES
-    "Scenes/Default.scene.yaml"
-    )
-
-source_group("Assets\\Scenes" FILES ${SOURCE_SCENES})
-
 set(SOURCE_SHADERS
     "Shaders/Additive.Fragment.glsl"
     "Shaders/Additive.shader.yaml"
@@ -71,7 +65,6 @@ set(SOURCE_FILES
     ${SOURCE_INTERFACE}
     ${SOURCE_MATERIALS}
     ${SOURCE_RENDERING}
-    ${SOURCE_SCENES}
     ${SOURCE_SHADERS}
     ${SOURCE_SHADERS_RENDERSTAGES}
     )

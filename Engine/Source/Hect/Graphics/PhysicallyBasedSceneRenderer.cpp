@@ -35,30 +35,16 @@
 
 using namespace hect;
 
-namespace
-{
-
-const Path CompositeShaderPath("Hect/Rendering/Composite.shader");
-const Path DefaultMaterialPath("Hect/Materials/Default.material");
-const Path DirectionalLightShaderPath("Hect/Rendering/DirectionalLight.shader");
-const Path EnvironmentShaderPath("Hect/Rendering/Environment.shader");
-const Path ExposeShaderPath("Hect/Rendering/Expose.shader");
-const Path SkyBoxMeshPath("Hect/Rendering/SkyBox.mesh");
-const Path SkyBoxShaderPath("Hect/Shaders/SkyBox.shader");
-
-}
-
 PhysicallyBasedSceneRenderer::PhysicallyBasedSceneRenderer(AssetCache& asset_cache, TaskPool& task_pool) :
-    _task_pool(task_pool)
+    _task_pool(task_pool),
+    _composite_shader(asset_cache, HECT_ASSET("Hect/Rendering/Composite.shader")),
+    _default_material(asset_cache, HECT_ASSET("Hect/Materials/Default.material")),
+    _directional_light_shader(asset_cache, HECT_ASSET("Hect/Rendering/DirectionalLight.shader")),
+    _environment_shader(asset_cache, HECT_ASSET("Hect/Rendering/Environment.shader")),
+    _expose_shader(asset_cache, HECT_ASSET("Hect/Rendering/Expose.shader")),
+    _sky_box_mesh(asset_cache, HECT_ASSET("Hect/Rendering/SkyBox.mesh")),
+    _sky_box_shader(asset_cache, HECT_ASSET("Hect/Shaders/SkyBox.shader"))
 {
-    _composite_shader = asset_cache.get_handle<Shader>(CompositeShaderPath);
-    _default_material = asset_cache.get_handle<Material>(DefaultMaterialPath);
-    _directional_light_shader = asset_cache.get_handle<Shader>(DirectionalLightShaderPath);
-    _environment_shader = asset_cache.get_handle<Shader>(EnvironmentShaderPath);
-    _expose_shader = asset_cache.get_handle<Shader>(ExposeShaderPath);
-    _sky_box_mesh = asset_cache.get_handle<Mesh>(SkyBoxMeshPath);
-    _sky_box_shader = asset_cache.get_handle<Shader>(SkyBoxShaderPath);
-
     _sky_box_material.reset(new Material("Skybox"));
     _sky_box_material->set_shader(_sky_box_shader);
     _sky_box_material->set_cull_mode(CullMode::None);

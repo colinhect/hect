@@ -30,8 +30,9 @@
 
 using namespace hect;
 
-DebugSystem::DebugSystem(Scene& scene, InterfaceSystem& interface_system) :
+DebugSystem::DebugSystem(Scene& scene, AssetCache& asset_cache, InterfaceSystem& interface_system) :
     System(scene),
+    lines_material(asset_cache, HECT_ASSET("Hect/Materials/DebugLines.material")),
     _interface_system(interface_system),
     _lines_mesh("DebugLines")
 {

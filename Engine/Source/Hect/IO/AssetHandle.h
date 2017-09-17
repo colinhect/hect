@@ -66,6 +66,13 @@ public:
     AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry);
 
     ///
+    /// Constructs an asset handle.
+    ///
+    /// \param asset_cache The asset cache.
+    /// \param path The path to the asset.
+    AssetHandle(AssetCache& asset_cache, const Path& path);
+
+    ///
     /// Returns the path to the asset.
     ///
     /// \note If the asset handle does not refer to an asset which was
