@@ -60,7 +60,7 @@ public:
 
     ///
     /// Returns the font of the label.
-    Font::Handle font() const;
+    AssetHandle<Font> font() const;
 
     ///
     /// Sets the font of the label.
@@ -70,7 +70,7 @@ public:
     ///
     /// \param font The font.
     /// \param size The font size.
-    void set_font(Font::Handle font, double size);
+    void set_font(AssetHandle<Font> font, double size);
 
     // Widget overrides
     void render(VectorRenderer::Frame& frame, Rectangle clipping) override;
@@ -84,7 +84,7 @@ private:
     double effective_font_size();
 
     std::string _text;
-    Font::Handle _font;
+    AssetHandle<Font> _font;
     double _font_size { 0.0 };
 };
 

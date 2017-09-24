@@ -85,7 +85,7 @@ public:
     /// Thee material used to render lines.
     ///
     /// \property
-    Material::Handle lines_material;
+    AssetHandle<Material> lines_material;
 
 private:
     Mesh& mesh_for_duration(double duration);

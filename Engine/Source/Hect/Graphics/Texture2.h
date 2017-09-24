@@ -58,7 +58,7 @@ public:
     ///
     /// \param name The name.
     /// \param image The source image.
-    Texture2(Name name, const Image::Handle& image);
+    Texture2(Name name, const AssetHandle<Image>& image);
 
     ///
     /// Returns the image of the texture.
@@ -74,7 +74,7 @@ public:
     ///
     /// \throws InvalidOperation If the image is not compatible with the
     /// texture.
-    void set_image(const Image::Handle& image);
+    void set_image(const AssetHandle<Image>& image);
 
     ///
     /// Invalidate the local image of the texture, forcing the image to be
@@ -191,7 +191,7 @@ public:
 private:
     void destroy_if_uploaded();
 
-    Image::Handle _image;
+    AssetHandle<Image> _image;
 
     unsigned _width { 0 };
     unsigned _height { 0 };

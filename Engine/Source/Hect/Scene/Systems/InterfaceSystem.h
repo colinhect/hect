@@ -78,7 +78,7 @@ public:
     /// The font used when none is specified.
     ///
     /// \property
-    Font::Handle default_font;
+    AssetHandle<Font> default_font;
 
     ///
     /// The font size used when none is specified.

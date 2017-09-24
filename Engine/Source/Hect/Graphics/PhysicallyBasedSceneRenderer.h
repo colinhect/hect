@@ -135,30 +135,30 @@ private:
 
     // The shader used to composite all components of the image into the final
     // image
-    Shader::Handle _composite_shader;
+    AssetHandle<Shader> _composite_shader;
 
     // The default material to fall-back on if no material is provided
-    Material::Handle _default_material;
+    AssetHandle<Material> _default_material;
 
     // The shader used to perform directional lighting on physically lit
     // objects
-    Shader::Handle _directional_light_shader;
+    AssetHandle<Shader> _directional_light_shader;
 
     // The shader used to perform environmental lighting on physically lit
     // objects
-    Shader::Handle _environment_shader;
+    AssetHandle<Shader> _environment_shader;
 
     // The shader used to expose the final image to the window
-    Shader::Handle _expose_shader;
+    AssetHandle<Shader> _expose_shader;
 
     // The material used to render sky boxes
-    Material::Handle _sky_box_material;
+    AssetHandle<Material> _sky_box_material;
 
     // The mesh used to render sky boxes
-    Mesh::Handle _sky_box_mesh;
+    AssetHandle<Mesh> _sky_box_mesh;
 
     // The shader used to render sky boxes
-    Shader::Handle _sky_box_shader;
+    AssetHandle<Shader> _sky_box_shader;
 
     std::unique_ptr<GeometryBuffer> _geometry_buffer;
 };

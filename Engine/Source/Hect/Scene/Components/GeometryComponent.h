@@ -47,19 +47,19 @@ public:
     ///
     /// \param mesh The mesh.
     /// \param material The material (optional).
-    GeometrySurface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
+    GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material = AssetHandle<Material>());
 
     ///
     /// The mesh.
     ///
     /// \property
-    Mesh::Handle mesh;
+    AssetHandle<Mesh> mesh;
 
     ///
     /// The material.
     ///
     /// \property
-    Material::Handle material;
+    AssetHandle<Material> material;
 
     ///
     /// Whether the surface is visible.
@@ -82,7 +82,7 @@ public:
     ///
     /// \param mesh The mesh.
     /// \param material The material (optional).
-    void add_surface(const Mesh::Handle& mesh, const Material::Handle& material = Material::Handle());
+    void add_surface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material = AssetHandle<Material>());
 
     ///
     /// Adds a mesh surface.

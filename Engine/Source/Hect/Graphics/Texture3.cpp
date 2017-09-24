@@ -45,7 +45,7 @@ Image& Texture3::image(unsigned depth)
     bool download_images = false;
     if (_images.empty())
     {
-        _images = std::vector<Image::Handle>(_depth);
+        _images = std::vector<AssetHandle<Image>>(_depth);
         download_images = is_uploaded();
     }
 
@@ -54,10 +54,10 @@ Image& Texture3::image(unsigned depth)
         throw InvalidOperation("Depth is greater than the depth of the texture");
     }
 
-    Image::Handle& image = _images[depth];
+    AssetHandle<Image>& image = _images[depth];
     if (!image)
     {
-        image = Image::Handle(new Image(_width, _height, _pixel_format));
+        image = AssetHandle<Image>(new Image(_width, _height, _pixel_format));
     }
 
     if (download_images)
@@ -68,7 +68,7 @@ Image& Texture3::image(unsigned depth)
     return *image;
 }
 
-void Texture3::set_image(unsigned depth, const Image::Handle& image)
+void Texture3::set_image(unsigned depth, const AssetHandle<Image>& image)
 {
     // If the texture is empty
     if (_width == 0 && _height == 0)
@@ -236,13 +236,13 @@ void Texture3::decode(Decoder& decoder)
     // Images
     if (decoder.select_member("images"))
     {
-        std::vector<Image::Handle> images;
+        std::vector<AssetHandle<Image>> images;
         decoder >> decode_vector(images);
 
         _depth = static_cast<unsigned>(images.size());
 
         unsigned depth = 0;
-        for (Image::Handle& image : images)
+        for (AssetHandle<Image>& image : images)
         {
             // Remove the image from the asset cache because we don't want to
             // store uncompressed image data in main memory

@@ -80,19 +80,19 @@ UniformValue::UniformValue(Color value) :
     set_value(value);
 }
 
-UniformValue::UniformValue(const Texture2::Handle& value) :
+UniformValue::UniformValue(const AssetHandle<Texture2>& value) :
     _type(UniformType::Texture2)
 {
     set_value(value);
 }
 
-UniformValue::UniformValue(const Texture3::Handle& value) :
+UniformValue::UniformValue(const AssetHandle<Texture3>& value) :
     _type(UniformType::Texture3)
 {
     set_value(value);
 }
 
-UniformValue::UniformValue(const TextureCube::Handle& value) :
+UniformValue::UniformValue(const AssetHandle<TextureCube>& value) :
     _type(UniformType::TextureCube)
 {
     set_value(value);
@@ -129,13 +129,13 @@ void UniformValue::set_default_value()
         _value = Color();
         break;
     case UniformType::Texture2:
-        _value = Texture2::Handle();
+        _value = AssetHandle<Texture2>();
         break;
     case UniformType::Texture3:
-        _value = Texture3::Handle();
+        _value = AssetHandle<Texture3>();
         break;
     case UniformType::TextureCube:
-        _value = TextureCube::Handle();
+        _value = AssetHandle<TextureCube>();
         break;
     }
 }
@@ -210,7 +210,7 @@ void UniformValue::set_value(Color value)
     _value = value;
 }
 
-void UniformValue::set_value(const Texture2::Handle& value)
+void UniformValue::set_value(const AssetHandle<Texture2>& value)
 {
     if (_type != UniformType::Texture2)
     {
@@ -220,7 +220,7 @@ void UniformValue::set_value(const Texture2::Handle& value)
     _value = value;
 }
 
-void UniformValue::set_value(const Texture3::Handle& value)
+void UniformValue::set_value(const AssetHandle<Texture3>& value)
 {
     if (_type != UniformType::Texture3)
     {
@@ -230,7 +230,7 @@ void UniformValue::set_value(const Texture3::Handle& value)
     _value = value;
 }
 
-void UniformValue::set_value(const TextureCube::Handle& value)
+void UniformValue::set_value(const AssetHandle<TextureCube>& value)
 {
     if (_type != UniformType::TextureCube)
     {
@@ -310,34 +310,34 @@ Color UniformValue::as_color() const
     return _value.as<Color>();
 }
 
-Texture2::Handle UniformValue::as_texture2() const
+AssetHandle<Texture2> UniformValue::as_texture2() const
 {
     if (_type != UniformType::Texture2)
     {
         throw InvalidOperation("Uniform value is not of type 'Texture2'");
     }
 
-    return _value.as<Texture2::Handle>();
+    return _value.as<AssetHandle<Texture2>>();
 }
 
-Texture3::Handle UniformValue::as_texture3() const
+AssetHandle<Texture3> UniformValue::as_texture3() const
 {
     if (_type != UniformType::Texture3)
     {
         throw InvalidOperation("Uniform value is not of type 'Texture3'");
     }
 
-    return _value.as<Texture3::Handle>();
+    return _value.as<AssetHandle<Texture3>>();
 }
 
-TextureCube::Handle UniformValue::as_texture_cube() const
+AssetHandle<TextureCube> UniformValue::as_texture_cube() const
 {
     if (_type != UniformType::TextureCube)
     {
         throw InvalidOperation("Uniform value is not of type 'TextureCube'");
     }
 
-    return _value.as<TextureCube::Handle>();
+    return _value.as<AssetHandle<TextureCube>>();
 }
 
 UniformValue::operator bool() const
@@ -488,21 +488,21 @@ void UniformValue::decode(Decoder& decoder)
         break;
         case UniformType::Texture2:
         {
-            Texture2::Handle texture;
+            AssetHandle<Texture2> texture;
             decoder >> decode_value(texture);
             set_value(texture);
         }
         break;
         case UniformType::Texture3:
         {
-            Texture3::Handle texture;
+            AssetHandle<Texture3> texture;
             decoder >> decode_value(texture);
             set_value(texture);
         }
         break;
         case UniformType::TextureCube:
         {
-            TextureCube::Handle texture;
+            AssetHandle<TextureCube> texture;
             decoder >> decode_value(texture);
             set_value(texture);
         }

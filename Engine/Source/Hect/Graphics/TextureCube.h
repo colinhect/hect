@@ -73,7 +73,7 @@ public:
     ///
     /// \throws InvalidOperation If the image is not compatible with the
     /// texture.
-    void set_image(CubeSide side, const Image::Handle& image);
+    void set_image(CubeSide side, const AssetHandle<Image>& image);
 
     ///
     /// Invalidate the local images of the texture, forcing the images to be
@@ -164,7 +164,7 @@ public:
 private:
     void destroy_if_uploaded();
 
-    std::array<Image::Handle, 6> _images;
+    std::array<AssetHandle<Image>, 6> _images;
 
     unsigned _width { 0 };
     unsigned _height { 0 };

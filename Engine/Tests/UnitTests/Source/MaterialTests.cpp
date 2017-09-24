@@ -29,7 +29,7 @@ using namespace hect;
 TEST_CASE("Get and set the shader of a material", "[Material]")
 {
     Shader shader;
-    Shader::Handle shader_handle = shader.create_handle();
+    AssetHandle<Shader> shader_handle = shader.create_handle();
 
     Material material;
     REQUIRE(!material.shader());
@@ -122,7 +122,7 @@ TEST_CASE("Set the shader of a material with uniform values", "[Material]")
 
     REQUIRE(!material.uniform_values().empty());
 
-    material.set_shader(Shader::Handle());
+    material.set_shader(AssetHandle<Shader>());
 
     REQUIRE(material.uniform_values().empty());
 }

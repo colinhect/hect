@@ -91,7 +91,7 @@ void Renderer::Frame::set_uniform(const Uniform& uniform, const UniformValue& va
         break;
     case UniformType::Texture2:
     {
-        Texture2::Handle texture = value.as_texture2();
+        AssetHandle<Texture2> texture = value.as_texture2();
         if (texture)
         {
             set_uniform(uniform, *texture);
@@ -100,7 +100,7 @@ void Renderer::Frame::set_uniform(const Uniform& uniform, const UniformValue& va
     break;
     case UniformType::Texture3:
     {
-        Texture3::Handle texture = value.as_texture3();
+        AssetHandle<Texture3> texture = value.as_texture3();
         if (texture)
         {
             set_uniform(uniform, *texture);
@@ -109,7 +109,7 @@ void Renderer::Frame::set_uniform(const Uniform& uniform, const UniformValue& va
     break;
     case UniformType::TextureCube:
     {
-        TextureCube::Handle texture = value.as_texture_cube();
+        AssetHandle<TextureCube> texture = value.as_texture_cube();
         if (texture)
         {
             set_uniform(uniform, *texture);

@@ -39,7 +39,7 @@ Texture2::Texture2(Name name, unsigned width, unsigned height) :
 {
 }
 
-Texture2::Texture2(Name name, const Image::Handle& image) :
+Texture2::Texture2(Name name, const AssetHandle<Image>& image) :
     Asset(name)
 {
     set_image(image);
@@ -49,7 +49,7 @@ Image& Texture2::image()
 {
     if (!_image)
     {
-        _image = Image::Handle(new Image(_width, _height, _pixel_format));
+        _image = AssetHandle<Image>(new Image(_width, _height, _pixel_format));
 
         if (is_uploaded())
         {
@@ -60,7 +60,7 @@ Image& Texture2::image()
     return *_image;
 }
 
-void Texture2::set_image(const Image::Handle& image)
+void Texture2::set_image(const AssetHandle<Image>& image)
 {
     destroy_if_uploaded();
 
@@ -87,7 +87,7 @@ void Texture2::invalidate_local_image()
         throw InvalidOperation("Texture is not uploaded");
     }
 
-    _image = Image::Handle();
+    _image = AssetHandle<Image>();
 }
 
 Color Texture2::read_pixel(unsigned x, unsigned y)
@@ -226,7 +226,7 @@ void Texture2::decode(Decoder& decoder)
     // Images
     if (decoder.select_member("image"))
     {
-        Image::Handle image;
+        AssetHandle<Image> image;
         decoder >> decode_value(image);
 
         // Remove the image from the asset cache because we don't want to

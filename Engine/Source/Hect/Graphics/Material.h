@@ -54,7 +54,7 @@ public:
 
     ///
     /// Returns the shader.
-    const Shader::Handle& shader() const;
+    const AssetHandle<Shader>& shader() const;
 
     ///
     /// Sets the shader.
@@ -63,7 +63,7 @@ public:
     /// changes.
     ///
     /// \param shader The shader.
-    void set_shader(const Shader::Handle& shader);
+    void set_shader(const AssetHandle<Shader>& shader);
 
     ///
     /// Returns the values for the shader's uniforms.
@@ -118,7 +118,7 @@ public:
     void decode(Decoder& decoder) override;
 
 private:
-    Shader::Handle _shader;
+    AssetHandle<Shader> _shader;
     UniformValueContainer _uniform_values;
     CullMode _cull_mode { CullMode::CounterClockwise };
 };

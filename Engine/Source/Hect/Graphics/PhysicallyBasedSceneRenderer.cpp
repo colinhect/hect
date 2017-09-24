@@ -57,7 +57,7 @@ void PhysicallyBasedSceneRenderer::enqueue_render_call(const TransformComponent&
 
 void PhysicallyBasedSceneRenderer::enqueue_render_call(const TransformComponent& transform, Mesh& mesh, Material& material)
 {
-    const Shader::Handle& shader = material.shader();
+    const AssetHandle<Shader>& shader = material.shader();
     if (shader)
     {
         switch (shader->render_stage())

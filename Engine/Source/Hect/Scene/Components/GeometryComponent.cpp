@@ -29,13 +29,13 @@ GeometrySurface::GeometrySurface()
 {
 }
 
-GeometrySurface::GeometrySurface(const Mesh::Handle& mesh, const Material::Handle& material) :
+GeometrySurface::GeometrySurface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material) :
     mesh(mesh),
     material(material)
 {
 }
 
-void GeometryComponent::add_surface(const Mesh::Handle& mesh, const Material::Handle& material)
+void GeometryComponent::add_surface(const AssetHandle<Mesh>& mesh, const AssetHandle<Material>& material)
 {
     surfaces.push_back(GeometrySurface(mesh, material));
 }

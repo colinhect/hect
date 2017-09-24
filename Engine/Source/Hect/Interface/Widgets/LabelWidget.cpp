@@ -43,12 +43,12 @@ void LabelWidget::set_text(const std::string& text)
     mark_layout_dirty();
 }
 
-Font::Handle LabelWidget::font() const
+AssetHandle<Font> LabelWidget::font() const
 {
     return _font;
 }
 
-void LabelWidget::set_font(Font::Handle font, double size)
+void LabelWidget::set_font(AssetHandle<Font> font, double size)
 {
     _font = font;
     _font_size = size;
@@ -87,7 +87,7 @@ void LabelWidget::update_layout()
 Font& LabelWidget::effective_font()
 {
     // If no font is set then defer to the interface system
-    Font::Handle font = _font;
+    AssetHandle<Font> font = _font;
     if (!font)
     {
         font = interface_system().default_font;

@@ -41,15 +41,15 @@ TextureCube::TextureCube(Name name, unsigned width, unsigned height) :
 
 Image& TextureCube::image(CubeSide side)
 {
-    Image::Handle& image = _images[static_cast<int>(side)];
+    AssetHandle<Image>& image = _images[static_cast<int>(side)];
     if (!image)
     {
-        image = Image::Handle(new Image(_width, _height, _pixel_format));
+        image = AssetHandle<Image>(new Image(_width, _height, _pixel_format));
     }
     return *image;
 }
 
-void TextureCube::set_image(CubeSide side, const Image::Handle& image)
+void TextureCube::set_image(CubeSide side, const AssetHandle<Image>& image)
 {
     destroy_if_uploaded();
 
@@ -76,9 +76,9 @@ void TextureCube::invalidate_local_images()
         throw InvalidOperation("Texture is not uploaded");
     }
 
-    for (Image::Handle& image : _images)
+    for (AssetHandle<Image>& image : _images)
     {
-        image = Image::Handle();
+        image = AssetHandle<Image>();
     }
 }
 
@@ -207,7 +207,7 @@ void TextureCube::decode(Decoder& decoder)
             >> decode_value("negative_z", _images[5])
             >> end_object();
 
-    for (Image::Handle& image : _images)
+    for (AssetHandle<Image>& image : _images)
     {
         // Remove the image from the asset cache because we don't want to
         // store uncompressed image data in main memory

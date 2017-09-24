@@ -107,19 +107,19 @@ public:
     /// Constructs a 2-dimensional texture uniform value.
     ///
     /// \param value The texture.
-    UniformValue(const Texture2::Handle& value);
+    UniformValue(const AssetHandle<Texture2>& value);
 
     ///
     /// Constructs a 3-dimensional texture uniform value.
     ///
     /// \param value The texture.
-    UniformValue(const Texture3::Handle& value);
+    UniformValue(const AssetHandle<Texture3>& value);
 
     ///
     /// Constructs a cubic texture uniform value.
     ///
     /// \param value The texture.
-    UniformValue(const TextureCube::Handle& value);
+    UniformValue(const AssetHandle<TextureCube>& value);
 
     ///
     /// Returns the type.
@@ -194,7 +194,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void set_value(const Texture2::Handle& value);
+    void set_value(const AssetHandle<Texture2>& value);
 
     ///
     /// Sets the value of the uniform value as a 3-dimensional texture.
@@ -202,7 +202,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void set_value(const Texture3::Handle& value);
+    void set_value(const AssetHandle<Texture3>& value);
 
     ///
     /// Sets the value of the uniform value as a cubic texture.
@@ -210,7 +210,7 @@ public:
     /// \param value The value.
     ///
     /// \throws InvalidOperation If the uniform value is not a texture.
-    void set_value(const TextureCube::Handle& value);
+    void set_value(const AssetHandle<TextureCube>& value);
 
     ///
     /// Returns the value as an integer.
@@ -242,15 +242,15 @@ public:
 
     ///
     /// Returns the value as a 2-dimensional texture.
-    Texture2::Handle as_texture2() const;
+    AssetHandle<Texture2> as_texture2() const;
 
     ///
     /// Returns the value as a 3-dimensional texture.
-    Texture3::Handle as_texture3() const;
+    AssetHandle<Texture3> as_texture3() const;
 
     ///
     /// Returns the value as a cubic texture.
-    TextureCube::Handle as_texture_cube() const;
+    AssetHandle<TextureCube> as_texture_cube() const;
 
     ///
     /// Returns whether the value is not null.

@@ -43,10 +43,6 @@ class Asset :
 public:
 
     ///
-    /// \copydoc hect::AssetHandle
-    typedef AssetHandle<T> Handle;
-
-    ///
     /// Constructs an asset.
     Asset();
 
