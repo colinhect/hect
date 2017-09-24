@@ -5,4 +5,4 @@ video_mode:
     bits_per_pixel: 32
     fullscreen: false
 asset_cache:
-    concurrent: true
+    concurrent: false
