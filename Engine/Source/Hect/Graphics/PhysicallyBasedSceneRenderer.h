@@ -121,7 +121,7 @@ private:
         std::vector<RenderCall> translucent_physical_geometry;
         std::vector<RenderCall> post_physical_geometry;
 
-        std::vector<DirectionalLightComponent::ConstIterator> directional_lights;
+        std::vector<const DirectionalLightComponent*> directional_lights;
 
         TransformComponent camera_transform;
         Vector3 primary_light_direction;

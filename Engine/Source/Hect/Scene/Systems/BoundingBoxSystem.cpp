@@ -41,7 +41,7 @@ BoundingBoxSystem::BoundingBoxSystem(Scene& scene, DebugSystem& debug_system) :
 
 void BoundingBoxSystem::update_bounding_box(BoundingBoxComponent& bounding_box)
 {
-    Entity::Handle root = bounding_box.entity().root();
+    EntityHandle root = bounding_box.entity().root();
     update_recursively(*root);
 }
 

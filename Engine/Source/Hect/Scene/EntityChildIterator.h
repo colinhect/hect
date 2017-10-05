@@ -63,8 +63,8 @@ private:
 ///
 /// An iterator referring to a child Entity at a specific index.
 ///
-/// \note The prefered alias for this type is Entity::Children::Iterator or
-/// Entity::Children::ConstIterator.
+/// \note The prefered alias for this type is EntityChildren::Iterator or
+/// EntityChildren::ConstIterator.
 ///
 /// An entity child iterator is only intended for iterating.  To maintain a
 /// reference to a child entity create a standard iterator using

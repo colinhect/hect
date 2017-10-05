@@ -56,19 +56,19 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    Entity::Iterator begin();
+    EntityIterator begin();
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    Entity::ConstIterator begin() const;
+    EntityConstIterator begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    Entity::Iterator end();
+    EntityIterator end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    Entity::ConstIterator end() const;
+    EntityConstIterator end() const;
 
     ///
     /// Returns a handle to the first Entity matching the given
@@ -79,7 +79,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle find_first(T&& predicate) const;
+    EntityHandle find_first(T&& predicate) const;
 
     ///
     /// Returns handles to all \link Entity Entities \endlink matching the
@@ -89,7 +89,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> find(T&& predicate) const;
+    std::vector<EntityHandle> find(T&& predicate) const;
 
     ///
     /// Returns a handle to the first Entity with the given name.
@@ -98,7 +98,7 @@ public:
     ///
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    Entity::Handle find_first_by_name(Name name) const;
+    EntityHandle find_first_by_name(Name name) const;
 
     ///
     /// Returns the Entity with the given id.

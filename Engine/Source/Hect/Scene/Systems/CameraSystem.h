@@ -42,7 +42,7 @@ public:
 
     ///
     /// Returns the active camera in the scene.
-    CameraComponent::Iterator active_camera();
+    CameraComponent* active_camera();
 
     ///
     /// Sets the active camera in the scene.
@@ -64,7 +64,7 @@ private:
     // System overrides
     void on_component_added(CameraComponent& camera) override;
 
-    Entity::Handle _active_camera_entity;
+    EntityHandle _active_camera_entity;
 };
 
 }

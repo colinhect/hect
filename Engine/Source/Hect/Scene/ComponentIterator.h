@@ -71,9 +71,6 @@ protected:
 /// An iterator referring to a Component in a ComponentPool with a specific
 /// id.
 ///
-/// \note The prefered alias for this type is Component::Iterator or
-/// Component::ConstIterator.
-///
 /// A component iterator will remain valid as components are added to and
 /// removed from the component pool.  However, if the referred component is
 /// removed, a newly added component may re-use the same id, leaving the

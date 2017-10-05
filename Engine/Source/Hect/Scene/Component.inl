@@ -76,33 +76,33 @@ const Entity& Component<T>::entity() const
 }
 
 template <typename T>
-typename Component<T>::Handle Component<T>::handle() const
+typename ComponentHandle<T> Component<T>::handle() const
 {
     if (!this->in_pool())
     {
-        return Component<T>::Handle();
+        return ComponentHandle<T>();
     }
 
     if (!_handle)
     {
-        _handle = Component<T>::Handle(*const_cast<T*>(reinterpret_cast<const T*>(this)));
+        _handle = ComponentHandle<T>(*const_cast<T*>(reinterpret_cast<const T*>(this)));
     }
 
     return _handle;
 }
 
 template <typename T>
-typename Component<T>::Iterator Component<T>::iterator()
+typename ComponentIterator<T> Component<T>::iterator()
 {
     this->ensure_in_pool();
-    return typename Component<T>::Iterator(*this->_pool, this->_id);
+    return typename ComponentIterator<T>(*this->_pool, this->_id);
 }
 
 template <typename T>
-typename Component<T>::ConstIterator Component<T>::iterator() const
+typename ComponentConstIterator<T> Component<T>::iterator() const
 {
     this->ensure_in_pool();
-    return typename Component<T>::ConstIterator(*this->_pool, this->_id);
+    return typename ComponentConstIterator<T>(*this->_pool, this->_id);
 }
 
 template <typename T>

@@ -54,7 +54,7 @@ void TransformSystem::update_transform(TransformComponent& transform)
     }
 
     Entity& entity = transform.entity();
-    Entity::Handle parent = entity.parent();
+    EntityHandle parent = entity.parent();
     if (parent)
     {
         // Update the transform hierarchy starting at this entity's parent

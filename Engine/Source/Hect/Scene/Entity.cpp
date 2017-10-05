@@ -52,29 +52,29 @@ const Scene& Entity::scene() const
     return _pool->_scene;
 }
 
-Entity::Handle Entity::handle() const
+EntityHandle Entity::handle() const
 {
     if (!in_pool())
     {
-        return Entity::Handle();
+        return EntityHandle();
     }
 
     if (!_handle)
     {
-        _handle = Entity::Handle(*const_cast<Entity*>(reinterpret_cast<const Entity*>(this)));
+        _handle = EntityHandle(*const_cast<Entity*>(reinterpret_cast<const Entity*>(this)));
     }
 
     return _handle;
 }
 
-Entity::Iterator Entity::iterator()
+EntityIterator Entity::iterator()
 {
-    return Entity::Iterator(*_pool, _id);
+    return EntityIterator(*_pool, _id);
 }
 
-Entity::ConstIterator Entity::iterator() const
+EntityConstIterator Entity::iterator() const
 {
-    return Entity::ConstIterator(*_pool, _id);
+    return EntityConstIterator(*_pool, _id);
 }
 
 Entity& Entity::clone() const
@@ -143,7 +143,7 @@ EntityId Entity::id() const
     return _id;
 }
 
-Entity::Handle Entity::parent() const
+EntityHandle Entity::parent() const
 {
     ensure_in_pool();
     if (_parent_id != EntityId(-1))
@@ -152,11 +152,11 @@ Entity::Handle Entity::parent() const
     }
     else
     {
-        return Entity::Handle();
+        return EntityHandle();
     }
 }
 
-Entity::Handle Entity::root() const
+EntityHandle Entity::root() const
 {
     ensure_in_pool();
 
@@ -223,12 +223,12 @@ void Entity::destroy_all_children()
     }
 }
 
-Entity::Children& Entity::children()
+EntityChildren& Entity::children()
 {
     return *reinterpret_cast<EntityChildren*>(this);
 }
 
-const Entity::Children& Entity::children() const
+const EntityChildren& Entity::children() const
 {
     return *reinterpret_cast<const EntityChildren*>(this);
 }
@@ -374,7 +374,7 @@ void Entity::decode(Decoder& decoder)
 
     // Use an iterator since the "this" pointer might be invalidated as new
     // entities are created
-    Entity::Iterator entity = iterator();
+    EntityIterator entity = iterator();
 
     if (!decoder.is_binary_stream())
     {

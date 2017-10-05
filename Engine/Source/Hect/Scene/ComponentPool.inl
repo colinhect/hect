@@ -31,9 +31,9 @@ ComponentPool<T>::ComponentPool(Scene& scene) :
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::begin()
+typename ComponentIterator<T> ComponentPool<T>::begin()
 {
-    typename Component<T>::Iterator iterator(*this, 0);
+    typename ComponentIterator<T> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -44,9 +44,9 @@ typename Component<T>::Iterator ComponentPool<T>::begin()
 }
 
 template <typename T>
-typename Component<T>::ConstIterator ComponentPool<T>::begin() const
+typename ComponentConstIterator<T> ComponentPool<T>::begin() const
 {
-    typename Component<T>::ConstIterator iterator(*this, 0);
+    typename ComponentConstIterator<T> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -57,20 +57,20 @@ typename Component<T>::ConstIterator ComponentPool<T>::begin() const
 }
 
 template <typename T>
-typename Component<T>::Iterator ComponentPool<T>::end()
+typename ComponentIterator<T> ComponentPool<T>::end()
 {
-    return typename Component<T>::Iterator(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return typename ComponentIterator<T>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
 template <typename T>
-typename Component<T>::ConstIterator ComponentPool<T>::end() const
+typename ComponentConstIterator<T> ComponentPool<T>::end() const
 {
-    return typename Component<T>::ConstIterator(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return typename ComponentConstIterator<T>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
 template <typename T>
 template <typename U>
-typename Component<T>::Handle ComponentPool<T>::find_first(U&& predicate) const
+typename ComponentHandle<T> ComponentPool<T>::find_first(U&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
@@ -79,14 +79,14 @@ typename Component<T>::Handle ComponentPool<T>::find_first(U&& predicate) const
             return iterator->handle();
         }
     }
-    return typename Component<T>::Handle();
+    return typename ComponentHandle<T>();
 }
 
 template <typename T>
 template <typename U>
-std::vector<typename Component<T>::Handle> ComponentPool<T>::find(U&& predicate) const
+std::vector<typename ComponentHandle<T>> ComponentPool<T>::find(U&& predicate) const
 {
-    std::vector<typename Component<T>::Handle> results;
+    std::vector<typename ComponentHandle<T>> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))

@@ -53,22 +53,6 @@ class HECT_EXPORT Entity :
 public:
 
     ///
-    /// \copydoc hect::EntityIterator
-    typedef EntityIterator Iterator;
-
-    ///
-    /// \copydoc hect::EntityConstIterator
-    typedef EntityConstIterator ConstIterator;
-
-    ///
-    /// \copydoc hect::EntityChildren
-    typedef EntityChildren Children;
-
-    ///
-    /// \copydoc hect::EntityHandle
-    typedef EntityHandle Handle;
-
-    ///
     /// Adds a new Component of a specific type to the Entity.
     ///
     /// \note If the entity is activated then this call will immediately
@@ -151,15 +135,15 @@ public:
 
     ///
     /// Returns a handle to the entity.
-    Entity::Handle handle() const;
+    EntityHandle handle() const;
 
     ///
     /// Returns an entity iterator for the entity.
-    Entity::Iterator iterator();
+    EntityIterator iterator();
 
     ///
     /// Returns a constant entity iterator for the entity.
-    Entity::ConstIterator iterator() const;
+    EntityConstIterator iterator() const;
 
     ///
     /// Clones the entity.
@@ -212,11 +196,11 @@ public:
     ///
     /// Returns a handle to the parent entity (invalid iterator if the
     /// entity does not have a parent).
-    Entity::Handle parent() const;
+    EntityHandle parent() const;
 
     ///
     /// Returns a handle to the root entity.
-    Entity::Handle root() const;
+    EntityHandle root() const;
 
     ///
     /// Adds an entity as a child of the entity.
@@ -243,11 +227,11 @@ public:
 
     ///
     /// Returns the children of the entity.
-    Entity::Children& children();
+    EntityChildren& children();
 
     ///
     /// Returns the children of the entity.
-    const Entity::Children& children() const;
+    const EntityChildren& children() const;
 
     ///
     /// Returns whether the entity has any children.
@@ -264,7 +248,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle find_first_child(T&& predicate) const;
+    EntityHandle find_first_child(T&& predicate) const;
 
     ///
     /// Returns a handle to the first descendant entity matching the given
@@ -277,7 +261,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle find_first_descendant(T&& predicate) const;
+    EntityHandle find_first_descendant(T&& predicate) const;
 
     ///
     /// Returns a handle to the first ancestor entity matching the given
@@ -290,7 +274,7 @@ public:
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
     template <typename T>
-    Entity::Handle find_first_ancestor(T&& predicate) const;
+    EntityHandle find_first_ancestor(T&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -301,7 +285,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> find_children(T&& predicate) const;
+    std::vector<EntityHandle> find_children(T&& predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -313,7 +297,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> find_descendants(T&& predicate) const;
+    std::vector<EntityHandle> find_descendants(T&& predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -325,7 +309,7 @@ public:
     ///
     /// \returns A vector of handles to the matching entities.
     template <typename T>
-    std::vector<Entity::Handle> find_ancestors(T&& predicate) const;
+    std::vector<EntityHandle> find_ancestors(T&& predicate) const;
 
     ///
     /// Iterates over all child entities.

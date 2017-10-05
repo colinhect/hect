@@ -52,9 +52,9 @@ AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
 }
 
 template<typename T>
-AssetHandle<T>::AssetHandle(AssetCache& asset_cache, const Path& path)
+AssetHandle<T>::AssetHandle(AssetCache& asset_cache, const Path& asset_path)
 {
-    *this = asset_cache.get_handle<T>(path);
+    *this = asset_cache.get_handle<T>(asset_path);
 }
 
 template <typename T>

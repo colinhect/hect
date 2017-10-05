@@ -221,7 +221,7 @@ void Material::decode(Decoder& decoder)
 
                     value.decode(decoder);
 
-                    decoder>> end_object();
+                    decoder >> end_object();
 
                     const Uniform& uniform = _shader->uniform(index);
                     name = uniform.name();

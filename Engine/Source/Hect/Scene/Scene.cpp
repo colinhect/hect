@@ -418,7 +418,7 @@ void Scene::destroy_entity(Entity& entity)
     }
 
     // If the entity had a parent then remove itself as a child
-    Entity::Handle parent = entity.parent();
+    EntityHandle parent = entity.parent();
     if (parent)
     {
         parent->remove_child(entity);

@@ -104,7 +104,7 @@ void PhysicallyBasedSceneRenderer::render_to_texture_cube(Scene& scene, CameraSy
     camera.exposure = -1.0;
     camera.field_of_view = Degrees(180.0);
 
-    CameraComponent::Iterator active_camera = camera_system.active_camera();
+    const CameraComponent* active_camera = camera_system.active_camera();
     if (active_camera)
     {
         camera.near_clip = active_camera->near_clip;
@@ -135,7 +135,7 @@ void PhysicallyBasedSceneRenderer::render_to_texture_cube(Scene& scene, CameraSy
 
 void PhysicallyBasedSceneRenderer::render(Scene& scene, CameraSystem& camera_system, Renderer& renderer, RenderTarget& target)
 {
-    CameraComponent::Iterator camera = camera_system.active_camera();
+    CameraComponent* camera = camera_system.active_camera();
     if (camera)
     {
         if (!_geometry_buffer)
@@ -173,14 +173,14 @@ void PhysicallyBasedSceneRenderer::prepare_frame(Scene& scene, CameraSystem& cam
     }
 
     // Get the cube map of the active light probe
-    LightProbeComponent::Iterator light_probe = scene.components<LightProbeComponent>().begin();
+    auto light_probe = scene.components<LightProbeComponent>().begin();
     if (light_probe && light_probe->texture)
     {
         _frame_data.light_probe_texture = &*light_probe->texture;
     }
 
     // Get the cube map of the active sky box
-    SkyBoxComponent::Iterator sky_box = scene.components<SkyBoxComponent>().begin();
+    auto sky_box = scene.components<SkyBoxComponent>().begin();
     if (sky_box && sky_box->texture)
     {
         _frame_data.sky_box_texture = &*sky_box->texture;
@@ -198,7 +198,7 @@ void PhysicallyBasedSceneRenderer::prepare_frame(Scene& scene, CameraSystem& cam
     // Add each directional light to the frame data
     for (const DirectionalLightComponent& light : scene.components<DirectionalLightComponent>())
     {
-        _frame_data.directional_lights.push_back(light.iterator());
+        _frame_data.directional_lights.push_back(&light);
     }
 
     std::vector<Task::Handle> sorting_tasks;
@@ -270,7 +270,7 @@ void PhysicallyBasedSceneRenderer::render_frame(CameraComponent& camera, Rendere
         if (!_frame_data.directional_lights.empty())
         {
             frame.set_shader(*_directional_light_shader);
-            for (DirectionalLightComponent::ConstIterator light : _frame_data.directional_lights)
+            for (const DirectionalLightComponent* light : _frame_data.directional_lights)
             {
                 _frame_data.primary_light_direction = light->direction;
                 _frame_data.primary_light_color = light->color;

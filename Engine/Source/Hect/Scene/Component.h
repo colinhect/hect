@@ -55,28 +55,12 @@ class Entity;
 
 ///
 /// A component of data for an Entity.
-///
-/// \warning Raw references and pointers to a component may be invalidated as
-/// new components are added to and removed from the entity pool.  To maintain
-/// a valid reference to an component, use Component::Iterator.
 template <typename T>
 class Component :
     public ComponentBase
 {
     friend class ComponentPool<T>;
 public:
-
-    ///
-    /// \copydoc hect::ComponentHandle
-    typedef ComponentHandle<T> Handle;
-
-    ///
-    /// \copydoc hect::ComponentIterator
-    typedef ComponentIterator<T> Iterator;
-
-    ///
-    /// \copydoc hect::ComponentConstIterator
-    typedef ComponentConstIterator<T> ConstIterator;
 
     ///
     /// Constructs a default component.
@@ -119,15 +103,15 @@ public:
 
     ///
     /// Returns a handle to the component.
-    typename Component<T>::Handle handle() const;
+    typename ComponentHandle<T> handle() const;
 
     ///
     /// Creates a component iterator for the component.
-    typename Component<T>::Iterator iterator();
+    typename ComponentIterator<T> iterator();
 
     ///
     /// \copydoc hect::Component::iterator()
-    typename Component<T>::ConstIterator iterator() const;
+    typename ComponentConstIterator<T> iterator() const;
 
     ///
     /// Returns the id of the component.

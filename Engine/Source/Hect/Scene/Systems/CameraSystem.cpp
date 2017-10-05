@@ -33,13 +33,13 @@ CameraSystem::CameraSystem(Scene& scene) :
 {
 }
 
-CameraComponent::Iterator CameraSystem::active_camera()
+CameraComponent* CameraSystem::active_camera()
 {
-    CameraComponent::Iterator camera;
+    CameraComponent* camera = nullptr;
 
     if (_active_camera_entity && _active_camera_entity->has_component<CameraComponent>())
     {
-        camera = _active_camera_entity->component<CameraComponent>().iterator();
+        camera = &_active_camera_entity->component<CameraComponent>();
     }
 
     return camera;

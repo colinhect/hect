@@ -69,8 +69,8 @@ public:
     /// Constructs an asset handle.
     ///
     /// \param asset_cache The asset cache.
-    /// \param path The path to the asset.
-    AssetHandle(AssetCache& asset_cache, const Path& path);
+    /// \param asset_path The path to the asset.
+    AssetHandle(AssetCache& asset_cache, const Path& asset_path);
 
     ///
     /// Returns the path to the asset.

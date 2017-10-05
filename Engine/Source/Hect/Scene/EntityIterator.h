@@ -72,14 +72,14 @@ private:
 ///
 /// An iterator referring to a Entity in an EntityPool with a specific id.
 ///
-/// \note The prefered alias for this type is Entity::Iterator or
-/// Entity::ConstIterator.
+/// \note The prefered alias for this type is EntityIterator or
+/// EntityConstIterator.
 ///
 /// An entity iterator will remain valid as entities are created and destroyed
 /// in the entity pool.  However, if the referred enitity is destroy, a newly
 /// added entity may re-use the same id, leaving the iterator valid but
 /// referring to a new entity.  To hold a reference to an entity that is
-/// guaranteed to refer to the same entity, use an Entity::Handle.  An iterator
+/// guaranteed to refer to the same entity, use an EntityHandle.  An iterator
 /// can be created from an entity using Entity::iterator().
 class HECT_EXPORT EntityIterator :
     public EntityIteratorBase

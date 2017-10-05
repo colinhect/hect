@@ -27,11 +27,13 @@
 #include <memory>
 
 #include "Hect/Core/Export.h"
+#include "Hect/IO/Path.h"
 
 namespace hect
 {
 
 class Entity;
+class Scene;
 
 ///
 /// A weak reference to an Entity.
@@ -43,6 +45,10 @@ public:
     ///
     /// Constructs an invalid handle.
     EntityHandle();
+
+    ///
+    /// Constructs a handle to an entity loaded to a scene.
+    EntityHandle(Scene& scene, const Path& entity_path);
 
     ///
     /// Dereferences the handle to a reference to the entity.

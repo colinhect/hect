@@ -24,11 +24,17 @@
 #include "EntityHandle.h"
 
 #include "Hect/Scene/EntityPool.h"
+#include "Hect/Scene/Scene.h"
 
 using namespace hect;
 
 EntityHandle::EntityHandle()
 {
+}
+
+EntityHandle::EntityHandle(Scene& scene, const Path& entity_path)
+{
+    *this = scene.load_entity(entity_path).handle();
 }
 
 Entity& EntityHandle::operator*()

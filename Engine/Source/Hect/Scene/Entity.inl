@@ -73,7 +73,7 @@ const T& Entity::component() const
 }
 
 template <typename T>
-Entity::Handle Entity::find_first_child(T&& predicate) const
+EntityHandle Entity::find_first_child(T&& predicate) const
 {
     if (has_children())
     {
@@ -86,11 +86,11 @@ Entity::Handle Entity::find_first_child(T&& predicate) const
         }
     }
 
-    return Entity::Handle();
+    return EntityHandle();
 }
 
 template <typename T>
-Entity::Handle Entity::find_first_descendant(T&& predicate) const
+EntityHandle Entity::find_first_descendant(T&& predicate) const
 {
     if (has_children())
     {
@@ -102,7 +102,7 @@ Entity::Handle Entity::find_first_descendant(T&& predicate) const
             }
             else if (child.has_children())
             {
-                Entity::Handle next_generation = child.find_first_descendant(predicate);
+                EntityHandle next_generation = child.find_first_descendant(predicate);
                 if (next_generation)
                 {
                     return next_generation;
@@ -111,13 +111,13 @@ Entity::Handle Entity::find_first_descendant(T&& predicate) const
         }
     }
 
-    return Entity::Handle();
+    return EntityHandle();
 }
 
 template <typename T>
-Entity::Handle Entity::find_first_ancestor(T&& predicate) const
+EntityHandle Entity::find_first_ancestor(T&& predicate) const
 {
-    Entity::Handle handle = parent();
+    EntityHandle handle = parent();
     if (handle)
     {
         if (predicate(*handle))
@@ -130,13 +130,13 @@ Entity::Handle Entity::find_first_ancestor(T&& predicate) const
         }
     }
 
-    return Entity::Handle();
+    return EntityHandle();
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::find_children(T&& predicate) const
+std::vector<EntityHandle> Entity::find_children(T&& predicate) const
 {
-    std::vector<Entity::Handle> results;
+    std::vector<EntityHandle> results;
 
     if (has_children())
     {
@@ -153,9 +153,9 @@ std::vector<Entity::Handle> Entity::find_children(T&& predicate) const
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::find_descendants(T&& predicate) const
+std::vector<EntityHandle> Entity::find_descendants(T&& predicate) const
 {
-    std::vector<Entity::Handle> results;
+    std::vector<EntityHandle> results;
 
     if (has_children())
     {
@@ -172,11 +172,11 @@ std::vector<Entity::Handle> Entity::find_descendants(T&& predicate) const
 }
 
 template <typename T>
-std::vector<Entity::Handle> Entity::find_ancestors(T&& predicate) const
+std::vector<EntityHandle> Entity::find_ancestors(T&& predicate) const
 {
-    std::vector<Entity::Handle> results;
+    std::vector<EntityHandle> results;
 
-    Entity::Handle handle = parent();
+    EntityHandle handle = parent();
     while (handle)
     {
         if (predicate(*handle))
@@ -251,7 +251,7 @@ void Entity::for_descendants(T&& action) const
 template <typename T>
 void Entity::for_ancestors(T&& action)
 {
-    Entity::Handle handle = parent();
+    EntityHandle handle = parent();
     while (handle)
     {
         action(*handle);
@@ -262,7 +262,7 @@ void Entity::for_ancestors(T&& action)
 template <typename T>
 void Entity::for_ancestors(T&& action) const
 {
-    Entity::Handle handle = parent();
+    EntityHandle handle = parent();
     while (handle)
     {
         action(*handle);

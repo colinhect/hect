@@ -33,9 +33,9 @@ EntityPool::EntityPool(Scene& scene) :
     allocate_chunk();
 }
 
-Entity::Iterator EntityPool::begin()
+EntityIterator EntityPool::begin()
 {
-    Entity::Iterator iterator(*this, 0);
+    EntityIterator iterator(*this, 0);
 
     // Move to the first activated entity
     if (!iterator || !iterator->is_activated())
@@ -45,9 +45,9 @@ Entity::Iterator EntityPool::begin()
     return iterator;
 }
 
-Entity::ConstIterator EntityPool::begin() const
+EntityConstIterator EntityPool::begin() const
 {
-    Entity::ConstIterator iterator(*this, 0);
+    EntityConstIterator iterator(*this, 0);
 
     // Move to the first activated entity
     if (!iterator || !iterator->is_activated())
@@ -57,17 +57,17 @@ Entity::ConstIterator EntityPool::begin() const
     return iterator;
 }
 
-Entity::Iterator EntityPool::end()
+EntityIterator EntityPool::end()
 {
-    return Entity::Iterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
+    return EntityIterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
 }
 
-Entity::ConstIterator EntityPool::end() const
+EntityConstIterator EntityPool::end() const
 {
-    return Entity::ConstIterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
+    return EntityConstIterator(*this, std::max(max_id(), static_cast<EntityId>(1)));
 }
 
-Entity::Handle EntityPool::find_first_by_name(Name name) const
+EntityHandle EntityPool::find_first_by_name(Name name) const
 {
     return find_first([name](const Entity& entity) { return entity.name() == name; });
 }
