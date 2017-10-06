@@ -30,12 +30,12 @@
 namespace hect
 {
 
-template <typename T>
+template <typename Type>
 class EventListener;
 
 ///
 /// Notifies registered EventListener%s of specific events.
-template <typename T>
+template <typename Type>
 class EventDispatcher
 {
 public:
@@ -51,7 +51,7 @@ public:
     ///
     /// \throws InvalidOperation If the listener is already registered to the
     /// dispatcher.
-    void register_listener(EventListener<T>& listener);
+    void register_listener(EventListener<Type>& listener);
 
     ///
     /// Un-registers a EventListener from receiving events from the dispatcher.
@@ -60,16 +60,16 @@ public:
     ///
     /// \throws InvalidOperation If the listener is not registered to the
     /// dispatcher.
-    void unregister_listener(EventListener<T>& listener);
+    void unregister_listener(EventListener<Type>& listener);
 
     ///
     /// Dispatches an event to all registered EventListener%s.
     ///
     /// \param event The event.
-    void dispatch_event(const T& event);
+    void dispatch_event(const Type& event);
 
 private:
-    std::vector<EventListener<T>*> _listeners;
+    std::vector<EventListener<Type>*> _listeners;
 };
 
 }

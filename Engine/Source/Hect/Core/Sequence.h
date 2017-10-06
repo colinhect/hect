@@ -33,7 +33,7 @@ namespace hect
 ///
 /// A wrapper around an STL container providing iteration access without
 /// providing the ability to modify the container itself.
-template <typename T, typename Container>
+template <typename Type, typename Container>
 class Sequence :
     public Uncopyable
 {
@@ -75,13 +75,13 @@ public:
     /// Returns the item in the sequence at the given index.
     ///
     /// \param index The index of which item to access.
-    T& operator[](size_t index);
+    Type& operator[](size_t index);
 
     ///
     /// Returns the item in the sequence at the given index.
     ///
     /// \param index The index of which item to access.
-    const T& operator[](size_t index) const;
+    const Type& operator[](size_t index) const;
 
 private:
     Container& _container;

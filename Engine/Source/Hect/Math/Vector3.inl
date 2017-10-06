@@ -28,199 +28,199 @@
 namespace hect
 {
 
-template <typename T>
-const Vector3T<T> Vector3T<T>::Zero = Vector3T<T>(0);
+template <typename Type>
+const Vector3T<Type> Vector3T<Type>::Zero = Vector3T<Type>(0);
 
-template <typename T>
-const Vector3T<T> Vector3T<T>::One = Vector3T<T>(1);
+template <typename Type>
+const Vector3T<Type> Vector3T<Type>::One = Vector3T<Type>(1);
 
-template <typename T>
-const Vector3T<T> Vector3T<T>::UnitX = Vector3T<T>(1, 0, 0);
+template <typename Type>
+const Vector3T<Type> Vector3T<Type>::UnitX = Vector3T<Type>(1, 0, 0);
 
-template <typename T>
-const Vector3T<T> Vector3T<T>::UnitY = Vector3T<T>(0, 1, 0);
+template <typename Type>
+const Vector3T<Type> Vector3T<Type>::UnitY = Vector3T<Type>(0, 1, 0);
 
-template <typename T>
-const Vector3T<T> Vector3T<T>::UnitZ = Vector3T<T>(0, 0, 1);
+template <typename Type>
+const Vector3T<Type> Vector3T<Type>::UnitZ = Vector3T<Type>(0, 0, 1);
 
-template <typename T>
-Vector3T<T>::Vector3T()
+template <typename Type>
+Vector3T<Type>::Vector3T()
 {
 }
 
-template <typename T>
-Vector3T<T>::Vector3T(T value) :
+template <typename Type>
+Vector3T<Type>::Vector3T(Type value) :
     x(value),
     y(value),
     z(value)
 {
 }
 
-template <typename T>
-Vector3T<T>::Vector3T(T x, T y, T z) :
+template <typename Type>
+Vector3T<Type>::Vector3T(Type x, Type y, Type z) :
     x(x),
     y(y),
     z(z)
 {
 }
 
-template <typename T>
-Vector3T<T>::Vector3T(Vector2T<T> v) :
+template <typename Type>
+Vector3T<Type>::Vector3T(Vector2T<Type> v) :
     x(v.x),
     y(v.y)
 {
 }
 
-template <typename T>
-void Vector3T<T>::normalize()
+template <typename Type>
+void Vector3T<Type>::normalize()
 {
-    T inv = T(1) / length();
+    Type inv = Type(1) / length();
     *this *= inv;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::normalized() const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::normalized() const
 {
     Vector3T v(*this);
     v.normalize();
     return v;
 }
 
-template <typename T>
-T Vector3T<T>::dot(Vector3T v) const
+template <typename Type>
+Type Vector3T<Type>::dot(Vector3T v) const
 {
     return x * v.x + y * v.y + z * v.z;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::cross(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::cross(Vector3T v) const
 {
     return Vector3T(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 
-template <typename T>
-Radians Vector3T<T>::angle_from(Vector3T v) const
+template <typename Type>
+Radians Vector3T<Type>::angle_from(Vector3T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
 }
 
-template <typename T>
-T Vector3T<T>::length() const
+template <typename Type>
+Type Vector3T<Type>::length() const
 {
-    return static_cast<T>(std::sqrt(length_squared()));
+    return static_cast<Type>(std::sqrt(length_squared()));
 }
 
-template <typename T>
-T Vector3T<T>::length_squared() const
+template <typename Type>
+Type Vector3T<Type>::length_squared() const
 {
     return dot(*this);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::floor() const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::floor() const
 {
-    Vector3T<T> v;
-    v.x = static_cast<T>(std::floor(x));
-    v.y = static_cast<T>(std::floor(y));
-    v.z = static_cast<T>(std::floor(z));
+    Vector3T<Type> v;
+    v.x = static_cast<Type>(std::floor(x));
+    v.y = static_cast<Type>(std::floor(y));
+    v.z = static_cast<Type>(std::floor(z));
     return v;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::ceil() const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::ceil() const
 {
-    Vector3T<T> v;
-    v.x = static_cast<T>(std::ceil(x));
-    v.y = static_cast<T>(std::ceil(y));
-    v.z = static_cast<T>(std::ceil(z));
+    Vector3T<Type> v;
+    v.x = static_cast<Type>(std::ceil(x));
+    v.y = static_cast<Type>(std::ceil(y));
+    v.z = static_cast<Type>(std::ceil(z));
     return v;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::min(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::min(Vector3T v) const
 {
-    Vector3T<T> m;
-    m.x = static_cast<T>(std::min(v.x, x));
-    m.y = static_cast<T>(std::min(v.y, y));
-    m.z = static_cast<T>(std::min(v.z, z));
+    Vector3T<Type> m;
+    m.x = static_cast<Type>(std::min(v.x, x));
+    m.y = static_cast<Type>(std::min(v.y, y));
+    m.z = static_cast<Type>(std::min(v.z, z));
     return m;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::max(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::max(Vector3T v) const
 {
-    Vector3T<T> m;
-    m.x = static_cast<T>(std::max(v.x, x));
-    m.y = static_cast<T>(std::max(v.y, y));
-    m.z = static_cast<T>(std::max(v.z, z));
+    Vector3T<Type> m;
+    m.x = static_cast<Type>(std::max(v.x, x));
+    m.y = static_cast<Type>(std::max(v.y, y));
+    m.z = static_cast<Type>(std::max(v.z, z));
     return m;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::abs() const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::abs() const
 {
-    Vector3T<T> v;
-    v.x = static_cast<T>(std::abs(x));
-    v.y = static_cast<T>(std::abs(y));
-    v.z = static_cast<T>(std::abs(z));
+    Vector3T<Type> v;
+    v.x = static_cast<Type>(std::abs(x));
+    v.y = static_cast<Type>(std::abs(y));
+    v.z = static_cast<Type>(std::abs(z));
     return v;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::step(Vector3T edge) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::step(Vector3T edge) const
 {
-    Vector3T<T> v;
+    Vector3T<Type> v;
     v.x = x < edge.x ? 0 : 1;
     v.y = y < edge.y ? 0 : 1;
     v.z = z < edge.z ? 0 : 1;
     return v;
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator+(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator+(Vector3T v) const
 {
     return Vector3T(x + v.x, y + v.y, z + v.z);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator-(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator-(Vector3T v) const
 {
     return Vector3T(x - v.x, y - v.y, z - v.z);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator*(T value) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator*(Type value) const
 {
     return Vector3T(x * value, y * value, z * value);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator*(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator*(Vector3T v) const
 {
     return Vector3T(x * v.x, y * v.y, z * v.z);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator/(T value) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator/(Type value) const
 {
     return Vector3T(x / value, y / value, z / value);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator/(Vector3T v) const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator/(Vector3T v) const
 {
     return Vector3T(x / v.x, y / v.y, z / v.z);
 }
 
-template <typename T>
-Vector3T<T> Vector3T<T>::operator-() const
+template <typename Type>
+Vector3T<Type> Vector3T<Type>::operator-() const
 {
     return Vector3T(-x, -y, -z);
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator+=(Vector3T v)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator+=(Vector3T v)
 {
     x += v.x;
     y += v.y;
@@ -228,8 +228,8 @@ Vector3T<T>& Vector3T<T>::operator+=(Vector3T v)
     return *this;
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator-=(Vector3T v)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator-=(Vector3T v)
 {
     x -= v.x;
     y -= v.y;
@@ -237,8 +237,8 @@ Vector3T<T>& Vector3T<T>::operator-=(Vector3T v)
     return *this;
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator*=(T value)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator*=(Type value)
 {
     x *= value;
     y *= value;
@@ -246,8 +246,8 @@ Vector3T<T>& Vector3T<T>::operator*=(T value)
     return *this;
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator*=(Vector3T v)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator*=(Vector3T v)
 {
     x *= v.x;
     y *= v.y;
@@ -255,8 +255,8 @@ Vector3T<T>& Vector3T<T>::operator*=(Vector3T v)
     return *this;
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator/=(T value)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator/=(Type value)
 {
     x /= value;
     y /= value;
@@ -264,8 +264,8 @@ Vector3T<T>& Vector3T<T>::operator/=(T value)
     return *this;
 }
 
-template <typename T>
-Vector3T<T>& Vector3T<T>::operator/=(Vector3T v)
+template <typename Type>
+Vector3T<Type>& Vector3T<Type>::operator/=(Vector3T v)
 {
     x /= v.x;
     y /= v.y;
@@ -273,54 +273,54 @@ Vector3T<T>& Vector3T<T>::operator/=(Vector3T v)
     return *this;
 }
 
-template <typename T>
-T& Vector3T<T>::operator[](size_t i)
+template <typename Type>
+Type& Vector3T<Type>::operator[](size_t i)
 {
     assert(i < 3);
-    return reinterpret_cast<T*>(this)[i];
+    return reinterpret_cast<Type*>(this)[i];
 }
 
-template <typename T>
-const T& Vector3T<T>::operator[](size_t i) const
+template <typename Type>
+const Type& Vector3T<Type>::operator[](size_t i) const
 {
     assert(i < 3);
-    return reinterpret_cast<const T*>(this)[i];
+    return reinterpret_cast<const Type*>(this)[i];
 }
 
-template <typename T>
-bool Vector3T<T>::operator<(Vector3T v) const
+template <typename Type>
+bool Vector3T<Type>::operator<(Vector3T v) const
 {
     return x < v.x && y < v.y && z < v.z;
 }
 
-template <typename T>
-bool Vector3T<T>::operator==(Vector3T v) const
+template <typename Type>
+bool Vector3T<Type>::operator==(Vector3T v) const
 {
     return x == v.x && y == v.y && z == v.z;
 }
 
-template <typename T>
-bool Vector3T<T>::operator!=(Vector3T v) const
+template <typename Type>
+bool Vector3T<Type>::operator!=(Vector3T v) const
 {
     return !(*this == v);
 }
 
-template <typename T>
+template <typename Type>
 template <typename U>
-Vector3T<T>::operator Vector3T<U>() const
+Vector3T<Type>::operator Vector3T<U>() const
 {
     return Vector3T<U>(static_cast<U>(x), static_cast<U>(y), static_cast<U>(z));
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, Vector3T<T> v)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, Vector3T<Type> v)
 {
     encoder << begin_array() << v.x << v.y << v.z << end_array();
     return encoder;
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Vector3T<T>& v)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Vector3T<Type>& v)
 {
     decoder >> begin_array() >> v.x >> v.y >> v.z >> end_array();
     return decoder;

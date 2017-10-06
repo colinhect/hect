@@ -28,269 +28,269 @@
 namespace hect
 {
 
-template <typename T>
-const Vector2T<T> Vector2T<T>::Zero = Vector2T<T>(0);
+template <typename Type>
+const Vector2T<Type> Vector2T<Type>::Zero = Vector2T<Type>(0);
 
-template <typename T>
-const Vector2T<T> Vector2T<T>::One = Vector2T<T>(1);
+template <typename Type>
+const Vector2T<Type> Vector2T<Type>::One = Vector2T<Type>(1);
 
-template <typename T>
-const Vector2T<T> Vector2T<T>::UnitX = Vector2T<T>(1, 0);
+template <typename Type>
+const Vector2T<Type> Vector2T<Type>::UnitX = Vector2T<Type>(1, 0);
 
-template <typename T>
-const Vector2T<T> Vector2T<T>::UnitY = Vector2T<T>(0, 1);
+template <typename Type>
+const Vector2T<Type> Vector2T<Type>::UnitY = Vector2T<Type>(0, 1);
 
-template <typename T>
-Vector2T<T>::Vector2T()
+template <typename Type>
+Vector2T<Type>::Vector2T()
 {
 }
 
-template <typename T>
-Vector2T<T>::Vector2T(T value) :
+template <typename Type>
+Vector2T<Type>::Vector2T(Type value) :
     x(value),
     y(value)
 {
 }
 
-template <typename T>
-Vector2T<T>::Vector2T(T x, T y) :
+template <typename Type>
+Vector2T<Type>::Vector2T(Type x, Type y) :
     x(x),
     y(y)
 {
 }
 
-template <typename T>
-void Vector2T<T>::normalize()
+template <typename Type>
+void Vector2T<Type>::normalize()
 {
-    T inv = T(1) / length();
+    Type inv = Type(1) / length();
     *this *= inv;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::normalized() const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::normalized() const
 {
     Vector2T v(*this);
     v.normalize();
     return v;
 }
 
-template <typename T>
-T Vector2T<T>::dot(Vector2T v) const
+template <typename Type>
+Type Vector2T<Type>::dot(Vector2T v) const
 {
     return x * v.x + y * v.y;
 }
 
-template <typename T>
-Radians Vector2T<T>::angle_from(Vector2T v) const
+template <typename Type>
+Radians Vector2T<Type>::angle_from(Vector2T v) const
 {
     double radians = static_cast<double>(std::acos(dot(v)));
     return Radians(radians);
 }
 
-template <typename T>
-T Vector2T<T>::length() const
+template <typename Type>
+Type Vector2T<Type>::length() const
 {
-    return static_cast<T>(std::sqrt(length_squared()));
+    return static_cast<Type>(std::sqrt(length_squared()));
 }
 
-template <typename T>
-T Vector2T<T>::length_squared() const
+template <typename Type>
+Type Vector2T<Type>::length_squared() const
 {
     return dot(*this);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::floor() const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::floor() const
 {
-    Vector2T<T> v;
-    v.x = static_cast<T>(std::floor(x));
-    v.y = static_cast<T>(std::floor(y));
+    Vector2T<Type> v;
+    v.x = static_cast<Type>(std::floor(x));
+    v.y = static_cast<Type>(std::floor(y));
     return v;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::ceil() const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::ceil() const
 {
-    Vector2T<T> v;
-    v.x = static_cast<T>(std::ceil(x));
-    v.y = static_cast<T>(std::ceil(y));
+    Vector2T<Type> v;
+    v.x = static_cast<Type>(std::ceil(x));
+    v.y = static_cast<Type>(std::ceil(y));
     return v;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::min(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::min(Vector2T v) const
 {
-    Vector2T<T> m;
-    m.x = static_cast<T>(std::min(v.x, x));
-    m.y = static_cast<T>(std::min(v.y, y));
+    Vector2T<Type> m;
+    m.x = static_cast<Type>(std::min(v.x, x));
+    m.y = static_cast<Type>(std::min(v.y, y));
     return m;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::max(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::max(Vector2T v) const
 {
-    Vector2T<T> m;
-    m.x = static_cast<T>(std::max(v.x, x));
-    m.y = static_cast<T>(std::max(v.y, y));
+    Vector2T<Type> m;
+    m.x = static_cast<Type>(std::max(v.x, x));
+    m.y = static_cast<Type>(std::max(v.y, y));
     return m;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::abs() const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::abs() const
 {
-    Vector2T<T> v;
-    v.x = static_cast<T>(std::abs(x));
-    v.y = static_cast<T>(std::abs(y));
+    Vector2T<Type> v;
+    v.x = static_cast<Type>(std::abs(x));
+    v.y = static_cast<Type>(std::abs(y));
     return v;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::step(Vector2T edge) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::step(Vector2T edge) const
 {
-    Vector2T<T> v;
+    Vector2T<Type> v;
     v.x = x < edge.x ? 0 : 1;
     v.y = y < edge.y ? 0 : 1;
     return v;
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator+(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator+(Vector2T v) const
 {
     return Vector2T(x + v.x, y + v.y);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator-(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator-(Vector2T v) const
 {
     return Vector2T(x - v.x, y - v.y);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator*(T value) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator*(Type value) const
 {
     return Vector2T(x * value, y * value);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator*(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator*(Vector2T v) const
 {
     return Vector2T(x * v.x, y * v.y);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator/(T value) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator/(Type value) const
 {
     return Vector2T(x / value, y / value);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator/(Vector2T v) const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator/(Vector2T v) const
 {
     return Vector2T(x / v.x, y / v.y);
 }
 
-template <typename T>
-Vector2T<T> Vector2T<T>::operator-() const
+template <typename Type>
+Vector2T<Type> Vector2T<Type>::operator-() const
 {
     return Vector2T(-x, -y);
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator+=(Vector2T v)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator+=(Vector2T v)
 {
     x += v.x;
     y += v.y;
     return *this;
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator-=(Vector2T v)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator-=(Vector2T v)
 {
     x -= v.x;
     y -= v.y;
     return *this;
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator*=(T value)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator*=(Type value)
 {
     x *= value;
     y *= value;
     return *this;
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator*=(Vector2T v)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator*=(Vector2T v)
 {
     x *= v.x;
     y *= v.y;
     return *this;
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator/=(T value)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator/=(Type value)
 {
     x /= value;
     y /= value;
     return *this;
 }
 
-template <typename T>
-Vector2T<T>& Vector2T<T>::operator/=(Vector2T v)
+template <typename Type>
+Vector2T<Type>& Vector2T<Type>::operator/=(Vector2T v)
 {
     x /= v.x;
     y /= v.y;
     return *this;
 }
 
-template <typename T>
-T& Vector2T<T>::operator[](size_t i)
+template <typename Type>
+Type& Vector2T<Type>::operator[](size_t i)
 {
     assert(i < 2);
-    return reinterpret_cast<T*>(this)[i];
+    return reinterpret_cast<Type*>(this)[i];
 }
 
-template <typename T>
-const T& Vector2T<T>::operator[](size_t i) const
+template <typename Type>
+const Type& Vector2T<Type>::operator[](size_t i) const
 {
     assert(i < 2);
-    return reinterpret_cast<const T*>(this)[i];
+    return reinterpret_cast<const Type*>(this)[i];
 }
 
-template <typename T>
-bool Vector2T<T>::operator<(Vector2T v) const
+template <typename Type>
+bool Vector2T<Type>::operator<(Vector2T v) const
 {
     return x < v.x && y < v.y;
 }
 
-template <typename T>
-bool Vector2T<T>::operator==(Vector2T v) const
+template <typename Type>
+bool Vector2T<Type>::operator==(Vector2T v) const
 {
     return x == v.x && y == v.y;
 }
 
-template <typename T>
-bool Vector2T<T>::operator!=(Vector2T v) const
+template <typename Type>
+bool Vector2T<Type>::operator!=(Vector2T v) const
 {
     return !(*this == v);
 }
 
-template <typename T>
+template <typename Type>
 template <typename U>
-Vector2T<T>::operator Vector2T<U>() const
+Vector2T<Type>::operator Vector2T<U>() const
 {
     return Vector2T<U>(static_cast<U>(x), static_cast<U>(y));
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, Vector2T<T> v)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, Vector2T<Type> v)
 {
     encoder << begin_array() << v.x << v.y << end_array();
     return encoder;
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Vector2T<T>& v)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Vector2T<Type>& v)
 {
     decoder >> begin_array() >> v.x >> v.y >> end_array();
     return decoder;

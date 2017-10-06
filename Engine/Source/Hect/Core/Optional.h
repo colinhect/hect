@@ -28,7 +28,7 @@ namespace hect
 
 ///
 /// A container which may hold an optional value.
-template <typename T>
+template <typename Type>
 class Optional
 {
 public:
@@ -41,7 +41,7 @@ public:
     /// Constructs an optional container with a value.
     ///
     /// \param value The value for the optional container to hold.
-    Optional(const T& value);
+    Optional(const Type& value);
 
     ///
     /// Contructs an optional container copied from another.
@@ -63,11 +63,11 @@ public:
     /// Returns a reference to the value that the optional container holds.
     ///
     /// \throws InvalidOperation If the optional container has no value.
-    T& value();
+    Type& value();
 
     ///
     /// \copydoc Optional::value()
-    const T& value() const;
+    const Type& value() const;
 
     ///
     /// \copydoc Optional::has_value()
@@ -75,47 +75,47 @@ public:
 
     ///
     /// \copydoc Optional::value()
-    T& operator*();
+    Type& operator*();
 
     ///
     /// \copydoc Optional::value()
-    const T& operator*() const;
+    const Type& operator*() const;
 
     ///
     /// \copydoc Optional::value()
-    T* operator->();
+    Type* operator->();
 
     ///
     /// \copydoc Optional::value()
-    const T* operator->() const;
+    const Type* operator->() const;
 
     ///
     /// Copies a value to the optional container.
     ///
     /// \param value The value to copy.
-    Optional& operator=(const T& value);
+    Optional& operator=(const Type& value);
 
     ///
     /// Moves a value to the optional container.
     ///
     /// \param value The value to move.
-    Optional& operator=(T&& value);
+    Optional& operator=(Type&& value);
 
     ///
     /// Assigns the optional container to a copy of another.
     ///
     /// \param optional The optional container to copy.
-    Optional& operator=(const Optional<T>& optional);
+    Optional& operator=(const Optional<Type>& optional);
 
     ///
     /// Assigns the optional container moved from another.
     ///
     /// \param optional The optional container to move.
-    Optional& operator=(Optional<T>&& optional);
+    Optional& operator=(Optional<Type>&& optional);
 
 private:
     bool _has_value { false };
-    T _value;
+    Type _value;
 };
 
 }

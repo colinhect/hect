@@ -30,7 +30,7 @@ namespace hect
 
 ///
 /// A user interface control.
-template <typename T>
+template <typename WidgetType>
 class Widget :
     public WidgetBase
 {
@@ -38,7 +38,7 @@ public:
 
     ///
     /// A handle to a widget.
-    typedef std::shared_ptr<T> Handle;
+    typedef std::shared_ptr<WidgetType> Handle;
 
     ///
     /// Constructs a widget.

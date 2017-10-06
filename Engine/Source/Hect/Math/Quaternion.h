@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// A rotation in 3-dimensional space.
-template <typename T>
+template <typename Type>
 class QuaternionT
 {
 public:
@@ -46,7 +46,7 @@ public:
     ///
     /// \param axis The axis that the angle is relative to.
     /// \param angle The angle relative to the axis.
-    static QuaternionT from_axis_angle(Vector3T<T> axis, Radians angle);
+    static QuaternionT from_axis_angle(Vector3T<Type> axis, Radians angle);
 
     ///
     /// Constructs an identity quaternion.
@@ -59,7 +59,7 @@ public:
     /// \param y The value of the y component.
     /// \param z The value of the z component.
     /// \param w The value of the w component.
-    QuaternionT(T x, T y, T z, T w);
+    QuaternionT(Type x, Type y, Type z, Type w);
 
     ///
     /// Constructs a quaternion with a vector for the x, y, and z
@@ -67,14 +67,14 @@ public:
     ///
     /// \param v The value for the x, y, and z components.
     /// \param w The value for the w component.
-    QuaternionT(Vector3T<T> v, T w);
+    QuaternionT(Vector3T<Type> v, Type w);
 
     ///
     /// Constructs a quaternion with a vector for the x, y, z, and w
     /// components.
     ///
     /// \param v The value for the x, y, z, and w components.
-    QuaternionT(Vector4T<T> v);
+    QuaternionT(Vector4T<Type> v);
 
     ///
     /// Scales the quaternion to unit length.
@@ -87,18 +87,18 @@ public:
     /// Returns the dot product of the quaternion another quaternion.
     ///
     /// \param q The quaternion to compute the dot product with.
-    T dot(const QuaternionT& q) const;
+    Type dot(const QuaternionT& q) const;
 
     ///
     /// Returns the length of the quaternion.
-    T length() const;
+    Type length() const;
 
     ///
     /// Returns the squared length of the quaternion.
     ///
     /// \note Useful for comparing quaternion lengths while avoiding
     /// computation of a square root.
-    T length_squared() const;
+    Type length_squared() const;
 
     ///
     /// Returns the conjugate of the quaternion.
@@ -113,19 +113,19 @@ public:
     ///
     /// \param axis The resulting axis.
     /// \param angle The resulting angle.
-    void to_axis_angle(Vector3T<T>& axis, Radians& angle) const;
+    void to_axis_angle(Vector3T<Type>& axis, Radians& angle) const;
 
     ///
     /// Returns the product of the quaternion and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    QuaternionT operator*(T value) const;
+    QuaternionT operator*(Type value) const;
 
     ///
     /// Returns the given vector rotated by the quaternion.
     ///
     /// \param v The vector to rotate.
-    Vector3T<T> operator*(Vector3T<T> v) const;
+    Vector3T<Type> operator*(Vector3T<Type> v) const;
 
     ///
     /// Returns the product of the quaternion and another quaternion.
@@ -142,7 +142,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the quaternion.
-    QuaternionT& operator*=(T value);
+    QuaternionT& operator*=(Type value);
 
     /// Multiplies the quaternion by another quaternion.
     ///
@@ -155,14 +155,14 @@ public:
     /// Returns the ith component of the quaternion.
     ///
     /// \param i The index of which component to access.
-    T& operator[](size_t i);
+    Type& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith component of the
     /// quaternion.
     ///
     /// \param i The index of which component to access.
-    const T& operator[](size_t i) const;
+    const Type& operator[](size_t i) const;
 
     ///
     /// Returns whether the quaternion is equivalent to another.
@@ -184,32 +184,32 @@ public:
 
     ///
     /// Converts to a 4-dimensional vector.
-    operator Vector4T<T>() const;
+    operator Vector4T<Type>() const;
 
     ///
     /// The x component of the quaternion.
-    T x { 0 };
+    Type x { 0 };
 
     ///
     /// The y component of the quaternion.
-    T y { 0 };
+    Type y { 0 };
 
     ///
     /// The z component of the quaternion.
-    T z { 0 };
+    Type z { 0 };
 
     ///
     /// The w component of the quaternion.
-    T w { 1 };
+    Type w { 1 };
 };
 
 typedef QuaternionT<double> Quaternion;
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, QuaternionT<T> q);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, QuaternionT<Type> q);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, QuaternionT<T>& q);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, QuaternionT<Type>& q);
 
 }
 

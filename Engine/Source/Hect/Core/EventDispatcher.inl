@@ -28,21 +28,21 @@
 namespace hect
 {
 
-template <typename T>
-EventDispatcher<T>::~EventDispatcher()
+template <typename Type>
+EventDispatcher<Type>::~EventDispatcher()
 {
     // Copy the vector so it will remain valid when items are removed from it
     auto listeners = _listeners;
 
     // Unregister all listeners from the dispatcher
-    for (EventListener<T>* listener : listeners)
+    for (EventListener<Type>* listener : listeners)
     {
         unregister_listener(*listener);
     }
 }
 
-template <typename T>
-void EventDispatcher<T>::register_listener(EventListener<T>& listener)
+template <typename Type>
+void EventDispatcher<Type>::register_listener(EventListener<Type>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it != _listeners.end())
@@ -56,8 +56,8 @@ void EventDispatcher<T>::register_listener(EventListener<T>& listener)
     }
 }
 
-template <typename T>
-void EventDispatcher<T>::unregister_listener(EventListener<T>& listener)
+template <typename Type>
+void EventDispatcher<Type>::unregister_listener(EventListener<Type>& listener)
 {
     auto it = std::find(_listeners.begin(), _listeners.end(), &listener);
     if (it == _listeners.end())
@@ -71,10 +71,10 @@ void EventDispatcher<T>::unregister_listener(EventListener<T>& listener)
     }
 }
 
-template <typename T>
-void EventDispatcher<T>::dispatch_event(const T& event)
+template <typename Type>
+void EventDispatcher<Type>::dispatch_event(const Type& event)
 {
-    for (EventListener<T>* listener : _listeners)
+    for (EventListener<Type>* listener : _listeners)
     {
         listener->receive_event(event);
     }

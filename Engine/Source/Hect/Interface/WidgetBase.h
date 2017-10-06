@@ -205,8 +205,8 @@ public:
     /// \param args The arguments to pass to the widget's constructor.
     ///
     /// \returns A handle to the created child widget.
-    template <typename T, typename... Args>
-    typename T::Handle create_child(Args&&... args);
+    template <typename WidgetType, typename... Args>
+    typename WidgetType::Handle create_child(Args&&... args);
 
     ///
     /// Destroys a child widget.

@@ -26,31 +26,31 @@
 namespace hect
 {
 
-template <typename T>
-Any::Any(const T& value) :
-    _container(new ContainerValue<T>(value))
+template <typename Type>
+Any::Any(const Type& value) :
+    _container(new ContainerValue<Type>(value))
 {
 }
 
-template <typename T>
-Any& Any::operator=(const T& value)
+template <typename Type>
+Any& Any::operator=(const Type& value)
 {
     if (_container)
     {
         delete _container;
     }
 
-    _container = new ContainerValue<T>(value);
+    _container = new ContainerValue<Type>(value);
 
     return *this;
 }
 
-template <typename T>
+template <typename Type>
 bool Any::is_type() const
 {
     if (_container)
     {
-        return dynamic_cast<ContainerValue<T>*>(_container) != nullptr;
+        return dynamic_cast<ContainerValue<Type>*>(_container) != nullptr;
     }
     else
     {
@@ -58,10 +58,10 @@ bool Any::is_type() const
     }
 }
 
-template <typename T>
-T& Any::as() const
+template <typename Type>
+Type& Any::as() const
 {
-    auto container_value = dynamic_cast<ContainerValue<T>*>(_container);
+    auto container_value = dynamic_cast<ContainerValue<Type>*>(_container);
 
     if (!container_value)
     {
@@ -71,14 +71,14 @@ T& Any::as() const
     return container_value->held;
 }
 
-template <typename T>
-Any::ContainerValue<T>::ContainerValue(const T& value) :
+template <typename Type>
+Any::ContainerValue<Type>::ContainerValue(const Type& value) :
     held(value)
 {
 }
 
-template <typename T>
-Any::Container* Any::ContainerValue<T>::clone() const
+template <typename Type>
+Any::Container* Any::ContainerValue<Type>::clone() const
 {
     return new ContainerValue(held);
 }

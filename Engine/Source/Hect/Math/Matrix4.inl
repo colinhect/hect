@@ -29,8 +29,8 @@
 namespace hect
 {
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::from_translation(Vector3T<T> translation)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::from_translation(Vector3T<Type> translation)
 {
     Matrix4T m;
     m[12] = translation.x;
@@ -39,8 +39,8 @@ Matrix4T<T> Matrix4T<T>::from_translation(Vector3T<T> translation)
     return m;
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::from_scale(Vector3T<T> scale)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::from_scale(Vector3T<Type> scale)
 {
     Matrix4T m;
     m[ 0] *= scale.x;
@@ -49,35 +49,35 @@ Matrix4T<T> Matrix4T<T>::from_scale(Vector3T<T> scale)
     return m;
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::from_rotation(QuaternionT<T> rotation)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::from_rotation(QuaternionT<Type> rotation)
 {
-    T x = rotation.x;
-    T y = rotation.y;
-    T z = rotation.z;
-    T w = rotation.w;
+    Type x = rotation.x;
+    Type y = rotation.y;
+    Type z = rotation.z;
+    Type w = rotation.w;
 
     Matrix4T m;
-    m[ 0] = T(1) - T(2) * y * y - T(2) * z * z;
-    m[ 1] = T(2) * x * y - T(2) * w * z;
-    m[ 2] = T(2) * x * z + T(2) * w * y;
+    m[ 0] = Type(1) - Type(2) * y * y - Type(2) * z * z;
+    m[ 1] = Type(2) * x * y - Type(2) * w * z;
+    m[ 2] = Type(2) * x * z + Type(2) * w * y;
 
-    m[ 4] = T(2) * x * y + T(2) * w * z;
-    m[ 5] = T(1) - T(2) * x * x - T(2) * z * z;
-    m[ 6] = T(2) * y * z - T(2) * w * x;
+    m[ 4] = Type(2) * x * y + Type(2) * w * z;
+    m[ 5] = Type(1) - Type(2) * x * x - Type(2) * z * z;
+    m[ 6] = Type(2) * y * z - Type(2) * w * x;
 
-    m[ 8] = T(2) * x * z - T(2) * w * y;
-    m[ 9] = T(2) * y * z + T(2) * w * x;
-    m[10] = T(1) - T(2) * x * x - T(2) * y * y;
+    m[ 8] = Type(2) * x * z - Type(2) * w * y;
+    m[ 9] = Type(2) * y * z + Type(2) * w * x;
+    m[10] = Type(1) - Type(2) * x * x - Type(2) * y * y;
     return m;
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::create_view(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::create_view(Vector3T<Type> position, Vector3T<Type> direction, Vector3T<Type> up)
 {
     Matrix4T m;
 
-    Vector3T<T> right = direction.cross(up).normalized();
+    Vector3T<Type> right = direction.cross(up).normalized();
 
     m[ 0] = right.x;
     m[ 1] = up.x;
@@ -95,30 +95,30 @@ Matrix4T<T> Matrix4T<T>::create_view(Vector3T<T> position, Vector3T<T> direction
     return m * position_matrix;
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::create_perspective(Radians field_of_view, T aspect_ratio, T near_clip, T far_clip)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::create_perspective(Radians field_of_view, Type aspect_ratio, Type near_clip, Type far_clip)
 {
     Matrix4T m;
 
-    T h = T(1) / std::tan(field_of_view.value * T(0.5));
+    Type h = Type(1) / std::tan(field_of_view.value * Type(0.5));
     m[ 0] = h / aspect_ratio;
     m[ 5] = h;
     m[10] = (far_clip + near_clip) / (near_clip - far_clip);
-    m[11] = -T(1);
-    m[14] = (T(2) * near_clip * far_clip) / (near_clip - far_clip);
-    m[15] = T(0);
+    m[11] = -Type(1);
+    m[14] = (Type(2) * near_clip * far_clip) / (near_clip - far_clip);
+    m[15] = Type(0);
 
     return m;
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::create_orthogonal(T left, T right, T bottom, T top, T near_value, T far_value)
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::create_orthogonal(Type left, Type right, Type bottom, Type top, Type near_value, Type far_value)
 {
     Matrix4T m;
 
-    m[ 0] = T(2) / (right - left);
-    m[ 5] = T(2) / (top - bottom);
-    m[10] = T(-2) / (far_value - near_value);
+    m[ 0] = Type(2) / (right - left);
+    m[ 5] = Type(2) / (top - bottom);
+    m[10] = Type(-2) / (far_value - near_value);
     m[12] = -((right + left) / (right - left));
     m[13] = -((top + bottom) / (top - bottom));
     m[14] = -((far_value + near_value) / (far_value - near_value));
@@ -126,62 +126,62 @@ Matrix4T<T> Matrix4T<T>::create_orthogonal(T left, T right, T bottom, T top, T n
     return m;
 }
 
-template <typename T>
-Matrix4T<T>::Matrix4T()
+template <typename Type>
+Matrix4T<Type>::Matrix4T()
 {
-    static const T identity_values[16] =
+    static const Type identity_values[16] =
     {
-        T(1), T(0), T(0), T(0),
-        T(0), T(1), T(0), T(0),
-        T(0), T(0), T(1), T(0),
-        T(0), T(0), T(0), T(1)
+        Type(1), Type(0), Type(0), Type(0),
+        Type(0), Type(1), Type(0), Type(0),
+        Type(0), Type(0), Type(1), Type(0),
+        Type(0), Type(0), Type(0), Type(1)
     };
 
-    std::memcpy(_c, identity_values, sizeof(T) * 16);
+    std::memcpy(_c, identity_values, sizeof(Type) * 16);
 }
 
-template <typename T>
-void Matrix4T<T>::translate(Vector3T<T> translation)
+template <typename Type>
+void Matrix4T<Type>::translate(Vector3T<Type> translation)
 {
     _c[12] += translation.x;
     _c[13] += translation.y;
     _c[14] += translation.z;
 }
 
-template <typename T>
-void Matrix4T<T>::scale(Vector3T<T> scale)
+template <typename Type>
+void Matrix4T<Type>::scale(Vector3T<Type> scale)
 {
     _c[ 0] *= scale.x;
     _c[ 5] *= scale.y;
     _c[10] *= scale.z;
 }
 
-template <typename T>
-void Matrix4T<T>::rotate(QuaternionT<T> rotation)
+template <typename Type>
+void Matrix4T<Type>::rotate(QuaternionT<Type> rotation)
 {
-    *this *= Matrix4T<T>::from_rotation(rotation);
+    *this *= Matrix4T<Type>::from_rotation(rotation);
 }
 
-template <typename T>
-Vector3T<T> Matrix4T<T>::operator*(Vector3T<T> v) const
+template <typename Type>
+Vector3T<Type> Matrix4T<Type>::operator*(Vector3T<Type> v) const
 {
-    Vector4T<T> v4 = *this * Vector4T<T>(v.x, v.y, v.z, T(0));
-    return Vector3T<T>(v4.x, v4.y, v4.z);
+    Vector4T<Type> v4 = *this * Vector4T<Type>(v.x, v.y, v.z, Type(0));
+    return Vector3T<Type>(v4.x, v4.y, v4.z);
 }
 
-template <typename T>
-Vector4T<T> Matrix4T<T>::operator*(Vector4T<T> v) const
+template <typename Type>
+Vector4T<Type> Matrix4T<Type>::operator*(Vector4T<Type> v) const
 {
-    T x = v.x * _c[0] + v.y * _c[4] + v.z * _c[8] + v.w * _c[12];
-    T y = v.x * _c[1] + v.y * _c[5] + v.z * _c[9] + v.w * _c[13];
-    T z = v.x * _c[2] + v.y * _c[6] + v.z * _c[10] + v.w * _c[14];
-    T w = v.x * _c[3] + v.y * _c[7] + v.z * _c[11] + v.w * _c[15];
+    Type x = v.x * _c[0] + v.y * _c[4] + v.z * _c[8] + v.w * _c[12];
+    Type y = v.x * _c[1] + v.y * _c[5] + v.z * _c[9] + v.w * _c[13];
+    Type z = v.x * _c[2] + v.y * _c[6] + v.z * _c[10] + v.w * _c[14];
+    Type w = v.x * _c[3] + v.y * _c[7] + v.z * _c[11] + v.w * _c[15];
 
-    return Vector4T<T>(x, y, z, w);
+    return Vector4T<Type>(x, y, z, w);
 }
 
-template <typename T>
-Matrix4T<T> Matrix4T<T>::operator*(const Matrix4T& m) const
+template <typename Type>
+Matrix4T<Type> Matrix4T<Type>::operator*(const Matrix4T& m) const
 {
     Matrix4T result;
     result[0]  = _c[0] * m[0]  + _c[4] * m[1] + _c[8]   * m[2]  + _c[12] * m[3];
@@ -203,26 +203,26 @@ Matrix4T<T> Matrix4T<T>::operator*(const Matrix4T& m) const
     return result;
 }
 
-template <typename T>
-Matrix4T<T>& Matrix4T<T>::operator*=(const Matrix4T& m)
+template <typename Type>
+Matrix4T<Type>& Matrix4T<Type>::operator*=(const Matrix4T& m)
 {
     return *this = *this * m;
 }
 
-template <typename T>
-T& Matrix4T<T>::operator[](size_t i)
+template <typename Type>
+Type& Matrix4T<Type>::operator[](size_t i)
 {
     return _c[i];
 }
 
-template <typename T>
-const T& Matrix4T<T>::operator[](size_t i) const
+template <typename Type>
+const Type& Matrix4T<Type>::operator[](size_t i) const
 {
     return _c[i];
 }
 
-template <typename T>
-bool Matrix4T<T>::operator==(const Matrix4T& m) const
+template <typename Type>
+bool Matrix4T<Type>::operator==(const Matrix4T& m) const
 {
     for (size_t i = 0; i < 16; ++i)
     {
@@ -235,8 +235,8 @@ bool Matrix4T<T>::operator==(const Matrix4T& m) const
     return true;
 }
 
-template <typename T>
-bool Matrix4T<T>::operator!=(const Matrix4T& m) const
+template <typename Type>
+bool Matrix4T<Type>::operator!=(const Matrix4T& m) const
 {
     for (size_t i = 0; i < 16; ++i)
     {
@@ -249,9 +249,9 @@ bool Matrix4T<T>::operator!=(const Matrix4T& m) const
     return true;
 }
 
-template <typename T>
+template <typename Type>
 template <typename U>
-Matrix4T<T>::operator Matrix4T<U>() const
+Matrix4T<Type>::operator Matrix4T<U>() const
 {
     Matrix4T<U> m;
     for (size_t i = 0; i < 16; ++i)
@@ -261,8 +261,8 @@ Matrix4T<T>::operator Matrix4T<U>() const
     return m;
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const Matrix4T<Type>& m)
 {
     encoder << begin_array();
     for (size_t i = 0; i < 16; ++i)
@@ -273,8 +273,8 @@ Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m)
     return encoder;
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Matrix4T<T>& m)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Matrix4T<Type>& m)
 {
     decoder >> begin_array();
     for (size_t i = 0; i < 16; ++i)

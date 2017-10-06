@@ -24,44 +24,44 @@
 namespace hect
 {
 
-template <typename T, typename Container>
-Sequence<T, Container>::Sequence(const Container& container) :
+template <typename Type, typename Container>
+Sequence<Type, Container>::Sequence(const Container& container) :
     _container(const_cast<Container&>(container))
 {
 }
 
-template <typename T, typename Container>
-Sequence<T, Container>::Sequence(Sequence&& sequence) :
+template <typename Type, typename Container>
+Sequence<Type, Container>::Sequence(Sequence&& sequence) :
     _container(sequence._container)
 {
 }
 
-template <typename T, typename Container>
-typename Container::iterator Sequence<T, Container>::begin()
+template <typename Type, typename Container>
+typename Container::iterator Sequence<Type, Container>::begin()
 {
     return _container.begin();
 }
 
-template <typename T, typename Container>
-typename Container::iterator Sequence<T, Container>::end()
+template <typename Type, typename Container>
+typename Container::iterator Sequence<Type, Container>::end()
 {
     return _container.end();
 }
 
-template <typename T, typename Container>
-typename Container::const_iterator Sequence<T, Container>::begin() const
+template <typename Type, typename Container>
+typename Container::const_iterator Sequence<Type, Container>::begin() const
 {
     return _container.begin();
 }
 
-template <typename T, typename Container>
-typename Container::const_iterator Sequence<T, Container>::end() const
+template <typename Type, typename Container>
+typename Container::const_iterator Sequence<Type, Container>::end() const
 {
     return _container.end();
 }
 
-template <typename T, typename Container>
-size_t Sequence<T, Container>::size() const
+template <typename Type, typename Container>
+size_t Sequence<Type, Container>::size() const
 {
     size_t count = 0;
 
@@ -75,14 +75,14 @@ size_t Sequence<T, Container>::size() const
     return count;
 }
 
-template <typename T, typename Container>
-bool Sequence<T, Container>::empty() const
+template <typename Type, typename Container>
+bool Sequence<Type, Container>::empty() const
 {
     return size() == 0;
 }
 
-template <typename T, typename Container>
-T& Sequence<T, Container>::operator[](size_t index)
+template <typename Type, typename Container>
+Type& Sequence<Type, Container>::operator[](size_t index)
 {
     auto it = begin();
     for (size_t i = 0; i < index; ++i)
@@ -92,8 +92,8 @@ T& Sequence<T, Container>::operator[](size_t index)
     return *it;
 }
 
-template <typename T, typename Container>
-const T& Sequence<T, Container>::operator[](size_t index) const
+template <typename Type, typename Container>
+const Type& Sequence<Type, Container>::operator[](size_t index) const
 {
     auto it = begin();
     for (size_t i = 0; i < index; ++i)

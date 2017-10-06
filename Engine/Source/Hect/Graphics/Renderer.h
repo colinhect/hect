@@ -76,7 +76,7 @@ public:
 
     ///
     /// Implementation-specific data providing a handle for a Renderer::Object.
-    template <typename T>
+    template <typename RenderObjectType>
     class Data
     {
     public:
@@ -87,7 +87,7 @@ public:
         /// \param renderer The renderer that the data is
         /// uploaded to.
         /// \param object The object that the data represents.
-        Data(Renderer& renderer, T& object);
+        Data(Renderer& renderer, RenderObjectType& object);
 
         virtual ~Data() { }
 
@@ -97,7 +97,7 @@ public:
 
     protected:
         Renderer* renderer;
-        T* object;
+        RenderObjectType* object;
     };
 
     ///
@@ -106,7 +106,7 @@ public:
     /// \note Copying results in the data not being copied.  Moving results in the
     /// data being moved.  This is meant to allow uploaded renderer
     /// objects to be copied to not be attached to the same uploaded data.
-    template <typename T>
+    template <typename RenderObjectType>
     class DataHandle
     {
     public:
@@ -121,46 +121,46 @@ public:
         /// \note The handle assumes ownership of the lifetime of the data.
         ///
         /// \param data The data.
-        DataHandle(Data<T>* data);
+        DataHandle(Data<RenderObjectType>* data);
 
         ///
         /// Constructs a handle copied from another.
         ///
         /// \param handle The handle to copy.
-        DataHandle(const DataHandle<T>& handle);
+        DataHandle(const DataHandle<RenderObjectType>& handle);
 
         ///
         /// Constructs a handle moved from another.
         ///
         /// \param handle The handle to move.
-        DataHandle(DataHandle<T>&& handle);
+        DataHandle(DataHandle<RenderObjectType>&& handle);
 
         ///
         /// Sets the handle as a copy of another.
         ///
         /// \param handle The handle to copy.
-        DataHandle& operator=(const DataHandle<T>& handle);
+        DataHandle& operator=(const DataHandle<RenderObjectType>& handle);
 
         ///
         /// Sets the handle as being moved from another.
         ///
         /// \param handle The handle to move.
-        DataHandle& operator=(DataHandle<T>&& handle);
+        DataHandle& operator=(DataHandle<RenderObjectType>&& handle);
 
         ///
         /// Resets the handle to represent new data.
         ///
         /// \param data The new data the handle represents
-        void reset(Data<T>* data);
+        void reset(Data<RenderObjectType>* data);
 
         ///
         /// The data that the handle represents.
-        std::unique_ptr<Data<T>> data;
+        std::unique_ptr<Data<RenderObjectType>> data;
     };
 
     ///
     /// An object which can be uploaded to a renderer.
-    template <typename T>
+    template <typename RenderObjectType>
     class Object
     {
         friend class Renderer;
@@ -186,7 +186,7 @@ public:
         ///
         /// \param renderer The renderer.
         /// \param data The renderer-specific data of the object.
-        void set_as_uploaded(Renderer& renderer, Data<T>* data);
+        void set_as_uploaded(Renderer& renderer, Data<RenderObjectType>* data);
 
         ///
         /// Sets the object as being destroyed from the renderer.
@@ -194,7 +194,7 @@ public:
 
     private:
         Renderer* _renderer { nullptr };
-        DataHandle<T> _handle;
+        DataHandle<RenderObjectType> _handle;
     };
 
     ///

@@ -42,8 +42,8 @@ public:
     /// Constructs a container with a value.
     ///
     /// \param value The value.
-    template <typename T>
-    Any(const T& value);
+    template <typename Type>
+    Any(const Type& value);
 
     ///
     /// Constructs a copy of another container.
@@ -72,8 +72,8 @@ public:
     /// \param value The new value.
     ///
     /// \returns A reference to the container.
-    template <typename T>
-    Any& operator=(const T& value);
+    template <typename Type>
+    Any& operator=(const Type& value);
 
     ///
     /// Assigns a value from another container to the container.
@@ -99,7 +99,7 @@ public:
 
     ///
     /// Returns whether the container holds a value of a certain type.
-    template <typename T>
+    template <typename Type>
     bool is_type() const;
 
     ///
@@ -111,8 +111,8 @@ public:
     ///
     /// \throws InvalidOperation If the container's value is not of the
     /// specific type.
-    template <typename T>
-    T& as() const;
+    template <typename Type>
+    Type& as() const;
 
     ///
     /// Returns whether the container holds any value at all.
@@ -126,15 +126,15 @@ private:
         virtual Container* clone() const = 0;
     };
 
-    template <class T>
+    template <class Type>
     class ContainerValue :
         public Container
     {
     public:
-        ContainerValue(const T& value);
+        ContainerValue(const Type& value);
         Container* clone() const override;
 
-        T held;
+        Type held;
 
     private:
         ContainerValue& operator=(const ContainerValue&) = delete;

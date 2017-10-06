@@ -27,13 +27,13 @@
 namespace hect
 {
 
-template <typename T>
-AssetHandle<T>::AssetHandle()
+template <typename AssetType>
+AssetHandle<AssetType>::AssetHandle()
 {
 }
 
-template <typename T>
-AssetHandle<T>::AssetHandle(T* asset, bool owned)
+template <typename AssetType>
+AssetHandle<AssetType>::AssetHandle(AssetType* asset, bool owned)
 {
     if (owned)
     {
@@ -45,20 +45,20 @@ AssetHandle<T>::AssetHandle(T* asset, bool owned)
     }
 }
 
-template <typename T>
-AssetHandle<T>::AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry) :
+template <typename AssetType>
+AssetHandle<AssetType>::AssetHandle(const std::shared_ptr<AssetEntry<AssetType>>& entry) :
     _entry(entry)
 {
 }
 
-template<typename T>
-AssetHandle<T>::AssetHandle(AssetCache& asset_cache, const Path& asset_path)
+template<typename AssetType>
+AssetHandle<AssetType>::AssetHandle(AssetCache& asset_cache, const Path& asset_path)
 {
-    *this = asset_cache.get_handle<T>(asset_path);
+    *this = asset_cache.get_handle<AssetType>(asset_path);
 }
 
-template <typename T>
-const Path& AssetHandle<T>::path() const
+template <typename AssetType>
+const Path& AssetHandle<AssetType>::path() const
 {
     static Path empty_path;
     if (_entry)
@@ -69,30 +69,30 @@ const Path& AssetHandle<T>::path() const
     return empty_path;
 }
 
-template <typename T>
-void AssetHandle<T>::invalidate()
+template <typename AssetType>
+void AssetHandle<AssetType>::invalidate()
 {
     _owned.reset();
     _unowned = nullptr;
     _entry.reset();
 }
 
-template <typename T>
-void AssetHandle<T>::reset(T* asset, bool owned)
+template <typename AssetType>
+void AssetHandle<AssetType>::reset(AssetType* asset, bool owned)
 {
     invalidate();
 
-    *this = AssetHandle<T>(asset, owned);
+    *this = AssetHandle<AssetType>(asset, owned);
 }
 
-template <typename T>
-AssetHandle<T>::operator bool() const
+template <typename AssetType>
+AssetHandle<AssetType>::operator bool() const
 {
     return _entry || _owned || _unowned;
 }
 
-template <typename T>
-T& AssetHandle<T>::operator*() const
+template <typename AssetType>
+AssetType& AssetHandle<AssetType>::operator*() const
 {
     if (_entry)
     {
@@ -110,14 +110,14 @@ T& AssetHandle<T>::operator*() const
     throw InvalidOperation("Asset handle does not refer a valid asset");
 }
 
-template <typename T>
-T* AssetHandle<T>::operator->() const
+template <typename AssetType>
+AssetType* AssetHandle<AssetType>::operator->() const
 {
     return &**this;
 }
 
-template <typename T>
-bool AssetHandle<T>::operator==(const AssetHandle<T>& asset_handle) const
+template <typename AssetType>
+bool AssetHandle<AssetType>::operator==(const AssetHandle<AssetType>& asset_handle) const
 {
     if (_entry)
     {
@@ -134,27 +134,27 @@ bool AssetHandle<T>::operator==(const AssetHandle<T>& asset_handle) const
     return (_entry || _owned || _unowned) == (asset_handle._entry || asset_handle._owned || asset_handle._unowned);
 }
 
-template <typename T>
-bool AssetHandle<T>::operator!=(const AssetHandle<T>& asset_handle) const
+template <typename AssetType>
+bool AssetHandle<AssetType>::operator!=(const AssetHandle<AssetType>& asset_handle) const
 {
     return !(*this == asset_handle);
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& asset_handle)
+template <typename AssetType>
+Encoder& operator<<(Encoder& encoder, const AssetHandle<AssetType>& asset_handle)
 {
     encoder << asset_handle.path().as_string();
     return encoder;
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, AssetHandle<T>& asset_handle)
+template <typename AssetType>
+Decoder& operator>>(Decoder& decoder, AssetHandle<AssetType>& asset_handle)
 {
     std::string path;
     decoder >> decode_value(path);
     if (!path.empty())
     {
-        asset_handle = decoder.asset_cache().get_handle<T>(path);
+        asset_handle = decoder.asset_cache().get_handle<AssetType>(path);
     }
     return decoder;
 }

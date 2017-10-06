@@ -85,89 +85,89 @@ struct HECT_EXPORT EndObject
 
 ///
 /// An operation for encoding a value.
-template <typename T>
+template <typename Type>
 struct EncodeValue
 {
     ///
     /// Encodes an unnamed value.
     ///
     /// \param value The value to encode.
-    EncodeValue(const T& value);
+    EncodeValue(const Type& value);
 
     ///
     /// Encodes a named value.
     ///
     /// \param name The name of the value.
     /// \param value The value to encode.
-    EncodeValue(const char* name, const T& value);
+    EncodeValue(const char* name, const Type& value);
 
     const char* name
     {
         nullptr
     };
-    const T& value;
+    const Type& value;
 };
 
 ///
 /// An operation for encoding a vector as an array.
-template <typename T>
+template <typename Type>
 struct EncodeVector
 {
     ///
     /// Encodes an unnamed array from a vector.
     ///
     /// \param values The values to encode.
-    EncodeVector(const std::vector<T>& values);
+    EncodeVector(const std::vector<Type>& values);
 
     ///
     /// Encodes a named array from a vector.
     ///
     /// \param name The name of the array.
     /// \param values The values to encode.
-    EncodeVector(const char* name, const std::vector<T>& values);
+    EncodeVector(const char* name, const std::vector<Type>& values);
 
     const char* name
     {
         nullptr
     };
-    const std::vector<T>& values;
+    const std::vector<Type>& values;
 };
 
 ///
 /// An operation for encoding an enum.
-template <typename T>
+template <typename Type>
 struct EncodeEnum
 {
     ///
     /// Encodes an unnamed value from an enum.
     ///
     /// \param value The value to encode.
-    EncodeEnum(T value);
+    EncodeEnum(Type value);
 
     ///
     /// Encodes a named value from an enum.
     ///
     /// \param name The name of the value.
     /// \param value The value to encode.
-    EncodeEnum(const char* name, T value);
+    EncodeEnum(const char* name, Type value);
 
     const char* name
     {
         nullptr
     };
-    T value;
+    Type value;
 };
 
 ///
 /// An operation for decoding a value.
-template <typename T>
+template <typename Type>
 struct DecodeValue
 {
     ///
     /// Decodes an unnamed value.
     ///
     /// \param value The value to decode.
-    DecodeValue(T& value);
+    DecodeValue(Type& value);
 
     ///
     /// Decodes a named value.
@@ -176,13 +176,13 @@ struct DecodeValue
     /// \param value The value to decode.
     /// \param required Whether the decode should fail if a value of the
     /// specified name does not exist.
-    DecodeValue(const char* name, T& value, bool required);
+    DecodeValue(const char* name, Type& value, bool required);
 
     const char* name
     {
         nullptr
     };
-    T& value;
+    Type& value;
     const bool required
     {
         false
@@ -191,14 +191,14 @@ struct DecodeValue
 
 ///
 /// An operation for decoding an array as a vector.
-template <typename T>
+template <typename Type>
 struct DecodeVector
 {
     ///
     /// Decodes an unnamed array to a vector.
     ///
     /// \param values The values to decode.
-    DecodeVector(std::vector<T>& values);
+    DecodeVector(std::vector<Type>& values);
 
     ///
     /// Decodes a named array to a vector.
@@ -207,13 +207,13 @@ struct DecodeVector
     /// \param values The values to decode.
     /// \param required Whether the decode should fail if a value of the
     /// specified name does not exist.
-    DecodeVector(const char* name, std::vector<T>& values, bool required);
+    DecodeVector(const char* name, std::vector<Type>& values, bool required);
 
     const char* name
     {
         nullptr
     };
-    std::vector<T>& values;
+    std::vector<Type>& values;
     const bool required
     {
         false
@@ -222,14 +222,14 @@ struct DecodeVector
 
 ///
 /// An operation for decoding an enum.
-template <typename T>
+template <typename Type>
 struct DecodeEnum
 {
     ///
     /// Decodes an unnamed value to an enum.
     ///
     /// \param value The value to decode.
-    DecodeEnum(T& value);
+    DecodeEnum(Type& value);
 
     ///
     /// Decodes a named value to an enum.
@@ -238,13 +238,13 @@ struct DecodeEnum
     /// \param value The value to decode.
     /// \param required Whether the decode should fail if a value of the
     /// specified name does not exist.
-    DecodeEnum(const char* name, T& value, bool required);
+    DecodeEnum(const char* name, Type& value, bool required);
 
     const char* name
     {
         nullptr
     };
-    T& value;
+    Type& value;
     const bool required
     {
         false
@@ -285,8 +285,8 @@ HECT_EXPORT EndObject end_object();
 /// Creates an operation for encoding an arbitrary value.
 ///
 /// \param value The value to encode.
-template <typename T>
-EncodeValue<T> encode_value(const T& value);
+template <typename Type>
+EncodeValue<Type> encode_value(const Type& value);
 
 ///
 /// Creates an operation for encoding an arbitrary value as a member of the
@@ -294,15 +294,15 @@ EncodeValue<T> encode_value(const T& value);
 ///
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
-template <typename T>
-EncodeValue<T> encode_value(const char* name, const T& value);
+template <typename Type>
+EncodeValue<Type> encode_value(const char* name, const Type& value);
 
 ///
 /// Creates an operation for encoding a vector of values.
 ///
 /// \param values The values to encode.
-template <typename T>
-EncodeVector<T> encode_vector(const std::vector<T>& values);
+template <typename Type>
+EncodeVector<Type> encode_vector(const std::vector<Type>& values);
 
 ///
 /// Creates an operation for encoding a vector of values as a member of the
@@ -310,15 +310,15 @@ EncodeVector<T> encode_vector(const std::vector<T>& values);
 ///
 /// \param name The name of the member to encode the vector for.
 /// \param values The values to encode.
-template <typename T>
-EncodeVector<T> encode_vector(const char* name, const std::vector<T>& values);
+template <typename Type>
+EncodeVector<Type> encode_vector(const char* name, const std::vector<Type>& values);
 
 ///
 /// Creates an operation for encoding an enum value.
 ///
 /// \param value The value to encode.
-template <typename T>
-EncodeEnum<T> encode_enum(T value);
+template <typename Type>
+EncodeEnum<Type> encode_enum(Type value);
 
 ///
 /// Creates an operation for encoding an enum value as a member of the current
@@ -326,15 +326,15 @@ EncodeEnum<T> encode_enum(T value);
 ///
 /// \param name The name of the member to encode the value for.
 /// \param value The value to encode.
-template <typename T>
-EncodeEnum<T> encode_enum(const char* name, T value);
+template <typename Type>
+EncodeEnum<Type> encode_enum(const char* name, Type value);
 
 ///
 /// Creates an operation for decoding an arbitrary value.
 ///
 /// \param value The value to decode.
-template <typename T>
-DecodeValue<T> decode_value(T& value);
+template <typename Type>
+DecodeValue<Type> decode_value(Type& value);
 
 ///
 /// Creates an operation for decoding an arbitrary value as a member of the
@@ -344,15 +344,15 @@ DecodeValue<T> decode_value(T& value);
 /// \param value The value to decode.
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
-template <typename T>
-DecodeValue<T> decode_value(const char* name, T& value, bool required = false);
+template <typename Type>
+DecodeValue<Type> decode_value(const char* name, Type& value, bool required = false);
 
 ///
 /// Creates an operation for decoding a vector of values.
 ///
 /// \param values The values to decode.
-template <typename T>
-DecodeVector<T> decode_vector(std::vector<T>& values);
+template <typename Type>
+DecodeVector<Type> decode_vector(std::vector<Type>& values);
 
 ///
 /// Creates an operation for decoding a vector of values as a member of the
@@ -362,15 +362,15 @@ DecodeVector<T> decode_vector(std::vector<T>& values);
 /// \param values The values to decode.
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
-template <typename T>
-DecodeVector<T> decode_vector(const char* name, std::vector<T>& values, bool required = false);
+template <typename Type>
+DecodeVector<Type> decode_vector(const char* name, std::vector<Type>& values, bool required = false);
 
 ///
 /// Creates an operation for decoding an enum value.
 ///
 /// \param value The value to decode.
-template <typename T>
-DecodeEnum<T> decode_enum(T& value);
+template <typename Type>
+DecodeEnum<Type> decode_enum(Type& value);
 
 ///
 /// Creates an operation for decoding an enum value as a member of the current
@@ -380,8 +380,8 @@ DecodeEnum<T> decode_enum(T& value);
 /// \param value The value to decode.
 /// \param required Whether the decode should fail if a value of the specified
 /// name does not exist.
-template <typename T>
-DecodeEnum<T> decode_enum(const char* name, T& value, bool required = false);
+template <typename Type>
+DecodeEnum<Type> decode_enum(const char* name, Type& value, bool required = false);
 
 }
 

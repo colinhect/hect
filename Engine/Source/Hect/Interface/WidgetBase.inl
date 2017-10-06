@@ -25,10 +25,10 @@
 namespace hect
 {
 
-template <typename T, typename... Args>
-typename T::Handle WidgetBase::create_child(Args&&... args)
+template <typename WidgetType, typename... Args>
+typename WidgetType::Handle WidgetBase::create_child(Args&&... args)
 {
-    typename T::Handle widget(new T(_interface_system, args...));
+    typename WidgetType::Handle widget(new WidgetType(_interface_system, args...));
     widget->_parent = this;
 
     _children.push_back(widget);

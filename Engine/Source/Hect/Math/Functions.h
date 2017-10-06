@@ -34,8 +34,8 @@ namespace hect
 /// \param delta The delta between the two value.
 ///
 /// \returns The interpolated value.
-template <typename T>
-T lerp(T a, T b, T delta);
+template <typename Type>
+Type lerp(Type a, Type b, Type delta);
 
 }
 

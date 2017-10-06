@@ -24,34 +24,34 @@
 namespace hect
 {
 
-template <typename T>
-Asset<T>::Asset() :
+template <typename AssetType>
+Asset<AssetType>::Asset() :
     _name(Name::Unnamed)
 {
 }
 
-template <typename T>
-Asset<T>::Asset(Name name) :
+template <typename AssetType>
+Asset<AssetType>::Asset(Name name) :
     _name(name)
 {
 }
 
-template <typename T>
-Name Asset<T>::name() const
+template <typename AssetType>
+Name Asset<AssetType>::name() const
 {
     return _name;
 }
 
-template <typename T>
-void Asset<T>::set_name(Name name)
+template <typename AssetType>
+void Asset<AssetType>::set_name(Name name)
 {
     _name = name;
 }
 
-template <typename T>
-AssetHandle<T> Asset<T>::create_handle()
+template <typename AssetType>
+AssetHandle<AssetType> Asset<AssetType>::create_handle()
 {
-    return AssetHandle<T>(reinterpret_cast<T*>(this), false);
+    return AssetHandle<AssetType>(reinterpret_cast<AssetType*>(this), false);
 }
 
 }

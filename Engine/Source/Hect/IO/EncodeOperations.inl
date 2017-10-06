@@ -24,157 +24,157 @@
 namespace hect
 {
 
-template <typename T>
-EncodeValue<T>::EncodeValue(const T& value) :
+template <typename Type>
+EncodeValue<Type>::EncodeValue(const Type& value) :
     value(value)
 {
 }
 
-template <typename T>
-EncodeValue<T>::EncodeValue(const char* name, const T& value) :
+template <typename Type>
+EncodeValue<Type>::EncodeValue(const char* name, const Type& value) :
     name(name),
     value(value)
 {
 }
 
-template <typename T>
-EncodeVector<T>::EncodeVector(const std::vector<T>& values) :
+template <typename Type>
+EncodeVector<Type>::EncodeVector(const std::vector<Type>& values) :
     values(values)
 {
 }
 
-template <typename T>
-EncodeVector<T>::EncodeVector(const char* name, const std::vector<T>& values) :
+template <typename Type>
+EncodeVector<Type>::EncodeVector(const char* name, const std::vector<Type>& values) :
     name(name),
     values(values)
 {
 }
 
-template <typename T>
-EncodeEnum<T>::EncodeEnum(T value) :
+template <typename Type>
+EncodeEnum<Type>::EncodeEnum(Type value) :
     value(value)
 {
 }
 
-template <typename T>
-EncodeEnum<T>::EncodeEnum(const char* name, T value) :
+template <typename Type>
+EncodeEnum<Type>::EncodeEnum(const char* name, Type value) :
     name(name),
     value(value)
 {
 }
 
-template <typename T>
-DecodeValue<T>::DecodeValue(T& value) :
+template <typename Type>
+DecodeValue<Type>::DecodeValue(Type& value) :
     value(value)
 {
 }
 
-template <typename T>
-DecodeValue<T>::DecodeValue(const char* name, T& value, bool required) :
+template <typename Type>
+DecodeValue<Type>::DecodeValue(const char* name, Type& value, bool required) :
     name(name),
     value(value),
     required(required)
 {
 }
 
-template <typename T>
-DecodeVector<T>::DecodeVector(std::vector<T>& values) :
+template <typename Type>
+DecodeVector<Type>::DecodeVector(std::vector<Type>& values) :
     values(values)
 {
 }
 
-template <typename T>
-DecodeVector<T>::DecodeVector(const char* name, std::vector<T>& values, bool required) :
+template <typename Type>
+DecodeVector<Type>::DecodeVector(const char* name, std::vector<Type>& values, bool required) :
     name(name),
     values(values),
     required(required)
 {
 }
 
-template <typename T>
-DecodeEnum<T>::DecodeEnum(T& value) :
+template <typename Type>
+DecodeEnum<Type>::DecodeEnum(Type& value) :
     value(value)
 {
 }
 
-template <typename T>
-DecodeEnum<T>::DecodeEnum(const char* name, T& value, bool required) :
+template <typename Type>
+DecodeEnum<Type>::DecodeEnum(const char* name, Type& value, bool required) :
     name(name),
     value(value),
     required(required)
 {
 }
 
-template <typename T>
-EncodeValue<T> encode_value(const T& value)
+template <typename Type>
+EncodeValue<Type> encode_value(const Type& value)
 {
-    return EncodeValue<T>(value);
+    return EncodeValue<Type>(value);
 }
 
-template <typename T>
-EncodeValue<T> encode_value(const char* name, const T& value)
+template <typename Type>
+EncodeValue<Type> encode_value(const char* name, const Type& value)
 {
-    return EncodeValue<T>(name, value);
+    return EncodeValue<Type>(name, value);
 }
 
-template <typename T>
-EncodeVector<T> encode_vector(const std::vector<T>& values)
+template <typename Type>
+EncodeVector<Type> encode_vector(const std::vector<Type>& values)
 {
-    return EncodeVector<T>(values);
+    return EncodeVector<Type>(values);
 }
 
-template <typename T>
-EncodeVector<T> encode_vector(const char* name, const std::vector<T>& values)
+template <typename Type>
+EncodeVector<Type> encode_vector(const char* name, const std::vector<Type>& values)
 {
-    return EncodeVector<T>(name, values);
+    return EncodeVector<Type>(name, values);
 }
 
-template <typename T>
-EncodeEnum<T> encode_enum(T value)
+template <typename Type>
+EncodeEnum<Type> encode_enum(Type value)
 {
-    return EncodeEnum<T>(value);
+    return EncodeEnum<Type>(value);
 }
 
-template <typename T>
-EncodeEnum<T> encode_enum(const char* name, T value)
+template <typename Type>
+EncodeEnum<Type> encode_enum(const char* name, Type value)
 {
-    return EncodeEnum<T>(name, value);
+    return EncodeEnum<Type>(name, value);
 }
 
-template <typename T>
-DecodeValue<T> decode_value(T& value)
+template <typename Type>
+DecodeValue<Type> decode_value(Type& value)
 {
-    return DecodeValue<T>(value);
+    return DecodeValue<Type>(value);
 }
 
-template <typename T>
-DecodeValue<T> decode_value(const char* name, T& value, bool required)
+template <typename Type>
+DecodeValue<Type> decode_value(const char* name, Type& value, bool required)
 {
-    return DecodeValue<T>(name, value, required);
+    return DecodeValue<Type>(name, value, required);
 }
 
-template <typename T>
-DecodeVector<T> decode_vector(std::vector<T>& value)
+template <typename Type>
+DecodeVector<Type> decode_vector(std::vector<Type>& value)
 {
-    return DecodeVector<T>(value);
+    return DecodeVector<Type>(value);
 }
 
-template <typename T>
-DecodeVector<T> decode_vector(const char* name, std::vector<T>& value, bool required)
+template <typename Type>
+DecodeVector<Type> decode_vector(const char* name, std::vector<Type>& value, bool required)
 {
-    return DecodeVector<T>(name, value, required);
+    return DecodeVector<Type>(name, value, required);
 }
 
-template <typename T>
-DecodeEnum<T> decode_enum(T& value)
+template <typename Type>
+DecodeEnum<Type> decode_enum(Type& value)
 {
-    return DecodeEnum<T>(value);
+    return DecodeEnum<Type>(value);
 }
 
-template <typename T>
-DecodeEnum<T> decode_enum(const char* name, T& value, bool required)
+template <typename Type>
+DecodeEnum<Type> decode_enum(const char* name, Type& value, bool required)
 {
-    return DecodeEnum<T>(name, value, required);
+    return DecodeEnum<Type>(name, value, required);
 }
 
 }

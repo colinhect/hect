@@ -32,7 +32,7 @@ namespace hect
 
 ///
 /// A 2-dimensional vector.
-template <typename T>
+template <typename Type>
 class Vector2T
 {
 public:
@@ -61,14 +61,14 @@ public:
     /// Constructs a vector with a value for all components.
     ///
     /// \param value The value for each component.
-    Vector2T(T value);
+    Vector2T(Type value);
 
     ///
     /// Constructs a vector with a value for each component.
     ///
     /// \param x The value for the x component.
     /// \param y The value for the y component.
-    Vector2T(T x, T y);
+    Vector2T(Type x, Type y);
 
     ///
     /// Scales the vector to unit length while preserving the direction.
@@ -82,7 +82,7 @@ public:
     /// Returns the dot product of the vector another vector.
     ///
     /// \param v The vector to compute the dot product with.
-    T dot(Vector2T v) const;
+    Type dot(Vector2T v) const;
 
     ///
     /// Returns the angle from the vector to another vector.
@@ -92,14 +92,14 @@ public:
 
     ///
     /// Returns the length of the vector.
-    T length() const;
+    Type length() const;
 
     ///
     /// Returns the squared length of the vector.
     ///
     /// \note Useful for comparing vector lengths while avoiding
     /// computation of a square root.
-    T length_squared() const;
+    Type length_squared() const;
 
     ///
     /// Returns a copy of the vector of the floor of each component.
@@ -147,7 +147,7 @@ public:
     /// Returns the product of the vector and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Vector2T operator*(T value) const;
+    Vector2T operator*(Type value) const;
 
     ///
     /// Returns the product of the vector and another vector.
@@ -159,7 +159,7 @@ public:
     /// Returns the quotient of the vector and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Vector2T operator/(T value) const;
+    Vector2T operator/(Type value) const;
 
     ///
     /// Returns the quotient of the vector and another vector.
@@ -193,7 +193,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator*=(T value);
+    Vector2T& operator*=(Type value);
 
     ///
     /// Multiplies the vector by another vector.
@@ -209,7 +209,7 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector2T& operator/=(T value);
+    Vector2T& operator/=(Type value);
 
     ///
     /// Divides the vector by another vector.
@@ -223,13 +223,13 @@ public:
     /// Returns the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    T& operator[](size_t i);
+    Type& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    const T& operator[](size_t i) const;
+    const Type& operator[](size_t i) const;
 
     ///
     /// Returns whether the vector is less than another.
@@ -256,11 +256,11 @@ public:
 
     ///
     /// The x component of the vector.
-    T x { 0 };
+    Type x { 0 };
 
     ///
     /// The y component of the vector.
-    T y { 0 };
+    Type y { 0 };
 };
 
 ///
@@ -271,11 +271,11 @@ typedef Vector2T<double> Vector2;
 /// A 2-dimensional vector of integers.
 typedef Vector2T<int> IntVector2;
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, Vector2T<T> v);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, Vector2T<Type> v);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Vector2T<T>& v);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Vector2T<Type>& v);
 
 }
 

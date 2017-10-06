@@ -30,8 +30,8 @@
 namespace hect
 {
 
-template <typename T>
-AssetEntry<T>::AssetEntry(AssetCache& asset_cache, const Path& path, std::function<T*()> constructor) :
+template <typename AssetType>
+AssetEntry<AssetType>::AssetEntry(AssetCache& asset_cache, const Path& path, std::function<AssetType*()> constructor) :
     _asset_cache(asset_cache),
     _path(path),
     _constructor(constructor)
@@ -39,15 +39,15 @@ AssetEntry<T>::AssetEntry(AssetCache& asset_cache, const Path& path, std::functi
     initiate_load();
 }
 
-template <typename T>
-void AssetEntry<T>::refresh(bool force)
+template <typename AssetType>
+void AssetEntry<AssetType>::refresh(bool force)
 {
     if (_asset)
     {
         TimeStamp last_modified = _asset_cache.file_system().last_modified(_path);
         if (force || last_modified > _last_modified)
         {
-            T* asset = _asset.get();
+            AssetType* asset = _asset.get();
             delete asset;
             _asset.release();
 
@@ -59,8 +59,8 @@ void AssetEntry<T>::refresh(bool force)
     }
 }
 
-template <typename T>
-std::unique_ptr<T>& AssetEntry<T>::get()
+template <typename AssetType>
+std::unique_ptr<AssetType>& AssetEntry<AssetType>::get()
 {
     if (_task_handle)
     {
@@ -70,14 +70,14 @@ std::unique_ptr<T>& AssetEntry<T>::get()
     return _asset;
 }
 
-template <typename T>
-const Path& AssetEntry<T>::path() const
+template <typename AssetType>
+const Path& AssetEntry<AssetType>::path() const
 {
     return _path;
 }
 
-template <typename T>
-void AssetEntry<T>::initiate_load()
+template <typename AssetType>
+void AssetEntry<AssetType>::initiate_load()
 {
     TaskPool& task_pool = _asset_cache.task_pool();
     _task_handle = task_pool.enqueue([this]
@@ -86,8 +86,8 @@ void AssetEntry<T>::initiate_load()
     });
 }
 
-template <typename T>
-void AssetEntry<T>::load()
+template <typename AssetType>
+void AssetEntry<AssetType>::load()
 {
     _asset.reset(_constructor());
     _exception_occurred = false;

@@ -33,7 +33,7 @@ namespace hect
 
 ///
 /// A 3-dimensional vector.
-template <typename T>
+template <typename Type>
 class Vector3T
 {
 public:
@@ -66,7 +66,7 @@ public:
     /// Constructs a vector with a value for all components.
     ///
     /// \param value The value for each component.
-    Vector3T(T value);
+    Vector3T(Type value);
 
     ///
     /// Constructs a vector with a value for each component.
@@ -74,13 +74,13 @@ public:
     /// \param x The value for the x component.
     /// \param y The value for the y component.
     /// \param z The value for the z component.
-    Vector3T(T x, T y, T z);
+    Vector3T(Type x, Type y, Type z);
 
     ///
     /// Constructs a vector from a 2-dimensional vector.
     ///
     /// \param v The vector.
-    Vector3T(Vector2T<T> v);
+    Vector3T(Vector2T<Type> v);
 
     ///
     /// \copydoc hect::Vector2T::normalize()
@@ -92,7 +92,7 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::dot()
-    T dot(Vector3T v) const;
+    Type dot(Vector3T v) const;
 
     ///
     /// Returns the cross product of the vector and another vector.
@@ -106,11 +106,11 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::length()
-    T length() const;
+    Type length() const;
 
     ///
     /// \copydoc hect::Vector2T::length_squared()
-    T length_squared() const;
+    Type length_squared() const;
 
     ///
     /// \copydoc hect::Vector2T::floor()
@@ -152,7 +152,7 @@ public:
     /// Returns the product of the vector and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Vector3T operator*(T value) const;
+    Vector3T operator*(Type value) const;
 
     ///
     /// Returns the product of the vector and another vector.
@@ -164,7 +164,7 @@ public:
     /// Returns the quotient of the vector and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Vector3T operator/(T value) const;
+    Vector3T operator/(Type value) const;
 
     ///
     /// Returns the quotient of the vector and another vector.
@@ -198,7 +198,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator*=(T value);
+    Vector3T& operator*=(Type value);
 
     ///
     /// Multiplies the vector by another vector.
@@ -214,7 +214,7 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector3T& operator/=(T value);
+    Vector3T& operator/=(Type value);
 
     ///
     /// Divides the vector by another vector.
@@ -228,13 +228,13 @@ public:
     /// Returns the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    T& operator[](size_t i);
+    Type& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    const T& operator[](size_t i) const;
+    const Type& operator[](size_t i) const;
 
     ///
     /// Returns whether the vector is less than another.
@@ -261,15 +261,15 @@ public:
 
     ///
     /// The x component of the vector.
-    T x { 0 };
+    Type x { 0 };
 
     ///
     /// The y component of the vector.
-    T y { 0 };
+    Type y { 0 };
 
     ///
     /// The z component of the vector.
-    T z { 0 };
+    Type z { 0 };
 };
 
 ///
@@ -280,11 +280,11 @@ typedef Vector3T<double> Vector3;
 /// A 3-dimensional vector of integers.
 typedef Vector3T<int> IntVector3;
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, Vector3T<T> v);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, Vector3T<Type> v);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Vector3T<T>& v);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Vector3T<Type>& v);
 
 }
 

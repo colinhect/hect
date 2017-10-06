@@ -217,11 +217,11 @@ HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndArray&);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, const BeginObject& begin_object);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, const EndObject&);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decode_value);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, const DecodeValue<Type>& decode_value);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decode_enum);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, const DecodeEnum<Type>& decode_enum);
 
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, std::string& value);
 HECT_EXPORT Decoder& operator>>(Decoder& decoder, int8_t& value);

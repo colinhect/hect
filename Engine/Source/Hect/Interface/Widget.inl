@@ -26,8 +26,8 @@
 namespace hect
 {
 
-template <typename T>
-Widget<T>::Widget(InterfaceSystem& interface_system) :
+template <typename WidgetType>
+Widget<WidgetType>::Widget(InterfaceSystem& interface_system) :
     WidgetBase(interface_system)
 {
 }

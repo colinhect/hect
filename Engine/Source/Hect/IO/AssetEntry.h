@@ -51,7 +51,7 @@ public:
 
 ///
 /// Refers to an Asset existing at a specific path in the FileSystem.
-template <typename T>
+template <typename AssetType>
 class AssetEntry :
     public AssetEntryBase
 {
@@ -63,13 +63,13 @@ public:
     /// \param asset_cache The asset cache.
     /// \param path The path to the asset.
     /// \param constructor A function constructing a new instance of the asset.
-    AssetEntry(AssetCache& asset_cache, const Path& path, std::function<T*()> constructor);
+    AssetEntry(AssetCache& asset_cache, const Path& path, std::function<AssetType*()> constructor);
 
     void refresh(bool force) override;
 
     ///
     /// Returns the unique pointer to the asset.
-    std::unique_ptr<T>& get();
+    std::unique_ptr<AssetType>& get();
 
     ///
     /// Returns the path of the asset.
@@ -82,11 +82,11 @@ private:
     AssetCache& _asset_cache;
     Path _path;
 
-    std::function<T*()> _constructor;
+    std::function<AssetType*()> _constructor;
 
     Task::Handle _task_handle;
 
-    std::unique_ptr<T> _asset;
+    std::unique_ptr<AssetType> _asset;
 
     bool _exception_occurred { false };
     std::string _exception_message;

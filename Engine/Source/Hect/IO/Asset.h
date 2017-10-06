@@ -36,7 +36,7 @@ namespace hect
 
 ///
 /// Inheriting from this allows for caching/loading using an AssetCache.
-template <typename T>
+template <typename AssetType>
 class Asset :
     public Encodable
 {
@@ -66,7 +66,7 @@ public:
     /// Returns an unowned handle to the asset.
     ///
     /// \warning The lifetime of the asset must out-live the handle.
-    AssetHandle<T> create_handle();
+    AssetHandle<AssetType> create_handle();
 
 private:
     Name _name;

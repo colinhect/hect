@@ -26,10 +26,10 @@
 namespace hect
 {
 
-template <typename T>
-T lerp(T a, T b, T delta)
+template <typename Type>
+Type lerp(Type a, Type b, Type delta)
 {
-    return (T(1) - delta) * a + delta * b;
+    return (Type(1) - delta) * a + delta * b;
 }
 
 }

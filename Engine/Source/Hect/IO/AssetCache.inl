@@ -26,27 +26,27 @@
 namespace hect
 {
 
-template <typename T, typename... Args>
-T& AssetCache::get(const Path& path, Args&&... args)
+template <typename AssetType, typename... Args>
+AssetType& AssetCache::get(const Path& path, Args&&... args)
 {
-    return *get_handle<T>(path, args...);
+    return *get_handle<AssetType>(path, args...);
 }
 
-template <typename T, typename... Args>
-AssetHandle<T> AssetCache::get_handle(const Path& path, Args&&... args)
+template <typename AssetType, typename... Args>
+AssetHandle<AssetType> AssetCache::get_handle(const Path& path, Args&&... args)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
 
-    std::shared_ptr<AssetEntry<T>> entry;
+    std::shared_ptr<AssetEntry<AssetType>> entry;
 
     const Path resolved_path = resolve_path(path);
     auto it = _entries.find(resolved_path);
     if (it == _entries.end())
     {
         // First time this asset was requested so create a new entry
-        entry.reset(new AssetEntry<T>(*this, resolved_path, [&]()
+        entry.reset(new AssetEntry<AssetType>(*this, resolved_path, [&]()
         {
-            return new T(args...);
+            return new AssetType(args...);
         }));
 
         // Add the new entry to the entry map
@@ -55,7 +55,7 @@ AssetHandle<T> AssetCache::get_handle(const Path& path, Args&&... args)
     else
     {
         // There is already an entry for this asset.
-        entry = std::dynamic_pointer_cast<AssetEntry<T>>((*it).second);
+        entry = std::dynamic_pointer_cast<AssetEntry<AssetType>>((*it).second);
 
         // Throw an error if the asset is not of the same type as the template
         // type
@@ -65,10 +65,10 @@ AssetHandle<T> AssetCache::get_handle(const Path& path, Args&&... args)
         }
     }
 
-    return AssetHandle<T>(entry);
+    return AssetHandle<AssetType>(entry);
 }
 
-template <typename T>
+template <typename AssetType>
 void AssetCache::refresh(bool only_modified)
 {
     std::lock_guard<std::recursive_mutex> lock(_mutex);
@@ -76,7 +76,7 @@ void AssetCache::refresh(bool only_modified)
     bool force = !only_modified;
     for (auto& pair : _entries)
     {
-        AssetEntry<T>* entry = std::dynamic_pointer_cast<AssetEntry<T>>(pair.second).get();
+        AssetEntry<AssetType>* entry = std::dynamic_pointer_cast<AssetEntry<AssetType>>(pair.second).get();
         if (entry)
         {
             entry->refresh(force);
@@ -84,8 +84,8 @@ void AssetCache::refresh(bool only_modified)
     }
 }
 
-template <typename T>
-void AssetCache::remove(const AssetHandle<T>& handle)
+template <typename AssetType>
+void AssetCache::remove(const AssetHandle<AssetType>& handle)
 {
     remove(handle.path());
 }

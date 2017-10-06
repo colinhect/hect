@@ -32,12 +32,12 @@
 namespace hect
 {
 
-template <typename T>
+template <typename Type>
 class QuaternionT;
 
 ///
 /// A column-major 4 by 4 matrix.
-template <typename T>
+template <typename Type>
 class Matrix4T
 {
 public:
@@ -48,7 +48,7 @@ public:
     /// \param translation The translation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T from_translation(Vector3T<T> translation);
+    static Matrix4T from_translation(Vector3T<Type> translation);
 
     ///
     /// Constructs a matrix from a scale.
@@ -56,7 +56,7 @@ public:
     /// \param scale The scale of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T from_scale(Vector3T<T> scale);
+    static Matrix4T from_scale(Vector3T<Type> scale);
 
     ///
     /// Constructs a matrix from a rotation.
@@ -64,7 +64,7 @@ public:
     /// \param rotation The rotation of the resulting matrix.
     ///
     /// \returns The matrix.
-    static Matrix4T from_rotation(QuaternionT<T> rotation);
+    static Matrix4T from_rotation(QuaternionT<Type> rotation);
 
     ///
     /// Constructs a view matrix.
@@ -74,7 +74,7 @@ public:
     /// \param up The up direction of the view.
     ///
     /// \returns The view matrix.
-    static Matrix4T create_view(Vector3T<T> position, Vector3T<T> direction, Vector3T<T> up);
+    static Matrix4T create_view(Vector3T<Type> position, Vector3T<Type> direction, Vector3T<Type> up);
 
     ///
     /// Constructs a perspective projection matrix.
@@ -85,7 +85,7 @@ public:
     /// \param far_clip The maximum distance from the origin to clip.
     ///
     /// \returns The projection matrix.
-    static Matrix4T create_perspective(Radians field_of_view, T aspect_ratio, T near_clip, T far_clip);
+    static Matrix4T create_perspective(Radians field_of_view, Type aspect_ratio, Type near_clip, Type far_clip);
 
     ///
     /// Constructs an orthogonal projection matrix.
@@ -98,7 +98,7 @@ public:
     /// \param far_value The far clip value.
     ///
     /// \returns The projection matrix.
-    static Matrix4T create_orthogonal(T left, T right, T bottom, T top, T near_value, T far_value);
+    static Matrix4T create_orthogonal(Type left, Type right, Type bottom, Type top, Type near_value, Type far_value);
 
     ///
     /// Constructs an identity matrix.
@@ -108,31 +108,31 @@ public:
     /// Translates the matrix.
     ///
     /// \param translation The translation to apply.
-    void translate(Vector3T<T> translation);
+    void translate(Vector3T<Type> translation);
 
     ///
     /// Scales the matrix.
     ///
     /// \param scale The scale to apply.
-    void scale(Vector3T<T> scale);
+    void scale(Vector3T<Type> scale);
 
     ///
     /// Rotates the matrix.
     ///
     /// \param rotation The rotation to apply.
-    void rotate(QuaternionT<T> rotation);
+    void rotate(QuaternionT<Type> rotation);
 
     ///
     /// Returns the given 3-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector3T<T> operator*(Vector3T<T> v) const;
+    Vector3T<Type> operator*(Vector3T<Type> v) const;
 
     ///
     /// Returns the given 4-dimensional vector transformed by the matrix.
     ///
     /// \param v The vector to transform.
-    Vector4T<T> operator*(Vector4T<T> v) const;
+    Vector4T<Type> operator*(Vector4T<Type> v) const;
 
     ///
     /// Returns the product of the matrix and another matrix.
@@ -152,13 +152,13 @@ public:
     /// Returns the ith value of the matrix.
     ///
     /// \param i The index of which component to access.
-    T& operator[](size_t i);
+    Type& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith value of the matrix.
     ///
     /// \param i The index of which component to access.
-    const T& operator[](size_t i) const;
+    const Type& operator[](size_t i) const;
 
     ///
     /// Returns whether the matrix is equivalent to another.
@@ -178,16 +178,16 @@ public:
     operator Matrix4T<U>() const;
 
 private:
-    T _c[16];
+    Type _c[16];
 };
 
 typedef Matrix4T<double> Matrix4;
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const Matrix4T<T>& m);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const Matrix4T<Type>& m);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Matrix4T<T>& m);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Matrix4T<Type>& m);
 
 }
 

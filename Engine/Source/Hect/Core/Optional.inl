@@ -26,40 +26,40 @@
 namespace hect
 {
 
-template <typename T>
-Optional<T>::Optional()
+template <typename Type>
+Optional<Type>::Optional()
 {
 }
 
-template <typename T>
-Optional<T>::Optional(const T& value) :
+template <typename Type>
+Optional<Type>::Optional(const Type& value) :
     _has_value(true),
     _value(value)
 {
 }
 
-template <typename T>
-Optional<T>::Optional(const Optional<T>& optional) :
+template <typename Type>
+Optional<Type>::Optional(const Optional<Type>& optional) :
     _has_value(optional._has_value),
     _value(optional._value)
 {
 }
 
-template <typename T>
-Optional<T>::Optional(Optional<T>&& optional) :
+template <typename Type>
+Optional<Type>::Optional(Optional<Type>&& optional) :
     _has_value(optional._has_value),
     _value(std::move(optional._value))
 {
 }
 
-template <typename T>
-bool Optional<T>::has_value() const
+template <typename Type>
+bool Optional<Type>::has_value() const
 {
     return _has_value;
 }
 
-template <typename T>
-T& Optional<T>::value()
+template <typename Type>
+Type& Optional<Type>::value()
 {
     if (!_has_value)
     {
@@ -69,60 +69,60 @@ T& Optional<T>::value()
     return _value;
 }
 
-template <typename T>
-const T& Optional<T>::value() const
+template <typename Type>
+const Type& Optional<Type>::value() const
 {
-    return const_cast<Optional<T>*>(this)->value();
+    return const_cast<Optional<Type>*>(this)->value();
 }
 
-template <typename T>
-Optional<T>::operator bool() const
+template <typename Type>
+Optional<Type>::operator bool() const
 {
     return has_value();
 }
 
-template <typename T>
-T& Optional<T>::operator*()
+template <typename Type>
+Type& Optional<Type>::operator*()
 {
     return value();
 }
 
-template <typename T>
-const T& Optional<T>::operator*() const
+template <typename Type>
+const Type& Optional<Type>::operator*() const
 {
     return value();
 }
 
-template <typename T>
-T* Optional<T>::operator->()
+template <typename Type>
+Type* Optional<Type>::operator->()
 {
     return &value();
 }
 
-template <typename T>
-const T* Optional<T>::operator->() const
+template <typename Type>
+const Type* Optional<Type>::operator->() const
 {
     return &value();
 }
 
-template <typename T>
-Optional<T>& Optional<T>::operator=(const T& value)
+template <typename Type>
+Optional<Type>& Optional<Type>::operator=(const Type& value)
 {
     _has_value = true;
     _value = value;
     return *this;
 }
 
-template <typename T>
-Optional<T>& Optional<T>::operator=(T&& value)
+template <typename Type>
+Optional<Type>& Optional<Type>::operator=(Type&& value)
 {
     _has_value = true;
     _value = std::move(value);
     return *this;
 }
 
-template <typename T>
-Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
+template <typename Type>
+Optional<Type>& Optional<Type>::operator=(const Optional<Type>& optional)
 {
     _has_value = optional._has_value;
     if (_has_value)
@@ -132,8 +132,8 @@ Optional<T>& Optional<T>::operator=(const Optional<T>& optional)
     return *this;
 }
 
-template <typename T>
-Optional<T>& Optional<T>::operator=(Optional<T>&& optional)
+template <typename Type>
+Optional<Type>& Optional<Type>::operator=(Optional<Type>&& optional)
 {
     _has_value = optional._has_value;
     if (_has_value)

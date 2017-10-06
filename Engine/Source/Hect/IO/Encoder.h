@@ -172,14 +172,14 @@ HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndArray&);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const BeginObject& begin_object);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const EndObject&);
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encode_value);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeValue<Type>& encode_value);
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeVector<Type>& encode_vector);
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encode_enum);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<Type>& encode_enum);
 
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const char* value);
 HECT_EXPORT Encoder& operator<<(Encoder& encoder, const std::string& value);

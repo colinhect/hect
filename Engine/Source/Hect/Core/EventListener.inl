@@ -28,21 +28,21 @@
 namespace hect
 {
 
-template <typename T>
-EventListener<T>::~EventListener()
+template <typename Type>
+EventListener<Type>::~EventListener()
 {
     // Copy the vector so it will remain valid when items are removed from it
     auto dispatchers = _dispatchers;
 
     // Unregister the listener from all dispatchers
-    for (EventDispatcher<T>* dispatcher : dispatchers)
+    for (EventDispatcher<Type>* dispatcher : dispatchers)
     {
         dispatcher->unregister_listener(*this);
     }
 }
 
-template <typename T>
-void EventListener<T>::add_dispatcher(EventDispatcher<T>& dispatcher)
+template <typename Type>
+void EventListener<Type>::add_dispatcher(EventDispatcher<Type>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it != _dispatchers.end())
@@ -55,8 +55,8 @@ void EventListener<T>::add_dispatcher(EventDispatcher<T>& dispatcher)
     }
 }
 
-template <typename T>
-void EventListener<T>::remove_dispatcher(EventDispatcher<T>& dispatcher)
+template <typename Type>
+void EventListener<Type>::remove_dispatcher(EventDispatcher<Type>& dispatcher)
 {
     auto it = std::find(_dispatchers.begin(), _dispatchers.end(), &dispatcher);
     if (it == _dispatchers.end())

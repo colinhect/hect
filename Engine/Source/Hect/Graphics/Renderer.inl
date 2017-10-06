@@ -24,59 +24,59 @@
 namespace hect
 {
 
-template <typename T>
-Renderer::Data<T>::Data(Renderer& renderer, T& object) :
+template <typename RenderObjectType>
+Renderer::Data<RenderObjectType>::Data(Renderer& renderer, RenderObjectType& object) :
     renderer(&renderer),
     object(&object)
 {
 }
 
-template <typename T>
-void Renderer::Data<T>::invalidate()
+template <typename RenderObjectType>
+void Renderer::Data<RenderObjectType>::invalidate()
 {
     renderer = nullptr;
     object = nullptr;
 }
 
-template <typename T>
-Renderer::DataHandle<T>::DataHandle()
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>::DataHandle()
 {
 }
 
-template <typename T>
-Renderer::DataHandle<T>::DataHandle(Data<T>* data) :
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>::DataHandle(Data<RenderObjectType>* data) :
     data(data)
 {
 }
 
-template <typename T>
-Renderer::DataHandle<T>::DataHandle(const DataHandle<T>& handle)
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>::DataHandle(const DataHandle<RenderObjectType>& handle)
 {
     (void)handle;
 }
 
-template <typename T>
-Renderer::DataHandle<T>::DataHandle(DataHandle<T>&& handle) :
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>::DataHandle(DataHandle<RenderObjectType>&& handle) :
     data(std::move(handle.data))
 {
 }
 
-template <typename T>
-Renderer::DataHandle<T>& Renderer::DataHandle<T>::operator=(const DataHandle<T>& handle)
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>& Renderer::DataHandle<RenderObjectType>::operator=(const DataHandle<RenderObjectType>& handle)
 {
     (void)handle;
     return *this;
 }
 
-template <typename T>
-Renderer::DataHandle<T>& Renderer::DataHandle<T>::operator=(DataHandle<T>&& handle)
+template <typename RenderObjectType>
+Renderer::DataHandle<RenderObjectType>& Renderer::DataHandle<RenderObjectType>::operator=(DataHandle<RenderObjectType>&& handle)
 {
     data = std::move(handle.data);
     return *this;
 }
 
-template <typename T>
-void Renderer::DataHandle<T>::reset(Data<T>* data)
+template <typename RenderObjectType>
+void Renderer::DataHandle<RenderObjectType>::reset(Data<RenderObjectType>* data)
 {
     // Re-use the allocated data if possible
     if (this->data)
@@ -94,14 +94,14 @@ void Renderer::DataHandle<T>::reset(Data<T>* data)
     }
 }
 
-template <typename T>
-bool Renderer::Object<T>::is_uploaded() const
+template <typename RenderObjectType>
+bool Renderer::Object<RenderObjectType>::is_uploaded() const
 {
     return _renderer != nullptr && _handle.data.get() != nullptr;
 }
 
-template <typename T>
-Renderer& Renderer::Object<T>::renderer()
+template <typename RenderObjectType>
+Renderer& Renderer::Object<RenderObjectType>::renderer()
 {
     if (!_renderer)
     {
@@ -110,23 +110,23 @@ Renderer& Renderer::Object<T>::renderer()
     return *_renderer;
 }
 
-template <typename T>
+template <typename RenderObjectType>
 template <typename U>
-U* Renderer::Object<T>::data_as() const
+U* Renderer::Object<RenderObjectType>::data_as() const
 {
-    Data<T>* data = _handle.data.get();
+    Data<RenderObjectType>* data = _handle.data.get();
     return reinterpret_cast<U*>(data);
 }
 
-template <typename T>
-void Renderer::Object<T>::set_as_uploaded(Renderer& renderer, Data<T>* data)
+template <typename RenderObjectType>
+void Renderer::Object<RenderObjectType>::set_as_uploaded(Renderer& renderer, Data<RenderObjectType>* data)
 {
     _renderer = &renderer;
     _handle.reset(data);
 }
 
-template <typename T>
-void Renderer::Object<T>::set_as_destroyed()
+template <typename RenderObjectType>
+void Renderer::Object<RenderObjectType>::set_as_destroyed()
 {
     _renderer = nullptr;
 }

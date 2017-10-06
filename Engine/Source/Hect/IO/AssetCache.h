@@ -65,8 +65,8 @@ public:
     /// \throws InvalidOperation If the asset at the given path is of a
     /// different type.
     /// \throws FatalError If the asset failed to load.
-    template <typename T, typename... Args>
-    T& get(const Path& path, Args&&... args);
+    template <typename AssetType, typename... Args>
+    AssetType& get(const Path& path, Args&&... args);
 
     ///
     /// Returns a handle for the asset at the given path.
@@ -80,15 +80,15 @@ public:
     ///
     /// \throws InvalidOperation If the asset at the given path is of a
     /// different type.
-    template <typename T, typename... Args>
-    AssetHandle<T> get_handle(const Path& path, Args&&... args);
+    template <typename AssetType, typename... Args>
+    AssetHandle<AssetType> get_handle(const Path& path, Args&&... args);
 
     ///
     /// Re-loads any cached assets of a specific type.
     ///
     /// \param only_modified Whether to only re-load the assets whose asset
     /// files have been modified since it was loaded.
-    template <typename T>
+    template <typename AssetType>
     void refresh(bool only_modified);
 
     ///
@@ -100,8 +100,8 @@ public:
 
     ///
     /// Removes an asset from a handle from the cache.
-    template <typename T>
-    void remove(const AssetHandle<T>& handle);
+    template <typename AssetType>
+    void remove(const AssetHandle<AssetType>& handle);
 
     ///
     /// Removes an asset at the given path from the cache.

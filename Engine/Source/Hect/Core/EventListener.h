@@ -30,15 +30,15 @@
 namespace hect
 {
 
-template <typename T>
+template <typename Type>
 class EventDispatcher;
 
 ///
 /// An listener of specific event.
-template <typename T>
+template <typename Type>
 class EventListener
 {
-    friend class EventDispatcher<T>;
+    friend class EventDispatcher<Type>;
 public:
 
     ///
@@ -50,13 +50,13 @@ public:
     /// Notifies the listener of an event.
     ///
     /// \param event The event.
-    virtual void receive_event(const T& event) = 0;
+    virtual void receive_event(const Type& event) = 0;
 
 private:
-    void add_dispatcher(EventDispatcher<T>& dispatcher);
-    void remove_dispatcher(EventDispatcher<T>& dispatcher);
+    void add_dispatcher(EventDispatcher<Type>& dispatcher);
+    void remove_dispatcher(EventDispatcher<Type>& dispatcher);
 
-    std::vector<EventDispatcher<T>*> _dispatchers;
+    std::vector<EventDispatcher<Type>*> _dispatchers;
 };
 
 }

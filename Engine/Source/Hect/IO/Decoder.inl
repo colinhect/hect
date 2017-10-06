@@ -24,8 +24,8 @@
 namespace hect
 {
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decode_value)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, const DecodeValue<Type>& decode_value)
 {
     if (!decode_value.name || decoder.select_member(decode_value.name))
     {
@@ -41,8 +41,8 @@ Decoder& operator>>(Decoder& decoder, const DecodeValue<T>& decode_value)
     }
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decode_vector)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, const DecodeVector<Type>& decode_vector)
 {
     if (!decode_vector.name || decoder.select_member(decode_vector.name))
     {
@@ -50,7 +50,7 @@ Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decode_vector)
 
         while (decoder.has_more_elements())
         {
-            decode_vector.values.push_back(T());
+            decode_vector.values.push_back(Type());
             decoder >> decode_value(decode_vector.values.back());
         }
 
@@ -66,8 +66,8 @@ Decoder& operator>>(Decoder& decoder, const DecodeVector<T>& decode_vector)
     return decoder;
 }
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decode_enum)
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, const DecodeEnum<Type>& decode_enum)
 {
     if (!decode_enum.name || decoder.select_member(decode_enum.name))
     {
@@ -75,13 +75,13 @@ Decoder& operator>>(Decoder& decoder, const DecodeEnum<T>& decode_enum)
         {
             uint8_t value;
             decoder >> decode_value(value);
-            decode_enum.value = static_cast<T>(value);
+            decode_enum.value = static_cast<Type>(value);
         }
         else
         {
             std::string string;
             decoder >> decode_value(string);
-            decode_enum.value = Enum::from_string<T>(string);
+            decode_enum.value = Enum::from_string<Type>(string);
         }
     }
     else

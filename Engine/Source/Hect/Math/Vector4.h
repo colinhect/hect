@@ -34,7 +34,7 @@ namespace hect
 
 ///
 /// A 4-dimensional vector.
-template <typename T>
+template <typename Type>
 class Vector4T
 {
 public:
@@ -71,7 +71,7 @@ public:
     /// Constructs a vector with a value for all components.
     ///
     /// \param value The value for each component.
-    Vector4T(T value);
+    Vector4T(Type value);
 
     ///
     /// Constructs a vector with a value for each component.
@@ -80,19 +80,19 @@ public:
     /// \param y The value for the y component.
     /// \param z The value for the z component.
     /// \param w The value for the w component.
-    Vector4T(T x, T y, T z, T w);
+    Vector4T(Type x, Type y, Type z, Type w);
 
     ///
     /// Constructs a vector from a 2-dimensional vector.
     ///
     /// \param v The vector.
-    Vector4T(Vector2T<T> v);
+    Vector4T(Vector2T<Type> v);
 
     ///
     /// Constructs a vector from a 3-dimensional vector.
     ///
     /// \param v The vector.
-    Vector4T(Vector3T<T> v);
+    Vector4T(Vector3T<Type> v);
 
     ///
     /// \copydoc hect::Vector2T::normalize()
@@ -104,7 +104,7 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::dot()
-    T dot(Vector4T v) const;
+    Type dot(Vector4T v) const;
 
     ///
     /// \copydoc hect::Vector2T::angle_from()
@@ -112,11 +112,11 @@ public:
 
     ///
     /// \copydoc hect::Vector2T::length()
-    T length() const;
+    Type length() const;
 
     ///
     /// \copydoc hect::Vector2T::length_squared()
-    T length_squared() const;
+    Type length_squared() const;
 
     ///
     /// \copydoc hect::Vector2T::floor()
@@ -158,7 +158,7 @@ public:
     /// Returns the product of the vector and a scalar.
     ///
     /// \param value The scalar to compute the product with.
-    Vector4T operator*(T value) const;
+    Vector4T operator*(Type value) const;
 
     ///
     /// Returns the product of the vector and another vector.
@@ -170,7 +170,7 @@ public:
     /// Returns the quotient of the vector and a scalar.
     ///
     /// \param value The scalar to compute the quotient with.
-    Vector4T operator/(T value) const;
+    Vector4T operator/(Type value) const;
 
     ///
     /// Returns the quotient of the vector and another vector.
@@ -204,7 +204,7 @@ public:
     /// \param value The scalar to multiply by.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator*=(T value);
+    Vector4T& operator*=(Type value);
 
     ///
     /// Multiplies the vector by another vector.
@@ -220,7 +220,7 @@ public:
     /// \param value The scalar to divide by.
     ///
     /// \returns A reference to the vector.
-    Vector4T& operator/=(T value);
+    Vector4T& operator/=(Type value);
 
     ///
     /// Divides the vector by another vector.
@@ -234,13 +234,13 @@ public:
     /// Returns the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    T& operator[](size_t i);
+    Type& operator[](size_t i);
 
     ///
     /// Returns a constant reference to the ith component of the vertex.
     ///
     /// \param i The index of which component to access.
-    const T& operator[](size_t i) const;
+    const Type& operator[](size_t i) const;
 
     ///
     /// Returns whether the vector is less than another.
@@ -267,19 +267,19 @@ public:
 
     ///
     /// The x component of the vector.
-    T x { 0 };
+    Type x { 0 };
 
     ///
     /// The y component of the vector.
-    T y { 0 };
+    Type y { 0 };
 
     ///
     /// The z component of the vector.
-    T z { 0 };
+    Type z { 0 };
 
     ///
     /// The w component of the vector.
-    T w { 0 };
+    Type w { 0 };
 };
 
 ///
@@ -290,11 +290,11 @@ typedef Vector4T<double> Vector4;
 /// A 4-dimensional vector of integers.
 typedef Vector4T<int> IntVector4;
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, Vector4T<T> v);
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, Vector4T<Type> v);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, Vector4T<T>& v);
+template <typename Type>
+Decoder& operator>>(Decoder& decoder, Vector4T<Type>& v);
 
 }
 

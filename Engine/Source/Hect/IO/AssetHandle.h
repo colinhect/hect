@@ -42,7 +42,7 @@ namespace hect
 /// file system and is cached in an asset cache.  Alternatively, it may
 /// reference a manually created asset.  A handle works much like a smart
 /// pointer.
-template <typename T>
+template <typename AssetType>
 class AssetHandle
 {
 public:
@@ -57,13 +57,13 @@ public:
     /// \param asset A pointer to the asset.
     /// \param owned Whether the lifetime of the asset should be owned by the
     /// handle.
-    AssetHandle(T* asset, bool owned = true);
+    AssetHandle(AssetType* asset, bool owned = true);
 
     ///
     /// Constructs an asset handle.
     ///
     /// \param entry The asset entry.
-    AssetHandle(const std::shared_ptr<AssetEntry<T>>& entry);
+    AssetHandle(const std::shared_ptr<AssetEntry<AssetType>>& entry);
 
     ///
     /// Constructs an asset handle.
@@ -89,7 +89,7 @@ public:
     /// \param asset A pointer to the asset.
     /// \param owned Whether the lifetime of the asset should be owned by the
     /// handle.
-    void reset(T* asset, bool owned = true);
+    void reset(AssetType* asset, bool owned = true);
 
     ///
     /// Returns whether the handle refers to an asset.
@@ -100,37 +100,37 @@ public:
     ///
     /// \throws InvalidOperation If the handle does not refer to an asset.
     /// \throws FatalError If the asset failed to load.
-    T& operator*() const;
+    AssetType& operator*() const;
 
     ///
     /// Provides pointer-like access to the asset.
     ///
     /// \throws InvalidOperation If the handle does not refer to an asset.
     /// \throws FatalError If the asset failed to load.
-    T* operator->() const;
+    AssetType* operator->() const;
 
     ///
     /// Returns whether the handle refers to the same asset as another handle.
     ///
     /// \param asset_handle The other asset handle.
-    bool operator==(const AssetHandle<T>& asset_handle) const;
+    bool operator==(const AssetHandle<AssetType>& asset_handle) const;
 
     ///
     /// Returns whether the handle refers to a different asset as another handle.
     ///
     /// \param asset_handle The other asset handle.
-    bool operator!=(const AssetHandle<T>& asset_handle) const;
+    bool operator!=(const AssetHandle<AssetType>& asset_handle) const;
 
 private:
-    std::shared_ptr<T> _owned;
-    T* _unowned { nullptr };
-    std::shared_ptr<AssetEntry<T>> _entry;
+    std::shared_ptr<AssetType> _owned;
+    AssetType* _unowned { nullptr };
+    std::shared_ptr<AssetEntry<AssetType>> _entry;
 };
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const AssetHandle<T>& asset_handle);
+template <typename AssetType>
+Encoder& operator<<(Encoder& encoder, const AssetHandle<AssetType>& asset_handle);
 
-template <typename T>
-Decoder& operator>>(Decoder& decoder, AssetHandle<T>& asset_handle);
+template <typename AssetType>
+Decoder& operator>>(Decoder& decoder, AssetHandle<AssetType>& asset_handle);
 
 }

@@ -24,8 +24,8 @@
 namespace hect
 {
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encode_value)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeValue<Type>& encode_value)
 {
     if (encode_value.name)
     {
@@ -35,8 +35,8 @@ Encoder& operator<<(Encoder& encoder, const EncodeValue<T>& encode_value)
     return encoder;
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeVector<Type>& encode_vector)
 {
     if (encode_vector.name)
     {
@@ -44,7 +44,7 @@ Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector)
     }
     encoder << begin_array();
 
-    for (const T& value : encode_vector.values)
+    for (const Type& value : encode_vector.values)
     {
         encoder << encode_value(value);
     }
@@ -53,8 +53,8 @@ Encoder& operator<<(Encoder& encoder, const EncodeVector<T>& encode_vector)
     return encoder;
 }
 
-template <typename T>
-Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encode_enum)
+template <typename Type>
+Encoder& operator<<(Encoder& encoder, const EncodeEnum<Type>& encode_enum)
 {
     if (encode_enum.name)
     {
@@ -67,7 +67,7 @@ Encoder& operator<<(Encoder& encoder, const EncodeEnum<T>& encode_enum)
     }
     else
     {
-        encoder << encode_value(Enum::to_string<T>(encode_enum.value));
+        encoder << encode_value(Enum::to_string<Type>(encode_enum.value));
     }
     return encoder;
 }
