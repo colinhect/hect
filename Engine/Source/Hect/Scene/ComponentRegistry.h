@@ -110,7 +110,7 @@ public:
     /// Registers a Component type.
     ///
     /// \warning The type must be registered with Type.
-    template <typename T>
+    template <typename ComponentType>
     static void register_type();
 
     ///
@@ -118,7 +118,7 @@ public:
     ///
     /// \throws InvalidOperation If the specified type is not a registered
     /// component type.
-    template <typename T>
+    template <typename ComponentType>
     static ComponentTypeId type_id_of();
 
 private:

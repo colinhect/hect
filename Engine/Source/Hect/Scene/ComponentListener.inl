@@ -27,33 +27,33 @@
 namespace hect
 {
 
-template <typename T>
-ComponentListener<T>::ComponentListener(Scene& scene)
+template <typename ComponentType>
+ComponentListener<ComponentType>::ComponentListener(Scene& scene)
 {
-    scene.components<T>().register_listener(*this);
+    scene.components<ComponentType>().register_listener(*this);
 }
 
-template <typename T>
-void ComponentListener<T>::on_component_added(T& component)
-{
-    (void)component;
-}
-
-template <typename T>
-void ComponentListener<T>::on_component_removed(T& component)
+template <typename ComponentType>
+void ComponentListener<ComponentType>::on_component_added(ComponentType& component)
 {
     (void)component;
 }
 
-template <typename T>
-void ComponentListener<T>::receive_event(const ComponentEvent<T>& event)
+template <typename ComponentType>
+void ComponentListener<ComponentType>::on_component_removed(ComponentType& component)
+{
+    (void)component;
+}
+
+template <typename ComponentType>
+void ComponentListener<ComponentType>::receive_event(const ComponentEvent<ComponentType>& event)
 {
     if (event.entity)
     {
         // Copy the event to allow access to non-const component reference of
         // the entity
-        ComponentEvent<T> copied_event = event;
-        auto& component = copied_event.entity->template component<T>();
+        ComponentEvent<ComponentType> copied_event = event;
+        auto& component = copied_event.entity->template component<ComponentType>();
 
         switch (event.type)
         {

@@ -62,14 +62,14 @@ protected:
 
 ///
 /// A pool of Component%s of a specific type within a Scene.
-template <typename T>
+template <typename ComponentType>
 class ComponentPool :
     public ComponentPoolBase,
-    public EventDispatcher<ComponentEvent<T>>
+    public EventDispatcher<ComponentEvent<ComponentType>>
 {
     friend class Scene;
-    friend class Component<T>;
-    friend class ComponentIteratorBase<T>;
+    friend class Component<ComponentType>;
+    friend class ComponentIteratorBase<ComponentType>;
     friend class Entity;
 public:
 
@@ -81,19 +81,19 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename ComponentIterator<T> begin();
+    typename ComponentIterator<ComponentType> begin();
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename ComponentConstIterator<T> begin() const;
+    typename ComponentConstIterator<ComponentType> begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename ComponentIterator<T> end();
+    typename ComponentIterator<ComponentType> end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename ComponentConstIterator<T> end() const;
+    typename ComponentConstIterator<ComponentType> end() const;
 
     ///
     /// Returns a handle to the first Component matching the given
@@ -105,8 +105,8 @@ public:
     ///
     /// \returns A hande to the first matching component; invalid if there
     /// was no matching component.
-    template <typename U>
-    typename ComponentHandle<T> find_first(U&& predicate) const;
+    template <typename PredicateType>
+    typename ComponentHandle<ComponentType> find_first(PredicateType&& predicate) const;
 
     ///
     /// Returns handles to all Component%s matching the given predicate.
@@ -116,8 +116,8 @@ public:
     /// the entity matches the predicate.
     ///
     /// \returns A vector of handles to the matching components.
-    template <typename U>
-    std::vector<typename ComponentHandle<T>> find(U&& predicate) const;
+    template <typename PredicateType>
+    std::vector<typename ComponentHandle<ComponentType>> find(PredicateType&& predicate) const;
 
     ///
     /// Returns the Component with the given id.
@@ -126,11 +126,11 @@ public:
     ///
     /// \throws InvalidOperation If no component with the given id exists in
     /// the pool.
-    T& with_id(ComponentId id);
+    ComponentType& with_id(ComponentId id);
 
     ///
     /// \copydoc hect::ComponentPool::with_id()
-    const T& with_id(ComponentId id) const;
+    const ComponentType& with_id(ComponentId id) const;
 
 private:
     void dispatch_event(ComponentEventType type, Entity& entity) override;
@@ -144,11 +144,11 @@ private:
 
     bool has(const Entity& entity) const override;
 
-    T& add(Entity& entity, const T& component);
-    T& replace(Entity& entity, const T& component);
+    ComponentType& add(Entity& entity, const ComponentType& component);
+    ComponentType& replace(Entity& entity, const ComponentType& component);
 
-    T& get(Entity& entity);
-    const T& get(const Entity& entity) const;
+    ComponentType& get(Entity& entity);
+    const ComponentType& get(const Entity& entity) const;
 
     ComponentId max_id() const;
 
@@ -161,16 +161,16 @@ private:
 
     bool entity_id_to_component_id(EntityId entity_id, ComponentId& id) const;
 
-    T& look_up_component(ComponentId id);
-    const T& look_up_component(ComponentId id) const;
+    ComponentType& look_up_component(ComponentId id);
+    const ComponentType& look_up_component(ComponentId id) const;
 
-    template <typename U>
-    bool expand_vector(std::vector<U>& vector, size_t size, U value = U());
+    template <typename Type>
+    bool expand_vector(std::vector<Type>& vector, size_t size, Type value = Type());
 
     Scene& _scene;
     IdPool<ComponentId> _id_pool;
 
-    std::deque<T> _components;
+    std::deque<ComponentType> _components;
 
     std::vector<ComponentId> _entity_to_component;
     std::vector<EntityId> _component_to_entity;

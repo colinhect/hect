@@ -32,12 +32,12 @@ namespace hect
 /// A numeric identifier for a Component.
 typedef uint32_t ComponentId;
 
-template <typename T>
+template <typename ComponentType>
 class ComponentPool;
 
 ///
 /// The base functionality for a component iterator.
-template <typename T>
+template <typename ComponentType>
 class ComponentIteratorBase
 {
 public:
@@ -51,19 +51,19 @@ public:
     ///
     /// \param pool The component pool that the component belongs to.
     /// \param id The id of the component.
-    ComponentIteratorBase(ComponentPool<T>& pool, ComponentId id);
+    ComponentIteratorBase(ComponentPool<ComponentType>& pool, ComponentId id);
 
     ///
     /// Invalidates the iterator.
     void invalidate();
 
 protected:
-    T& dereference() const;
+    ComponentType& dereference() const;
     void increment();
     bool is_valid() const;
     bool equals(const ComponentIteratorBase& other) const;
 
-    mutable ComponentPool<T>* _pool { nullptr };
+    mutable ComponentPool<ComponentType>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };
 };
 
@@ -76,11 +76,11 @@ protected:
 /// removed, a newly added component may re-use the same id, leaving the
 /// iterator valid but referring to a new component.  An iterator can be
 /// created from a component using Component::iterator().
-template <typename T>
+template <typename ComponentType>
 class ComponentIterator :
-    public ComponentIteratorBase<T>
+    public ComponentIteratorBase<ComponentType>
 {
-    template <typename U> friend class ComponentConstIterator;
+    template <typename Type> friend class ComponentConstIterator;
 public:
 
     ///
@@ -92,7 +92,7 @@ public:
     ///
     /// \param pool The component pool that the component belongs to.
     /// \param id The id of the component.
-    ComponentIterator(ComponentPool<T>& pool, ComponentId id);
+    ComponentIterator(ComponentPool<ComponentType>& pool, ComponentId id);
 
     ///
     /// Dereferences the iterator to a reference to the component.
@@ -100,7 +100,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the iterator is invalid.
-    T& operator*() const;
+    ComponentType& operator*() const;
 
     ///
     /// Dereferences the iterator to a pointer to the component.
@@ -108,7 +108,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the iterator is invalid.
-    T* operator->() const;
+    ComponentType* operator->() const;
 
     ///
     /// Moves to the next component with an activated entity in the
@@ -136,9 +136,9 @@ public:
 
 ///
 /// \copydoc hect::ComponentIterator
-template <typename T>
+template <typename ComponentType>
 class ComponentConstIterator :
-    public ComponentIteratorBase<T>
+    public ComponentIteratorBase<ComponentType>
 {
 public:
 
@@ -151,13 +151,13 @@ public:
     ///
     /// \param pool The component pool that the component belongs to.
     /// \param id The id of the component.
-    ComponentConstIterator(const ComponentPool<T>& pool, ComponentId id);
+    ComponentConstIterator(const ComponentPool<ComponentType>& pool, ComponentId id);
 
     ///
     /// Constructs a valid component iterator.
     ///
     /// \param iterator The iterator to copy.
-    ComponentConstIterator(const ComponentIterator<T>& iterator);
+    ComponentConstIterator(const ComponentIterator<ComponentType>& iterator);
 
     ///
     /// Dereferences the iterator to a reference to the component.
@@ -165,7 +165,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the iterator is invalid.
-    const T& operator*() const;
+    const ComponentType& operator*() const;
 
     ///
     /// Dereferences the iterator to a pointer to the component.
@@ -173,7 +173,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the iterator is invalid.
-    const T* operator->() const;
+    const ComponentType* operator->() const;
 
     ///
     /// Moves to the next component with an activated entity in the

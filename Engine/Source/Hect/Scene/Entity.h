@@ -64,8 +64,8 @@ public:
     ///
     /// \throws InvalidOperation If the entity already has a component of the
     /// type or if the entity is invalid.
-    template <typename T, typename... Args>
-    T& add_component(Args&&... args);
+    template <typename ComponentType, typename... Args>
+    ComponentType& add_component(Args&&... args);
 
     ///
     /// Replaces an existing Component that the Entity has.
@@ -80,8 +80,8 @@ public:
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.
-    template <typename T, typename... Args>
-    T& replace_component(Args&&... args);
+    template <typename ComponentType, typename... Args>
+    ComponentType& replace_component(Args&&... args);
 
     ///
     /// Removes the Component of a specific type from the Entity.
@@ -91,12 +91,12 @@ public:
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or if the entity is invalid.
-    template <typename T>
+    template <typename ComponentType>
     void remove_component();
 
     ///
     /// Returns whether the Entity has a Component of a specific type.
-    template <typename T>
+    template <typename ComponentType>
     bool has_component() const;
 
     ///
@@ -104,16 +104,16 @@ public:
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or the entity is invalid.
-    template <typename T>
-    T& component();
+    template <typename ComponentType>
+    ComponentType& component();
 
     ///
     /// Returns a reference to the Component of a specific type for the Entity.
     ///
     /// \throws InvalidOperation If the entity does not have a component of the
     /// type or the entity is invalid.
-    template <typename T>
-    const T& component() const;
+    template <typename ComponentType>
+    const ComponentType& component() const;
 
     ///
     /// Returns the name.
@@ -247,8 +247,8 @@ public:
     ///
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    template <typename T>
-    EntityHandle find_first_child(T&& predicate) const;
+    template <typename PredicateType>
+    EntityHandle find_first_child(PredicateType&& predicate) const;
 
     ///
     /// Returns a handle to the first descendant entity matching the given
@@ -260,8 +260,8 @@ public:
     ///
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    template <typename T>
-    EntityHandle find_first_descendant(T&& predicate) const;
+    template <typename PredicateType>
+    EntityHandle find_first_descendant(PredicateType&& predicate) const;
 
     ///
     /// Returns a handle to the first ancestor entity matching the given
@@ -273,8 +273,8 @@ public:
     ///
     /// \returns A handle to the first matching entity; invalid if there
     /// was no matching entity.
-    template <typename T>
-    EntityHandle find_first_ancestor(T&& predicate) const;
+    template <typename PredicateType>
+    EntityHandle find_first_ancestor(PredicateType&& predicate) const;
 
     ///
     /// Returns iterators to all child entities matching the given predicate.
@@ -284,8 +284,8 @@ public:
     /// the entity matches the predicate.
     ///
     /// \returns A vector of handles to the matching entities.
-    template <typename T>
-    std::vector<EntityHandle> find_children(T&& predicate) const;
+    template <typename PredicateType>
+    std::vector<EntityHandle> find_children(PredicateType&& predicate) const;
 
     ///
     /// Returns iterators to all descendant entities matching the given
@@ -296,8 +296,8 @@ public:
     /// the entity matches the predicate.
     ///
     /// \returns A vector of handles to the matching entities.
-    template <typename T>
-    std::vector<EntityHandle> find_descendants(T&& predicate) const;
+    template <typename PredicateType>
+    std::vector<EntityHandle> find_descendants(PredicateType&& predicate) const;
 
     ///
     /// Returns iterators to all ancestor entities matching the given
@@ -308,47 +308,47 @@ public:
     /// the entity matches the predicate.
     ///
     /// \returns A vector of handles to the matching entities.
-    template <typename T>
-    std::vector<EntityHandle> find_ancestors(T&& predicate) const;
+    template <typename PredicateType>
+    std::vector<EntityHandle> find_ancestors(PredicateType&& predicate) const;
 
     ///
     /// Iterates over all child entities.
     ///
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
-    template <typename T>
-    void for_children(T&& action);
+    template <typename ActionType>
+    void for_children(ActionType&& action);
 
     ///
     /// \copydoc Entity::for_children()
-    template <typename T>
-    void for_children(T&& action) const;
+    template <typename ActionType>
+    void for_children(ActionType&& action) const;
 
     ///
     /// Iterates over all descendant entities.
     ///
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
-    template <typename T>
-    void for_descendants(T&& action);
+    template <typename ActionType>
+    void for_descendants(ActionType&& action);
 
     ///
     /// \copydoc Entity::for_descendants()
-    template <typename T>
-    void for_descendants(T&& action) const;
+    template <typename ActionType>
+    void for_descendants(ActionType&& action) const;
 
     ///
     /// Iterates over all ancestor entities.
     ///
     /// \param action The action to perform on each entity; must be callable
     /// as a function accepting a reference to an Entity.
-    template <typename T>
-    void for_ancestors(T&& action);
+    template <typename ActionType>
+    void for_ancestors(ActionType&& action);
 
     ///
     /// \copydoc Entity::for_ancestors()
-    template <typename T>
-    void for_ancestors(T&& action) const;
+    template <typename ActionType>
+    void for_ancestors(ActionType&& action) const;
 
     ///
     /// Returns whether the entity is valid.

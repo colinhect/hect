@@ -34,9 +34,9 @@ class Scene;
 ///
 /// Receives events when certain type of Component is added to and removed
 /// from a Scene.
-template <typename T>
+template <typename ComponentType>
 class ComponentListener :
-    public EventListener<ComponentEvent<T>>
+    public EventListener<ComponentEvent<ComponentType>>
 {
 public:
 
@@ -53,16 +53,16 @@ public:
     /// type or a component is added to an activated entity.
     ///
     /// \param component The component that was added.
-    virtual void on_component_added(T& component);
+    virtual void on_component_added(ComponentType& component);
 
     ///
     /// Invoked when an entity is destroyed with a component of the specified
     /// type or a component is removed from an activated entity.
     ///
     /// \param component The component that was removed.
-    virtual void on_component_removed(T& component);
+    virtual void on_component_removed(ComponentType& component);
 
-    void receive_event(const ComponentEvent<T>& event) override;
+    void receive_event(const ComponentEvent<ComponentType>& event) override;
 };
 
 }

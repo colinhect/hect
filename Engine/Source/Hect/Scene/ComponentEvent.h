@@ -31,7 +31,7 @@ namespace hect
 
 ///
 /// An event relating to a Component.
-template <typename T>
+template <typename ComponentType>
 class ComponentEvent
 {
 public:

@@ -24,27 +24,27 @@
 namespace hect
 {
 
-template <typename T>
-ComponentIteratorBase<T>::ComponentIteratorBase()
+template <typename ComponentType>
+ComponentIteratorBase<ComponentType>::ComponentIteratorBase()
 {
 }
 
-template <typename T>
-ComponentIteratorBase<T>::ComponentIteratorBase(ComponentPool<T>& pool, ComponentId id) :
+template <typename ComponentType>
+ComponentIteratorBase<ComponentType>::ComponentIteratorBase(ComponentPool<ComponentType>& pool, ComponentId id) :
     _pool(&pool),
     _id(id)
 {
 }
 
-template <typename T>
-void ComponentIteratorBase<T>::invalidate()
+template <typename ComponentType>
+void ComponentIteratorBase<ComponentType>::invalidate()
 {
     _pool = nullptr;
     _id = ComponentId(-1);
 }
 
-template <typename T>
-T& ComponentIteratorBase<T>::dereference() const
+template <typename ComponentType>
+ComponentType& ComponentIteratorBase<ComponentType>::dereference() const
 {
     if (!this->is_valid())
     {
@@ -54,8 +54,8 @@ T& ComponentIteratorBase<T>::dereference() const
     return this->_pool->with_id(this->_id);
 }
 
-template <typename T>
-void ComponentIteratorBase<T>::increment()
+template <typename ComponentType>
+void ComponentIteratorBase<ComponentType>::increment()
 {
     ++this->_id;
 
@@ -75,8 +75,8 @@ void ComponentIteratorBase<T>::increment()
     }
 }
 
-template <typename T>
-bool ComponentIteratorBase<T>::is_valid() const
+template <typename ComponentType>
+bool ComponentIteratorBase<ComponentType>::is_valid() const
 {
     if (this->_pool && this->_pool->component_has_entity(this->_id))
     {
@@ -85,112 +85,112 @@ bool ComponentIteratorBase<T>::is_valid() const
     return false;
 }
 
-template <typename T>
-bool ComponentIteratorBase<T>::equals(const ComponentIteratorBase<T>& other) const
+template <typename ComponentType>
+bool ComponentIteratorBase<ComponentType>::equals(const ComponentIteratorBase<ComponentType>& other) const
 {
     return this->_pool == other._pool && this->_id == other._id;
 }
 
-template <typename T>
-ComponentIterator<T>::ComponentIterator() :
-    ComponentIteratorBase<T>()
+template <typename ComponentType>
+ComponentIterator<ComponentType>::ComponentIterator() :
+    ComponentIteratorBase<ComponentType>()
 {
 }
 
-template <typename T>
-ComponentIterator<T>::ComponentIterator(ComponentPool<T>& pool, ComponentId id) :
-    ComponentIteratorBase<T>(pool, id)
+template <typename ComponentType>
+ComponentIterator<ComponentType>::ComponentIterator(ComponentPool<ComponentType>& pool, ComponentId id) :
+    ComponentIteratorBase<ComponentType>(pool, id)
 {
 }
 
-template <typename T>
-T& ComponentIterator<T>::operator*() const
+template <typename ComponentType>
+ComponentType& ComponentIterator<ComponentType>::operator*() const
 {
     return this->dereference();
 }
 
-template <typename T>
-T* ComponentIterator<T>::operator->() const
+template <typename ComponentType>
+ComponentType* ComponentIterator<ComponentType>::operator->() const
 {
     return &this->dereference();
 }
 
-template <typename T>
-ComponentIterator<T>& ComponentIterator<T>::operator++()
+template <typename ComponentType>
+ComponentIterator<ComponentType>& ComponentIterator<ComponentType>::operator++()
 {
     this->increment();
     return *this;
 }
 
-template <typename T>
-bool ComponentIterator<T>::operator==(const ComponentIterator<T>& other) const
+template <typename ComponentType>
+bool ComponentIterator<ComponentType>::operator==(const ComponentIterator<ComponentType>& other) const
 {
     return this->equals(other);
 }
 
-template <typename T>
-bool ComponentIterator<T>::operator!=(const ComponentIterator<T>& other) const
+template <typename ComponentType>
+bool ComponentIterator<ComponentType>::operator!=(const ComponentIterator<ComponentType>& other) const
 {
     return !this->equals(other);
 }
 
-template <typename T>
-ComponentIterator<T>::operator bool() const
+template <typename ComponentType>
+ComponentIterator<ComponentType>::operator bool() const
 {
     return this->is_valid();
 }
 
-template <typename T>
-ComponentConstIterator<T>::ComponentConstIterator() :
-    ComponentIteratorBase<T>()
+template <typename ComponentType>
+ComponentConstIterator<ComponentType>::ComponentConstIterator() :
+    ComponentIteratorBase<ComponentType>()
 {
 }
 
-template <typename T>
-ComponentConstIterator<T>::ComponentConstIterator(const ComponentPool<T>& pool, ComponentId id) :
-    ComponentIteratorBase<T>(*const_cast<ComponentPool<T>*>(&pool), id)
+template <typename ComponentType>
+ComponentConstIterator<ComponentType>::ComponentConstIterator(const ComponentPool<ComponentType>& pool, ComponentId id) :
+    ComponentIteratorBase<ComponentType>(*const_cast<ComponentPool<ComponentType>*>(&pool), id)
 {
 }
 
-template <typename T>
-ComponentConstIterator<T>::ComponentConstIterator(const ComponentIterator<T>& iterator) :
-    ComponentIteratorBase<T>(*iterator._pool, iterator._id)
+template <typename ComponentType>
+ComponentConstIterator<ComponentType>::ComponentConstIterator(const ComponentIterator<ComponentType>& iterator) :
+    ComponentIteratorBase<ComponentType>(*iterator._pool, iterator._id)
 {
 }
 
-template <typename T>
-const T& ComponentConstIterator<T>::operator*() const
+template <typename ComponentType>
+const ComponentType& ComponentConstIterator<ComponentType>::operator*() const
 {
     return this->dereference();
 }
 
-template <typename T>
-const T* ComponentConstIterator<T>::operator->() const
+template <typename ComponentType>
+const ComponentType* ComponentConstIterator<ComponentType>::operator->() const
 {
     return &this->dereference();
 }
 
-template <typename T>
-ComponentConstIterator<T>& ComponentConstIterator<T>::operator++()
+template <typename ComponentType>
+ComponentConstIterator<ComponentType>& ComponentConstIterator<ComponentType>::operator++()
 {
     this->increment();
     return *this;
 }
 
-template <typename T>
-bool ComponentConstIterator<T>::operator==(const ComponentConstIterator<T>& other) const
+template <typename ComponentType>
+bool ComponentConstIterator<ComponentType>::operator==(const ComponentConstIterator<ComponentType>& other) const
 {
     return this->equals(other);
 }
 
-template <typename T>
-bool ComponentConstIterator<T>::operator!=(const ComponentConstIterator<T>& other) const
+template <typename ComponentType>
+bool ComponentConstIterator<ComponentType>::operator!=(const ComponentConstIterator<ComponentType>& other) const
 {
     return !this->equals(other);
 }
 
-template <typename T>
-ComponentConstIterator<T>::operator bool() const
+template <typename ComponentType>
+ComponentConstIterator<ComponentType>::operator bool() const
 {
     return this->is_valid();
 }

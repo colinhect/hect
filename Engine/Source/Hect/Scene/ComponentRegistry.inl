@@ -29,25 +29,25 @@
 namespace hect
 {
 
-template <typename T>
+template <typename ComponentType>
 void ComponentRegistry::register_type()
 {
-    std::type_index type_index(typeid(T));
+    std::type_index type_index(typeid(ComponentType));
 
     if (_type_index_to_id.find(type_index) == _type_index_to_id.end())
     {
-        Name type_name = Type::get<T>().name();
+        Name type_name = Type::get<ComponentType>().name();
 
         ComponentTypeId type_id = static_cast<ComponentTypeId>(_component_constructors.size());
 
         _component_constructors.push_back([]()
         {
-            return std::shared_ptr<ComponentBase>(new T());
+            return std::shared_ptr<ComponentBase>(new ComponentType());
         });
 
         _component_pool_constructors.push_back([](Scene& scene)
         {
-            return std::shared_ptr<ComponentPoolBase>(new ComponentPool<T>(scene));
+            return std::shared_ptr<ComponentPoolBase>(new ComponentPool<ComponentType>(scene));
         });
 
         _type_index_to_id[type_index] = type_id;
@@ -59,13 +59,13 @@ void ComponentRegistry::register_type()
     }
 }
 
-template <typename T>
+template <typename ComponentType>
 ComponentTypeId ComponentRegistry::type_id_of()
 {
     static ComponentTypeId id = ComponentTypeId(-1);
     if (id == ComponentTypeId(-1))
     {
-        std::type_index type_index(typeid(T));
+        std::type_index type_index(typeid(ComponentType));
         id = type_id_of(type_index);
     }
     return id;

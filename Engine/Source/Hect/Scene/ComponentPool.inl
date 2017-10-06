@@ -24,16 +24,16 @@
 namespace hect
 {
 
-template <typename T>
-ComponentPool<T>::ComponentPool(Scene& scene) :
+template <typename ComponentType>
+ComponentPool<ComponentType>::ComponentPool(Scene& scene) :
     _scene(scene)
 {
 }
 
-template <typename T>
-typename ComponentIterator<T> ComponentPool<T>::begin()
+template <typename ComponentType>
+typename ComponentIterator<ComponentType> ComponentPool<ComponentType>::begin()
 {
-    typename ComponentIterator<T> iterator(*this, 0);
+    typename ComponentIterator<ComponentType> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -43,10 +43,10 @@ typename ComponentIterator<T> ComponentPool<T>::begin()
     return iterator;
 }
 
-template <typename T>
-typename ComponentConstIterator<T> ComponentPool<T>::begin() const
+template <typename ComponentType>
+typename ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::begin() const
 {
-    typename ComponentConstIterator<T> iterator(*this, 0);
+    typename ComponentConstIterator<ComponentType> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -56,21 +56,21 @@ typename ComponentConstIterator<T> ComponentPool<T>::begin() const
     return iterator;
 }
 
-template <typename T>
-typename ComponentIterator<T> ComponentPool<T>::end()
+template <typename ComponentType>
+typename ComponentIterator<ComponentType> ComponentPool<ComponentType>::end()
 {
-    return typename ComponentIterator<T>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return typename ComponentIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
-template <typename T>
-typename ComponentConstIterator<T> ComponentPool<T>::end() const
+template <typename ComponentType>
+typename ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::end() const
 {
-    return typename ComponentConstIterator<T>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return typename ComponentConstIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
-template <typename T>
-template <typename U>
-typename ComponentHandle<T> ComponentPool<T>::find_first(U&& predicate) const
+template <typename ComponentType>
+template <typename PredicateType>
+typename ComponentHandle<ComponentType> ComponentPool<ComponentType>::find_first(PredicateType&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
@@ -79,14 +79,14 @@ typename ComponentHandle<T> ComponentPool<T>::find_first(U&& predicate) const
             return iterator->handle();
         }
     }
-    return typename ComponentHandle<T>();
+    return typename ComponentHandle<ComponentType>();
 }
 
-template <typename T>
-template <typename U>
-std::vector<typename ComponentHandle<T>> ComponentPool<T>::find(U&& predicate) const
+template <typename ComponentType>
+template <typename PredicateType>
+std::vector<typename ComponentHandle<ComponentType>> ComponentPool<ComponentType>::find(PredicateType&& predicate) const
 {
-    std::vector<typename ComponentHandle<T>> results;
+    std::vector<typename ComponentHandle<ComponentType>> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))
@@ -97,19 +97,19 @@ std::vector<typename ComponentHandle<T>> ComponentPool<T>::find(U&& predicate) c
     return results;
 }
 
-template <typename T>
-T& ComponentPool<T>::with_id(ComponentId id)
+template <typename ComponentType>
+ComponentType& ComponentPool<ComponentType>::with_id(ComponentId id)
 {
-    const T& component = const_cast<const ComponentPool<T>*>(this)->with_id(id);
-    return const_cast<T&>(component);
+    const ComponentType& component = const_cast<const ComponentPool<ComponentType>*>(this)->with_id(id);
+    return const_cast<ComponentType&>(component);
 }
 
-template <typename T>
-const T& ComponentPool<T>::with_id(ComponentId id) const
+template <typename ComponentType>
+const ComponentType& ComponentPool<ComponentType>::with_id(ComponentId id) const
 {
     if (id < max_id())
     {
-        const T& component = look_up_component(id);
+        const ComponentType& component = look_up_component(id);
         if (component.in_pool())
         {
             return component;
@@ -119,36 +119,36 @@ const T& ComponentPool<T>::with_id(ComponentId id) const
     throw InvalidOperation("Invalid component");
 }
 
-template <typename T>
-void ComponentPool<T>::dispatch_event(ComponentEventType type, Entity& entity)
+template <typename ComponentType>
+void ComponentPool<ComponentType>::dispatch_event(ComponentEventType type, Entity& entity)
 {
-    ComponentEvent<T> event;
+    ComponentEvent<ComponentType> event;
     event.type = type;
     event.entity = entity.handle();
 
-    EventDispatcher<ComponentEvent<T>>::dispatch_event(event);
+    EventDispatcher<ComponentEvent<ComponentType>>::dispatch_event(event);
 }
 
-template <typename T>
-void ComponentPool<T>::add_base(Entity& entity, const ComponentBase& component)
+template <typename ComponentType>
+void ComponentPool<ComponentType>::add_base(Entity& entity, const ComponentBase& component)
 {
-    add(entity, *const_cast<T*>(reinterpret_cast<const T*>(&component)));
+    add(entity, *const_cast<ComponentType*>(reinterpret_cast<const ComponentType*>(&component)));
 }
 
-template <typename T>
-ComponentBase& ComponentPool<T>::get_base(Entity& entity)
-{
-    return get(entity);
-}
-
-template <typename T>
-const ComponentBase& ComponentPool<T>::get_base(const Entity& entity) const
+template <typename ComponentType>
+ComponentBase& ComponentPool<ComponentType>::get_base(Entity& entity)
 {
     return get(entity);
 }
 
-template <typename T>
-void ComponentPool<T>::remove(Entity& entity)
+template <typename ComponentType>
+const ComponentBase& ComponentPool<ComponentType>::get_base(const Entity& entity) const
+{
+    return get(entity);
+}
+
+template <typename ComponentType>
+void ComponentPool<ComponentType>::remove(Entity& entity)
 {
     EntityId entity_id = entity.id();
 
@@ -165,7 +165,7 @@ void ComponentPool<T>::remove(Entity& entity)
         _id_pool.destroy(id);
 
         // Remove the component from the pool
-        T& component = look_up_component(id);
+        ComponentType& component = look_up_component(id);
         component.exit_pool();
 
         // Clear the mapping from entity to component and component to
@@ -175,13 +175,13 @@ void ComponentPool<T>::remove(Entity& entity)
     }
     else
     {
-        Name type_name = Type::get<T>().name();
+        Name type_name = Type::get<ComponentType>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", type_name.data()));
     }
 }
 
-template <typename T>
-void ComponentPool<T>::clone(const Entity& source, Entity& dest)
+template <typename ComponentType>
+void ComponentPool<ComponentType>::clone(const Entity& source, Entity& dest)
 {
     EntityId source_entity_id = source.id();
 
@@ -189,13 +189,13 @@ void ComponentPool<T>::clone(const Entity& source, Entity& dest)
     if (entity_id_to_component_id(source_entity_id, id))
     {
         // Add the component of the source entity to the destination entity
-        const T& component = look_up_component(id);
+        const ComponentType& component = look_up_component(id);
         add(dest, component);
     }
 }
 
-template <typename T>
-bool ComponentPool<T>::has(const Entity& entity) const
+template <typename ComponentType>
+bool ComponentPool<ComponentType>::has(const Entity& entity) const
 {
     EntityId entity_id = entity.id();
 
@@ -203,14 +203,14 @@ bool ComponentPool<T>::has(const Entity& entity) const
     return entity_id_to_component_id(entity_id, id);
 }
 
-template <typename T>
-T& ComponentPool<T>::add(Entity& entity, const T& component)
+template <typename ComponentType>
+ComponentType& ComponentPool<ComponentType>::add(Entity& entity, const ComponentType& component)
 {
     EntityId entity_id = entity.id();
 
     // The component being added might be a reference to a component in the
     // component vector which might be resized; so it needs to be copied first
-    T copied_component = component;
+    ComponentType copied_component = component;
 
     // Expand the entity-to-component vector if needed
     expand_vector(_entity_to_component, entity_id, ComponentId(-1));
@@ -221,7 +221,7 @@ T& ComponentPool<T>::add(Entity& entity, const T& component)
     // Ensure that the entity does not already have a component of this type
     if (id != ComponentId(-1))
     {
-        const Name type_name = Type::get<T>().name();
+        const Name type_name = Type::get<ComponentType>().name();
         throw InvalidOperation(format("Entity already has component of type '%s'", type_name.data()));
     }
 
@@ -229,7 +229,7 @@ T& ComponentPool<T>::add(Entity& entity, const T& component)
     id = _id_pool.create();
     while (id >= max_id())
     {
-        _components.emplace_back(T());
+        _components.emplace_back(ComponentType());
     }
 
     // Remember which component this entity has
@@ -242,7 +242,7 @@ T& ComponentPool<T>::add(Entity& entity, const T& component)
     _component_to_entity[id] = entity_id;
 
     // Copy the added component into the pool
-    T& added_component = look_up_component(id);
+    ComponentType& added_component = look_up_component(id);
     added_component = copied_component;
 
     // Include the component in the pool
@@ -257,8 +257,8 @@ T& ComponentPool<T>::add(Entity& entity, const T& component)
     return added_component;
 }
 
-template <typename T>
-T& ComponentPool<T>::replace(Entity& entity, const T& component)
+template <typename ComponentType>
+ComponentType& ComponentPool<ComponentType>::replace(Entity& entity, const ComponentType& component)
 {
     EntityId entity_id = entity.id();
 
@@ -272,7 +272,7 @@ T& ComponentPool<T>::replace(Entity& entity, const T& component)
         }
 
         // Get the old component
-        T& added_component = look_up_component(id);
+        ComponentType& added_component = look_up_component(id);
 
         // Remove the old component from the pool
         added_component.exit_pool();
@@ -293,13 +293,13 @@ T& ComponentPool<T>::replace(Entity& entity, const T& component)
     }
     else
     {
-        Name type_name = Type::get<T>().name();
+        Name type_name = Type::get<ComponentType>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", type_name.data()));
     }
 }
 
-template <typename T>
-T& ComponentPool<T>::get(Entity& entity)
+template <typename ComponentType>
+ComponentType& ComponentPool<ComponentType>::get(Entity& entity)
 {
     EntityId entity_id = entity.id();
 
@@ -310,13 +310,13 @@ T& ComponentPool<T>::get(Entity& entity)
     }
     else
     {
-        Name type_name = Type::get<T>().name();
+        Name type_name = Type::get<ComponentType>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", type_name.data()));
     }
 }
 
-template <typename T>
-const T& ComponentPool<T>::get(const Entity& entity) const
+template <typename ComponentType>
+const ComponentType& ComponentPool<ComponentType>::get(const Entity& entity) const
 {
     EntityId entity_id = entity.id();
 
@@ -327,19 +327,19 @@ const T& ComponentPool<T>::get(const Entity& entity) const
     }
     else
     {
-        Name type_name = Type::get<T>().name();
+        Name type_name = Type::get<ComponentType>().name();
         throw InvalidOperation(format("Entity does not have component of type '%s'", type_name.data()));
     }
 }
 
-template <typename T>
-ComponentId ComponentPool<T>::max_id() const
+template <typename ComponentType>
+ComponentId ComponentPool<ComponentType>::max_id() const
 {
     return static_cast<ComponentId>(_components.size());
 }
 
-template <typename T>
-bool ComponentPool<T>::component_has_entity(ComponentId id) const
+template <typename ComponentType>
+bool ComponentPool<ComponentType>::component_has_entity(ComponentId id) const
 {
     if (id < _component_to_entity.size())
     {
@@ -351,22 +351,22 @@ bool ComponentPool<T>::component_has_entity(ComponentId id) const
     return false;
 }
 
-template <typename T>
-Entity& ComponentPool<T>::entity_for_component(ComponentId id)
+template <typename ComponentType>
+Entity& ComponentPool<ComponentType>::entity_for_component(ComponentId id)
 {
-    const Entity& entity = const_cast<const ComponentPool<T>*>(this)->entity_for_component(id);
+    const Entity& entity = const_cast<const ComponentPool<ComponentType>*>(this)->entity_for_component(id);
     return const_cast<Entity&>(entity);
 }
 
-template <typename T>
-const Entity& ComponentPool<T>::entity_for_component(ComponentId id) const
+template <typename ComponentType>
+const Entity& ComponentPool<ComponentType>::entity_for_component(ComponentId id) const
 {
     EntityId entity_id = component_id_to_entity_id(id);
     return _scene.entities().entity_with_id(entity_id);
 }
 
-template <typename T>
-EntityId ComponentPool<T>::component_id_to_entity_id(ComponentId id) const
+template <typename ComponentType>
+EntityId ComponentPool<ComponentType>::component_id_to_entity_id(ComponentId id) const
 {
     if (id < _component_to_entity.size())
     {
@@ -379,8 +379,8 @@ EntityId ComponentPool<T>::component_id_to_entity_id(ComponentId id) const
     throw InvalidOperation("Component does not have an associated entity");
 }
 
-template <typename T>
-bool ComponentPool<T>::entity_id_to_component_id(EntityId entity_id, ComponentId& id) const
+template <typename ComponentType>
+bool ComponentPool<ComponentType>::entity_id_to_component_id(EntityId entity_id, ComponentId& id) const
 {
     // If the entity id is within range for the pool
     if (entity_id < _entity_to_component.size())
@@ -395,21 +395,21 @@ bool ComponentPool<T>::entity_id_to_component_id(EntityId entity_id, ComponentId
     return id != ComponentId(-1);
 }
 
-template <typename T>
-T& ComponentPool<T>::look_up_component(ComponentId id)
+template <typename ComponentType>
+ComponentType& ComponentPool<ComponentType>::look_up_component(ComponentId id)
 {
     return _components[id];
 }
 
-template <typename T>
-const T& ComponentPool<T>::look_up_component(ComponentId id) const
+template <typename ComponentType>
+const ComponentType& ComponentPool<ComponentType>::look_up_component(ComponentId id) const
 {
     return _components[id];
 }
 
-template <typename T>
-template <typename U>
-bool ComponentPool<T>::expand_vector(std::vector<U>& vector, size_t size, U value)
+template <typename ComponentType>
+template <typename Type>
+bool ComponentPool<ComponentType>::expand_vector(std::vector<Type>& vector, size_t size, Type value)
 {
     bool expanded = false;
     while (size >= vector.size())

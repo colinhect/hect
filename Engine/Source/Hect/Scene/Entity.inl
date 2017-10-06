@@ -24,56 +24,56 @@
 namespace hect
 {
 
-template <typename T, typename... Args>
-T& Entity::add_component(Args&&... args)
+template <typename ComponentType, typename... Args>
+ComponentType& Entity::add_component(Args&&... args)
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
-    return component_pool.add(*this, T(args...));
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
+    return component_pool.add(*this, ComponentType(args...));
 }
 
-template <typename T, typename... Args>
-T& Entity::replace_component(Args&&... args)
+template <typename ComponentType, typename... Args>
+ComponentType& Entity::replace_component(Args&&... args)
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
-    return component_pool.replace(*this, T(args...));
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
+    return component_pool.replace(*this, ComponentType(args...));
 }
 
-template <typename T>
+template <typename ComponentType>
 void Entity::remove_component()
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
     component_pool.remove(*this);
 }
 
-template <typename T>
+template <typename ComponentType>
 bool Entity::has_component() const
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
     return component_pool.has(*this);
 }
 
-template <typename T>
-T& Entity::component()
+template <typename ComponentType>
+ComponentType& Entity::component()
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
     return component_pool.get(*this);
 }
 
-template <typename T>
-const T& Entity::component() const
+template <typename ComponentType>
+const ComponentType& Entity::component() const
 {
     ensure_in_pool();
-    ComponentPool<T>& component_pool = _pool->_scene.components<T>();
+    ComponentPool<ComponentType>& component_pool = _pool->_scene.components<ComponentType>();
     return component_pool.get(*this);
 }
 
-template <typename T>
-EntityHandle Entity::find_first_child(T&& predicate) const
+template <typename PredicateType>
+EntityHandle Entity::find_first_child(PredicateType&& predicate) const
 {
     if (has_children())
     {
@@ -89,8 +89,8 @@ EntityHandle Entity::find_first_child(T&& predicate) const
     return EntityHandle();
 }
 
-template <typename T>
-EntityHandle Entity::find_first_descendant(T&& predicate) const
+template <typename PredicateType>
+EntityHandle Entity::find_first_descendant(PredicateType&& predicate) const
 {
     if (has_children())
     {
@@ -114,8 +114,8 @@ EntityHandle Entity::find_first_descendant(T&& predicate) const
     return EntityHandle();
 }
 
-template <typename T>
-EntityHandle Entity::find_first_ancestor(T&& predicate) const
+template <typename PredicateType>
+EntityHandle Entity::find_first_ancestor(PredicateType&& predicate) const
 {
     EntityHandle handle = parent();
     if (handle)
@@ -133,8 +133,8 @@ EntityHandle Entity::find_first_ancestor(T&& predicate) const
     return EntityHandle();
 }
 
-template <typename T>
-std::vector<EntityHandle> Entity::find_children(T&& predicate) const
+template <typename PredicateType>
+std::vector<EntityHandle> Entity::find_children(PredicateType&& predicate) const
 {
     std::vector<EntityHandle> results;
 
@@ -152,8 +152,8 @@ std::vector<EntityHandle> Entity::find_children(T&& predicate) const
     return results;
 }
 
-template <typename T>
-std::vector<EntityHandle> Entity::find_descendants(T&& predicate) const
+template <typename PredicateType>
+std::vector<EntityHandle> Entity::find_descendants(PredicateType&& predicate) const
 {
     std::vector<EntityHandle> results;
 
@@ -171,8 +171,8 @@ std::vector<EntityHandle> Entity::find_descendants(T&& predicate) const
     return results;
 }
 
-template <typename T>
-std::vector<EntityHandle> Entity::find_ancestors(T&& predicate) const
+template <typename PredicateType>
+std::vector<EntityHandle> Entity::find_ancestors(PredicateType&& predicate) const
 {
     std::vector<EntityHandle> results;
 
@@ -190,8 +190,8 @@ std::vector<EntityHandle> Entity::find_ancestors(T&& predicate) const
     return results;
 }
 
-template <typename T>
-void Entity::for_children(T&& action)
+template <typename ActionType>
+void Entity::for_children(ActionType&& action)
 {
     if (has_children())
     {
@@ -202,8 +202,8 @@ void Entity::for_children(T&& action)
     }
 }
 
-template <typename T>
-void Entity::for_children(T&& action) const
+template <typename ActionType>
+void Entity::for_children(ActionType&& action) const
 {
     if (has_children())
     {
@@ -214,8 +214,8 @@ void Entity::for_children(T&& action) const
     }
 }
 
-template <typename T>
-void Entity::for_descendants(T&& action)
+template <typename ActionType>
+void Entity::for_descendants(ActionType&& action)
 {
     if (has_children())
     {
@@ -231,8 +231,8 @@ void Entity::for_descendants(T&& action)
     }
 }
 
-template <typename T>
-void Entity::for_descendants(T&& action) const
+template <typename ActionType>
+void Entity::for_descendants(ActionType&& action) const
 {
     if (has_children())
     {
@@ -248,8 +248,8 @@ void Entity::for_descendants(T&& action) const
     }
 }
 
-template <typename T>
-void Entity::for_ancestors(T&& action)
+template <typename ActionType>
+void Entity::for_ancestors(ActionType&& action)
 {
     EntityHandle handle = parent();
     while (handle)
@@ -259,8 +259,8 @@ void Entity::for_ancestors(T&& action)
     }
 }
 
-template <typename T>
-void Entity::for_ancestors(T&& action) const
+template <typename ActionType>
+void Entity::for_ancestors(ActionType&& action) const
 {
     EntityHandle handle = parent();
     while (handle)

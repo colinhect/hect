@@ -29,15 +29,15 @@
 namespace hect
 {
 
-template <typename T>
+template <typename ComponentType>
 class Component;
 
 ///
 /// A weak reference to a Component.
-template <typename T>
+template <typename ComponentType>
 class ComponentHandle
 {
-    friend class Component<T>;
+    friend class Component<ComponentType>;
 public:
 
     ///
@@ -50,7 +50,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    T& operator*();
+    ComponentType& operator*();
 
     ///
     /// Dereferences the handle to a reference to the component.
@@ -58,7 +58,7 @@ public:
     /// \returns A reference to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    const T& operator*() const;
+    const ComponentType& operator*() const;
 
     ///
     /// Dereferences the handle to a pointer to the component.
@@ -66,7 +66,7 @@ public:
     /// \returns A pointer to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    T* operator->();
+    ComponentType* operator->();
 
     ///
     /// Dereferences the handle to a pointer to the component.
@@ -74,7 +74,7 @@ public:
     /// \returns A pointer to the component.
     ///
     /// \throws InvalidOperation If the handle is invalid.
-    const T* operator->() const;
+    const ComponentType* operator->() const;
 
     ///
     /// Returns whether the handle is equivalent to another.
@@ -93,13 +93,13 @@ public:
     operator bool() const;
 
 private:
-    ComponentHandle(T& component);
+    ComponentHandle(ComponentType& component);
 
     bool is_valid() const;
     void ensure_valid() const;
     void invalidate();
 
-    T* _component { nullptr };
+    ComponentType* _component { nullptr };
     std::shared_ptr<std::atomic_bool> _valid;
 };
 

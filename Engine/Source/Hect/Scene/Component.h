@@ -48,18 +48,18 @@ public:
     virtual ComponentTypeId type_id() const = 0;
 };
 
-template <typename T>
+template <typename ComponentType>
 class ComponentPool;
 
 class Entity;
 
 ///
 /// A component of data for an Entity.
-template <typename T>
+template <typename ComponentType>
 class Component :
     public ComponentBase
 {
-    friend class ComponentPool<T>;
+    friend class ComponentPool<ComponentType>;
 public:
 
     ///
@@ -82,13 +82,13 @@ public:
     /// Returns the pool that the component is in.
     ///
     /// \throws InvalidOperation If the component is not in a pool.
-    ComponentPool<T>& pool();
+    ComponentPool<ComponentType>& pool();
 
     ///
     /// Returns the pool that the component is in.
     ///
     /// \throws InvalidOperation If the component is not in a pool.
-    const ComponentPool<T>& pool() const;
+    const ComponentPool<ComponentType>& pool() const;
 
     ///
     /// Returns an iterator to the entity of the component.
@@ -103,15 +103,15 @@ public:
 
     ///
     /// Returns a handle to the component.
-    typename ComponentHandle<T> handle() const;
+    ComponentHandle<ComponentType> handle() const;
 
     ///
     /// Creates a component iterator for the component.
-    typename ComponentIterator<T> iterator();
+    ComponentIterator<ComponentType> iterator();
 
     ///
     /// \copydoc hect::Component::iterator()
-    typename ComponentConstIterator<T> iterator() const;
+    ComponentConstIterator<ComponentType> iterator() const;
 
     ///
     /// Returns the id of the component.
@@ -123,23 +123,23 @@ public:
     /// Assigns the component as a copy from another component.
     ///
     /// \param component The component to copy.
-    Component<T>& operator=(const Component& component);
+    Component<ComponentType>& operator=(const Component& component);
 
     ///
     /// Assigns the component moved from another component.
     ///
     /// \param component The component to move.
-    Component<T>& operator=(Component&& component);
+    Component<ComponentType>& operator=(Component&& component);
 
 private:
-    void enter_pool(ComponentPool<T>& pool, ComponentId id);
+    void enter_pool(ComponentPool<ComponentType>& pool, ComponentId id);
     void exit_pool();
     bool in_pool() const;
     void ensure_in_pool() const;
 
-    ComponentPool<T>* _pool { nullptr };
+    ComponentPool<ComponentType>* _pool { nullptr };
     ComponentId _id { ComponentId(-1) };
-    mutable ComponentHandle<T> _handle;
+    mutable ComponentHandle<ComponentType> _handle;
 };
 
 }

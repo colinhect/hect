@@ -26,72 +26,72 @@
 namespace hect
 {
 
-template <typename T>
-ComponentHandle<T>::ComponentHandle()
+template <typename ComponentType>
+ComponentHandle<ComponentType>::ComponentHandle()
 {
 }
 
-template <typename T>
-T& ComponentHandle<T>::operator*()
-{
-    ensure_valid();
-    return *_component;
-}
-
-template <typename T>
-const T& ComponentHandle<T>::operator*() const
+template <typename ComponentType>
+ComponentType& ComponentHandle<ComponentType>::operator*()
 {
     ensure_valid();
     return *_component;
 }
 
-template <typename T>
-T* ComponentHandle<T>::operator->()
+template <typename ComponentType>
+const ComponentType& ComponentHandle<ComponentType>::operator*() const
+{
+    ensure_valid();
+    return *_component;
+}
+
+template <typename ComponentType>
+ComponentType* ComponentHandle<ComponentType>::operator->()
 {
     ensure_valid();
     return _component;
 }
 
-template <typename T>
-const T* ComponentHandle<T>::operator->() const
+template <typename ComponentType>
+const ComponentType* ComponentHandle<ComponentType>::operator->() const
 {
     ensure_valid();
     return _component;
 }
 
-template <typename T>
-bool ComponentHandle<T>::operator==(const ComponentHandle& other) const
+template <typename ComponentType>
+bool ComponentHandle<ComponentType>::operator==(const ComponentHandle& other) const
 {
     return _component == other._component;
 }
 
-template <typename T>
-bool ComponentHandle<T>::operator!=(const ComponentHandle& other) const
+template <typename ComponentType>
+bool ComponentHandle<ComponentType>::operator!=(const ComponentHandle& other) const
 {
     return _component != other._component;
 }
 
-template <typename T>
-ComponentHandle<T>::operator bool() const
+template <typename ComponentType>
+ComponentHandle<ComponentType>::operator bool() const
 {
     return is_valid();
 }
 
-template <typename T>
-ComponentHandle<T>::ComponentHandle(T& component) :
+template <typename ComponentType>
+ComponentHandle<ComponentType>::ComponentHandle(ComponentType& component) :
     _component(&component),
     _valid(std::make_shared<std::atomic_bool>(true))
 {
 }
 
-template <typename T>
-bool ComponentHandle<T>::is_valid() const
+template <typename ComponentType>
+bool ComponentHandle<ComponentType>::is_valid() const
 {
     return _component && _valid && *_valid;
 }
 
-template <typename T>
-void ComponentHandle<T>::ensure_valid() const
+template <typename ComponentType>
+void ComponentHandle<ComponentType>::ensure_valid() const
 {
     if (!is_valid())
     {
@@ -99,8 +99,8 @@ void ComponentHandle<T>::ensure_valid() const
     }
 }
 
-template <typename T>
-void ComponentHandle<T>::invalidate()
+template <typename ComponentType>
+void ComponentHandle<ComponentType>::invalidate()
 {
     ensure_valid();
     _valid->store(false);

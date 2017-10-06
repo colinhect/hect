@@ -24,39 +24,39 @@
 namespace hect
 {
 
-template <typename T>
-Component<T>::Component()
+template <typename ComponentType>
+Component<ComponentType>::Component()
 {
 }
 
-template <typename T>
-Component<T>::Component(const Component<T>& component)
-{
-    (void)component;
-}
-
-template <typename T>
-Component<T>::Component(Component<T>&& component)
+template <typename ComponentType>
+Component<ComponentType>::Component(const Component<ComponentType>& component)
 {
     (void)component;
 }
 
-template <typename T>
-ComponentPool<T>& Component<T>::pool()
+template <typename ComponentType>
+Component<ComponentType>::Component(Component<ComponentType>&& component)
+{
+    (void)component;
+}
+
+template <typename ComponentType>
+ComponentPool<ComponentType>& Component<ComponentType>::pool()
 {
     this->ensure_in_pool();
     return *this->_pool;
 }
 
-template <typename T>
-const ComponentPool<T>& Component<T>::pool() const
+template <typename ComponentType>
+const ComponentPool<ComponentType>& Component<ComponentType>::pool() const
 {
     this->ensure_in_pool();
     return *this->_pool;
 }
 
-template <typename T>
-Entity& Component<T>::entity()
+template <typename ComponentType>
+Entity& Component<ComponentType>::entity()
 {
     this->ensure_in_pool();
 
@@ -65,8 +65,8 @@ Entity& Component<T>::entity()
     return entity_pool.with_id(entity_id);
 }
 
-template <typename T>
-const Entity& Component<T>::entity() const
+template <typename ComponentType>
+const Entity& Component<ComponentType>::entity() const
 {
     this->ensure_in_pool();
 
@@ -75,57 +75,57 @@ const Entity& Component<T>::entity() const
     return entity_pool.with_id(entity_id);
 }
 
-template <typename T>
-typename ComponentHandle<T> Component<T>::handle() const
+template <typename ComponentType>
+ComponentHandle<ComponentType> Component<ComponentType>::handle() const
 {
     if (!this->in_pool())
     {
-        return ComponentHandle<T>();
+        return ComponentHandle<ComponentType>();
     }
 
     if (!_handle)
     {
-        _handle = ComponentHandle<T>(*const_cast<T*>(reinterpret_cast<const T*>(this)));
+        _handle = ComponentHandle<ComponentType>(*const_cast<ComponentType*>(reinterpret_cast<const ComponentType*>(this)));
     }
 
     return _handle;
 }
 
-template <typename T>
-typename ComponentIterator<T> Component<T>::iterator()
+template <typename ComponentType>
+ComponentIterator<ComponentType> Component<ComponentType>::iterator()
 {
     this->ensure_in_pool();
-    return typename ComponentIterator<T>(*this->_pool, this->_id);
+    return ComponentIterator<ComponentType>(*this->_pool, this->_id);
 }
 
-template <typename T>
-typename ComponentConstIterator<T> Component<T>::iterator() const
+template <typename ComponentType>
+ComponentConstIterator<ComponentType> Component<ComponentType>::iterator() const
 {
     this->ensure_in_pool();
-    return typename ComponentConstIterator<T>(*this->_pool, this->_id);
+    return ComponentConstIterator<ComponentType>(*this->_pool, this->_id);
 }
 
-template <typename T>
-ComponentId Component<T>::id() const
+template <typename ComponentType>
+ComponentId Component<ComponentType>::id() const
 {
     return this->_id;
 }
 
-template <typename T>
-ComponentTypeId Component<T>::type_id() const
+template <typename ComponentType>
+ComponentTypeId Component<ComponentType>::type_id() const
 {
-    return ComponentRegistry::type_id_of<T>();
+    return ComponentRegistry::type_id_of<ComponentType>();
 }
 
-template <typename T>
-Component<T>& Component<T>::operator=(const Component& component)
+template <typename ComponentType>
+Component<ComponentType>& Component<ComponentType>::operator=(const Component& component)
 {
     (void)component;
     return *this;
 }
 
-template <typename T>
-Component<T>& Component<T>::operator=(Component&& component)
+template <typename ComponentType>
+Component<ComponentType>& Component<ComponentType>::operator=(Component&& component)
 {
     (void)component;
 
@@ -138,15 +138,15 @@ Component<T>& Component<T>::operator=(Component&& component)
     return *this;
 }
 
-template <typename T>
-void Component<T>::enter_pool(ComponentPool<T>& pool, ComponentId id)
+template <typename ComponentType>
+void Component<ComponentType>::enter_pool(ComponentPool<ComponentType>& pool, ComponentId id)
 {
     this->_pool = &pool;
     this->_id = id;
 }
 
-template <typename T>
-void Component<T>::exit_pool()
+template <typename ComponentType>
+void Component<ComponentType>::exit_pool()
 {
     this->_pool = nullptr;
     this->_id = ComponentId(-1);
@@ -157,14 +157,14 @@ void Component<T>::exit_pool()
     }
 }
 
-template <typename T>
-bool Component<T>::in_pool() const
+template <typename ComponentType>
+bool Component<ComponentType>::in_pool() const
 {
     return this->_pool && this->_id != ComponentId(-1);
 }
 
-template <typename T>
-void Component<T>::ensure_in_pool() const
+template <typename ComponentType>
+void Component<ComponentType>::ensure_in_pool() const
 {
     if (!this->in_pool())
     {
