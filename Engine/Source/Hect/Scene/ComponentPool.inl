@@ -31,9 +31,9 @@ ComponentPool<ComponentType>::ComponentPool(Scene& scene) :
 }
 
 template <typename ComponentType>
-typename ComponentIterator<ComponentType> ComponentPool<ComponentType>::begin()
+ComponentIterator<ComponentType> ComponentPool<ComponentType>::begin()
 {
-    typename ComponentIterator<ComponentType> iterator(*this, 0);
+    ComponentIterator<ComponentType> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -44,9 +44,9 @@ typename ComponentIterator<ComponentType> ComponentPool<ComponentType>::begin()
 }
 
 template <typename ComponentType>
-typename ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::begin() const
+ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::begin() const
 {
-    typename ComponentConstIterator<ComponentType> iterator(*this, 0);
+    ComponentConstIterator<ComponentType> iterator(*this, 0);
 
     // Move to the first component with activated entity
     if (!iterator || !iterator->entity().is_activated())
@@ -57,20 +57,20 @@ typename ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::beg
 }
 
 template <typename ComponentType>
-typename ComponentIterator<ComponentType> ComponentPool<ComponentType>::end()
+ComponentIterator<ComponentType> ComponentPool<ComponentType>::end()
 {
-    return typename ComponentIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return ComponentIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
 template <typename ComponentType>
-typename ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::end() const
+ComponentConstIterator<ComponentType> ComponentPool<ComponentType>::end() const
 {
-    return typename ComponentConstIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
+    return ComponentConstIterator<ComponentType>(*this, std::max(max_id(), static_cast<ComponentId>(1)));
 }
 
 template <typename ComponentType>
 template <typename PredicateType>
-typename ComponentHandle<ComponentType> ComponentPool<ComponentType>::find_first(PredicateType&& predicate) const
+ComponentHandle<ComponentType> ComponentPool<ComponentType>::find_first(PredicateType&& predicate) const
 {
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
@@ -79,14 +79,14 @@ typename ComponentHandle<ComponentType> ComponentPool<ComponentType>::find_first
             return iterator->handle();
         }
     }
-    return typename ComponentHandle<ComponentType>();
+    return ComponentHandle<ComponentType>();
 }
 
 template <typename ComponentType>
 template <typename PredicateType>
-std::vector<typename ComponentHandle<ComponentType>> ComponentPool<ComponentType>::find(PredicateType&& predicate) const
+std::vector<ComponentHandle<ComponentType>> ComponentPool<ComponentType>::find(PredicateType&& predicate) const
 {
-    std::vector<typename ComponentHandle<ComponentType>> results;
+    std::vector<ComponentHandle<ComponentType>> results;
     for (auto iterator = begin(); iterator != end(); ++iterator)
     {
         if (predicate(*iterator))

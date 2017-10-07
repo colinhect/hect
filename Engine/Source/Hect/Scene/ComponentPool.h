@@ -81,19 +81,19 @@ public:
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename ComponentIterator<ComponentType> begin();
+    ComponentIterator<ComponentType> begin();
 
     ///
     /// Returns an iterator to the beginning of the pool.
-    typename ComponentConstIterator<ComponentType> begin() const;
+    ComponentConstIterator<ComponentType> begin() const;
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename ComponentIterator<ComponentType> end();
+    ComponentIterator<ComponentType> end();
 
     ///
     /// Returns an iterator to the end of the pool.
-    typename ComponentConstIterator<ComponentType> end() const;
+    ComponentConstIterator<ComponentType> end() const;
 
     ///
     /// Returns a handle to the first Component matching the given
@@ -106,7 +106,7 @@ public:
     /// \returns A hande to the first matching component; invalid if there
     /// was no matching component.
     template <typename PredicateType>
-    typename ComponentHandle<ComponentType> find_first(PredicateType&& predicate) const;
+    ComponentHandle<ComponentType> find_first(PredicateType&& predicate) const;
 
     ///
     /// Returns handles to all Component%s matching the given predicate.
@@ -117,7 +117,7 @@ public:
     ///
     /// \returns A vector of handles to the matching components.
     template <typename PredicateType>
-    std::vector<typename ComponentHandle<ComponentType>> find(PredicateType&& predicate) const;
+    std::vector<ComponentHandle<ComponentType>> find(PredicateType&& predicate) const;
 
     ///
     /// Returns the Component with the given id.
