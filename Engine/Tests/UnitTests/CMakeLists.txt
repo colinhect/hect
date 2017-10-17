@@ -57,3 +57,7 @@ set_target_properties(HectUnitTests PROPERTIES
     LINKER_LANGUAGE CXX
     FOLDER "/Engine/Tests"
     )
+
+add_test(NAME HectUnitTests
+    WORKING_DIRECTORY ${OUTPUT_DIR}
+    COMMAND HectUnitTests)

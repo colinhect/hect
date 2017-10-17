@@ -18,6 +18,7 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 endforeach()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+enable_testing()
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/Engine")
 
