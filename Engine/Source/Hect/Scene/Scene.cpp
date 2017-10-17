@@ -47,6 +47,8 @@ Scene::Scene(Engine& engine) :
 
 Scene::~Scene()
 {
+    TaskPool& task_pool = _engine->task_pool();
+    task_pool.wait();
 }
 
 void Scene::add_system(SystemBase& system)
