@@ -34,7 +34,7 @@
 #cmakedefine HECT_HEADLESS
 
 // Set platform/renderer implementation
-#if HECT_HEADLESS
+#ifdef HECT_HEADLESS
 #define HECT_PLATFORM_SDL
 #define HECT_RENDERER_OPENGL
 #endif
