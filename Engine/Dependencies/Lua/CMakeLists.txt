@@ -1,15 +1,5 @@
 project(Lua C)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(Lua STATIC
     "lapi.c"
     "lauxlib.c"
@@ -45,6 +35,14 @@ add_library(Lua STATIC
     "lvm.c"
     "lzio.c"
     )
+
+target_include_directories(Lua PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(Lua PRIVATE /W0)
+else()
+    target_compile_options(Lua PRIVATE -w -fPIC)
+endif()
     
 set_target_properties(Lua PROPERTIES
     PROJECT_LABEL Lua

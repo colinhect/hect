@@ -1,14 +1,5 @@
 project(HectUnitTests CXX)
 
-if(UNIX)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1y -Wall -Wextra -Werror -pedantic")
-endif()
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}/../../Source"
-    "${PROJECT_SOURCE_DIR}/../../Dependencies/Catch"
-    )
-
 set(SOURCE_FILES
     "Source/AnyTests.cpp"
     "Source/AssetTests.cpp"
@@ -50,7 +41,13 @@ source_group("Source" FILES
 
 add_executable(HectUnitTests ${SOURCE_FILES})
 
-target_link_libraries(HectUnitTests Hect)
+if(MSVC)
+    target_compile_options(HectUnitTests PRIVATE /W3 /WX /wd /bigobj)
+else()
+    target_compile_options(HectUnitTests PRIVATE -std=c++1y -Wall -Wextra -Werror -pedantic)
+endif()
+
+target_link_libraries(HectUnitTests PRIVATE Hect Catch)
 
 set_target_properties(HectUnitTests PROPERTIES
     PROJECT_LABEL HectUnitTests
@@ -59,5 +56,5 @@ set_target_properties(HectUnitTests PROPERTIES
     )
 
 add_test(NAME HectUnitTests
-    WORKING_DIRECTORY ${OUTPUT_DIR}
+    WORKING_DIRECTORY ${HECT_OUTPUT_DIR}
     COMMAND HectUnitTests)

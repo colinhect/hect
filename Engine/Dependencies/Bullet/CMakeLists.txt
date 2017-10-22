@@ -1,20 +1,5 @@
 project(Bullet CXX)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-# Use 64-bit floats
-add_definitions(
-    -DBT_USE_DOUBLE_PRECISION
-    )
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(Bullet STATIC
     "btBulletCollisionCommon.h"
     "btBulletDynamicsCommon.h"
@@ -390,7 +375,17 @@ add_library(Bullet STATIC
     "vectormath/sse/vectormath_aos.h"
     "vectormath/sse/vec_aos.h"
     )
-    
+
+target_include_directories(Bullet PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(Bullet PRIVATE /W0)
+else()
+    target_compile_options(Bullet PRIVATE -w -fPIC)
+endif()
+
+target_compile_definitions(Bullet PRIVATE BT_USE_DOUBLE_PRECISION)
+
 set_target_properties(Bullet PROPERTIES
     PROJECT_LABEL Bullet
     FOLDER "/Engine/Dependencies"

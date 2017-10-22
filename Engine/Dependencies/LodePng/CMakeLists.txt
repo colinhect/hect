@@ -1,19 +1,17 @@
 project(LodePng CXX)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(LodePng STATIC
     "lodepng.cpp"
     "lodepng.h"
     )
+
+target_include_directories(LodePng PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(LodePng PRIVATE /W0)
+else()
+    target_compile_options(LodePng PRIVATE -w -fPIC)
+endif()
     
 set_target_properties(LodePng PROPERTIES
     PROJECT_LABEL LodePng

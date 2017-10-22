@@ -1,15 +1,5 @@
 project(ENet C)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(ENet STATIC
     "callbacks.c"
     "compress.c"
@@ -31,6 +21,14 @@ add_library(ENet STATIC
     "enet/win32.h"
     )
     
+target_include_directories(ENet PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(ENet PRIVATE /W0)
+else()
+    target_compile_options(ENet PRIVATE -w -fPIC)
+endif()
+
 set_target_properties(ENet PROPERTIES
     PROJECT_LABEL ENet
     FOLDER "/Engine/Dependencies"

@@ -1,19 +1,5 @@
 project(PhysFS C)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-add_definitions(
-    -DPHYSFS_NO_CDROM_SUPPORT
-    )
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(PhysFS STATIC
     "physfs.c"
     "physfs.h"
@@ -60,7 +46,17 @@ add_library(PhysFS STATIC
     "zlib123/zutil.c"
     "zlib123/zutil.h"
     )
-    
+
+target_include_directories(PhysFS PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(PhysFS PRIVATE /W0)
+else()
+    target_compile_options(PhysFS PRIVATE -w -fPIC)
+endif()
+
+target_compile_definitions(PhysFS PRIVATE PHYSFS_NO_CDROM_SUPPORT)
+
 set_target_properties(PhysFS PROPERTIES
     PROJECT_LABEL PhysFS
     FOLDER "/Engine/Dependencies"

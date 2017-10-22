@@ -31,13 +31,10 @@
 #endif
 #endif
 
-#define OFF 0
-#define ON 1
-
-#define HECT_HEADLESS @HEADLESS@
+#cmakedefine HECT_HEADLESS
 
 // Set platform/renderer implementation
-#if HECT_HEADLESS != ON
+#if HECT_HEADLESS
 #define HECT_PLATFORM_SDL
 #define HECT_RENDERER_OPENGL
 #endif
@@ -53,9 +50,4 @@
 #define HECT_ENABLE_LOG_INFO
 #define HECT_ENABLE_LOG_WARNING
 #define HECT_ENABLE_LOG_ERROR
-#endif
-
-// Use VLD on debug builds if it is available
-#ifdef HECT_DEBUG_BUILD
-#cmakedefine HECT_USE_VLD
 #endif

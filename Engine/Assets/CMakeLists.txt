@@ -3,7 +3,7 @@ project(HectAssets)
 include(Sources.cmake)
 
 add_custom_target(HectAssets
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR} ${OUTPUT_DIR}/Hect.data/
+    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR} ${HECT_OUTPUT_DIR}/Hect.data/
     SOURCES ${SOURCE_FILES}
     )
 

@@ -1,17 +1,5 @@
 project(Celero CXX)
 
-if(WIN32)
-    add_definitions("/W0 /D_CRT_SECURE_NO_WARNINGS /wd4251 /nologo")
-elseif(UNIX)
-    add_definitions("-w -fPIC -std=c++11 -std=gnu++11")
-endif()
-
-add_definitions(-DCELERO_STATIC)
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}/include"
-    )
-
 add_library(Celero STATIC
     "include/celero/Archive.h"
     "include/celero/Benchmark.h"
@@ -58,6 +46,16 @@ add_library(Celero STATIC
     "src/Timer.cpp"
     "src/Utilities.cpp"
     )
+
+target_include_directories(Celero PUBLIC "${PROJECT_SOURCE_DIR}/include")
+
+if(MSVC)
+    target_compile_options(Celero PRIVATE /W0 /D_CRT_SECURE_NO_WARNINGS /wd4251 /nologo)
+else()
+    target_compile_options(Celero PRIVATE -w -fPIC -std=c++11 -std=gnu++11)
+endif()
+
+target_compile_definitions(Celero PRIVATE CELERO_STATIC)
 
 set_target_properties(Celero PROPERTIES
     PROJECT_LABEL Celero

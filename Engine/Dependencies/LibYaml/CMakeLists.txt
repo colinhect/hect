@@ -1,17 +1,5 @@
 project(LibYaml CXX)
 
-if(WIN32)
-    add_definitions("/W0")
-elseif(UNIX)
-    add_definitions("-w -fPIC")
-endif()
-
-add_definitions (-DHAVE_CONFIG_H -DYAML_DECLARE_STATIC)
-
-include_directories(
-    "${PROJECT_SOURCE_DIR}"
-    )
-
 add_library(LibYaml STATIC
     "api.c"
     "dumper.c"
@@ -24,6 +12,16 @@ add_library(LibYaml STATIC
     "yaml.h"
     "yaml_private.h"
     )
+
+target_include_directories(LibYaml PUBLIC ${PROJECT_SOURCE_DIR})
+
+if(MSVC)
+    target_compile_options(LibYaml PRIVATE /W0)
+else()
+    target_compile_options(LibYaml PRIVATE -w -fPIC)
+endif()
+
+target_compile_definitions(LibYaml PRIVATE HAVE_CONFIG_H YAML_DECLARE_STATIC)
     
 set_target_properties(LibYaml PROPERTIES
     PROJECT_LABEL LibYaml
