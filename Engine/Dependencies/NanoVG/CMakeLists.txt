@@ -4,7 +4,7 @@ add_library(NanoVG STATIC
     "nanovg.c"
     )
 
-target_include_directories(NanoVG PUBLIC ${PROJECT_SOURCE_DIR})
+target_include_directories(NanoVG SYSTEM PUBLIC ${PROJECT_SOURCE_DIR})
 
 if(MSVC)
     target_compile_options(NanoVG PRIVATE /W0)
