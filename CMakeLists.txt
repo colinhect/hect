@@ -47,6 +47,9 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Tests/PerformanceTests)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Tests/SystemTests)
 add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Tests/UnitTests)
 
+# Add Hect examples
+add_subdirectory(${PROJECT_SOURCE_DIR}/Engine/Examples/HelloWorld)
+
 # Add Hect projects
 macro(subdirectory_list result curdir)
     file(GLOB children RELATIVE ${curdir} ${curdir}/*)
