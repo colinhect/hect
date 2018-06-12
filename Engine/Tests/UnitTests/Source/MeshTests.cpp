@@ -30,10 +30,7 @@ TEST_CASE("Construct empty mesh", "[Mesh]")
 {
     Mesh mesh;
 
-    const VertexLayout& mesh_vertex_layout = mesh.vertex_layout();
-    REQUIRE(VertexAttributeSemantic::Position == mesh_vertex_layout.attributes().begin()->semantic());
-    REQUIRE(PrimitiveType::Triangles == mesh.primitive_type());
-    REQUIRE(IndexType::UInt16 == mesh.index_type());
+    REQUIRE(mesh.vertex_layout() == VertexLayout::create_default());
 }
 
 TEST_CASE("Construct a mesh with a descriptor", "[Mesh]")
